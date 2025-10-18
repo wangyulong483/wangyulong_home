@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邵远熙生日快乐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 30px 20px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .birthday-info {
+            background: linear-gradient(45deg, #ffd89b, #19547b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            font-size: 1.4rem;
+            margin: 20px 0;
+        }
+        
+        .moon-container {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .moon {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #FFF9C4, #FFD54F);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .moon-crater {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+        }
+        
+        .crater1 { width: 30px; height: 30px; top: 40px; left: 50px; }
+        .crater2 { width: 20px; height: 20px; top: 80px; left: 120px; }
+        .crater3 { width: 25px; height: 25px; top: 130px; left: 70px; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 30px 0;
+            padding: 0 20px;
+            text-align: left;
+        }
+        
+        .wishes {
+            background-color: #fff9c4;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .wish-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffd54f;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin: 10px 0;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .cake {
+            width: 200px;
+            height: 100px;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .cake-base {
+            width: 180px;
+            height: 60px;
+            background: linear-gradient(to bottom, #8B4513, #A0522D);
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+        }
+        
+        .cake-top {
+            width: 200px;
+            height: 40px;
+            background: linear-gradient(to bottom, #FFB6C1, #FF69B4);
+            border-radius: 50% 50% 0 0;
+            position:absolute;
+            top: 0;
+        }
+        
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: #4A90E2;
+            position: absolute;
+            top: -40px;
+            left: 95px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .flame {
+            width: 15px;
+            height: 25px;
+            background: radial-gradient(ellipse at center, #FFD700, #FF4500);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -25px;
+            left: 92.5px;
+            animation: flicker 1.5s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .balloons {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .balloon {
+            width: 50px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 10px;
+            position: relative;
+            animation: float-balloon 5s ease-in-out infinite;
+        }
+        
+        .balloon:before {
+            content: '';
+            width: 2px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.2);
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .balloon1 { background: #FF5252; animation-delay: 0s; }
+        .balloon2 { background: #4CAF50; animation-delay: 0.5s; }
+        .balloon3 { background: #2196F3; animation-delay: 1s; }
+        .balloon4 { background: #FFC107; animation-delay: 1.5s; }
+        
+        @keyframes float-balloon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0.7;
+            top: -10px;
+            animation: confetti-fall 5s linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .moon-container { width: 150px; height: 150px; }
+            .cake { width: 150px; }
+            .cake-base { width: 130px; }
+            .cake-top { width: 150px; }
+            .candle { left: 70px; }
+            .flame { left: 67.5px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 邵远熙，生日快乐！ 🎉</h1>
+            <div class="subtitle">在这个特别的日子里，送上最真挚的祝福</div>
+            <div class="birthday-info">农历八月廿七 · 愿你如明月般圆满美好</div>
+        </div>
+        
+        <div class="moon-container">
+            <div class="moon">
+                <div class="moon-crater crater1"></div>
+                <div class="moon-crater crater2"></div>
+                <div class="moon-crater crater3"></div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <p>亲爱的邵远熙：</p>
+            <p>在这个特别的日子里，愿你的生活如圆满的明月一样圆满美好！农历八月廿七，一个充满温馨与喜悦的日子，愿所有的幸福、快乐和美好都围绕在你身边。</p>
+            <p>愿新的一岁里，你的每一个梦想都能实现，每一天都充满阳光和欢笑！</p>
+        </div>
+        
+        <div class="cake">
+            <div class="cake-base"></div>
+            <div class="cake-top"></div>
+            <div class="candle"></div>
+            <div class="flame"></div>
+        </div>
+        
+        <div class="balloons">
+            <div class="balloon balloon1"></div>
+            <div class="balloon balloon2"></div>
+            <div class="balloon balloon3"></div>
+            <div class="balloon balloon4"></div>
+        </div>
+        
+        <div class="wishes">
+            <h2>送上你的祝福</h2>
+            <textarea class="wish-input" placeholder="在这里写下你对未来的和现在的邵远熙的祝福..."></textarea>
+            <button class="btn" id="sendWish">发送祝福</button>
+        </div>
+        
+        <div class="footer">
+            <p>祝邵远熙生日快乐！愿你的每一天都充满阳光和欢笑！</p>
+            <p>✨ 特别为你制作的生日祝福网页 ✨</p>
+        </div>
+    </div>
+
+    <audio id="birthdayMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        您的浏览器不支持音频元素。
+    </audio>
+
+    <script>
+        // 创建五彩纸屑效果
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#ffbe0b', '#fb5607'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(confetti);
+                
+                // 移除纸屑元素以优化性能
+                setTimeout(() => {
+                    confetti.remove();
+                }, 7000);
+            }
+        }
+        
+        // 定期创建纸屑
+        setInterval(createConfetti, 3000);
+        
+        // 处理祝福发送
+        document.getElementById('sendWish').addEventListener('click', function() {
+            const wishInput = document.querySelector('.wish-input');
+            if (wishInput.value.trim() !== '') {
+                alert('祝福已发送！邵远熙会收到你的心意！');
+                wishInput.value = '';
+            } else {
+                alert('请先写下你的祝福！');
+            }
+        });
+        
+        // 自动播放生日音乐（需要用户交互）
+        document.addEventListener('click', function() {
+            const music = document.getElementById('birthdayMusic');
+            if (music.paused) {
+                music.play().catch(e => console.log('自动播放被阻止:', e));
+            }
+        }, { once: true });
+        
+        // 初始创建一些纸屑
+        createConfetti();
+    </script>
+</body>
+</html>
