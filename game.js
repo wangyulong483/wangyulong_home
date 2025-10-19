@@ -15,31 +15,31 @@ const SMALL = 1;
 const GAME_ASSETS = {
     // 背景图片配置
     background: {
-        path: './images/school.jpg',  // 你的背景图片路径
+        path: './image/school.jpg',  // 你的背景图片路径
         width: WIDTH,
         height: HEIGHT
     },
     // 玩家飞机配置
     player: {
-        path: './images/long.png',      // 你的玩家飞机图片路径
+        path: './image/long.png',      // 你的玩家飞机图片路径
         width: 50,                        // 你的飞机图片宽度
         height: 50                        // 你的飞机图片高度
     },
     // 子弹配置
     bullet: {
-        path: './images/bullet.png',      // 你的子弹图片路径
+        path: './image/bullet.png',      // 你的子弹图片路径
         width: 8,                         // 你的子弹图片宽度
         height: 15                        // 你的子弹图片高度
     },
     // 大敌机配置
     enemyBig: {
-        path: './images/airplane.png',   // 你的大敌机图片路径
+        path: './image/airplane.png',   // 你的大敌机图片路径
         width: 50,                        // 大敌机图片宽度
         height: 30                        // 大敌机图片高度
     },
     // 小敌机配置
     enemySmall: {
-        path: './images/airplane.png', // 你的小敌机图片路径
+        path: './image/airplane.png', // 你的小敌机图片路径
         width: 30,                        // 小敌机图片宽度
         height: 30                        // 小敌机图片高度
     }
@@ -526,4 +526,5 @@ canvas.addEventListener('touchmove', (e) => {
 });
 
 // 初始化
+
 updateStats();
