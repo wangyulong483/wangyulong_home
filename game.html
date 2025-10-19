@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逃离安建大 </title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin: 20px;
+        }
+        
+        h1 {
+            color: #ffeb3b;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .game-container {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        #gameCanvas {
+            border: 3px solid #ffeb3b;
+            border-radius: 10px;
+            background: #000;
+            box-shadow: 0 0 20px rgba(255, 235, 59, 0.3);
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .control-group {
+            margin: 10px 0;
+        }
+        
+        .key {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 2px;
+            background: #333;
+            border: 1px solid #666;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        
+        .button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 0 5px;
+        }
+        
+        @media (max-width: 600px) {
+            #gameCanvas {
+                width: 95vw;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> 逃离安建大</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <strong>移动控制：</strong>
+                <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span>
+            </div>
+            <div class="control-group">
+                <strong>射击：</strong>
+                <span class="key">J</span> 键
+            </div>
+        </div>
+
+        <div class="game-container">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+            
+            <!-- 开始屏幕 -->
+            <div id="startScreen" class="screen">
+                <h2 style="color: #ffeb3b; margin-bottom: 30px;">逃离安建大</h2>
+                <p style="margin: 10px 0; font-size: 18px;">躲避敌机，生存下去！</p>
+                <button class="button" onclick="startGame()">开始游戏</button>
+                <div style="margin-top: 20px;">
+                    <p>移动: W A S D</p>
+                    <p>射击: J 键</p>
+                </div>
+            </div>
+            
+            <!-- 游戏结束屏幕 -->
+            <div id="gameOverScreen" class="screen" style="display: none;">
+                <h2 style="color: #ff6b6b;">游戏结束</h2>
+                <p id="finalScore" style="font-size: 24px; margin: 20px 0;"></p>
+                <button class="button" onclick="restartGame()">重新开始</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>得分:</strong> <span id="score">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>生命值:</strong> <span id="health">100</span>
+            </div>
+            <div class="stat-item">
+                <strong>敌机击落:</strong> <span id="enemiesDestroyed">0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
