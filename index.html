@@ -93,7 +93,7 @@
             backdrop-filter: blur(5px);
             transition: all 0.3s ease;
         }
-        .sidebar :hover{
+        .sidebar:hover{
             width: 200px;
             background-color: rgba(51, 51, 51, 0.95);
         }
@@ -103,9 +103,9 @@
         }
         .sidebar ul li{
             margin: 20px 0;
-            position: transform 0.3s ease;
+            transition: transform 0.3s ease;
         }
-        .sidebar ul li :hover{
+        .sidebar ul li:hover{
             transform: translateX(-5px);
         }
         .sidebar ul li a{
@@ -115,9 +115,9 @@
             align-items: center;
             padding: 8px 10px;
             border-radius: 5px;
-            transform: all 0.3s ease;
+            transition: all 0.3s ease;
         }
-        .sidebar ul li a :hover{
+        .sidebar ul li a:hover{
             background-color: rgba(255, 255, 255, 0.1);
             padding-left: 15px;
         }
@@ -131,7 +131,7 @@
             display: flex;
             justify-content: space-around;
         }
-        .sidebar :hover{
+        .sidebar:hover{
             width: 100%;
         }
         .sidebar ul li{
@@ -259,5 +259,6 @@
 
 </body>
 </html>
+
 
 
