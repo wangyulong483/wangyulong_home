@@ -262,7 +262,7 @@ function setupTouchControls() {
         e.preventDefault();
     });
     
-    // 全屏触摸控制（可选）
+    // 全屏触摸控制
     let touchStartX = 0;
     let touchStartY = 0;
     let isDragging = false;
@@ -306,9 +306,9 @@ function setupTouchControls() {
     });
 }
 
-// 更新玩家移动（同时支持键盘和触摸）
+// 更新玩家移动
 function updatePlayer() {
-    // 键盘控制
+    
     if (keys['KeyW'] || keys['ArrowUp']) {
         Myplane.y -= Myplane.speed;
     }
@@ -326,7 +326,7 @@ function updatePlayer() {
         keys['KeyJ'] = false;
     }
     
-    // 触摸控制
+    
     if (gameState.isMobile) {
         if (touchControls.up) Myplane.y -= Myplane.speed;
         if (touchControls.down) Myplane.y += Myplane.speed;
@@ -345,7 +345,7 @@ function updatePlayer() {
     Myplane.y = Math.max(0, Math.min(HEIGHT - Myplane.height, Myplane.y));
 }
 
-// 图片加载管理（保持不变）
+// 图片加载管理
 class ImageManager {
     constructor() {
         this.images = {};
@@ -425,7 +425,7 @@ class ImageManager {
 
 const imageManager = new ImageManager();
 
-// 绘制游戏（保持不变）
+// 绘制游戏
 function drawGame() {
     if (!imageManager.loaded) {
         drawLoadingScreen();
@@ -711,3 +711,4 @@ document.addEventListener('keyup', (e) => {
 // 初始化
 updateStats();
 createMobileControls(); // 创建移动控制界面
+
