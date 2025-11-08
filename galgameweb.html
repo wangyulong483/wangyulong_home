@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>千建万花</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #1a1a2e;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        #game-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        #dialogue-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-top: 2px solid #4a4a8a;
+            padding: 15px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #speaker-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #4a4a8a;
+        }
+        
+        #dialogue-text {
+            font-size: 16px;
+            line-height: 1.5;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        
+        #continue-indicator {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            color: #ffcc00;
+            font-size: 18px;
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        #loading-text {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffcc00;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        #controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 3;
+        }
+        
+        .control-btn {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: 1px solid #4a4a8a;
+            padding: 5px 10px;
+            margin-left: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .control-btn:hover {
+            background-color: rgba(74, 74, 138, 0.8);
+        }
+        
+        #error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 5;
+            display: none;
+        }
+
+        #audio-warning {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 204, 0, 0.9);
+            color: #1a1a2e;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            z-index: 4;
+            text-align: center;
+            display: none;
+        }
+
+        #choice-container {
+            position: absolute;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 2px solid #4a4a8a;
+            border-radius: 8px;
+            padding: 15px;
+            z-index: 4;
+            min-width: 400px;
+            display: none;
+        }
+
+        .choice-title {
+            font-size: 16px;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .choice-option {
+            background-color: rgba(74, 74, 138, 0.6);
+            border: 1px solid #4a4a8a;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .choice-option:hover {
+            background-color: rgba(94, 94, 158, 0.8);
+            border-color: #ffcc00;
+        }
+
+        .choice-option:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        
+        <div id="dialogue-container">
+            <div id="speaker-name"></div>
+            <div id="dialogue-text"></div>
+            <div id="continue-indicator">▼</div>
+        </div>
+        
+        
+        <div id="choice-container">
+            <div class="choice-title">请选择：</div>
+        </div>
+        
+        <div id="controls">
+            <button class="control-btn" id="skip-btn">跳过</button>
+            <button class="control-btn" id="menu-btn">菜单</button>
+        </div>
+        
+        <div id="audio-warning">点击屏幕启用音频播放</div>
+        
+        <div id="loading-screen">
+            <div class="spinner"></div>
+            <div id="loading-text">加载资源中...</div>
+        </div>
+        
+        <div id="error-message"></div>
+    </div>
+
+    <script>
+        // 游戏状态
+        const gameState = {
+            isRunning: true,
+            currentScene: 0,
+            textSpeed: 30,
+            audioEnabled: false,
+            pendingAudio: [],
+            variables: {},
+            choiceActive: false,
+            waitingForClick: false 
+        };
+
+        // 分支系统
+        const branchSystem = {
+            currentChoices: [],
+            
+            showChoices(choices) {
+                gameState.choiceActive = true;
+                this.currentChoices = choices;
+                
+                const container = document.getElementById('choice-container');
+                const existingOptions = container.querySelectorAll('.choice-option');
+                existingOptions.forEach(opt => opt.remove());
+
+                choices.forEach((choice, index) => {
+                    const option = document.createElement('div');
+                    option.className = 'choice-option';
+                    option.textContent = choice.text;
+                    option.addEventListener('click', () => {
+                        this.selectChoice(index);
+                    });
+                    container.appendChild(option);
+                });
+                
+                container.style.display = 'block';
+            },
+            
+            selectChoice(choiceIndex) {
+                const choice = this.currentChoices[choiceIndex];
+                if (choice?.variable) {
+                    gameState.variables[choice.variable.name] = choice.variable.value;
+                }
+                if (choice?.target) {
+                    scriptSystem.jumpToLabel(choice.target);
+                }
+                this.hideChoices();
+                scriptSystem.executeNext();
+            },
+            
+            hideChoices() {
+                gameState.choiceActive = false;
+                this.currentChoices = [];
+                document.getElementById('choice-container').style.display = 'none';
+            },
+            
+            checkCondition(condition) {
+                if (!condition) return true;
+                const [varName, operator, value] = condition.split(' ');
+                const currentValue = gameState.variables[varName];
+                switch (operator) {
+                    case '==': return currentValue == value;
+                    case '!=': return currentValue != value;
+                    case '>': return currentValue > Number(value);
+                    case '<': return currentValue < Number(value);
+                    case '>=': return currentValue >= Number(value);
+                    case '<=': return currentValue <= Number(value);
+                    default: return true;
+                }
+            }
+        };
+
+        // 资源管理器
+        const resourceManager = {
+            images: {},
+            audio: {},
+            
+            loadImage(name, url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        this.images[name] = img;
+                        resolve(img);
+                    };
+                    img.onerror = () => {
+                        console.warn(`图片加载失败: ${name}`);
+                        const fallback = this.createFallbackImage(name);
+                        this.images[name] = fallback;
+                        resolve(fallback);
+                    };
+                    img.src = url;
+                });
+            },
+            
+            createFallbackImage(name) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 200; canvas.height = 400;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#8a4a4a'; ctx.fillRect(0,0,200,400);
+                ctx.fillStyle = 'white'; ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('图片加载失败', 100, 180);
+                ctx.fillText(name, 100, 200);
+                const img = new Image();
+                img.src = canvas.toDataURL();
+                return img;
+            },
+            
+            getImage(name) {
+                return this.images[name] || null;
+            },
+            
+            async loadAllImages(imageList) {
+                const promises = Object.entries(imageList).map(([name, path]) =>
+                    this.loadImage(name, path)
+                );
+                await Promise.allSettled(promises);
+            },
+
+            loadAudio(name, url) {
+                return new Promise((resolve, reject) => {
+                    const audio = new Audio();
+                    audio.preload = 'auto';
+                    audio.src = url;
+                    audio.load();
+
+                    audio.oncanplaythrough = () => {
+                        this.audio[name] = audio;
+                        resolve(audio);
+                    };
+                    audio.onerror = () => {
+                        console.warn(`音频加载失败: ${name}`);
+                        this.audio[name] = audio;
+                        resolve(audio);
+                    };
+
+                    setTimeout(() => {
+                        if (!this.audio[name]) {
+                            this.audio[name] = audio;
+                            resolve(audio);
+                        }
+                    }, 5000);
+                });
+            },
+            
+            getAudio(name) {
+                return this.audio[name] || null;
+            },
+            
+            async loadAllAudio(audioList) {
+                const promises = Object.entries(audioList).map(([name, path]) =>
+                    this.loadAudio(name, path)
+                );
+                await Promise.allSettled(promises);
+            }
+        };
+
+        // 音频系统
+        const audioSystem = {
+            seVolume: 0.7,
+            
+            playSE(name) {
+                if (!gameState.audioEnabled) {
+                    gameState.pendingAudio.push(name);
+                    return;
+                }
+                const audio = resourceManager.getAudio(name);
+                if (audio) {
+                    const clone = audio.cloneNode();
+                    clone.volume = this.seVolume;
+                    clone.play().catch(() => {});
+                }
+            },
+            
+            playBGM(name) {
+                if (!gameState.audioEnabled) {
+                    gameState.pendingAudio.push('BGM:' + name);
+                    return;
+                }
+                const audio = resourceManager.getAudio(name);
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.loop = true;
+                    audio.volume = 0.5;
+                    audio.play().catch(() => {});
+                }
+            },
+            
+            enableAudio() {
+                gameState.audioEnabled = true;
+                document.getElementById('audio-warning').style.display = 'none';
+                while (gameState.pendingAudio.length > 0) {
+                    const item = gameState.pendingAudio.shift();
+                    if (item.startsWith('BGM:')) {
+                        this.playBGM(item.substring(4));
+                    } else {
+                        this.playSE(item);
+                    }
+                }
+            }
+        };
+
+        // 背景系统
+        const backgroundSystem = {
+            currentBackground: null,
+            set(imageName) {
+                this.currentBackground = resourceManager.getImage(imageName);
+            },
+            render(ctx) {
+                if (this.currentBackground) {
+                    ctx.drawImage(this.currentBackground, 0, 0, 800, 600);
+                } else {
+                    ctx.fillStyle = '#2d2d4a';
+                    ctx.fillRect(0, 0, 800, 600);
+                }
+            }
+        };
+
+        // 角色系统
+        const spriteSystem = {
+            sprites: {},
+            create(name, imageName, x, y) {
+                this.sprites[name] = {
+                    name, x, y,
+                    visible: false,
+                    image: resourceManager.getImage(imageName)
+                };
+            },
+            show(name) {
+                if (this.sprites[name]) this.sprites[name].visible = true;
+            },
+            hide(name) {
+                if (this.sprites[name]) this.sprites[name].visible = false;
+            },
+            renderAll(ctx) {
+                for (const name in this.sprites) {
+                    const s = this.sprites[name];
+                    if (s.visible && s.image) {
+                        ctx.drawImage(s.image, s.x, s.y);
+                    }
+                }
+            }
+        };
+
+        // 对话系统
+        const dialogueSystem = {
+            currentDialogue: null,
+            init() {
+                this.currentDialogue = {
+                    speaker: '', text: '', currentChar: 0,
+                    lastCharTime: 0, isComplete: true
+                };
+            },
+            start(speaker, text) {
+                this.currentDialogue = {
+                    speaker, text,
+                    currentChar: 0,
+                    lastCharTime: Date.now(),
+                    isComplete: false
+                };
+                const nameElem = document.getElementById('speaker-name');
+                const textElem = document.getElementById('dialogue-text');
+                
+                if (speaker === 'Narrator') {
+                    nameElem.textContent = '';
+                } else {
+                    nameElem.textContent = speaker;
+                }
+                textElem.textContent = '';
+            },
+            update() {
+                if (this.currentDialogue.isComplete) return;
+                const now = Date.now();
+                if (now - this.currentDialogue.lastCharTime > gameState.textSpeed) {
+                    this.currentDialogue.currentChar++;
+                    this.currentDialogue.lastCharTime = now;
+                    if (this.currentDialogue.currentChar >= this.currentDialogue.text.length) {
+                        this.currentDialogue.isComplete = true;
+                    }
+                    const t = this.currentDialogue.text.substring(0, this.currentDialogue.currentChar);
+                    document.getElementById('dialogue-text').textContent = t;
+                }
+            },
+            complete() {
+                this.currentDialogue.isComplete = true;
+                document.getElementById('dialogue-text').textContent = this.currentDialogue.text;
+            },
+            isComplete() {
+                return this.currentDialogue.isComplete;
+            }
+        };
+
+        // 脚本系统
+        const scriptSystem = {
+            script: [],
+            labels: {},
+            currentLine: 0,
+
+            async load(scriptPath) {
+                try {
+                    const res = await fetch(scriptPath);
+                    const text = await res.text();
+                    this.script = [];
+                    this.labels = {};
+                    let lineNumber = 0;
+
+                    text.split('\n').forEach(line => {
+                        const trimmed = line.trim();
+                        if (!trimmed || trimmed.startsWith('#')) return;
+
+                        if (trimmed.startsWith('*')) {
+                            this.labels[trimmed.substring(1).trim()] = this.script.length;
+                            return;
+                        }
+
+                        let command, params = [];
+
+                        if (trimmed.startsWith('DIALOG')) {
+                            const m = trimmed.match(/^DIALOG\s+(\S+)\s+(.+)$/);
+                            if (m) { command = 'DIALOG'; params = [m[1], m[2]]; }
+                        } else if (trimmed.startsWith('CHOICE')) {
+                            command = 'CHOICE';
+                            params = trimmed.split(' ').slice(1);
+                        } else {
+                            const parts = trimmed.split(' ');
+                            command = parts[0];
+                            params = parts.slice(1);
+                        }
+
+                        if (command) {
+                            this.script.push({ command, params, lineNumber: lineNumber++ });
+                        }
+                    });
+
+                    return true;
+                } catch (e) {
+                    console.error("脚本加载失败", e);
+                    this.loadDefaultScript();
+                    return false;
+                }
+            },
+
+            loadDefaultScript() {
+                this.script = [
+                    { command: 'BACKGROUND', params: ['bg_school'] },
+                    { command: 'SHOW', params: ['hero'] },
+                    { command: 'DIALOG', params: ['hero', '你好！！@#￥%……&*（）——+'] },
+                    { command: 'DIALOG', params: ['hero', '如果脚本文件加载失败，就会显示这个默认脚本。'] },
+                    { command: 'SHOW', params: ['！@#￥%……&*（）——+'] },
+                    { command: 'DIALOG', params: ['yixiaohai', '！'] },
+                    { command: 'DIALOG', params: ['hero', '#$%^！'] }
+                ];
+                this.labels = {};
+            },
+
+            executeNext() {
+                if (gameState.choiceActive || gameState.waitingForClick) return;
+                if (this.currentLine >= this.script.length) return;
+
+                const line = this.script[this.currentLine];
+                console.log(`执行: ${line.command}`, line.params);
+
+                switch (line.command) {
+                    case 'BACKGROUND':
+                        if (line.params[0]) backgroundSystem.set(line.params[0]);
+                        this.currentLine++;
+                        break;
+                    case 'SHOW':
+                        if (line.params[0]) spriteSystem.show(line.params[0]);
+                        this.currentLine++;
+                        break;
+                    case 'HIDE':
+                        if (line.params[0]) spriteSystem.hide(line.params[0]);
+                        this.currentLine++;
+                        break;
+                    case 'DIALOG':
+                        if (line.params.length >= 2) {
+                            dialogueSystem.start(line.params[0], line.params[1]);
+                            gameState.waitingForClick = true;
+                        } else {
+                            this.currentLine++;
+                        }
+                        return;
+                    case 'SE':
+                        if (line.params[0]) audioSystem.playSE(line.params[0]);
+                        this.currentLine++;
+                        break;
+                    case 'BGM':
+                        if (line.params[0]) audioSystem.playBGM(line.params[0]);
+                        this.currentLine++;
+                        break;
+                    case 'CHOICE':
+                        this.handleChoice(line.params);
+                        break;
+                    case 'SET':
+                        if (line.params[1] === '=' && line.params[0]) {
+                            gameState.variables[line.params[0]] = line.params[2];
+                        }
+                        this.currentLine++;
+                        break;
+                    case 'IF':
+                        const cond = line.params.slice(0,3).join(' ');
+                        const label = line.params[3];
+                        if (branchSystem.checkCondition(cond)) {
+                            this.jumpToLabel(label);
+                        } else {
+                            this.currentLine++;
+                        }
+                        break;
+                    case 'JUMP':
+                        this.jumpToLabel(line.params[0]);
+                        break;
+                    default:
+                        this.currentLine++;
+                }
+                this.executeNext();
+            },
+
+            handleChoice(params) {
+                const choices = [];
+                let i = 0;
+                while (i < params.length) {
+                    if (params[i] === 'OPTION') {
+                        const choice = { text: '', target: null, variable: null };
+                        i++;
+                        while (i < params.length && !['OPTION'].includes(params[i])) {
+                            if (params[i] === 'TEXT') choice.text = params[++i];
+                            if (params[i] === 'TARGET') choice.target = params[++i];
+                            if (params[i] === 'VAR') {
+                                choice.variable = { name: params[++i], value: params[++i] };
+                            }
+                            i++;
+                        }
+                        if (choice.text) choices.push(choice);
+                    } else i++;
+                }
+                if (choices.length > 0) branchSystem.showChoices(choices);
+            },
+
+            jumpToLabel(label) {
+                if (this.labels[label] !== undefined) {
+                    this.currentLine = this.labels[label];
+                } else {
+                    console.warn(`标签未找到: ${label}`);
+                    this.currentLine++;
+                }
+            }
+        };
+
+        // 主循环
+        function gameLoop() {
+            if (!gameState.isRunning) return;
+            const ctx = document.getElementById('game-canvas').getContext('2d');
+            dialogueSystem.update();
+            backgroundSystem.render(ctx);
+            spriteSystem.renderAll(ctx);
+            requestAnimationFrame(gameLoop);
+        }
+
+        // 初始化
+        async function initGame() {
+            const images = {
+                'bg_school': './assets/images/bg_school.jpg',
+                'room': './assets/images/room.jpg',
+                'hero': './assets/images/hero.png',
+                'yixiaohai': './assets/images/yixiaohai.png',
+                'war':'./assets/images/war.png'
+            };
+            const audios = {
+                'Ciallo': './assets/audio/Ciallo.mp3',
+                'Tom': './assets/audio/tom.mp3',
+                'smile': './assets/audio/smile.mp3',
+                'sound': './assets/audio/sound.mp3',
+                'warbgm':'./assets/audio/warbgm.mp3'
+            };
+
+            await Promise.all([
+                resourceManager.loadAllImages(images),
+                resourceManager.loadAllAudio(audios)
+            ]);
+
+            spriteSystem.create('hero', 'hero', 100, 200);
+            spriteSystem.create('yixiaohai', 'yixiaohai', 500, 200);
+
+            dialogueSystem.init();
+            await scriptSystem.load('./script.txt');
+            scriptSystem.executeNext();
+
+            document.getElementById('loading-screen').style.display = 'none';
+            gameLoop();
+        }
+
+        // 事件监听
+        function setupEventListeners() {
+            const container = document.getElementById('dialogue-container');
+            container.addEventListener('click', () => {
+                if (!gameState.audioEnabled) audioSystem.enableAudio();
+                hideError();
+                if (dialogueSystem.isComplete()) {
+                    if (gameState.waitingForClick) {
+                        gameState.waitingForClick = false;
+                        scriptSystem.currentLine++;
+                        scriptSystem.executeNext();
+                    }
+                } else {
+                    dialogueSystem.complete();
+                }
+            });
+
+            document.addEventListener('keydown', e => {
+                if (e.code === 'Space' || e.code === 'Enter') {
+                    if (!gameState.audioEnabled) audioSystem.enableAudio();
+                    hideError();
+                    if (dialogueSystem.isComplete()) {
+                        if (gameState.waitingForClick) {
+                            gameState.waitingForClick = false;
+                            scriptSystem.currentLine++;
+                            scriptSystem.executeNext();
+                        }
+                    } else {
+                        dialogueSystem.complete();
+                    }
+                    e.preventDefault();
+                }
+            });
+
+            document.getElementById('skip-btn').onclick = () => {
+                if (dialogueSystem.isComplete()) {
+                    if (gameState.waitingForClick) {
+                        gameState.waitingForClick = false;
+                        scriptSystem.currentLine++;
+                        scriptSystem.executeNext();
+                    }
+                } else {
+                    dialogueSystem.complete();
+                }
+            };
+
+            document.getElementById('menu-btn').onclick = () => alert("点击继续对话，按空格或点击对话框");
+        }
+
+        function hideError() {
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        window.onload = () => {
+            setupEventListeners();
+            initGame();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+# 001场
+BACKGROUND bg_school
+HIDE hero
+HIDE yixiaohai
+DIALOG Narrator 人说"hello world"，世界就有了光
+SHOW hero
+DIALOG Narrator hero从昏睡中醒来
+DIALOG hero 这是哪？南大门？我为什么会在这？
+SHOW yixiaohai
+DIALOG yixiaohai 孩子！我来了
+DIALOG hero 妈耶，这是什么，校徽成精了.......
+DIALOG yixiaohai (开口)我...
+HIDE hero
+DIALOG yixiaohai 咦？他为什么要跑？
+DIALOG Narrator 追上
+SHOW hero
+DIALOG hero 大哥，或者大姐，我求你放过我吧，我绝没说过学校一句坏话，您不用成精来吓我啊——__——
+DIALOG yixiaohai (看着hero)(伸出触手)我们去你寝室聊
+DIALOG hero 不是，你还知道我寝室在哪
+SE Tom
+HIDE hero
+HIDE yixiaohai
+
+# 002场
+BACKGROUND room
+SHOW hero
+SHOW yixiaohai
+DIALOG yixiaohai (将hero放到地上)
+DIALOG hero 校徽大人，你想要什么（瑟瑟发抖）
+DIALOG yixiaohai 想要你
+DIALOG hero (哭)大哥，你不是安徽的大学吗？怎么还有！@@#！@#！的爱好
+DIALOG yixiaohai 人家可是可可爱爱的女孩子哦
+DIALOG yixiaohai Ciallo～(∠・ω- )⌒☆-
+SE Ciallo
+DIALOG hero 什么千建万花...
+DIALOG yixiaohai (严肃)还是不说废话了
+DIALOG hero (严肃)终于开始正题了
+DIALOG yixiaohai 原来你不怕啊
+DIALOG Narrator 哎嘿
+SE sound
+DIALOG yixiaohai ...
+DIALOG hero ...
+DIALOG yixiaohai 完了，招来一个魔丸(绝望)
+DIALOG yixiaohai 算了，凑合着吧
+DIALOG hero 所以接下来是什么神展开
+DIALOG yixiaohai 简单来说，就是...
+DIALOG yixiaohai 99XX年，世界被一种名为<知识尘埃>的神秘现象笼罩。人类创造的浩如烟海的信息——从网络小说到学术论文，从短视频到古典音乐——开始实体化，变成了具有侵蚀性的灰色尘埃。
+
+# 003场
+BACKGROUND room
+SHOW hero
+SHOW yixiaohai
+DIALOG yixiaohai 这些尘埃会覆盖一切，吞噬现实，让世界归于"无意义的混沌"。文明正在被遗忘，历史正在被抹除。
+DIALOG hero (目瞪口呆) 所……所以呢？这跟你一个校徽精，还有我，一个平平无奇的大学生，有什么关系？
+DIALOG yixiaohai (触手叉腰) 当然有关系！我们<大学之灵>，是知识与理性最后的堡垒！我们的校园结界暂时抵挡了尘埃的侵蚀。
+DIALOG yixiaohai 但是，结界需要能量维持，而能量的来源，就是"被深刻理解并活用的知识"！
+DIALOG hero (似懂非懂) 哦……所以你是来……
+DIALOG yixiaohai (触手指向hero) 没错！你就是被我选中的"知识守护者"！你需要去理解和掌握那些即将被尘埃吞噬的知识，将它们转化为"光"，加固结界，净化尘埃！
+DIALOG hero (指着自己，难以置信) 我？为什么是我？我洛谷入门题50%全WA,力扣第一题直接做破防了啊大姐！
+DIALOG yixiaohai (扭动) 因为你在昏睡时，无意识间说出了创世级的咒语——<hello world>！这证明你拥有巨大的潜力！
+DIALOG hero 那不是因为我是计科的学生，做梦都在敲代码吗？！
+DIALOG yixiaohai (无视吐槽) 那么，契约成立！从今天起，你就是安建大的"光之守护者"了！
+DIALOG yixiaohai 加油，少年！Ciallo～(∠・ω- )⌒☆-
+SE Ciallo
+DIALOG hero (小声)其实按定义我应该是青年...
+DIALOG hero 那这里是哪里，未来的学校吗？
+DIALOG yixiaohai 这里并非未来，也不是你所在的时空，这里是一切可以被定义的<物>叠加在一起所形成的"似是而非"的域。
+DIALOG yixiaohai 在这里，一切的<物>都依旧生活在ta们所存在的时空，ta们仍然按既定的轨迹生活。只有当<尘埃>覆盖了一切，那些<已存在的>或者<尚未存在的>...
+DIALOG yixiaohai 才在不知不觉间成为<从未存在的>...
+DIALOG hero (若有所思)大概明白了，也就是说，我仍然可以按正常的生活，只是我所看见的世界将会是<真实的世界>
+DIALOG hero (看着校徽)...
+DIALOG yixiaohai (发现hero变得安静)(疑惑)怎么了
+DIALOG hero 你说，<知识尘埃>的源头是<信息>,是<知识>,那校史算不算在内呢？
+DIALOG yixiaohai (歪头)什么意思？
+DIALOG hero 你如何确定你不是一种<知识尘埃>呢？
+DIALOG Narrator ...
+SE smile
+DIALOG yixiaohai 对哦
+DIALOG Narrator 变故突生
+
+# 004场
+BACKGROUND war
+BGM warbgm
+CHOICE OPTION TEXT "开始战斗" TARGET start_war OPTION TEXT "逃跑" TARGET leave
+
+*start_war
+DIALOG Narrator 分支剧情还没想好
+
+*leave
+DIALOG Narrator 分支剧情还没想好
