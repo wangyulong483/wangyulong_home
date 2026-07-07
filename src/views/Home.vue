@@ -40,6 +40,7 @@
         <li><a href="https://www.csdn.net/" target="_blank" class="platform-link">CSDN</a></li>
         <li><a href="https://www.runoob.com/" target="_blank" class="platform-link">菜鸟教程</a></li>
         <li><a href="https://fishros.org.cn/" target="_blank" class="platform-link">鱼香 ROS</a></li>
+        <li><a href="https://forum.d-robotics.cc/" target="_blank" class="platform-link">地瓜机器人社区</a></li>
       </ul>
     </div>
   </div>
