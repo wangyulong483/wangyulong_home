@@ -130,4 +130,13 @@ import Carousel from '@/components/Carousel.vue'
   transform: translateY(-2px);
   text-decoration: none;
 }
+
+/* ====== 移动端 ====== */
+@media (max-width: 480px) {
+  .header { height: 70px; padding: 14px 0 }
+  .header h1 { font-size: 1.6rem }
+  .saying { font-size: 0.9rem; padding: 0 10px }
+  .content-card { padding: 16px; margin: 12px auto }
+  .platform-link { padding: 6px 14px; font-size: 0.85rem }
+}
 </style>

@@ -420,5 +420,18 @@ canvas { border:3px solid #ffeb3b; border-radius:10px; background:#000; box-shad
 .dir-btn { position:absolute;width:30px;height:30px;background:rgba(255,255,255,0.7);border-radius:15px;text-align:center;line-height:30px;user-select:none }
 .dir-up{top:10px;left:45px}.dir-left{top:45px;left:10px}.dir-down{top:80px;left:45px}.dir-right{top:45px;left:80px}
 .shoot-btn { width:80px;height:80px;background:rgba(255,50,50,0.7);border-radius:40px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:16px;pointer-events:auto;user-select:none }
-@media(max-width:600px){canvas{width:95vw;height:auto}}
+@media(max-width:768px){
+  h1{font-size:1.5rem}
+  .container{padding:12px;margin:8px}
+  .controls{font-size:12px;padding:10px}
+  .stats{gap:4px}
+  .stat-item{padding:6px 10px;font-size:12px}
+  canvas{width:100%;height:auto}
+}
+@media(max-width:480px){
+  h1{font-size:1.3rem}
+  .container{padding:8px;margin:4px}
+  .key{padding:2px 5px;font-size:11px}
+  .control-group{font-size:12px}
+}
 </style>

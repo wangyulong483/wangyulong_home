@@ -6,7 +6,7 @@
   <div class="box-container glass-card" style="padding: 0; overflow: hidden">
     <div class="box" ref="boxRef">
       <div class="box-img" v-for="(img, index) in images" :key="index">
-        <img :src="img.src" :alt="img.alt" width="700px" height="200px" class="photo" />
+        <img :src="img.src" :alt="img.alt" class="photo" />
       </div>
     </div>
   </div>
@@ -106,6 +106,11 @@ onUnmounted(() => {
   height: 200px;
 }
 
+@media (max-width: 480px) {
+  .box { height: 140px }
+  .box-container { width: 98% }
+}
+
 .box-img {
   min-width: 100%;
   transition: opacity 0.3s ease;
@@ -114,6 +119,8 @@ onUnmounted(() => {
 .photo {
   border-radius: 15px;
   object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 .box-controls {

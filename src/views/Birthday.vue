@@ -339,12 +339,28 @@ h1 {
 
 /* -------- 响应式 -------- */
 @media (max-width: 600px) {
-  h1 { font-size: 2rem; }
-  .moon-container { width: 150px; height: 150px; }
-  .cake { width: 150px; }
-  .cake-base { width: 130px; }
-  .cake-top { width: 150px; }
-  .candle { left: 70px; }
-  .flame { left: 67.5px; }
+  .container { padding: 20px 14px }
+  h1 { font-size: 1.8rem }
+  .subtitle { font-size: 1rem }
+  .birthday-info { font-size: 1.1rem }
+  .moon-container { width: 140px; height: 140px }
+  .message { font-size: 1rem; padding: 0 }
+  .cake { width: 150px }
+  .cake-base { width: 130px }
+  .cake-top { width: 150px }
+  .candle { left: 70px }
+  .flame { left: 67.5px }
+}
+
+@media (max-width: 400px) {
+  h1 { font-size: 1.5rem }
+  .container { padding: 16px 10px }
+  .moon-container { width: 110px; height: 110px }
+  .cake { width: 130px }
+  .cake-base { width: 110px }
+  .cake-top { width: 130px }
+  .candle { left: 55px }
+  .flame { left: 52.5px }
+  .wishes { padding: 16px }
 }
 </style>

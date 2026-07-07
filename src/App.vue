@@ -261,7 +261,21 @@ a {
 @media (max-width: 768px) {
   body {
     padding-right: 0;
+    font-size: 15px;
   }
+
+  .glass-card, .liquid-glass {
+    border-radius: 12px;
+    --glass-blur: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.6rem !important }
+  h2 { font-size: 1.2rem !important }
+  h3 { font-size: 1.0rem !important }
+
+  .glass-card { padding: 16px !important }
 }
 </style>
 

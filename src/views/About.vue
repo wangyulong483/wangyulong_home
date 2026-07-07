@@ -126,4 +126,17 @@ const videos = ref([
   position: relative;
   z-index: 2;
 }
+
+/* ====== 移动端 ====== */
+@media (max-width: 768px) {
+  .header { padding: 18px 0 }
+  .header h1 { font-size: 1.8rem }
+  .video-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px }
+}
+
+@media (max-width: 480px) {
+  .header h1 { font-size: 1.5rem }
+  .subtitle { font-size: 0.9rem }
+  .video-grid { grid-template-columns: 1fr; gap: 12px }
+}
 </style>
