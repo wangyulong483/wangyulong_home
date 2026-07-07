@@ -43,3 +43,6 @@ public/about_source/
 
 # 原始静态网站（已转为 Vue）
 web_code/
+
+# 视频备份（超过 25MB，不部署到 Pages）
+about_source_backup/
