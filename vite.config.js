@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/', // Cloudflare Pages 根路径部署
   plugins: [
     vue(),
     vueDevTools(),
