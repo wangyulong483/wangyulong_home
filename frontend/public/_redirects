@@ -1,1 +1,3 @@
-/*    /index.html   200
+# Cloudflare Pages 重定向规则
+# 确保 /data/ 下的静态 JSON 文件不被 SPA fallback 拦截
+/data/*  /data/:splat  200
