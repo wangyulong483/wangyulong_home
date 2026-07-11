@@ -1,0 +1,45 @@
+# 每日行业热点自动抓取
+# UTC 00:00 = 北京时间 08:00 运行
+name: 每日行业热点
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  fetch-topics:
+    runs-on: ubuntu-latest
+    # 给予写权限以提交 JSON 文件
+    permissions:
+      contents: write
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装依赖
+        run: pip install -r scripts/requirements.txt
+
+      - name: 抓取行业热点
+        run: python scripts/fetch_topics.py
+
+      - name: 提交更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 仅在有变更时提交
+          git add frontend/public/data/
+          if git diff --cached --quiet; then
+            echo "📭 无新数据，跳过提交"
+          else
+            git commit -m "自动抓取: $(date +'%Y-%m-%d') 行业热点更新"
+            git push
+            echo "✅ 已提交并推送"
+          fi
