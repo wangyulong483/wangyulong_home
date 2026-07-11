@@ -115,10 +115,10 @@
   "categories": [
     { "key": "ros2",    "label": "ROS2",     "icon": "settings" },
     { "key": "robot",   "label": "机器人",    "icon": "controller" },
-    { "key": "lidar",   "label": "激光雷达",  "icon": "compass" },
+    { "key": "lidar",   "label": "激光雷达",  "icon": "target" },
     { "key": "camera",  "label": "深度相机",  "icon": "camera" },
-    { "key": "ai",      "label": "AI",       "icon": "fire" },
-    { "key": "sensor",  "label": "传感器",    "icon": "pushpin" }
+    { "key": "ai",      "label": "AI",       "icon": "microchip" },
+    { "key": "sensor",  "label": "传感器",    "icon": "connection" }
   ],
   "total": 10,
   "generatedAt": "2026-07-11T00:00:00Z"

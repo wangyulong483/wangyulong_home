@@ -7,18 +7,20 @@
   <div class="hot-topics">
     <!-- ===== 头部 — 液态玻璃 ===== -->
     <div class="header liquid-glass">
-      <h1>🏭 行业热点</h1>
+      <h1><AppIcon icon="microchip" size="28" /> 行业热点</h1>
       <p class="subtitle">机器人 · 传感器 · AI 每日动态</p>
     </div>
 
     <!-- ===== 加载状态 ===== -->
     <div v-if="loading" class="loading glass-card">
-      <p>📡 正在加载最新热点...</p>
+      <AppIcon icon="cloud-download" size="24" />
+      <p>正在加载最新热点...</p>
     </div>
 
     <!-- ===== 错误状态 ===== -->
     <div v-else-if="error" class="error glass-card">
-      <p>⚠️ 数据加载失败：{{ error }}</p>
+      <AppIcon icon="bug" size="24" />
+      <p>数据加载失败：{{ error }}</p>
       <button class="retry-btn" @click="fetchTopics(targetDate)">重试</button>
     </div>
 
@@ -34,16 +36,18 @@
             :class="['tab', { active: activeCategory === cat.key }]"
             @click="activeCategory = cat.key"
           >
+            <AppIcon v-if="cat.icon" :icon="cat.icon" size="15" />
             {{ cat.label }}
           </button>
         </div>
 
         <!-- 搜索框 -->
         <div class="search-box">
+          <AppIcon icon="search" size="16" class="search-icon" />
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="🔍 搜索标题、摘要、标签..."
+            placeholder="搜索标题、摘要、标签..."
             class="search-input"
           />
           <button v-if="searchQuery" class="clear-search" @click="searchQuery = ''">
@@ -54,11 +58,13 @@
         <!-- 日期切换器 -->
         <div class="date-picker">
           <button class="date-arrow" @click="goToPrevDay" :disabled="!hasPrevDay">
-            ← 前一天
+            <AppIcon icon="arrow-left" size="14" /> 前一天
           </button>
-          <span class="current-date">{{ displayDate }}</span>
+          <span class="current-date">
+            <AppIcon icon="calendar" size="15" /> {{ displayDate }}
+          </span>
           <button class="date-arrow" @click="goToNextDay" :disabled="!hasNextDay">
-            后一天 →
+            后一天 <AppIcon icon="arrow-right" size="14" />
           </button>
           <button v-if="!isToday" class="today-btn" @click="goToToday">回今天</button>
         </div>
@@ -80,15 +86,20 @@
         >
           <!-- 头部：来源图标 + 来源名称 + 时间 -->
           <div class="topic-header">
-            <span class="source-badge">{{ item.source }}</span>
-            <span class="topic-date">{{ formatDate(item.publishedAt) }}</span>
+            <span class="source-badge">
+              <AppIcon :icon="sourceIcon(item.source)" size="14" />
+              {{ item.source }}
+            </span>
+            <span class="topic-date">
+              <AppIcon icon="clock" size="12" /> {{ formatDate(item.publishedAt) }}
+            </span>
           </div>
 
           <!-- 标题 — 可点击跳转原文 -->
           <h3 class="topic-title">
             <a :href="item.url" target="_blank" rel="noopener noreferrer">
               {{ item.title }}
-              <span class="external-icon">↗</span>
+              <AppIcon icon="link" size="12" class="external-icon" />
             </a>
           </h3>
 
@@ -112,8 +123,9 @@
 
       <!-- 空结果 -->
       <div v-else class="empty glass-card">
-        <p v-if="searchQuery">🔍 没有找到匹配 "<strong>{{ searchQuery }}</strong>" 的热点</p>
-        <p v-else>📭 暂无热点数据</p>
+        <AppIcon icon="search" size="28" />
+        <p v-if="searchQuery">没有找到匹配 "<strong>{{ searchQuery }}</strong>" 的热点</p>
+        <p v-else>暂无热点数据</p>
         <button v-if="searchQuery" class="retry-btn" @click="searchQuery = ''">清除搜索</button>
       </div>
     </template>
@@ -121,7 +133,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import AppIcon from '@/components/AppIcon.vue'
 
 // ============================================================
 // 兜底数据 — Cloudflare Pages SPA fallback 拦截 JSON 时使用
@@ -144,10 +157,10 @@ const FALLBACK_DATA = {
   categories: [
     { key: "ros2", label: "ROS2", icon: "settings" },
     { key: "robot", label: "机器人", icon: "controller" },
-    { key: "lidar", label: "激光雷达", icon: "compass" },
+    { key: "lidar", label: "激光雷达", icon: "target" },
     { key: "camera", label: "深度相机", icon: "camera" },
-    { key: "ai", label: "AI", icon: "fire" },
-    { key: "sensor", label: "传感器", icon: "pushpin" },
+    { key: "ai", label: "AI", icon: "microchip" },
+    { key: "sensor", label: "传感器", icon: "connection" },
   ],
   total: 10,
   generatedAt: new Date().toISOString(),
@@ -284,6 +297,27 @@ const TAG_LABELS = {
 
 function tagLabel(tag) {
   return TAG_LABELS[tag] || tag
+}
+
+/** 根据来源名称映射到 AppIcon 图标 */
+const SOURCE_ICONS = {
+  'ROS Discourse': 'settings',
+  'IEEE Spectrum': 'document',
+  'IEEE Spectrum Robotics': 'document',
+  'The Robot Report': 'bullhorn',
+  'arXiv CS.RO': 'paper',
+  'GitHub Trending': 'code',
+  '机器之心': 'microchip',
+  'ScienceDaily Robotics': 'document',
+  'Reddit r/robotics': 'message',
+  'TechCrunch': 'share',
+  'TechCrunch Robotics': 'share',
+  'ROS 2 GitHub Discussions': 'code',
+  'AWS Robotics Blog': 'cloud-download',
+}
+
+function sourceIcon(sourceName) {
+  return SOURCE_ICONS[sourceName] || 'earth'
 }
 
 /** 切换到前一天 */
@@ -437,6 +471,10 @@ onMounted(() => {
   transition: all 0.25s;
   font-family: inherit;
 }
+.tab .app-icon {
+  margin-right: 5px;
+  vertical-align: -2px;
+}
 .tab:hover {
   background: rgba(90, 79, 207, 0.1);
   color: #5a4fcf;
@@ -452,9 +490,17 @@ onMounted(() => {
   position: relative;
   margin-bottom: 14px;
 }
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.35;
+  pointer-events: none;
+}
 .search-input {
   width: 100%;
-  padding: 10px 16px;
+  padding: 10px 16px 10px 40px;
   border: 1px solid rgba(90, 79, 207, 0.2);
   border-radius: 24px;
   font-size: 0.92rem;
@@ -496,6 +542,9 @@ onMounted(() => {
   flex-wrap: wrap;
 }
 .date-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   padding: 6px 14px;
   border: 1px solid rgba(90, 79, 207, 0.2);
   border-radius: 16px;
@@ -514,10 +563,13 @@ onMounted(() => {
   cursor: not-allowed;
 }
 .current-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 0.92rem;
   color: #444;
   font-weight: 600;
-  min-width: 130px;
+  min-width: 160px;
   text-align: center;
 }
 .today-btn {
@@ -566,7 +618,9 @@ onMounted(() => {
   margin-bottom: 8px;
 }
 .source-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 2px 10px;
   background: rgba(90, 79, 207, 0.08);
   color: #5a4fcf;
@@ -575,6 +629,9 @@ onMounted(() => {
   font-weight: 600;
 }
 .topic-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   font-size: 0.8rem;
   color: #aaa;
 }
@@ -593,9 +650,9 @@ onMounted(() => {
   color: #5a4fcf;
 }
 .external-icon {
-  font-size: 0.8rem;
-  opacity: 0.4;
-  margin-left: 4px;
+  opacity: 0.35;
+  margin-left: 2px;
+  vertical-align: -1px;
 }
 
 /* 摘要 */
@@ -644,6 +701,10 @@ onMounted(() => {
   padding: 60px 40px;
   margin: 0 auto;
   max-width: 500px;
+}
+.loading .app-icon, .error .app-icon, .empty .app-icon {
+  margin-bottom: 12px;
+  opacity: 0.5;
 }
 .loading p, .error p, .empty p {
   color: #888;

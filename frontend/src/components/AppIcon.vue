@@ -25,31 +25,69 @@ const props = defineProps({
   color: { type: String, default: '' },
 })
 
-// 预定义的图标路径映射
+// 预定义的图标路径映射（game-icon-pack SVG 图标）
 const iconMap = {
+  // 1-game
   controller: '/game-icon-pack-main/svg/no-padding/1-game/controller.svg',
   'controller-02': '/game-icon-pack-main/svg/no-padding/1-game/controller-02.svg',
+  heart: '/game-icon-pack-main/svg/no-padding/1-game/heart.svg',
+  trophy: '/game-icon-pack-main/svg/no-padding/1-game/trophy.svg',
+  skull: '/game-icon-pack-main/svg/no-padding/1-game/skull.svg',
+  // 2-items — 物品
+  pushpin: '/game-icon-pack-main/svg/no-padding/2-items/pushpin.svg',
+  book: '/game-icon-pack-main/svg/no-padding/2-items/book.svg',
+  compass: '/game-icon-pack-main/svg/no-padding/2-items/compass.svg',
+  bullhorn: '/game-icon-pack-main/svg/no-padding/2-items/bullhorn.svg',
+  binoculars: '/game-icon-pack-main/svg/no-padding/2-items/binoculars.svg',
+  wrench: '/game-icon-pack-main/svg/no-padding/2-items/wrench.svg',
+  magnet: '/game-icon-pack-main/svg/no-padding/2-items/magnet.svg',
+  'tool-kit': '/game-icon-pack-main/svg/no-padding/2-items/tool-kit.svg',
+  // 3-gear — 装备
+  crown: '/game-icon-pack-main/svg/no-padding/3-gear/crown.svg',
+  'shield-03': '/game-icon-pack-main/svg/no-padding/3-gear/shield-03.svg',
+  // 4-nature — 自然
+  clover: '/game-icon-pack-main/svg/no-padding/4-nature/clover.svg',
+  star: '/game-icon-pack-main/svg/no-padding/4-nature/star.svg',
+  fire: '/game-icon-pack-main/svg/no-padding/4-nature/fire.svg',
+  lightning: '/game-icon-pack-main/svg/no-padding/4-nature/lightning.svg',
+  // 6-buildings — 建筑/标记
+  target: '/game-icon-pack-main/svg/no-padding/6-buildings/target.svg',
+  'target-02': '/game-icon-pack-main/svg/no-padding/6-buildings/target-02.svg',
+  // 7-vehicles — 载具
+  plane: '/game-icon-pack-main/svg/no-padding/7-vehicles/plane.svg',
+  rocket: '/game-icon-pack-main/svg/no-padding/7-vehicles/rocket.svg',
+  // 8-ui — 用户界面
   'user-avatar': '/game-icon-pack-main/svg/no-padding/8-ui/user-avatar.svg',
   'user-avatar-02': '/game-icon-pack-main/svg/no-padding/8-ui/user-avatar-02.svg',
   user: '/game-icon-pack-main/svg/no-padding/8-ui/user.svg',
-  clover: '/game-icon-pack-main/svg/no-padding/4-nature/clover.svg',
-  pushpin: '/game-icon-pack-main/svg/no-padding/2-items/pushpin.svg',
-  plane: '/game-icon-pack-main/svg/no-padding/7-vehicles/plane.svg',
-  heart: '/game-icon-pack-main/svg/no-padding/1-game/heart.svg',
-  star: '/game-icon-pack-main/svg/no-padding/4-nature/star.svg',
-  trophy: '/game-icon-pack-main/svg/no-padding/1-game/trophy.svg',
   search: '/game-icon-pack-main/svg/no-padding/8-ui/search.svg',
   settings: '/game-icon-pack-main/svg/no-padding/8-ui/settings.svg',
+  'arrow-left': '/game-icon-pack-main/svg/no-padding/8-ui/arrow-left.svg',
+  'arrow-right': '/game-icon-pack-main/svg/no-padding/8-ui/arrow-right.svg',
+  'arrow-down': '/game-icon-pack-main/svg/no-padding/8-ui/arrow-down.svg',
+  // 9-media — 媒体/通讯/科技
   mail: '/game-icon-pack-main/svg/no-padding/9-media/mail.svg',
-  book: '/game-icon-pack-main/svg/no-padding/2-items/book.svg',
-  compass: '/game-icon-pack-main/svg/no-padding/2-items/compass.svg',
-  crown: '/game-icon-pack-main/svg/no-padding/3-gear/crown.svg',
-  fire: '/game-icon-pack-main/svg/no-padding/4-nature/fire.svg',
-  skull: '/game-icon-pack-main/svg/no-padding/1-game/skull.svg',
-  'shield-03': '/game-icon-pack-main/svg/no-padding/3-gear/shield-03.svg',
+  camera: '/game-icon-pack-main/svg/no-padding/9-media/camera.svg',
+  microchip: '/game-icon-pack-main/svg/no-padding/9-media/microchip.svg',
+  'wi-fi': '/game-icon-pack-main/svg/no-padding/9-media/wi-fi.svg',
+  calendar: '/game-icon-pack-main/svg/no-padding/9-media/calendar.svg',
+  clock: '/game-icon-pack-main/svg/no-padding/9-media/clock.svg',
+  document: '/game-icon-pack-main/svg/no-padding/9-media/document.svg',
+  paper: '/game-icon-pack-main/svg/no-padding/9-media/paper.svg',
+  code: '/game-icon-pack-main/svg/no-padding/9-media/code.svg',
+  message: '/game-icon-pack-main/svg/no-padding/9-media/message.svg',
+  share: '/game-icon-pack-main/svg/no-padding/9-media/share.svg',
+  link: '/game-icon-pack-main/svg/no-padding/9-media/link.svg',
+  'link-02': '/game-icon-pack-main/svg/no-padding/9-media/link-02.svg',
+  tag: '/game-icon-pack-main/svg/no-padding/9-media/tag.svg',
+  earth: '/game-icon-pack-main/svg/no-padding/9-media/earth.svg',
+  'cloud-download': '/game-icon-pack-main/svg/no-padding/9-media/cloud-download.svg',
+  connection: '/game-icon-pack-main/svg/no-padding/9-media/connection.svg',
+  image: '/game-icon-pack-main/svg/no-padding/9-media/image.svg',
+  bug: '/game-icon-pack-main/svg/no-padding/9-media/bug.svg',
 }
 
-// 如果传入的 icon 不在映射表中，当作自定义路径
+// 如果传入的 icon 不在映射表中，当作自定义路径（相对于 svg/no-padding/）
 const iconPath = computed(() => {
   return iconMap[props.icon] || `/game-icon-pack-main/svg/no-padding/${props.icon}.svg`
 })
@@ -57,8 +95,7 @@ const iconPath = computed(() => {
 // 通过 CSS filter 给 SVG 着色（仅对纯色 icon 有效）
 const colorFilter = computed(() => {
   if (!props.color) return 'none'
-  return `brightness(0) saturate(100%)` // 先变黑，再用伪方法着色
-  // 注：CSS filter 着色 SVG 有限制，如需精确颜色请直接使用原色 SVG
+  return `brightness(0) saturate(100%)`
 })
 </script>
 
