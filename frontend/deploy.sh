@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==========================================
 #  部署脚本 — 构建并发布到 Cloudflare Pages
-#  用法: bash deploy.sh "提交信息"
+#  用法: cd frontend && bash deploy.sh "提交信息"
 # ==========================================
 set -e
 
@@ -11,12 +11,13 @@ echo "📦 构建项目..."
 npm run build
 
 echo "📤 提交并推送..."
+cd ..
 git add -A
 git commit -m "$MSG" || echo "⚠️  没有新改动"
 git push origin main
 
 echo "☁️  部署到 Cloudflare Pages..."
-npx wrangler pages deploy dist --project-name=wangyulong-home --branch=main
+npx wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main
 
 echo ""
 echo "✅ 部署完成！"
