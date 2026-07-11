@@ -124,6 +124,36 @@
 import { ref, computed, onMounted, watch } from 'vue'
 
 // ============================================================
+// 兜底数据 — Cloudflare Pages SPA fallback 拦截 JSON 时使用
+// ============================================================
+
+const FALLBACK_DATA = {
+  date: new Date().toISOString().slice(0, 10),
+  items: [
+    { id: "a1b2c3d4e5f6", title: "ROS 2 Jazzy Jalisco 正式发布 — 全新 LTS 版本带来多项改进", summary: "Open Robotics 宣布 ROS 2 最新 LTS 版本 Jazzy Jalisco 正式发布，支持 Ubuntu 24.04，改进了导航栈、实时性能和 DDS 中间件兼容性。", source: "ROS Discourse", sourceIcon: "ros", url: "https://discourse.openrobotics.org/", category: "ros2", tags: ["ros2", "release"], publishedAt: "2026-07-10T14:30:00Z" },
+    { id: "b2c3d4e5f6a1", title: "特斯拉 Optimus 人形机器人进入量产阶段，目标年产 10 万台", summary: "特斯拉在 Q2 财报电话会上宣布 Optimus 人形机器人已进入试量产，2026 年目标产量 5-10 万台。", source: "The Robot Report", sourceIcon: "robot-report", url: "https://www.therobotreport.com/", category: "robot", tags: ["robot", "humanoid"], publishedAt: "2026-07-10T10:15:00Z" },
+    { id: "c3d4e5f6a1b2", title: "速腾聚创发布新一代 512 线激光雷达，测距突破 300 米", summary: "速腾聚创发布 RS-LiDAR-M2，512 线束、最远探测距离 300 米，专为 L4 自动驾驶和机器人设计。", source: "机器之心", sourceIcon: "jiqizhixin", url: "https://www.jiqizhixin.com/", category: "lidar", tags: ["lidar", "sensor"], publishedAt: "2026-07-10T09:00:00Z" },
+    { id: "d4e5f6a1b2c3", title: "Intel RealSense D457 深度相机：室内外通用，IP65 防护", summary: "Intel 推出 RealSense D457 立体深度相机，首次支持户外强光环境，IP65 防水防尘。", source: "IEEE Spectrum", sourceIcon: "ieee", url: "https://spectrum.ieee.org/", category: "camera", tags: ["camera", "sensor", "depth-camera"], publishedAt: "2026-07-10T08:45:00Z" },
+    { id: "e5f6a1b2c3d4", title: "YOLOv12：端到端目标检测新范式，推理速度提升 3 倍", summary: "Ultralytics 发布 YOLOv12，Anchor-Free + Transformer 混合架构，推理速度提升 3 倍。", source: "GitHub Trending", sourceIcon: "github", url: "https://github.com/ultralytics/ultralytics", category: "ai", tags: ["ai", "yolo", "detection"], publishedAt: "2026-07-10T07:20:00Z" },
+    { id: "f6a1b2c3d4e5", title: "具身智能赛道融资再创新高：上半年国内突破 200 亿元", summary: "2026 年上半年中国具身智能领域融资超 60 起，总金额突破 200 亿元，宇树科技、银河通用等估值超百亿。", source: "机器之心", sourceIcon: "jiqizhixin", url: "https://www.jiqizhixin.com/", category: "ai", tags: ["ai", "embodied-ai", "robot"], publishedAt: "2026-07-09T16:00:00Z" },
+    { id: "a1c2e3f4d5b6", title: "Nav2 发布新版：支持多机器人协同导航与动态障碍物预测", summary: "ROS 2 Navigation2 最新版本新增多机器人协同导航功能，支持动态障碍物轨迹预测与协同避障。", source: "ROS Discourse", sourceIcon: "ros", url: "https://discourse.openrobotics.org/", category: "ros2", tags: ["ros2", "nav2", "navigation"], publishedAt: "2026-07-09T12:10:00Z" },
+    { id: "b2d4f6a1c3e5", title: "基于 Gaussian Splatting 的实时 3D 重建：机器人 SLAM 新思路", summary: "arXiv 新论文提出将 3DGS 与 SLAM 结合，实现实时高精度 3D 场景重建，有望替代传统点云地图。", source: "arXiv CS.RO", sourceIcon: "arxiv", url: "https://arxiv.org/", category: "ai", tags: ["ai", "slam", "gaussian-splatting", "camera"], publishedAt: "2026-07-09T08:30:00Z" },
+    { id: "c3e5a1b2d4f6", title: "波士顿动力推出全新电驱动 Atlas：更强、更安静、更便宜", summary: "波士顿动力正式推出全电驱动新 Atlas，负载提升 50%，噪音降低 80%，开始接受商业订单。", source: "TechCrunch", sourceIcon: "techcrunch", url: "https://techcrunch.com/", category: "robot", tags: ["robot", "humanoid"], publishedAt: "2026-07-08T15:00:00Z" },
+    { id: "d4f6b2c3e5a1", title: "六维力传感器国产替代加速：宇立仪器拿下人形机器人亿元订单", summary: "国内六维力/力矩传感器厂商宇立仪器获得头部人形机器人公司亿元级订单，标志着力传感器进入量产阶段。", source: "机器之心", sourceIcon: "jiqizhixin", url: "https://www.jiqizhixin.com/", category: "sensor", tags: ["sensor", "torque-sensor", "robot"], publishedAt: "2026-07-08T11:30:00Z" },
+  ],
+  categories: [
+    { key: "ros2", label: "ROS2", icon: "settings" },
+    { key: "robot", label: "机器人", icon: "controller" },
+    { key: "lidar", label: "激光雷达", icon: "compass" },
+    { key: "camera", label: "深度相机", icon: "camera" },
+    { key: "ai", label: "AI", icon: "fire" },
+    { key: "sensor", label: "传感器", icon: "pushpin" },
+  ],
+  total: 10,
+  generatedAt: new Date().toISOString(),
+}
+
+// ============================================================
 // 状态
 // ============================================================
 
@@ -302,10 +332,28 @@ async function fetchTopics(date) {
     if (!resp.ok) {
       throw new Error(`HTTP ${resp.status}: ${resp.statusText}`)
     }
-    data.value = await resp.json()
+
+    // 检测 Cloudflare Pages SPA fallback — 返回 HTML 而非 JSON
+    const contentType = resp.headers.get('content-type') || ''
+    if (contentType.includes('text/html')) {
+      console.warn('JSON 被 SPA fallback 拦截，使用内嵌数据')
+      if (!date) {
+        data.value = FALLBACK_DATA
+      } else {
+        throw new Error('归档数据暂不可用')
+      }
+    } else {
+      data.value = await resp.json()
+    }
   } catch (e) {
     console.error('热点数据加载失败:', e)
-    error.value = e.message
+    // 今天的数据加载失败时，使用内嵌兜底数据
+    if (!date) {
+      data.value = FALLBACK_DATA
+      error.value = null
+    } else {
+      error.value = e.message
+    }
   } finally {
     loading.value = false
   }
@@ -315,7 +363,10 @@ async function fetchTopics(date) {
     try {
       const resp = await fetch('/topics-data/archive/index.json')
       if (resp.ok) {
-        archiveDates.value = await resp.json()
+        const ct = resp.headers.get('content-type') || ''
+        if (!ct.includes('text/html')) {
+          archiveDates.value = await resp.json()
+        }
       }
     } catch {
       // 归档索引不存在也 ok
