@@ -293,9 +293,9 @@ async function fetchTopics(date) {
   try {
     let url
     if (date) {
-      url = `/data/archive/${date}.json`
+      url = `/topics-data/archive/${date}.json`
     } else {
-      url = '/data/hot-topics.json'
+      url = '/topics-data/hot-topics.json'
     }
 
     const resp = await fetch(url)
@@ -313,7 +313,7 @@ async function fetchTopics(date) {
   // 同时加载归档索引（仅首次）
   if (archiveDates.value.length === 0) {
     try {
-      const resp = await fetch('/data/archive/index.json')
+      const resp = await fetch('/topics-data/archive/index.json')
       if (resp.ok) {
         archiveDates.value = await resp.json()
       }

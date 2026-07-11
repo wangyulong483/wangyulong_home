@@ -43,7 +43,7 @@ from bs4 import BeautifulSoup
 
 # 项目根目录（脚本在 scripts/ 下）
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "frontend" / "public" / "data"
+DATA_DIR = PROJECT_ROOT / "frontend" / "public" / "topics-data"
 ARCHIVE_DIR = DATA_DIR / "archive"
 
 # 请求超时（秒）
