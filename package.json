@@ -1,0 +1,8 @@
+{
+  "name": "wangyulong-home",
+  "private": true,
+  "description": "个人博客 — Vue 3 + Vite 前端，Cloudflare Pages 部署",
+  "scripts": {
+    "build": "cd frontend && npm ci && npm run build && cp -r dist ../dist"
+  }
+}
