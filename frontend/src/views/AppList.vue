@@ -7,21 +7,21 @@
 
     <div class="app-grid">
       <router-link to="/game" class="app-card glass-card">
-        <AppIcon icon="plane" size="32" />
+        <AppIcon icon="rocket" size="32" />
         <span class="app-name">飞机大战</span>
         <span class="app-desc">Canvas 射击游戏</span>
       </router-link>
 
       <router-link to="/hot-topics" class="app-card glass-card">
-        <AppIcon icon="compass" size="32" />
+        <AppIcon icon="bullhorn" size="32" />
         <span class="app-name">行业热点</span>
         <span class="app-desc">机器人 & AI 前沿动态</span>
       </router-link>
 
-      <router-link to="/cooking" class="app-card glass-card">
-        <AppIcon icon="fire" size="32" />
+      <router-link to="/shrine" class="app-card glass-card">
+        <AppIcon icon="lightning" size="32" />
         <span class="app-name">？！厨厨！？</span>
-        <span class="app-desc">AI 食谱 · 美食分享</span>
+        <span class="app-desc">雷电将军 · 角色应援页</span>
       </router-link>
     </div>
   </div>

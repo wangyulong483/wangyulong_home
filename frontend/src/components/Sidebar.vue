@@ -22,7 +22,6 @@
         <li><router-link to="/applist" class="nav-link" @click="close"><AppIcon icon="controller" size="18" /> 应用</router-link></li>
         <li><router-link to="/about" class="nav-link" @click="close"><AppIcon icon="user-avatar" size="18" /> 关于</router-link></li>
         <li><router-link to="/birthdaylist" class="nav-link" @click="close"><AppIcon icon="clover" size="18" /> 生日</router-link></li>
-        <li><router-link to="/shrine" class="nav-link" @click="close"><AppIcon icon="lightning" size="18" /> 厨厨</router-link></li>
       </ul>
     </div>
   </div>
