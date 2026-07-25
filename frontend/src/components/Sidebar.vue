@@ -22,6 +22,7 @@
         <li><router-link to="/applist" class="nav-link" @click="close"><AppIcon icon="controller" size="18" /> 应用</router-link></li>
         <li><router-link to="/about" class="nav-link" @click="close"><AppIcon icon="user-avatar" size="18" /> 关于</router-link></li>
         <li><router-link to="/birthdaylist" class="nav-link" @click="close"><AppIcon icon="clover" size="18" /> 生日</router-link></li>
+        <li><router-link to="/shrine" class="nav-link" @click="close"><AppIcon icon="lightning" size="18" /> 厨厨</router-link></li>
       </ul>
     </div>
   </div>
@@ -57,9 +58,9 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   right: 12px;
   z-index: 200;
   width: 40px; height: 40px;
-  background: rgba(30, 30, 50, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(90, 79, 207, 0.12);
   border-radius: 10px;
   cursor: pointer;
   flex-direction: column;
@@ -73,7 +74,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
 .hamburger span {
   display: block;
   width: 20px; height: 2px;
-  background: #fff;
+  background: #5a4fcf;
   border-radius: 2px;
   transition: all 0.3s;
 }
@@ -100,7 +101,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
 
 /* ====== 侧边栏 ====== */
 .sidebar {
-  color: white;
+  color: #333;
   padding: 10px;
   height: 100%;
   width: 180px;
@@ -108,16 +109,18 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(30, 30, 50, 0.55) !important;
-  backdrop-filter: blur(28px) saturate(2) brightness(0.9) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(2) brightness(0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.05) !important;
+  border: 1px solid rgba(90, 79, 207, 0.08) !important;
   border-radius: 0 !important;
-  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.15), inset -1px 0 0 rgba(255, 255, 255, 0.08) !important;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow:
+    -2px 0 24px rgba(90, 79, 207, 0.06),
+    inset -1px 0 0 rgba(90, 79, 207, 0.04) !important;
+  transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.sidebar:hover { width: 200px }
+.sidebar:hover { width: 210px }
 
 /* ====== 头像 ====== */
 .sidebar-avatar {
@@ -125,45 +128,75 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   width: 100px; height: 100px;
   border-radius: 50%; overflow: hidden;
   margin-bottom: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s;
+  border: 2px solid rgba(90, 79, 207, 0.15);
+  box-shadow: 0 2px 16px rgba(90, 79, 207, 0.08);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
 }
 
 .sidebar-avatar:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.08);
+  border-color: rgba(90, 79, 207, 0.4);
+  box-shadow: 0 4px 24px rgba(90, 79, 207, 0.15);
+  transform: scale(1.06);
 }
 
 .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover }
 
 /* ====== 导航 ====== */
 .sidebar ul { list-style: none; padding: 0; margin: 0 }
-.sidebar ul li { margin: 20px 0; transition: transform 0.3s }
-.sidebar ul li:hover { transform: translateX(-5px) }
+.sidebar ul li { margin: 12px 0; transition: transform 0.3s }
+.sidebar ul li:hover { transform: translateX(-4px) }
 
 .nav-link {
   position: relative;
-  color: rgba(255, 255, 255, 0.85);
+  color: #333;
   text-decoration: none;
   display: flex; align-items: center;
-  padding: 8px 10px; border-radius: 6px;
-  transition: all 0.3s; font-size: 0.95rem;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  font-size: 0.95rem;
   white-space: nowrap;
 }
 
+/* 按钮上下像素线 — 默认透明，悬停显示 */
+.nav-link::before,
 .nav-link::after {
-  content: ''; position: absolute;
-  bottom: 4px; left: 10px;
-  width: 0; height: 2px;
-  background: rgba(255, 255, 255, 0.6); border-radius: 1px;
-  transition: width 0.3s;
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: #5a4fcf;
+  opacity: 0;
+  transform: scaleX(0.6);
+  transition: opacity 0.3s, transform 0.3s;
 }
 
-.nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); padding-left: 15px }
-.nav-link:hover::after { width: calc(100% - 20px) }
-.nav-link.router-link-active { background: rgba(255,255,255,0.1) }
+.nav-link::before { top: 2px }
+.nav-link::after  { bottom: 2px }
+
+/* 悬停状态 */
+.nav-link:hover {
+  color: #5a4fcf;
+  background: rgba(90, 79, 207, 0.08);
+  padding-left: 18px;
+}
+
+.nav-link:hover::before,
+.nav-link:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* 当前激活路由 */
+.nav-link.router-link-active {
+  color: #5a4fcf;
+  background: rgba(90, 79, 207, 0.06);
+  font-weight: 600;
+}
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
@@ -178,12 +211,13 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   .right-box.mobile-open { transform: translateX(0) }
 
   .sidebar {
-    width: 200px !important;
+    width: 210px !important;
     padding-top: 60px;
     justify-content: flex-start;
+    background: rgba(255, 255, 255, 0.85) !important;
   }
 
-  .sidebar:hover { width: 200px !important }
+  .sidebar:hover { width: 210px !important }
 
   .sidebar-avatar { width: 80px; height: 80px }
 }
