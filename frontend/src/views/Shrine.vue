@@ -31,31 +31,46 @@
 
     <!-- ===== 正常内容 ===== -->
     <template v-else-if="data">
-      <!-- Hero 区 -->
-      <RaidenHero :character="data.character" />
-
-      <!-- Tab 导航 -->
-      <div class="tab-bar">
-        <button
-          v-for="tab in tabs"
-          :key="tab.key"
-          class="tab-btn"
-          :class="{ active: activeTab === tab.key }"
-          @click="activeTab = tab.key"
-        >
-          <span class="tab-icon">{{ tab.icon }}</span>
-          <span class="tab-label">{{ tab.label }}</span>
-          <span class="tab-count" v-if="tabCount(tab.key)">({{ tabCount(tab.key) }})</span>
-          <!-- 雷光下划线 -->
-          <span class="tab-underline"></span>
-        </button>
+      <!-- 顶部名片横幅 -->
+      <div class="top-banner" v-if="data.character.banner">
+        <img
+          :src="data.character.banner"
+          :alt="data.character.name"
+          class="banner-img"
+        />
+        <div class="banner-overlay">
+          <h1 class="banner-title">{{ data.character.name }}</h1>
+          <p class="banner-subtitle">{{ data.character.title }}</p>
+        </div>
       </div>
 
-      <!-- Tab 内容区 -->
-      <div class="tab-content">
-        <GalleryTab v-if="activeTab === 'gallery'" :items="data.gallery" />
-        <WikiTab    v-if="activeTab === 'wiki'"    :items="data.guides" />
-        <NewsTab    v-if="activeTab === 'news'"    :items="data.news" />
+      <!-- Hero 区 -->
+      <div class="shrine-content">
+        <RaidenHero :character="data.character" />
+
+        <!-- Tab 导航 -->
+        <div class="tab-bar">
+          <button
+            v-for="tab in tabs"
+            :key="tab.key"
+            class="tab-btn"
+            :class="{ active: activeTab === tab.key }"
+            @click="activeTab = tab.key"
+          >
+            <span class="tab-icon">{{ tab.icon }}</span>
+            <span class="tab-label">{{ tab.label }}</span>
+            <span class="tab-count" v-if="tabCount(tab.key)">({{ tabCount(tab.key) }})</span>
+            <!-- 雷光下划线 -->
+            <span class="tab-underline"></span>
+          </button>
+        </div>
+
+        <!-- Tab 内容区 -->
+        <div class="tab-content">
+          <GalleryTab v-if="activeTab === 'gallery'" :items="data.gallery" />
+          <WikiTab    v-if="activeTab === 'wiki'"    :items="data.guides" />
+          <NewsTab    v-if="activeTab === 'news'"    :items="data.news" />
+        </div>
       </div>
     </template>
   </div>
@@ -82,10 +97,18 @@ const FALLBACK_DATA = {
     weapon: "长柄武器",
     affiliation: "稻妻",
     quote: "常道恢弘，鸣神永恒",
-    avatar: "/shrine-data/images/avatar.png",
+    banner: "/shrine-data/images/image (2).png",
+    cutout: "/shrine-data/images/image (1).png",
     bio: "雷电将军，真名「雷电影」，魔神名「巴尔泽布」，稻妻的现任雷神。她是极致的武人，稻妻的薙刀术、剑术和各门派的锻刀技术皆出自她手。外表威严冷峻，以「永恒」为信念统治稻妻。",
     whyLove: "初次被她胸口拔刀的名场面震撼，后来了解她的故事——失去至亲、友人的孤独，追求永恒的执念，以及最终与自我和解的成长——彻底沦陷。她是神明，却也是最真实的人。",
-    colors: { primary: "#6B4C9A", accent: "#B088F9", gold: "#C9A96E" }
+    colors: { primary: "#6B4C9A", accent: "#B088F9", gold: "#C9A96E" },
+    birthdayIllustrations: [
+      { year: 2022, image: "/shrine-data/images/image (3).png" },
+      { year: 2023, image: "/shrine-data/images/image (4).png" },
+      { year: 2024, image: "/shrine-data/images/image (5).png" },
+      { year: 2025, image: "/shrine-data/images/image (6).png" },
+      { year: 2026, image: "/shrine-data/images/image (7).png" }
+    ]
   },
   gallery: [
     { id: 1, title: "【原神】雷电将军角色演示——「净土裁断」", platform: "bilibili", platformLabel: "B站", url: "BV1Yq4y1U7nB", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-08-31", tags: ["官方", "角色演示"] },
@@ -176,10 +199,68 @@ onMounted(() => {
   min-height: 100vh;
   background: linear-gradient(160deg, #0D0D1A 0%, #141428 40%, #1A1A2E 70%, #0F0F23 100%);
   color: rgba(220, 210, 240, 0.85);
-  padding: 40px 36px;
+  overflow: hidden;
+}
+
+.shrine-content {
   max-width: 1100px;
   margin: 0 auto;
+  padding: 0 36px 40px;
+}
+
+/* ====== 顶部名片横幅 ====== */
+.top-banner {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 0;
   overflow: hidden;
+  border-radius: 0 0 20px 20px;
+}
+
+.banner-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4 / 1;
+  min-height: 180px;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg,
+    rgba(13, 13, 26, 0.3) 0%,
+    rgba(13, 13, 26, 0.6) 60%,
+    rgba(13, 13, 26, 0.9) 100%
+  );
+  text-align: center;
+}
+
+.banner-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #C9A96E;
+  letter-spacing: 0.1em;
+  margin: 0;
+  text-shadow: 0 0 32px rgba(201, 169, 110, 0.5), 0 2px 8px rgba(0, 0, 0, 0.6);
+  animation: banner-glow 3s ease-in-out infinite;
+}
+
+@keyframes banner-glow {
+  0%, 100% { text-shadow: 0 0 16px rgba(201, 169, 110, 0.3), 0 2px 8px rgba(0, 0, 0, 0.6); }
+  50%      { text-shadow: 0 0 40px rgba(201, 169, 110, 0.7), 0 0 64px rgba(176, 136, 249, 0.3), 0 2px 8px rgba(0, 0, 0, 0.6); }
+}
+
+.banner-subtitle {
+  font-size: 0.85rem;
+  color: rgba(200, 190, 230, 0.7);
+  margin: 8px 0 0;
+  letter-spacing: 0.06em;
 }
 
 /* ====== 三巴纹水印 ====== */
@@ -320,8 +401,24 @@ onMounted(() => {
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
-  .shrine-page {
-    padding: 20px 16px;
+  .shrine-content {
+    padding: 0 16px 24px;
+  }
+
+  .top-banner {
+    border-radius: 0 0 12px 12px;
+  }
+
+  .banner-img {
+    min-height: 120px;
+  }
+
+  .banner-title {
+    font-size: 1.5rem;
+  }
+
+  .banner-subtitle {
+    font-size: 0.7rem;
   }
 
   .tab-bar {

@@ -7,14 +7,22 @@
     "weapon": "长柄武器",
     "affiliation": "稻妻",
     "quote": "常道恢弘，鸣神永恒",
-    "avatar": "/shrine-data/images/avatar.png",
+    "banner": "/shrine-data/images/image (2).png",
+    "cutout": "/shrine-data/images/image (1).png",
     "bio": "雷电将军，真名「雷电影」，魔神名「巴尔泽布」，稻妻的现任雷神。她是极致的武人，稻妻的薙刀术、剑术和各门派的锻刀技术皆出自她手。外表威严冷峻，以「永恒」为信念统治稻妻——但在这副人偶之躯的背后，真正的她（影）隐居在「一心净土」中，是一个不善表达、内心温柔、甚至不会做饭的宅女。",
     "whyLove": "初次被她胸口拔刀的名场面震撼，后来了解她的故事——失去至亲、友人的孤独，追求永恒的执念，以及最终与自我和解的成长——彻底沦陷。她是神明，却也是最真实的人。",
     "colors": {
       "primary": "#6B4C9A",
       "accent": "#B088F9",
       "gold": "#C9A96E"
-    }
+    },
+    "birthdayIllustrations": [
+      { "year": 2022, "image": "/shrine-data/images/image (3).png" },
+      { "year": 2023, "image": "/shrine-data/images/image (4).png" },
+      { "year": 2024, "image": "/shrine-data/images/image (5).png" },
+      { "year": 2025, "image": "/shrine-data/images/image (6).png" },
+      { "year": 2026, "image": "/shrine-data/images/image (7).png" }
+    ]
   },
   "gallery": [
     {

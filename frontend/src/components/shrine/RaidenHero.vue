@@ -1,35 +1,30 @@
 <!--
   雷电将军 Hero 区
-  官方立绘 + 角色名 + 称号 + 金句 + 简介
-  紫色发光边框，标题呼吸发光动画
+  透明底抠图立绘 + 角色信息 + 历年生日贺图轮播
 -->
 <template>
   <div class="raiden-hero">
-    <div class="hero-card">
-      <!-- 立绘区 -->
+    <!-- ===== 主视觉：抠图立绘 + 角色信息 ===== -->
+    <div class="hero-main">
+      <!-- 透明底抠图立绘，悬浮效果 -->
       <div class="hero-visual">
-        <div class="avatar-frame">
-          <img
-            v-if="character.avatar && !imgError"
-            :src="character.avatar"
-            :alt="character.name"
-            class="avatar-img"
-            @error="imgError = true"
-          />
-          <!-- 无图片时的占位：三巴纹 -->
-          <div v-else class="avatar-placeholder">
-            <svg viewBox="0 0 100 100" class="mitsudomoe-svg">
-              <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-              <circle cx="50" cy="22" r="14" fill="currentColor" opacity="0.5"/>
-              <circle cx="26" cy="64" r="14" fill="currentColor" opacity="0.5"/>
-              <circle cx="74" cy="64" r="14" fill="currentColor" opacity="0.5"/>
-            </svg>
-            <span class="placeholder-text">立绘待添加</span>
-          </div>
+        <img
+          v-if="character.cutout"
+          :src="character.cutout"
+          :alt="character.name"
+          class="cutout-img"
+          @error="onCutoutError"
+        />
+        <div v-else class="cutout-placeholder">
+          <svg viewBox="0 0 100 100" class="mitsudomoe-svg">
+            <circle cx="50" cy="22" r="14" fill="currentColor" opacity="0.5"/>
+            <circle cx="26" cy="64" r="14" fill="currentColor" opacity="0.5"/>
+            <circle cx="74" cy="64" r="14" fill="currentColor" opacity="0.5"/>
+          </svg>
         </div>
       </div>
 
-      <!-- 信息区 -->
+      <!-- 角色信息 -->
       <div class="hero-info">
         <h1 class="char-name">{{ character.name }}</h1>
         <p class="char-title">{{ character.title }}</p>
@@ -50,18 +45,116 @@
         </div>
       </div>
     </div>
+
+    <!-- ===== 历年生日贺图轮播 ===== -->
+    <div class="birthday-carousel" v-if="birthdays.length">
+      <div class="carousel-header">
+        <h3>🎂 历年生日贺图</h3>
+        <div class="carousel-controls">
+          <button class="carousel-btn" @click="prevSlide" :disabled="birthdays.length <= 1">◀</button>
+          <span class="carousel-year">{{ birthdays[currentSlide]?.year }}</span>
+          <button class="carousel-btn" @click="nextSlide" :disabled="birthdays.length <= 1">▶</button>
+        </div>
+      </div>
+
+      <div class="carousel-viewport">
+        <div
+          class="carousel-track"
+          :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+        >
+          <div
+            v-for="(item, idx) in birthdays"
+            :key="item.year"
+            class="carousel-slide"
+          >
+            <img
+              :src="item.image"
+              :alt="`${item.year} 生日贺图`"
+              class="birthday-img"
+              loading="lazy"
+            />
+            <span class="birthday-label">{{ item.year }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 指示点 -->
+      <div class="carousel-dots" v-if="birthdays.length > 1">
+        <button
+          v-for="(item, idx) in birthdays"
+          :key="item.year"
+          class="dot"
+          :class="{ active: idx === currentSlide }"
+          @click="currentSlide = idx"
+          :aria-label="`切换到 ${item.year} 年`"
+        ></button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   character: { type: Object, required: true }
 })
 
-/* 图片加载失败时显示占位 */
-const imgError = ref(false)
+/* 生日贺图列表 */
+const birthdays = computed(() => {
+  return props.character.birthdayIllustrations || []
+})
+
+/* 图片加载失败 */
+const cutoutError = ref(false)
+function onCutoutError() {
+  cutoutError.value = true
+}
+
+/* 轮播状态 */
+const currentSlide = ref(0)
+
+function nextSlide() {
+  if (birthdays.value.length > 1) {
+    currentSlide.value = (currentSlide.value + 1) % birthdays.value.length
+  }
+}
+
+function prevSlide() {
+  if (birthdays.value.length > 1) {
+    currentSlide.value = (currentSlide.value - 1 + birthdays.value.length) % birthdays.value.length
+  }
+}
+
+/* 自动轮播 */
+let autoplayTimer = null
+
+function startAutoplay() {
+  stopAutoplay()
+  if (birthdays.value.length > 1) {
+    autoplayTimer = setInterval(() => {
+      nextSlide()
+    }, 4000)
+  }
+}
+
+function stopAutoplay() {
+  if (autoplayTimer) {
+    clearInterval(autoplayTimer)
+    autoplayTimer = null
+  }
+}
+
+import { onMounted, onUnmounted, watch } from 'vue'
+
+onMounted(() => startAutoplay())
+onUnmounted(() => stopAutoplay())
+
+/* 如果生日贺图数据异步到达，重新启动轮播 */
+watch(birthdays, () => {
+  currentSlide.value = 0
+  startAutoplay()
+})
 </script>
 
 <style scoped>
@@ -71,74 +164,61 @@ const imgError = ref(false)
   margin-bottom: 28px;
 }
 
-.hero-card {
+/* ====== 主视觉区 ====== */
+.hero-main {
   display: flex;
   gap: 32px;
   align-items: flex-start;
-  background: linear-gradient(135deg, rgba(107, 76, 154, 0.12), rgba(13, 13, 26, 0.6));
-  border: 1px solid rgba(176, 136, 249, 0.25);
-  border-radius: 20px;
-  padding: 36px;
-  /* 紫色发光边框 */
-  box-shadow:
-    0 0 20px rgba(176, 136, 249, 0.08),
-    inset 0 1px 0 rgba(176, 136, 249, 0.06);
-  transition: box-shadow 0.5s;
+  margin-bottom: 32px;
 }
 
-.hero-card:hover {
-  box-shadow:
-    0 0 32px rgba(176, 136, 249, 0.14),
-    inset 0 1px 0 rgba(176, 136, 249, 0.1);
-}
-
-/* ====== 立绘区 ====== */
+/* ====== 抠图立绘 ====== */
 .hero-visual {
   flex-shrink: 0;
 }
 
-.avatar-frame {
-  width: 180px;
-  height: 240px;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 2px solid rgba(201, 169, 110, 0.3);
-  box-shadow: 0 0 24px rgba(176, 136, 249, 0.12);
-  background: rgba(13, 13, 26, 0.5);
+.cutout-img {
+  display: block;
+  max-height: 480px;
+  width: auto;
+  /* 悬浮光晕 */
+  filter: drop-shadow(0 0 24px rgba(176, 136, 249, 0.25)) drop-shadow(0 8px 32px rgba(13, 13, 26, 0.4));
+  animation: float-cutout 4s ease-in-out infinite;
 }
 
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@keyframes float-cutout {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
 }
 
-.avatar-placeholder {
-  width: 100%;
-  height: 100%;
+.cutout-placeholder {
+  width: 200px;
+  height: 400px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
   color: #B088F9;
+  background: rgba(107, 76, 154, 0.1);
+  border-radius: 16px;
+  border: 1px solid rgba(176, 136, 249, 0.15);
 }
 
 .mitsudomoe-svg {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   animation: breathe 3s ease-in-out infinite;
 }
 
-.placeholder-text {
-  font-size: 0.8rem;
-  color: rgba(176, 136, 249, 0.4);
+@keyframes breathe {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.7; }
 }
 
-/* ====== 信息区 ====== */
+/* ====== 角色信息 ====== */
 .hero-info {
   flex: 1;
   min-width: 0;
+  padding-top: 8px;
 }
 
 .char-name {
@@ -147,7 +227,6 @@ const imgError = ref(false)
   color: #C9A96E;
   margin: 0 0 6px;
   letter-spacing: 0.08em;
-  /* 呼吸发光 */
   animation: name-glow 3s ease-in-out infinite;
 }
 
@@ -197,7 +276,6 @@ const imgError = ref(false)
   margin: 0 0 16px;
 }
 
-/* ====== 为什么喜欢 ====== */
 .love-box {
   background: rgba(176, 136, 249, 0.06);
   border: 1px solid rgba(176, 136, 249, 0.12);
@@ -218,18 +296,140 @@ const imgError = ref(false)
   margin: 8px 0 0;
 }
 
+/* ====== 生日贺图轮播 ====== */
+.birthday-carousel {
+  background: rgba(107, 76, 154, 0.06);
+  border: 1px solid rgba(176, 136, 249, 0.12);
+  border-radius: 16px;
+  padding: 20px 24px;
+}
+
+.carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.carousel-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(200, 190, 230, 0.8);
+  font-weight: 600;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.carousel-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(176, 136, 249, 0.2);
+  background: rgba(176, 136, 249, 0.08);
+  color: rgba(200, 190, 230, 0.6);
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.carousel-btn:hover:not(:disabled) {
+  border-color: rgba(176, 136, 249, 0.4);
+  color: #B088F9;
+  background: rgba(176, 136, 249, 0.15);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel-year {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #C9A96E;
+  min-width: 48px;
+  text-align: center;
+}
+
+/* 轮播视口 */
+.carousel-viewport {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.carousel-slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.birthday-img {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+.birthday-label {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-size: 0.78rem;
+  padding: 3px 12px;
+  border-radius: 10px;
+  background: rgba(13, 13, 26, 0.7);
+  color: #C9A96E;
+  font-weight: 600;
+}
+
+/* 指示点 */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(176, 136, 249, 0.2);
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.dot.active {
+  background: #B088F9;
+  box-shadow: 0 0 6px rgba(176, 136, 249, 0.5);
+  width: 20px;
+  border-radius: 4px;
+}
+
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
-  .hero-card {
+  .hero-main {
     flex-direction: column;
     align-items: center;
-    padding: 24px 20px;
     gap: 20px;
   }
 
-  .avatar-frame {
-    width: 140px;
-    height: 186px;
+  .cutout-img {
+    max-height: 320px;
   }
 
   .char-name {
