@@ -9,7 +9,6 @@ const routes = [
   { path: '/applist',       name: 'AppList',      component: () => import('@/views/AppList.vue') },
   { path: '/game',          name: 'Game',         component: () => import('@/views/Game.vue') },
   { path: '/hot-topics',    name: 'HotTopics',    component: () => import('@/views/HotTopics.vue') },
-  { path: '/cooking',       name: 'Cooking',      component: () => import('@/views/Cooking.vue') },
   { path: '/shrine',        name: 'Shrine',       component: () => import('@/views/Shrine.vue') },
 ]
 

@@ -35,12 +35,14 @@
           <span class="meta-tag" v-if="character.element">{{ character.element }}元素</span>
           <span class="meta-tag" v-if="character.weapon">{{ character.weapon }}</span>
           <span class="meta-tag" v-if="character.affiliation">{{ character.affiliation }}</span>
+          <span class="meta-tag" v-if="character.birthday">生日 {{ character.birthday }}</span>
+          <span class="meta-tag" v-if="character.constellation">命之座 {{ character.constellation }}</span>
         </div>
 
         <p class="char-bio">{{ character.bio }}</p>
 
         <div class="love-box">
-          <span class="love-label">💜 为什么喜欢她</span>
+          <span class="love-label">为什么喜欢她</span>
           <p class="love-text">{{ character.whyLove }}</p>
         </div>
       </div>
@@ -49,7 +51,7 @@
     <!-- ===== 历年生日贺图轮播 ===== -->
     <div class="birthday-carousel" v-if="birthdays.length">
       <div class="carousel-header">
-        <h3>🎂 历年生日贺图</h3>
+        <h3>历年生日贺图</h3>
         <div class="carousel-controls">
           <button class="carousel-btn" @click="prevSlide" :disabled="birthdays.length <= 1">◀</button>
           <span class="carousel-year">{{ birthdays[currentSlide]?.year }}</span>
@@ -376,10 +378,11 @@ watch(birthdays, () => {
 
 .birthday-img {
   width: 100%;
-  aspect-ratio: 2 / 1;
-  object-fit: cover;
+  max-height: 480px;
+  object-fit: contain;
   display: block;
   border-radius: 10px;
+  background: rgba(13, 13, 26, 0.3);
 }
 
 .birthday-label {

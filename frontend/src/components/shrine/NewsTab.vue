@@ -48,7 +48,7 @@
 
     <!-- 空状态 -->
     <div v-else class="empty-state">
-      <p>还没有最新动态 📡</p>
+      <p>还没有最新动态</p>
     </div>
   </div>
 </template>

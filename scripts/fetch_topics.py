@@ -1,17 +1,16 @@
 """
 行业热点抓取脚本 —— 每日自动搜集机器人、ROS2、传感器、AI 行业动态
 
-数据源（一期 10 个）：
-  1. Open Robotics Discourse — ROS 2 社区最新讨论
+数据源（9 个，国际源 + RSSHub 中转 + 国内源）：
+  1. ROS Discourse — ROS 2 社区讨论
   2. IEEE Spectrum Robotics — 机器人综合资讯
   3. The Robot Report — 机器人产业新闻
   4. arXiv CS.RO — 机器人学最新论文
-  5. GitHub Trending Python — 热门开源项目（爬虫）
-  6. 机器之心 — 中国 AI/机器人
-  7. ROS 2 Discord 替代源 — ROS 官方新闻
-  8. ScienceDaily Robotics — 机器人科研新闻
-  9. TechCrunch Robotics — 科技创投
-  10. Reddit r/robotics — 社区热门讨论
+  5. ScienceDaily Robotics — 机器人科研动态
+  6. GitHub Trending — 热门开源项目（RSSHub 中转）
+  7. 机器之心 — 中国 AI/机器人媒体
+  8. 36氪 — 科技快讯（RSSHub 中转）
+  9. 量子位 — AI 科技前沿
 
 用法：
   python scripts/fetch_topics.py                     # 生成今天的热点
@@ -19,8 +18,8 @@
   python scripts/fetch_topics.py --dry-run           # 仅打印，不写文件
 
 输出：
-  frontend/public/data/hot-topics.json     ← 今天的热点
-  frontend/public/data/archive/            ← 按日期归档
+  frontend/public/topics-data/hot-topics.json    -- 今天的热点
+  frontend/public/topics-data/archive/           -- 按日期归档
 """
 import argparse
 import hashlib
@@ -53,10 +52,20 @@ TIMEOUT = 20
 DEDUP_THRESHOLD = 0.75
 
 # ============================================================
-# RSS 源定义
+# RSSHub 实例
+# rsshub.app — 官方实例（US 托管，GitHub Actions runner 可直连）
+# rsshub.stsecurity.moe — 社区实例（国内可达，本地测试用）
+# 可通过 --rsshub 命令行参数覆盖
+# ============================================================
+
+DEFAULT_RSSHUB = "https://rsshub.app"
+
+# ============================================================
+# RSS 源定义（直接 RSS + RSSHub 路由混合）
 # ============================================================
 
 RSS_SOURCES = [
+    # ----- 国际源（GitHub Actions 海外 runner 可直接访问）-----
     {
         "name": "ROS Discourse",
         "url": "https://discourse.openrobotics.org/posts.rss",
@@ -66,7 +75,7 @@ RSS_SOURCES = [
     },
     {
         "name": "IEEE Spectrum Robotics",
-        "url": "https://spectrum.ieee.org/feeds/topic/robotics/rss.xml",
+        "url": "https://spectrum.ieee.org/feeds/robotics/rss",
         "category": "robot",
         "icon": "ieee",
         "lang": "en",
@@ -92,6 +101,15 @@ RSS_SOURCES = [
         "icon": "science",
         "lang": "en",
     },
+    # ----- RSSHub 中转源 -----
+    {
+        "name": "GitHub Trending",
+        "url": "/github/trending/daily",
+        "category": "ai",
+        "icon": "github",
+        "lang": "en",
+    },
+    # ----- 国内源 -----
     {
         "name": "机器之心",
         "url": "https://www.jiqizhixin.com/rss",
@@ -100,32 +118,18 @@ RSS_SOURCES = [
         "lang": "zh",
     },
     {
-        "name": "Reddit r/robotics",
-        "url": "https://www.reddit.com/r/robotics/.rss",
-        "category": "robot",
-        "icon": "reddit",
-        "lang": "en",
+        "name": "36氪",
+        "url": "/36kr/newsflashes",
+        "category": "ai",
+        "icon": "lightning",
+        "lang": "zh",
     },
     {
-        "name": "TechCrunch Robotics",
-        "url": "https://techcrunch.com/category/robotics/feed/",
-        "category": "robot",
-        "icon": "techcrunch",
-        "lang": "en",
-    },
-    {
-        "name": "ROS 2 GitHub Discussions",
-        "url": "https://github.com/ros2/ros2_documentation/discussions.atom",
-        "category": "ros2",
-        "icon": "github",
-        "lang": "en",
-    },
-    {
-        "name": "AWS Robotics Blog",
-        "url": "https://aws.amazon.com/blogs/robotics/feed/",
-        "category": "robot",
-        "icon": "aws",
-        "lang": "en",
+        "name": "量子位",
+        "url": "https://www.qbitai.com/feed",
+        "category": "ai",
+        "icon": "qbitai",
+        "lang": "zh",
     },
 ]
 
@@ -133,10 +137,10 @@ RSS_SOURCES = [
 CATEGORIES = [
     {"key": "ros2",    "label": "ROS2",      "icon": "settings"},
     {"key": "robot",   "label": "机器人",     "icon": "controller"},
-    {"key": "lidar",   "label": "激光雷达",   "icon": "compass"},
+    {"key": "lidar",   "label": "激光雷达",   "icon": "target"},
     {"key": "camera",  "label": "深度相机",   "icon": "camera"},
-    {"key": "ai",      "label": "AI",        "icon": "fire"},
-    {"key": "sensor",  "label": "传感器",     "icon": "pushpin"},
+    {"key": "ai",      "label": "AI",        "icon": "microchip"},
+    {"key": "sensor",  "label": "传感器",     "icon": "connection"},
 ]
 
 # ============================================================
@@ -177,11 +181,19 @@ def classify_by_keywords(title: str, summary: str) -> list[str]:
     return sorted(tags)
 
 
-def fetch_rss(source: dict) -> list[dict]:
+def resolve_url(raw_url: str, rsshub_base: str) -> str:
+    """解析 RSS URL：以 / 开头的为 RSSHub 路由，拼接实例域名"""
+    if raw_url.startswith("/"):
+        return rsshub_base.rstrip("/") + raw_url
+    return raw_url
+
+
+def fetch_rss(source: dict, rsshub_base: str = DEFAULT_RSSHUB) -> list[dict]:
     """抓取单个 RSS 源，返回条目列表"""
     items = []
+    url = resolve_url(source["url"], rsshub_base)
     try:
-        resp = requests.get(source["url"], timeout=TIMEOUT, headers={
+        resp = requests.get(url, timeout=TIMEOUT, headers={
             "User-Agent": "Mozilla/5.0 (compatible; HotTopicsBot/1.0; +https://github.com/wangyulong483)"
         })
         resp.raise_for_status()
@@ -238,9 +250,9 @@ def fetch_rss(source: dict) -> list[dict]:
             })
 
     except requests.RequestException as e:
-        print(f"  ⚠️  {source['name']} 请求失败: {e}")
+        print(f"  [WARN] {source['name']} 请求失败: {e}")
     except Exception as e:
-        print(f"  ⚠️  {source['name']} 解析失败: {e}")
+        print(f"  [WARN] {source['name']} 解析失败: {e}")
 
     return items
 
@@ -292,7 +304,7 @@ def fetch_github_trending() -> list[dict]:
 
             items.append({
                 "id": item_id,
-                "title": f"📦 {repo_name}",
+                "title": f"{repo_name}",
                 "summary": desc[:300],
                 "source": "GitHub Trending",
                 "sourceIcon": "github",
@@ -302,9 +314,9 @@ def fetch_github_trending() -> list[dict]:
                 "publishedAt": datetime.now(timezone.utc).isoformat(),
             })
 
-        print(f"  ✅ GitHub Trending: {len(items)} 条相关项目")
+        print(f"  [OK] GitHub Trending: {len(items)} 条相关项目")
     except Exception as e:
-        print(f"  ⚠️  GitHub Trending 抓取失败: {e}")
+        print(f"  [WARN] GitHub Trending 抓取失败: {e}")
 
     return items
 
@@ -340,7 +352,9 @@ def main():
     parser = argparse.ArgumentParser(description="行业热点抓取脚本")
     parser.add_argument("--date", help="指定日期 (YYYY-MM-DD)，默认今天")
     parser.add_argument("--dry-run", action="store_true", help="仅打印，不写文件")
+    parser.add_argument("--rsshub", default=DEFAULT_RSSHUB, help=f"RSSHub 实例地址 (默认: {DEFAULT_RSSHUB})")
     args = parser.parse_args()
+    rsshub_base = args.rsshub
 
     # 确定目标日期
     if args.date:
@@ -349,7 +363,7 @@ def main():
         target_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     print(f"\n{'='*60}")
-    print(f"🏭 行业热点抓取 — {target_date}")
+    print(f"行业热点抓取 — {target_date}")
     print(f"{'='*60}\n")
 
     # ============================================================
@@ -358,24 +372,17 @@ def main():
     all_items = []
 
     for source in RSS_SOURCES:
-        print(f"📡 抓取 {source['name']}...")
-        items = fetch_rss(source)
-        print(f"   → {len(items)} 条")
+        print(f"[FETCH] {source['name']}...")
+        items = fetch_rss(source, rsshub_base)
+        print(f"   -> {len(items)} 条")
         all_items.extend(items)
 
     # ============================================================
-    # 2. 抓取 GitHub Trending
+    # 2. 去重
     # ============================================================
-    print(f"\n📡 抓取 GitHub Trending...")
-    gh_items = fetch_github_trending()
-    all_items.extend(gh_items)
-
-    # ============================================================
-    # 3. 去重
-    # ============================================================
-    print(f"\n🔄 去重前: {len(all_items)} 条")
+    print(f"\n[DEDUP] 去重前: {len(all_items)} 条")
     all_items = deduplicate(all_items)
-    print(f"🔄 去重后: {len(all_items)} 条")
+    print(f"[DEDUP] 去重后: {len(all_items)} 条")
 
     # ============================================================
     # 4. 按发布时间排序（最新在前）
@@ -397,7 +404,7 @@ def main():
     # 6. 输出
     # ============================================================
     if args.dry_run:
-        print(f"\n📋 预览（前 10 条）:\n")
+        print(f"\n[PREVIEW] 预览（前 10 条）:\n")
         for item in all_items[:10]:
             print(f"  [{item['category']}] {item['title']}")
             print(f"    {item['source']} | {item['publishedAt']}")
@@ -414,18 +421,18 @@ def main():
     today_path = DATA_DIR / "hot-topics.json"
     with open(today_path, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-    print(f"\n✅ 已写入: {today_path}")
+    print(f"\n[OK] 已写入: {today_path}")
 
     # 写入归档
     archive_path = ARCHIVE_DIR / f"{target_date}.json"
     with open(archive_path, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-    print(f"✅ 已归档: {archive_path}")
+    print(f"[OK] 已归档: {archive_path}")
 
     # 更新归档索引
     update_archive_index()
 
-    print(f"\n🎉 完成！共收录 {len(all_items)} 条热点")
+    print(f"\n[DONE] 完成！共收录 {len(all_items)} 条热点")
 
 
 def update_archive_index():

@@ -25,7 +25,7 @@
 
     <!-- ===== 错误状态 ===== -->
     <div v-else-if="loadError" class="error-state">
-      <p>⚡ 数据加载失败：{{ loadError }}</p>
+      <p>数据加载失败：{{ loadError }}</p>
       <button class="retry-btn" @click="loadData">重新踏入</button>
     </div>
 
@@ -67,9 +67,10 @@
 
         <!-- Tab 内容区 -->
         <div class="tab-content">
-          <GalleryTab v-if="activeTab === 'gallery'" :items="data.gallery" />
+          <GalleryTab v-if="activeTab === 'gallery'" :items="data.gallery" :related="data.related || []" />
           <WikiTab    v-if="activeTab === 'wiki'"    :items="data.guides" />
           <NewsTab    v-if="activeTab === 'news'"    :items="data.news" />
+          <ChatTab    v-if="activeTab === 'chat'" />
         </div>
       </div>
     </template>
@@ -83,6 +84,7 @@ import RaidenHero from '@/components/shrine/RaidenHero.vue'
 import GalleryTab from '@/components/shrine/GalleryTab.vue'
 import WikiTab from '@/components/shrine/WikiTab.vue'
 import NewsTab from '@/components/shrine/NewsTab.vue'
+import ChatTab from '@/components/shrine/ChatTab.vue'
 
 // ============================================================
 // 兜底数据 — Cloudflare Pages SPA fallback 拦截 JSON 时使用
@@ -96,11 +98,13 @@ const FALLBACK_DATA = {
     element: "雷",
     weapon: "长柄武器",
     affiliation: "稻妻",
+    birthday: "6月26日",
+    constellation: "天下人座",
     quote: "常道恢弘，鸣神永恒",
     banner: "/shrine-data/images/image (2).png",
     cutout: "/shrine-data/images/image (1).png",
     bio: "雷电将军，真名「雷电影」，魔神名「巴尔泽布」，稻妻的现任雷神。她是极致的武人，稻妻的薙刀术、剑术和各门派的锻刀技术皆出自她手。外表威严冷峻，以「永恒」为信念统治稻妻。",
-    whyLove: "初次被她胸口拔刀的名场面震撼，后来了解她的故事——失去至亲、友人的孤独，追求永恒的执念，以及最终与自我和解的成长——彻底沦陷。她是神明，却也是最真实的人。",
+    whyLove: "第一眼就被她的外形击中——紫色长发、和服铠甲的华丽设计，胸口拔刀的视觉冲击力无与伦比。深入了解后更着迷于她的反差：对外是威严冷峻的雷神，私底下却是个不会做饭、宅在一心净土里的天然呆。这种神性与可爱的巨大反差，让她不止是一尊神明，更是一个鲜活的人。",
     colors: { primary: "#6B4C9A", accent: "#B088F9", gold: "#C9A96E" },
     birthdayIllustrations: [
       { year: 2022, image: "/shrine-data/images/image (3).png" },
@@ -111,20 +115,29 @@ const FALLBACK_DATA = {
     ]
   },
   gallery: [
-    { id: 1, title: "【原神】雷电将军角色演示——「净土裁断」", platform: "bilibili", platformLabel: "B站", url: "BV1Yq4y1U7nB", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-08-31", tags: ["官方", "角色演示"] },
-    { id: 2, title: "雷电将军 · 恶曜卜词", platform: "pixiv", platformLabel: "Pixiv", url: "https://www.pixiv.net/artworks/92847219", author: "米游社画师", authorUrl: "", thumbnail: "", date: "2023-09-10", tags: ["插画", "壁纸"] },
-    { id: 3, title: "【手书】雷电将军的一心净土", platform: "bilibili", platformLabel: "B站", url: "BV1Fb4y1n7sQ", author: "手书UP主", authorUrl: "", thumbnail: "", date: "2025-01-20", tags: ["手书", "同人动画"] },
-    { id: 4, title: "雷电将军cosplay——梦想一心出鞘", platform: "other", platformLabel: "Twitter", url: "https://x.com/search?q=RaidenShogun", author: "海外coser", authorUrl: "", thumbnail: "", date: "2025-06-18", tags: ["cosplay"] },
-    { id: 5, title: "【雷电将军】此身即为永恒——雷神传说任务催泪混剪", platform: "bilibili", platformLabel: "B站", url: "BV1jL4y1h7jR", author: "旅行者剪辑", authorUrl: "", thumbnail: "", date: "2024-03-15", tags: ["混剪", "剧情"] }
+    { id: 0, title: "雷电将军角色PV——「噩梦」", platform: "bilibili", platformLabel: "B站", url: "BV1Y3411B7SX", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-08-23", tags: ["官方", "PV"] },
+    { id: 1, title: "雷电将军角色演示——「净土裁断」", platform: "bilibili", platformLabel: "B站", url: "BV1kb4y1m7e7", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-09-01", tags: ["官方", "角色演示"] },
+    { id: 2, title: "拾枝杂谈——「雷电将军：鸣雷寂灭」", platform: "bilibili", platformLabel: "B站", url: "BV1rb4y1m7My", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-09-01", tags: ["官方", "拾枝杂谈"] }
+  ],
+  related: [
+    { id: 100, title: "雷电将军什么的不干了啦！", platform: "bilibili", platformLabel: "B站", url: "BV1GY411371y", author: "巫兔菌", thumbnail: "", date: "2022-03-12", tags: ["MAD", "翻调"] },
+    { id: 101, title: "雷神生贺曲「稻光予梦」/ 原神cv原创曲", platform: "bilibili", platformLabel: "B站", url: "BV1K3411w7uM", author: "超想吃番茄", thumbnail: "", date: "2022-06-26", tags: ["原创曲", "生贺"] },
+    { id: 102, title: "你是怎么说服雷电将军陪你拍这个视频的？", platform: "bilibili", platformLabel: "B站", url: "BV1Ad4y1y7sF", author: "莫娜摸鱼专用", thumbnail: "", date: "2022-10-23", tags: ["混剪", "趣味"] },
+    { id: 103, title: "【原神MMD】雷神忍不了了", platform: "bilibili", platformLabel: "B站", url: "BV1BC9qY2EXF", author: "sujikan", thumbnail: "", date: "2025-03-03", tags: ["MMD", "Blender"] },
+    { id: 104, title: "太上头啦！雷电将军来给你洗脑啦！", platform: "bilibili", platformLabel: "B站", url: "BV1mk4y1Q7WD", author: "柚卡yk", thumbnail: "", date: "2024-01-12", tags: ["MAD", "洗脑"] },
+    { id: 105, title: "一心净土【原神/雷电将军原创曲】", platform: "bilibili", platformLabel: "B站", url: "BV19j411E79f", author: "菊花花", thumbnail: "", date: "2023-09-10", tags: ["原创曲", "CV"] },
+    { id: 106, title: "不动鸣神，泡影断灭—雷电将军PV演示COS向", platform: "bilibili", platformLabel: "B站", url: "BV1uf4y1T7fh", author: "紫氯氯", thumbnail: "", date: "2021-11-30", tags: ["COS", "PV"] },
+    { id: 107, title: "MMD Bon Bon Chocolat - Raiden Ei", platform: "bilibili", platformLabel: "B站", url: "BV1rPW5zJE8K", author: "杯子君721", thumbnail: "", date: "2025-09-19", tags: ["MMD", "舞蹈"] },
+    { id: 108, title: "雷电将军：这也是必要的课程吗", platform: "bilibili", platformLabel: "B站", url: "BV1d9Mi6HE5b", author: "烤堇瓜壁纸", thumbnail: "", date: "2026-07-08", tags: ["壁纸", "展示"] }
   ],
   guides: [
     { id: 1, title: "雷电将军配队全面指南", summary: "从雷电国家队到雷九万班，当前版本主流配队推荐与输出手法详解", content: "## 雷电国家队\n\n阵容：雷电将军 + 行秋 + 香菱 + 班尼特\n\n输出手法：雷神E → 班尼特QE → 行秋QE → 香菱QE → 雷神Q站场7秒", source: "NGA", sourceUrl: "https://bbs.nga.cn/", category: "战斗攻略", date: "2026-07-01" },
     { id: 2, title: "雷电将军角色设计考据", summary: "从日本神话、佛教文化与江户历史解读雷电将军的设计原型", content: "## 原型考据\n\n雷电将军的设计原型之一是天之御中主神——日本神话里别天神之首。其手持长矛的形象与雷电将军的薙刀相呼应。\n\n雷电将军使用薙刀与江户时代武家妇女必须学习薙刀术的传统有关。", source: "米游社", sourceUrl: "https://www.miyoushe.com/", category: "角色考据", date: "2026-06-15" }
   ],
   news: [
-    { id: 1, title: "雷电将军「影寂天下人」皮肤上线", summary: "雷电将军全新衣装已在商城上架，粉紫色雷电特效+樱花主题", date: "2026-07-15", tag: "皮肤", url: "" },
-    { id: 2, title: "雷电将军新手办「一心净土ver.」开启预售", summary: "Good Smile Company 推出雷电将军 1/7 比例手办，售价 32800 日元", date: "2026-07-01", tag: "周边", url: "" },
-    { id: 3, title: "雷电将军角色祈愿「华紫樱绯」复刻预告", summary: "据可靠消息，雷电将军将在下个版本迎来复刻，同期 UP 武器「薙草之稻光」", date: "2026-06-20", tag: "游戏", url: "" }
+    { id: 1, title: "雷电将军 6.7版本复刻 — 「一心净土」祈愿开启", summary: "雷电将军于6.7版本下半期（7月21日18:00至8月11日）迎来复刻，同期UP专武「薙草之稻光」。", date: "2026-07-21", tag: "游戏", url: "" },
+    { id: 2, title: "雷电将军「一心净土Ver.」1/7手办预售中", summary: "APEX-TOYS × miHoYo 联合出品，高35.7cm，售价1499元，预售至8月27日。初回特典含「梦想一心」武器摆件。", date: "2026-05-27", tag: "周边", url: "https://www.miyoushe.com/ys/article/75539985" },
+    { id: 3, title: "Nendoroid 雷电将军 黏土人 出货", summary: "Good Smile Company 出品，含三种表情及配件「梦想一心」「薙草之稻光」「团子牛奶」，2025年6月出货。", date: "2025-06-01", tag: "周边", url: "https://www.goodsmile.com/en/product/21681/Nendoroid+Raiden+Shogun" }
   ]
 }
 
@@ -139,14 +152,15 @@ const activeTab = ref('gallery')
 
 // Tab 定义
 const tabs = [
-  { key: 'gallery', label: '二创画廊', icon: '⚡' },
-  { key: 'wiki',    label: '攻略/Wiki', icon: '📜' },
-  { key: 'news',    label: '资讯动态', icon: '📡' },
+  { key: 'gallery', label: '画廊', icon: '' },
+  { key: 'wiki',    label: '攻略/Wiki', icon: '' },
+  { key: 'news',    label: '资讯动态', icon: '' },
+  { key: 'chat',    label: '与影对话', icon: '' },
 ]
 
 function tabCount(key) {
   if (!data.value) return 0
-  const map = { gallery: 'gallery', wiki: 'guides', news: 'news' }
+  const map = { gallery: 'gallery', wiki: 'guides', news: 'news', chat: null }
   const arr = data.value[map[key]]
   return arr ? arr.length : 0
 }

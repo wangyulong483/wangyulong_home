@@ -53,6 +53,8 @@ const iconMap = {
   // 6-buildings — 建筑/标记
   target: '/game-icon-pack-main/svg/no-padding/6-buildings/target.svg',
   'target-02': '/game-icon-pack-main/svg/no-padding/6-buildings/target-02.svg',
+  // 5-food — 食物/餐具
+  tableware: '/game-icon-pack-main/svg/no-padding/5-food/tableware.svg',
   // 7-vehicles — 载具
   plane: '/game-icon-pack-main/svg/no-padding/7-vehicles/plane.svg',
   rocket: '/game-icon-pack-main/svg/no-padding/7-vehicles/rocket.svg',

@@ -1,163 +1,180 @@
 <!--
-  二创画廊 Tab
-  响应式网格展示 B站视频 + Pixiv 插画 + 其他平台作品
-  hover 紫色发光边框，来源平台标签
+  画廊 Tab
+  B站视频卡片：封面 + 播放量 + 点赞数 + 点击播放
+  官方精选（置顶）+ 热门推荐（JSON 数据）
+  封面和播放量通过 B站 view API 客户端拉取
 -->
 <template>
   <div class="gallery-tab">
-    <!-- 平台筛选 -->
-    <div class="filter-bar" v-if="platforms.length > 1">
-      <button
-        v-for="p in platforms"
-        :key="p.key"
-        class="filter-btn"
-        :class="{ active: activePlatform === p.key }"
-        @click="activePlatform = p.key"
-      >{{ p.label }} ({{ countByPlatform(p.key) }})</button>
-    </div>
 
-    <div class="gallery-grid" v-if="filteredItems.length">
-      <div
-        v-for="item in filteredItems"
-        :key="item.id"
-        class="gallery-card"
-      >
-        <!-- B站视频：iframe 播放器 -->
-        <template v-if="item.platform === 'bilibili'">
-          <div class="card-media">
-            <iframe
-              :src="bilibiliEmbed(item.url)"
-              class="bili-iframe"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer"
-            ></iframe>
+    <!-- ===== 官方精选 ===== -->
+    <div class="section-label">官方精选</div>
+    <div class="gallery-grid" v-if="pinnedItems.length">
+      <div v-for="item in pinnedItems" :key="'p-' + item.id" class="gallery-card">
+        <div class="card-media" @click="play(item.id)">
+          <img v-if="getCover(item)" :src="getCover(item)" :alt="item.title" class="card-thumb" loading="lazy" />
+          <div v-else class="card-thumb-placeholder"><span class="ph-text">B站视频</span></div>
+          <div v-if="!playingMap[item.id]" class="play-overlay">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="rgba(255,255,255,0.85)">
+              <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+              <polygon points="9,7 9,17 18,12" fill="rgba(255,255,255,0.9)"/>
+            </svg>
           </div>
-        </template>
-
-        <!-- Pixiv / 其他平台：卡片 + 外链 -->
-        <template v-else>
-          <a :href="item.url" target="_blank" rel="noopener" class="card-media card-link">
-            <img
-              v-if="item.thumbnail"
-              :src="item.thumbnail"
-              :alt="item.title"
-              class="card-thumb"
-              loading="lazy"
-            />
-            <div v-else class="card-thumb-placeholder">
-              <span class="ph-icon">{{ platformIcon(item.platform) }}</span>
-            </div>
-            <div class="visit-overlay">
-              <span>前往查看 →</span>
-            </div>
-          </a>
-        </template>
-
-        <!-- 信息栏 -->
+          <iframe v-if="playingMap[item.id]" :src="biliEmbed(item.url)" class="bili-iframe" allowfullscreen referrerpolicy="no-referrer"></iframe>
+        </div>
         <div class="card-info">
           <div class="card-header">
-            <span class="platform-badge" :class="'badge-' + item.platform">
-              {{ item.platformLabel || item.platform }}
-            </span>
+            <span class="platform-badge badge-bilibili">B站</span>
             <span class="card-date">{{ item.date }}</span>
           </div>
           <h4 class="card-title">{{ item.title }}</h4>
           <div class="card-footer">
-            <span class="card-author" v-if="item.author">
-              by {{ item.author }}
-            </span>
-            <span class="card-tags" v-if="item.tags">
-              <span v-for="tag in item.tags" :key="tag" class="tag">#{{ tag }}</span>
+            <span class="card-author" v-if="item.author">by {{ item.author }}</span>
+            <span class="card-stats">
+              <span class="stat" v-if="getStat(item, 'view')" :title="'播放 ' + formatNum(getStat(item, 'view'))">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                {{ formatNum(getStat(item, 'view')) }}
+              </span>
+              <span class="stat" v-if="getStat(item, 'like')" :title="'点赞 ' + formatNum(getStat(item, 'like'))">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                {{ formatNum(getStat(item, 'like')) }}
+              </span>
             </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 空状态 -->
-    <div v-else class="empty-state">
-      <p>还没有作品，快去收集吧 ⚡</p>
+    <!-- ===== 热门推荐 ===== -->
+    <div class="section-label" v-if="relatedItems.length">热门推荐</div>
+    <div class="gallery-grid" v-if="relatedItems.length">
+      <div v-for="item in relatedItems" :key="'r-' + item.id" class="gallery-card">
+        <div class="card-media" @click="play(item.id)">
+          <img v-if="getCover(item)" :src="getCover(item)" :alt="item.title" class="card-thumb" loading="lazy" />
+          <div v-else class="card-thumb-placeholder"><span class="ph-text">B站视频</span></div>
+          <div v-if="!playingMap[item.id]" class="play-overlay">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="rgba(255,255,255,0.85)">
+              <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+              <polygon points="9,7 9,17 18,12" fill="rgba(255,255,255,0.9)"/>
+            </svg>
+          </div>
+          <iframe v-if="playingMap[item.id]" :src="biliEmbed(item.url)" class="bili-iframe" allowfullscreen referrerpolicy="no-referrer"></iframe>
+        </div>
+        <div class="card-info">
+          <div class="card-header">
+            <span class="platform-badge badge-bilibili">B站</span>
+            <span class="card-date">{{ item.date }}</span>
+          </div>
+          <h4 class="card-title">{{ item.title }}</h4>
+          <div class="card-footer">
+            <span class="card-author" v-if="item.author">by {{ item.author }}</span>
+            <span class="card-stats">
+              <span class="stat" v-if="getStat(item, 'view')" :title="'播放 ' + formatNum(getStat(item, 'view'))">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                {{ formatNum(getStat(item, 'view')) }}
+              </span>
+              <span class="stat" v-if="getStat(item, 'like')" :title="'点赞 ' + formatNum(getStat(item, 'like'))">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                {{ formatNum(getStat(item, 'like')) }}
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="!pinnedItems.length && !relatedItems.length" class="empty-state">
+      <p>还没有作品</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, reactive, onMounted } from 'vue'
 
 const props = defineProps({
-  items: { type: Array, required: true }
+  items: { type: Array, required: true },
+  related: { type: Array, default: () => [] }
 })
 
-/* 当前选中的平台筛选 */
-const activePlatform = ref('all')
-const platforms = computed(() => {
-  const keys = [...new Set(props.items.map(i => i.platform))]
-  return [{ key: 'all', label: '全部' }, ...keys.map(k => ({ key: k, label: props.items.find(i => i.platform === k)?.platformLabel || k }))]
+const pinnedItems = computed(() => props.items.filter(i => i.platform === 'bilibili'))
+const relatedItems = computed(() => props.related.filter(i => i.platform === 'bilibili'))
+
+/* 所有需要拉取的 BV 号 */
+const allItems = computed(() => [...pinnedItems.value, ...relatedItems.value])
+
+/* ===== B站 iframe 嵌入 ===== */
+function biliEmbed(bvid) {
+  return `https://player.bilibili.com/player.html?bvid=${bvid}&high_quality=1&danmaku=0&autoplay=0&poster=1`
+}
+
+const playingMap = reactive({})
+function play(id) { playingMap[id] = true }
+
+/* ===== 通过 view API 批量拉取封面+播放量+点赞 ===== */
+const statCache = reactive({})
+
+async function fetchInfo(bvid) {
+  if (statCache[bvid]) return
+  try {
+    const resp = await fetch(`https://api.bilibili.com/x/web-interface/view?bvid=${bvid}`)
+    if (!resp.ok) return
+    const json = await resp.json()
+    if (json.code === 0 && json.data) {
+      const d = json.data
+      statCache[bvid] = {
+        pic: d.pic || '',
+        view: d.stat?.view || 0,
+        like: d.stat?.like || 0,
+      }
+    }
+  } catch { /* 静默 */ }
+}
+
+function getCover(item) {
+  return item.thumbnail || statCache[item.url]?.pic || ''
+}
+
+function getStat(item, key) {
+  return statCache[item.url]?.[key] || 0
+}
+
+function formatNum(n) {
+  if (!n) return '0'
+  if (n >= 10000) return (n / 10000).toFixed(1) + '万'
+  return String(n)
+}
+
+onMounted(async () => {
+  /* 批量拉取，每次最多并发 6 个避免限流 */
+  const batch = allItems.value.map(i => i.url)
+  for (let i = 0; i < batch.length; i += 6) {
+    await Promise.all(batch.slice(i, i + 6).map(bvid => fetchInfo(bvid)))
+  }
 })
-
-function countByPlatform(platform) {
-  if (platform === 'all') return props.items.length
-  return props.items.filter(i => i.platform === platform).length
-}
-
-const filteredItems = computed(() => {
-  if (activePlatform.value === 'all') return props.items
-  return props.items.filter(i => i.platform === activePlatform.value)
-})
-
-/* B站 BV 号 → iframe 嵌入链接 */
-function bilibiliEmbed(bvid) {
-  return `https://player.bilibili.com/player.html?bvid=${bvid}&high_quality=1&danmaku=0&autoplay=0`
-}
-
-/* 平台图标 emoji */
-function platformIcon(platform) {
-  const map = { pixiv: '🎨', twitter: '🐦', lofter: '📝', other: '🔗' }
-  return map[platform] || '🔗'
-}
 </script>
 
 <style scoped>
-/* ====== 筛选栏 ====== */
-.filter-bar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  padding: 6px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(176, 136, 249, 0.2);
-  background: transparent;
-  color: rgba(200, 190, 230, 0.7);
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: all 0.25s;
-}
-
-.filter-btn:hover {
-  border-color: rgba(176, 136, 249, 0.5);
-  color: #B088F9;
-}
-
-.filter-btn.active {
-  background: rgba(176, 136, 249, 0.15);
-  border-color: rgba(176, 136, 249, 0.5);
-  color: #B088F9;
+/* ===== 分区标签 ===== */
+.section-label {
+  font-size: 0.95rem;
   font-weight: 600;
+  color: rgba(200, 190, 230, 0.7);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(176, 136, 249, 0.12);
 }
 
-/* ====== 画廊网格 ====== */
+.section-label:not(:first-child) { margin-top: 36px; }
+
+/* ===== 画廊网格 ===== */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 20px;
 }
 
-/* ====== 卡片 ====== */
+/* ===== 卡片 ===== */
 .gallery-card {
   background: rgba(107, 76, 154, 0.06);
   border: 1px solid rgba(176, 136, 249, 0.1);
@@ -172,145 +189,60 @@ function platformIcon(platform) {
   transform: translateY(-2px);
 }
 
-/* ====== 媒体区 ====== */
-.card-media {
-  position: relative;
-  background: #000;
-}
+/* ===== 媒体区 ===== */
+.card-media { position: relative; background: #000; cursor: pointer; }
 
-.bili-iframe {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: none;
-}
+.bili-iframe { width: 100%; aspect-ratio: 16 / 9; border: none; }
 
-.card-link {
-  display: block;
-  text-decoration: none;
-}
-
-.card-thumb {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-}
+.card-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 
 .card-thumb-placeholder {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%; aspect-ratio: 16 / 9;
+  display: flex; align-items: center; justify-content: center;
   background: rgba(107, 76, 154, 0.15);
 }
 
-.ph-icon {
-  font-size: 2rem;
+.ph-text { color: rgba(176, 136, 249, 0.35); font-size: 0.9rem; }
+
+.play-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  transition: background 0.3s;
 }
 
-/* 外链覆盖层 */
-.visit-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(13, 13, 26, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+.play-overlay:hover { background: rgba(0, 0, 0, 0.5); }
 
-.visit-overlay span {
-  color: #B088F9;
-  font-size: 0.9rem;
-  border: 1px solid rgba(176, 136, 249, 0.5);
-  padding: 8px 18px;
-  border-radius: 20px;
-}
+/* ===== 信息栏 ===== */
+.card-info { padding: 14px 16px; }
 
-.card-link:hover .visit-overlay {
-  opacity: 1;
-}
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 
-/* ====== 信息栏 ====== */
-.card-info {
-  padding: 14px 16px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.platform-badge {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-/* 平台标签配色 */
+.platform-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 8px; font-weight: 600; }
 .badge-bilibili { background: rgba(251, 114, 153, 0.15); color: #FB7299; }
-.badge-pixiv    { background: rgba(0, 150, 250, 0.15); color: #0096FA; }
-.badge-twitter  { background: rgba(29, 161, 242, 0.15); color: #1DA1F2; }
-.badge-lofter   { background: rgba(100, 200, 180, 0.15); color: #64C8B4; }
-.badge-other    { background: rgba(176, 136, 249, 0.15); color: #B088F9; }
 
-.card-date {
-  font-size: 0.72rem;
-  color: rgba(180, 170, 210, 0.5);
-}
+.card-date { font-size: 0.72rem; color: rgba(180, 170, 210, 0.5); }
 
 .card-title {
-  margin: 0 0 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: rgba(220, 210, 245, 0.9);
-  line-height: 1.4;
-  /* 两行截断 */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  margin: 0 0 10px; font-size: 0.9rem; font-weight: 600;
+  color: rgba(220, 210, 245, 0.9); line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-.card-footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-}
+.card-footer { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.card-author { font-size: 0.75rem; color: rgba(180, 170, 210, 0.5); }
 
-.card-author {
-  font-size: 0.75rem;
-  color: rgba(180, 170, 210, 0.5);
-}
+/* ===== 数据统计 ===== */
+.card-stats { display: flex; gap: 12px; align-items: center; }
 
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
+.stat { display: flex; align-items: center; gap: 3px; font-size: 0.72rem; color: rgba(180, 170, 210, 0.5); }
+.stat svg { opacity: 0.5; flex-shrink: 0; }
 
-.tag {
-  font-size: 0.68rem;
-  color: rgba(176, 136, 249, 0.5);
-}
+/* ===== 空状态 ===== */
+.empty-state { text-align: center; padding: 60px 20px; color: rgba(176, 136, 249, 0.35); font-size: 0.95rem; }
 
-/* ====== 空状态 ====== */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(176, 136, 249, 0.35);
-  font-size: 0.95rem;
-}
-
-/* ====== 移动端 ====== */
+/* ===== 移动端 ===== */
 @media (max-width: 768px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
+  .gallery-grid { grid-template-columns: 1fr; }
 }
 </style>

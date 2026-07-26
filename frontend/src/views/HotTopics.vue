@@ -207,8 +207,8 @@ const isToday = computed(() => {
 
 /** 显示的日期文本 */
 const displayDate = computed(() => {
-  if (isToday.value) return `📅 今天（${targetDate.value || getTodayStr()}）`
-  return `📅 ${targetDate.value}`
+  if (isToday.value) return ` 今天（${targetDate.value || getTodayStr()}）`
+  return ` ${targetDate.value}`
 })
 
 /** 是否有前一天的数据 */
@@ -308,6 +308,10 @@ const SOURCE_ICONS = {
   'arXiv CS.RO': 'paper',
   'GitHub Trending': 'code',
   '机器之心': 'microchip',
+  '36氪': 'lightning',
+  '量子位': 'target',
+  'InfoQ 中国': 'book',
+  '少数派': 'star',
   'ScienceDaily Robotics': 'document',
   'Reddit r/robotics': 'message',
   'TechCrunch': 'share',

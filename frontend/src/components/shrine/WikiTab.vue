@@ -42,7 +42,7 @@
             <div class="wiki-meta">
               <span class="wiki-source" v-if="item.source">
                 来源：{{ item.source }}
-                <a v-if="item.sourceUrl" :href="item.sourceUrl" target="_blank" rel="noopener" class="source-link">🔗</a>
+                <a v-if="item.sourceUrl" :href="item.sourceUrl" target="_blank" rel="noopener" class="source-link">[来源]</a>
               </span>
               <span class="expand-hint">{{ expandedId === item.id ? '点击收起 ▲' : '点击展开 ▼' }}</span>
             </div>
@@ -57,7 +57,7 @@
 
     <!-- 空状态 -->
     <div v-else class="empty-state">
-      <p>还没有攻略内容 📜</p>
+      <p>还没有攻略内容</p>
     </div>
   </div>
 </template>
@@ -79,13 +79,13 @@ const props = defineProps({
 /* 分类列表 */
 const categories = computed(() => {
   const keys = [...new Set(props.items.map(i => i.category))]
-  return [{ key: 'all', label: '全部', icon: '📚' },
+  return [{ key: 'all', label: '全部', icon: '' },
     ...keys.map(k => ({ key: k, label: k, icon: catIcon(k) }))]
 })
 
 function catIcon(cat) {
-  const map = { '战斗攻略': '⚔️', '角色考据': '📖', '官方资料': '📋' }
-  return map[cat] || '📄'
+  const map = { '战斗攻略': '', '角色考据': '', '官方资料': '' }
+  return map[cat] || ''
 }
 
 function categoryColor(cat) {

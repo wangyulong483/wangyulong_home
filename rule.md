@@ -29,13 +29,18 @@
 - 修改完成后必须构建验证（`npm run build`）
 - 完成每一步后提交 git（有意义的中文 commit message）
 - 使用 EXA MCP 搜索最新技术方案，不凭记忆猜测
+- **UI / 样式变更**：先用 `askuser` 确认方案再动手，避免反复修改
+- **小改动免方案**：图标修正、数据更新（如 BV 号）、样式微调等简单修改可跳过 `todo.md` 流程直接执行
+- **本地部署免提交**：只想部署不想提交 git 时，直接用 `npm run build && npx wrangler pages deploy frontend/dist --branch=main`（从项目根目录运行），跳过 `deploy.sh` 的 git 步骤
 
 ## 技术约束
 
 - 前端：Vue 3 + Vite，`<script setup>` 语法
 - 后端：FastAPI（Python）
 - 部署：Cloudflare Pages（前端）+ 待定（后端）
-- 代码风格：简洁、有中文注释、适合 Vue3 初学者理解
+- 代码风格：
+  - 前端：简洁、有中文注释、适合 Vue3 初学者理解
+  - 后端（Python）：禁用 emoji，日志用 `[TAG]` 格式（如 `[OK]`、`[WARN]`、`[FETCH]`），保持严肃专业
 
 ## Cloudflare Pages 部署
 
