@@ -733,18 +733,43 @@ onMounted(() => {
 
 /* ===== 移动端适配 ===== */
 @media (max-width: 768px) {
+  .hot-topics { padding: 0 8px; }
+
   .header h1 { font-size: 1.5rem; }
+  .header { padding: 20px 0; }
+  .subtitle { font-size: 0.85rem; }
   .toolbar { padding: 14px; }
+
+  /* 分类标签可横向滚动 */
+  .category-tabs {
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .category-tabs::-webkit-scrollbar { display: none; }
+  .tab { padding: 8px 14px; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; min-height: 40px; }
+
   .topic-card { padding: 14px 16px; }
   .topic-title { font-size: 0.95rem; }
-  .category-tabs { gap: 6px; }
-  .tab { padding: 5px 12px; font-size: 0.82rem; }
+  .topic-summary { font-size: 0.85rem; }
+
+  /* 日期选择器堆叠 */
+  .date-picker { gap: 8px; }
+  .current-date { min-width: auto; font-size: 0.85rem; }
+
+  .stats-bar { font-size: 0.8rem; }
 }
 
 @media (max-width: 480px) {
   .header h1 { font-size: 1.3rem; }
-  .topic-card { padding: 12px; }
+  .topic-card { padding: 12px 14px; }
+  .topic-title { font-size: 0.9rem; }
   .date-picker { gap: 6px; }
-  .date-arrow { padding: 5px 10px; font-size: 0.8rem; }
+  .date-arrow { padding: 5px 10px; font-size: 0.78rem; }
+  .today-btn { padding: 5px 10px; font-size: 0.78rem; }
+  .search-input { padding: 10px 14px 10px 36px; font-size: 0.85rem; }
 }
 </style>

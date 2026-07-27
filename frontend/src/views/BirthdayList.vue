@@ -23,6 +23,7 @@ import AppIcon from '@/components/AppIcon.vue'
 
 video {
   border-radius: 8px;
+  max-width: 100%;
 }
 
 .birthday_1 {
@@ -38,9 +39,45 @@ video {
   color: #5a4fcf;
   font-size: 1.2rem;
   transition: transform 0.3s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .bd-link:hover {
   transform: scale(1.08);
+}
+
+/* ====== 移动端 ====== */
+@media (max-width: 768px) {
+  .box_1 {
+    margin: 12px 8px;
+    padding: 14px;
+  }
+
+  .birthday_1 {
+    margin: 12px 8px;
+    padding: 16px;
+  }
+
+  .bd-link {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .box_1 {
+    margin: 8px 4px;
+    padding: 10px;
+  }
+
+  .birthday_1 {
+    margin: 8px 4px;
+    padding: 14px;
+  }
+
+  .bd-link {
+    font-size: 1rem;
+  }
 }
 </style>

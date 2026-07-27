@@ -56,11 +56,12 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   top: 12px;
   right: 12px;
   z-index: 200;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(90, 79, 207, 0.12);
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   flex-direction: column;
   align-items: center;
@@ -68,6 +69,9 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   gap: 5px;
   padding: 0;
   transition: all 0.3s;
+  /* 安全区 */
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
 }
 
 .hamburger span {
@@ -204,20 +208,32 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
 
   .right-box {
     transform: translateX(100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .right-box.mobile-open { transform: translateX(0) }
 
   .sidebar {
-    width: 210px !important;
-    padding-top: 60px;
+    width: 240px !important;
+    padding-top: max(60px, env(safe-area-inset-top));
+    padding-bottom: env(safe-area-inset-bottom);
     justify-content: flex-start;
-    background: rgba(255, 255, 255, 0.85) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) saturate(2) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(2) !important;
   }
 
-  .sidebar:hover { width: 210px !important }
+  .sidebar:hover { width: 240px !important }
 
   .sidebar-avatar { width: 80px; height: 80px }
+
+  /* 移动端导航链接 — 更大触摸区域 */
+  .nav-link {
+    padding: 14px 18px;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .sidebar ul li { margin: 6px 0 }
 }
 </style>

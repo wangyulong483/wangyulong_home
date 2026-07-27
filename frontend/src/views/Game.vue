@@ -422,16 +422,28 @@ canvas { border:3px solid #ffeb3b; border-radius:10px; background:#000; box-shad
 .shoot-btn { width:80px;height:80px;background:rgba(255,50,50,0.7);border-radius:40px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:16px;pointer-events:auto;user-select:none }
 @media(max-width:768px){
   h1{font-size:1.5rem}
-  .container{padding:12px;margin:8px}
+  .container{padding:12px;margin:8px;max-width:100%}
   .controls{font-size:12px;padding:10px}
-  .stats{gap:4px}
+  .stats{gap:4px;flex-wrap:wrap}
   .stat-item{padding:6px 10px;font-size:12px}
-  canvas{width:100%;height:auto}
+  canvas{width:100%;height:auto;max-width:100%}
+  .mobile-controls{bottom:12px;padding:0 12px}
+  .direction-pad{width:110px;height:110px}
+  .dir-btn{width:32px;height:32px;line-height:32px;font-size:14px}
+  .dir-up{top:8px;left:39px}.dir-left{top:39px;left:8px}.dir-down{top:70px;left:39px}.dir-right{top:39px;left:70px}
+  .shoot-btn{width:72px;height:72px;font-size:14px}
+  .screen h2{font-size:1.3rem}
+  .screen p{font-size:14px}
+  .button{padding:10px 24px;font-size:16px}
 }
 @media(max-width:480px){
   h1{font-size:1.3rem}
-  .container{padding:8px;margin:4px}
+  .container{padding:8px 4px;margin:4px}
   .key{padding:2px 5px;font-size:11px}
   .control-group{font-size:12px}
+  .direction-pad{width:96px;height:96px}
+  .dir-btn{width:28px;height:28px;line-height:28px;font-size:12px}
+  .dir-up{top:6px;left:34px}.dir-left{top:34px;left:6px}.dir-down{top:62px;left:34px}.dir-right{top:34px;left:62px}
+  .shoot-btn{width:64px;height:64px;font-size:13px}
 }
 </style>

@@ -45,8 +45,15 @@ import AppIcon from '@/components/AppIcon.vue'
 .app-name { font-size: 1.15rem; font-weight: 700; color: #5a4fcf }
 .app-desc { font-size: 0.85rem; color: #999 }
 
+@media (max-width: 768px) {
+  .app-list { padding: 0 8px }
+  .app-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px }
+  .app-card { padding: 24px 16px; min-height: 130px }
+}
+
 @media (max-width: 480px) {
   .app-grid { grid-template-columns: 1fr }
   .header h1 { font-size: 1.6rem }
+  .app-card { padding: 20px 16px; min-height: auto }
 }
 </style>

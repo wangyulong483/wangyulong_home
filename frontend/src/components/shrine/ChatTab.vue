@@ -87,10 +87,8 @@
 import { ref, reactive, nextTick, onMounted } from 'vue'
 
 /* ===== API 配置 ===== */
-// 开发环境走 Vite 代理，生产环境走 Cloudflare Tunnel
-const API_BASE = window.location.hostname === 'localhost'
-  ? '/api'
-  : 'https://perception-geographical-iron-all.trycloudflare.com/api'
+// 开发环境走 Vite 代理到 FastAPI，生产环境走 Cloudflare Worker 边缘节点
+const API_BASE = '/api'
 
 /* ===== 对话状态 ===== */
 const messages = reactive([])
@@ -404,12 +402,48 @@ onMounted(() => {
 /* ===== 移动端 ===== */
 @media (max-width: 768px) {
   .chat-tab {
-    height: calc(100vh - 300px);
-    min-height: 400px;
+    height: calc(100dvh - 340px);
+    min-height: 360px;
+    max-width: 100%;
+    padding: 0 4px;
   }
 
   .msg-bubble {
-    max-width: 85%;
+    max-width: 88%;
+    padding: 10px 14px;
+  }
+
+  .msg-text {
+    font-size: 0.84rem;
+  }
+
+  .local-notice {
+    font-size: 0.68rem;
+    padding: 6px;
+    margin-bottom: 8px;
+  }
+
+  .chat-input-area {
+    margin-top: 12px;
+    padding-top: 10px;
+    /* 固定在底部 */
+    position: sticky;
+    bottom: 0;
+    background: inherit;
+  }
+
+  .chat-input {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .send-btn {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+
+  .welcome-msg {
+    padding: 40px 16px;
   }
 }
 </style>

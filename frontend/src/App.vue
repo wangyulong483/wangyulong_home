@@ -257,25 +257,74 @@ a {
   }
 }
 
-/* ---------- 小屏幕适配 ---------- */
+/* ---------- 移动端：小屏幕适配 ---------- */
 @media (max-width: 768px) {
   body {
     padding-right: 0;
     font-size: 15px;
+    /* 为刘海屏添加安全区 */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
+  /* 移动端减轻毛玻璃效果 — 提升性能 */
   .glass-card, .liquid-glass {
     border-radius: 12px;
-    --glass-blur: 12px;
+    --glass-blur: 10px;
+  }
+
+  .glass-card {
+    backdrop-filter: blur(10px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
+  }
+
+  .liquid-glass {
+    backdrop-filter: blur(16px) saturate(2) brightness(1.04) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(2) brightness(1.04) !important;
+  }
+
+  /* 移动端禁用悬停抬起效果（没有hover） */
+  .glass-card:hover {
+    transform: none;
+  }
+
+  .liquid-glass:hover {
+    transform: none;
+    backdrop-filter: blur(16px) saturate(2) brightness(1.04) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(2) brightness(1.04) !important;
+  }
+
+  /* 移动端禁用液态玻璃光扫（省电） */
+  .liquid-glass::after {
+    animation: none;
+    opacity: 0.4;
+  }
+
+  /* 确保触摸目标足够大 */
+  a, button, .tab, .cat-btn, .tag-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 }
 
 @media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
   h1 { font-size: 1.6rem !important }
   h2 { font-size: 1.2rem !important }
   h3 { font-size: 1.0rem !important }
 
   .glass-card { padding: 16px !important }
+  .liquid-glass { padding: 16px !important }
+
+  /* 极小屏进一步减弱毛玻璃 */
+  .glass-card {
+    backdrop-filter: blur(8px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+  }
 }
 </style>
 
@@ -289,5 +338,17 @@ a {
 .main-content {
   flex: 1;
   padding: 20px;
+}
+
+/* 移动端主内容区适配 */
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 16px 12px;
+    padding-top: calc(16px + env(safe-area-inset-top));
+  }
 }
 </style>

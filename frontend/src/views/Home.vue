@@ -133,11 +133,26 @@ import Carousel from '@/components/Carousel.vue'
 }
 
 /* ====== 移动端 ====== */
+@media (max-width: 768px) {
+  .home-page {
+    padding: 0 8px;
+  }
+
+  .header { height: 72px; padding: 14px 0; margin-bottom: 14px }
+  .header h1 { font-size: 1.8rem }
+  .saying { font-size: 0.95rem; padding: 0 10px }
+  .content-card { padding: 18px 20px; margin: 14px auto }
+  .content-card h3 { font-size: 1.05rem }
+  .platform-link { padding: 8px 16px; font-size: 0.9rem; min-height: 44px }
+}
+
 @media (max-width: 480px) {
-  .header { height: 70px; padding: 14px 0 }
-  .header h1 { font-size: 1.6rem }
-  .saying { font-size: 0.9rem; padding: 0 10px }
-  .content-card { padding: 16px; margin: 12px auto }
-  .platform-link { padding: 6px 14px; font-size: 0.85rem }
+  .header { height: 64px; padding: 10px 0 }
+  .header h1 { font-size: 1.5rem }
+  .saying { font-size: 0.85rem; padding: 0 8px }
+  .saying-section { margin: 14px auto }
+  .content-card { padding: 14px 16px; margin: 10px auto }
+  .content-card li { font-size: 0.9rem; margin: 6px 0 }
+  .platform-link { padding: 6px 14px; font-size: 0.82rem }
 }
 </style>

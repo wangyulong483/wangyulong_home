@@ -416,7 +416,7 @@ onMounted(() => {
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
   .shrine-content {
-    padding: 0 16px 24px;
+    padding: 0 12px 24px;
   }
 
   .top-banner {
@@ -435,21 +435,36 @@ onMounted(() => {
     font-size: 0.7rem;
   }
 
+  /* Tab 栏横向滚动（保留标签文字） */
   .tab-bar {
-    gap: 0;
+    gap: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
   }
+  .tab-bar::-webkit-scrollbar { display: none; }
 
   .tab-btn {
-    padding: 10px 14px;
-    font-size: 0.82rem;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-height: 44px;
   }
 
   .tab-label {
+    display: inline;
+  }
+
+  .tab-count {
     display: none;
   }
 
-  .tab-icon {
-    font-size: 1.2rem;
+  /* 水印缩小 */
+  .mitsudomoe-watermark {
+    width: 200px; height: 200px;
+    bottom: -40px; right: -30px;
   }
 }
 </style>

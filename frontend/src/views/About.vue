@@ -529,16 +529,49 @@ document.addEventListener('keydown', (e) => {
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
-  .header { padding: 18px 0 }
+  .about-page {
+    padding: 0 8px 30px;
+  }
+
+  .header { padding: 16px 0 }
   .header h1 { font-size: 1.8rem }
-  .video-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px }
-  .modal-content { width: 95vw; padding: 14px 16px 12px }
+  .subtitle { font-size: 0.95rem }
+  .gallery-title { font-size: 1.1rem }
+  .video-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px }
+
+  /* 弹窗在移动端全屏 */
+  .modal-overlay {
+    align-items: flex-end;
+  }
+
+  .modal-content {
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 16px 16px 0 0;
+    padding: 14px 16px 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    animation: slideUpMobile 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes slideUpMobile {
+    from { opacity: 0; transform: translateY(100%); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-close {
+    top: 12px; right: 16px;
+    width: 36px; height: 36px;
+    font-size: 1.1rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .header h1 { font-size: 1.5rem }
-  .subtitle { font-size: 0.9rem }
-  .video-grid { grid-template-columns: 1fr 1fr; gap: 10px }
-  .video-title { font-size: 0.82rem }
+  .header h1 { font-size: 1.4rem }
+  .subtitle { font-size: 0.85rem }
+  .video-grid { grid-template-columns: 1fr; gap: 12px }
+  .video-title { font-size: 0.85rem }
+  .video-info { padding: 10px 12px }
+
+  .modal-title { font-size: 1rem; padding-right: 32px }
 }
 </style>

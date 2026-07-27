@@ -243,6 +243,16 @@ onMounted(async () => {
 
 /* ===== 移动端 ===== */
 @media (max-width: 768px) {
-  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
+  .card-title { font-size: 0.85rem; }
+  .card-info { padding: 12px 14px; }
+  .section-label { font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid { gap: 10px; }
+  .card-title { font-size: 0.82rem; }
+  .card-info { padding: 10px 12px; }
+  .card-author { font-size: 0.7rem; }
 }
 </style>

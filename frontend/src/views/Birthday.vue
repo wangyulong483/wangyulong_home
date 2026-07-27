@@ -85,7 +85,10 @@ function sendWish() {
 
 function createConfetti() {
   const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#ffbe0b', '#fb5607']
-  for (let i = 0; i < 50; i++) {
+  // 移动端减少纸屑数量以提升性能
+  const isMobile = window.innerWidth < 768
+  const count = isMobile ? 20 : 50
+  for (let i = 0; i < count; i++) {
     const confetti = document.createElement('div')
     confetti.style.cssText = `
       position: fixed;

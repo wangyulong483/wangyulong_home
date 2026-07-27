@@ -1,9 +1,15 @@
 <template>
   <!--
     图片轮播组件
-    功能：自动播放 + 点击小圆点切换图片
+    功能：自动播放 + 点击小圆点切换图片 + 触摸滑动
   -->
-  <div class="box-container glass-card" style="padding: 0; overflow: hidden">
+  <div
+    class="box-container glass-card"
+    style="padding: 0; overflow: hidden"
+    @touchstart="onTouchStart"
+    @touchmove="onTouchMove"
+    @touchend="onTouchEnd"
+  >
     <div class="box" ref="boxRef">
       <div class="box-img" v-for="(img, index) in images" :key="index">
         <img :src="img.src" :alt="img.alt" class="photo" />
@@ -49,6 +55,33 @@ const images = [
 const boxRef = ref(null)
 const currentIndex = ref(0)
 let slideTimer = null
+
+// ===== 触摸滑动 =====
+let touchStartX = 0
+let touchEndX = 0
+
+function onTouchStart(e) {
+  touchStartX = e.changedTouches[0].screenX
+}
+
+function onTouchMove(e) {
+  touchEndX = e.changedTouches[0].screenX
+}
+
+function onTouchEnd() {
+  const diff = touchStartX - touchEndX
+  const threshold = 50 // 滑动超过 50px 才触发
+  if (Math.abs(diff) > threshold) {
+    if (diff > 0) {
+      // 左滑 → 下一张
+      currentIndex.value = (currentIndex.value + 1) % images.length
+    } else {
+      // 右滑 → 上一张
+      currentIndex.value = (currentIndex.value - 1 + images.length) % images.length
+    }
+    resetTimer()
+  }
+}
 
 // 切换到指定幻灯片
 function goToSlide(index) {
