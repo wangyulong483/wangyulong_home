@@ -1,252 +1,136 @@
 ## 需求
 
-开发"厨厨"板块——**雷电将军单角色应援页（Character Shrine）**，聚合展示雷电将军的二创作品、攻略资料、最新资讯，表达对角色的喜爱。
-
-**角色**：雷电将军（Raiden Shogun / 雷电影），《原神》稻妻统治者，雷元素长柄武器角色。
-
-**核心定位**：
-- **策展而非创作**：站长不自己创作二创，而是收集、整理、展示来自 B站、Pixiv 等平台的优秀二创作品
-- **单角色专注**：整个板块献给雷电将军
-- **三大模块**：二创画廊 + 攻略/Wiki + 资讯动态
+1. AI 对话（雷电将军）实现前后端分离
+2. FastAPI 后端统一管理 system prompt、知识库、DeepSeek API 调用
+3. 移除本地 Ollama 模式，统一使用 DeepSeek API
+4. 后端通过 Cloudflare Tunnel 部署到公网
+5. 优化项目管理：消除重复代码、统一配置、清晰分层
 
 ## 方案
 
-### 1. 用户确认的设计决策
-
-| 决策项 | 结论 |
-|--------|------|
-| Hero 区 | 放一张**官方立绘**，用户提供图片放到 `public/shrine-data/images/` |
-| 二创来源 | **B站视频** + **Pixiv 插画** + **其他平台**（Twitter/Lofter/NGA 等） |
-| 攻略方向 | **战斗攻略**（配队/圣遗物/手法）+ **角色考据**（原型/设计分析）+ **官方资料**（语音/故事/PV 合集） |
-| 动画程度 | **适度氛围**：雷晶粒子浮动背景 + 标题呼吸发光 + Tab hover 光效，不搞重特效 |
-
-### 2. 角色视觉风格分析（基于 EXA MCP 搜集）
-
-**配色体系**：
-
-| 颜色 | 色值 | 用途 |
-|------|------|------|
-| 深紫（主色） | `#6B4C9A` / `#4A2C7A` | 背景、主色调，呼应雷元素+角色发色 |
-| 雷光紫（强调色） | `#B088F9` / `#9B6DFF` | 高亮、hover 发光、闪电特效 |
-| 金色（点缀） | `#C9A96E` / `#D4AF37` | 标题装饰、重要标识，呼应角色金饰 |
-| 赤红（点缀） | `#C0392B` / `#8B1A1A` | 角色蝴蝶结、绳结的颜色，小面积使用 |
-| 暗色背景 | `#0D0D1A` / `#1A1A2E` | 深色基底，营造"一心净土"深邃感 |
-| 粉紫雷光 | `#D488EE` | 皮肤版雷电特效、柔和渐变用 |
-
-**视觉符号**：
-- ⚡ 雷纹 / 闪电纹 —— 雷元素标识
-- 🔱 三巴纹（Mitsudomoe）—— 雷电将军家纹，背景水印（CSS 实现，不用图片）
-- 🗡️ 梦想一心（太刀）—— 胸口拔刀的名场面
-- 💜 雷晶（Electro Crystals）—— 浮动粒子动画元素
-- 🌀 一心净土 —— 意识空间，深邃虚无的冥想之境
-
-**角色气质**：威严 × 冷艳 × 神性 × 孤独中的温柔
-
-### 3. 页面整体设计
-
-**氛围定位**：走进雷电将军的「一心净土」—— 深邃、神秘、永恒的冥想空间。
+### 一、架构变更
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  背景：暗色基底 #0D0D1A + CSS 浮动雷晶粒子 + 三巴纹水印 │
-│                                                      │
-│  ┌────────────────────────────────────────────┐      │
-│  │  ┌─────────┐                               │      │
-│  │  │         │  ⚡ 雷 电 将 军 ⚡              │      │
-│  │  │ 官方    │  一心净土·御建鸣神主尊大御所大人 │      │
-│  │  │ 立绘    │  "常道恢弘，鸣神永恒"            │      │
-│  │  │ (图片)  │                               │      │
-│  │  │         │  [角色简介 + 我为什么喜欢她]     │      │
-│  │  └─────────┘                               │      │
-│  │     紫色发光边框 + 标题呼吸发光动画           │      │
-│  └────────────────────────────────────────────┘      │
-│                                                      │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │  ⚡ 二创画廊  │  📜 攻略/Wiki  │  📡 资讯动态    │ │
-│  │   (雷纹下划线) │                │                │ │
-│  └──────────────────────────────────────────────────┘ │
-│                                                      │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │              Tab 内容区（玻璃拟态卡片）           │ │
-│  │  画廊：响应式网格，hover 紫色发光边框             │ │
-│  │  攻略：卡片列表，左侧金色竖线 + 分类标签          │ │
-│  │  资讯：垂直时间线，紫色发光节点 + 日期标签        │ │
-│  └──────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────┘
+当前架构（混乱）：
+  ChatTab.vue ─┬─ Ollama localhost (本地模式)
+               └─ _worker.js → DeepSeek API (公网模式)
+
+目标架构（清晰）：
+  ChatTab.vue ──► Cloudflare Tunnel ──► FastAPI ──► DeepSeek API
+       ↑                                    │
+       └── GET /shrine-data/*               ├── system_prompt (唯一来源)
+           GET /topics-data/*                ├── knowledge_base (唯一来源)
+                                             └── 日志 / 错误处理
 ```
 
-**动画规划（适度氛围）**：
+### 二、FastAPI 后端改造
 
-| 动画 | 实现方式 | 说明 |
-|------|---------|------|
-| 雷晶粒子浮动 | CSS `@keyframes` + 绝对定位 `<div>` | 3-5 个半透明紫色菱形，缓慢上下浮动，模拟"一心净土"中悬浮的雷晶 |
-| 标题呼吸发光 | CSS `text-shadow` 动画 | 标题紫色发光从 60%→100%→60% 循环，3s 周期 |
-| 三巴纹水印 | CSS 伪元素 + 低透明度 | 页面角落固定，`opacity: 0.03`，不抢眼 |
-| Tab 切换过渡 | CSS `transition` | 内容区淡入 + 雷光下划线滑动 |
-| 卡片 hover | CSS `box-shadow` + `transform` | 紫色发光边框 + 轻微上浮 |
-
-### 4. 页面路由
-
-- 新增路由 `/shrine`，name: `Shrine`，Meta title: "厨厨 · 雷电将军"
-- Sidebar 导航项：`AppIcon icon="lightning"` + "厨厨"
-
-### 5. 组件结构
-
+**目录结构**：
 ```
-frontend/src/views/Shrine.vue                  # 主页面：数据加载 + Hero + Tab + 粒子背景
-frontend/src/components/shrine/
-├── RaidenHero.vue                            # Hero：立绘+角色名+称号+金句+简介
-├── GalleryTab.vue                            # 二创画廊：B站视频 + Pixiv 图 + 其他平台链接
-├── WikiTab.vue                               # 攻略/Wiki：战斗+考据+官方资料，Markdown 展开
-├── NewsTab.vue                               # 资讯动态：垂直时间线
-└── ElectroParticles.vue                      # 雷晶粒子浮动背景（CSS only）
-frontend/public/shrine-data/
-├── index.json                                # 所有内容数据
-└── images/
-    └── avatar.png                            # 雷电将军立绘（用户提供）
+backend/
+├── main.py                    # FastAPI 入口 + CORS + 路由注册
+├── config.py                  # pydantic-settings 环境变量管理
+├── app/
+│   ├── api/
+│   │   └── chat.py            # POST /api/chat 对话接口
+│   ├── core/
+│   │   ├── deepseek_client.py # DeepSeek API 异步客户端（含重试）
+│   │   ├── knowledge.py       # 知识库检索
+│   │   └── system_prompt.py   # 系统提示词（唯一来源）
+│   └── models/
+│       └── chat.py            # Pydantic 请求/响应模型
+├── requirements.txt           # 依赖（已存在，补充）
+└── .env.example               # 环境变量模板
 ```
 
-### 6. 数据层
+**核心 API**：
+- `POST /api/chat` — 接收 `{ messages: [{role, content}] }`，注入 system prompt + 知识库，调用 DeepSeek v4 Flash，返回 `{ role: "assistant", content: "..." }`
+- `GET /api/health` — 健康检查
 
-`frontend/public/shrine-data/index.json`：
+**技术细节**：
+- httpx.AsyncClient 连接池复用
+- SSE 流式响应（可选，第一版先返回完整响应）
+- 指数退避重试（3 次，1s/2s/4s）
+- `[CHAT]` 前缀结构化日志
+- system prompt 和知识库从 `_worker.js` 迁移（删除 3 处重复）
 
-```json
-{
-  "character": {
-    "name": "雷电将军",
-    "title": "一心净土 · 御建鸣神主尊大御所大人",
-    "realName": "雷电影",
-    "element": "雷",
-    "weapon": "长柄武器",
-    "affiliation": "稻妻",
-    "quote": "常道恢弘，鸣神永恒",
-    "avatar": "/shrine-data/images/avatar.png",
-    "bio": "雷电将军，真名雷电影，稻妻的现任雷神……",
-    "whyLove": "喜欢她的威严与温柔并存……",
-    "colors": {
-      "primary": "#6B4C9A",
-      "accent": "#B088F9",
-      "gold": "#C9A96E"
-    }
-  },
-  "gallery": [
-    {
-      "id": 1,
-      "title": "作品标题",
-      "platform": "bilibili",
-      "platformLabel": "B站",
-      "url": "BVxxxxxxxxxx",
-      "author": "作者名",
-      "authorUrl": "作者主页链接",
-      "thumbnail": "",
-      "date": "2026-07-01",
-      "tags": ["手书", "MMD"]
-    },
-    {
-      "id": 2,
-      "title": "同人图标题",
-      "platform": "pixiv",
-      "platformLabel": "Pixiv",
-      "url": "https://www.pixiv.net/artworks/xxxxx",
-      "author": "画师名",
-      "authorUrl": "画师主页",
-      "thumbnail": "https://i.pximg.net/...",
-      "date": "2026-07-01",
-      "tags": ["插画", "壁纸"]
-    },
-    {
-      "id": 3,
-      "title": "作品标题",
-      "platform": "other",
-      "platformLabel": "Twitter",
-      "url": "https://x.com/...",
-      "author": "作者名",
-      "authorUrl": "",
-      "thumbnail": "",
-      "date": "2026-07-01",
-      "tags": ["cosplay"]
-    }
-  ],
-  "guides": [
-    {
-      "id": 1,
-      "title": "雷电将军配队指南",
-      "summary": "当前版本雷电将军主流配队推荐",
-      "content": "## 雷电国家队\n\n雷电将军 + 行秋 + 香菱 + 班尼特\n\n...（Markdown 正文）",
-      "source": "NGA",
-      "sourceUrl": "https://bbs.nga.cn/...",
-      "category": "战斗攻略",
-      "date": "2026-07-01"
-    },
-    {
-      "id": 2,
-      "title": "雷电将军角色考据",
-      "summary": "从日本神话解读雷电将军的设计原型",
-      "content": "## 天之御中主神与妙见菩萨\n\n...（Markdown 正文）",
-      "source": "米游社",
-      "sourceUrl": "...",
-      "category": "角色考据",
-      "date": "2026-06-15"
-    },
-    {
-      "id": 3,
-      "title": "雷电将军语音合集",
-      "summary": "全角色语音文本整理",
-      "content": "## 初次见面\n> 我是雷电将军，此身即为永恒……\n\n...（Markdown 正文）",
-      "source": "原神 Wiki",
-      "sourceUrl": "...",
-      "category": "官方资料",
-      "date": "2026-05-20"
-    }
-  ],
-  "news": [
-    {
-      "id": 1,
-      "title": "资讯标题",
-      "summary": "内容摘要",
-      "date": "2026-07-25",
-      "tag": "周边",
-      "url": "详情链接"
-    }
-  ]
+### 三、前端简化
+
+**ChatTab.vue 改动**：
+- 删除 Ollama 相关代码（`isLocal`、`model`、`models`、`fetchModels`、`sendLocal`）
+- 删除内嵌的 `systemPrompt`（迁移到后端）
+- 统一调用 `/api/chat`（配置 API base URL）
+- 模式提示改为固定文案「DeepSeek V4 Flash」
+- 保留：对话界面、欢迎语、加载动画、消息气泡 UI
+
+**_worker.js 改动**：
+- 删除 `/api/chat` 路由处理（API 请求直接穿透到后端 Tunnel）
+- 删除 SYSTEM_PROMPT 和 KNOWLEDGE 常量（~200 行）
+- 保留静态资源服务
+
+**_redirects 改动**：
+- 确认 `/api/*` 规则存在，API 请求到达 Worker 后 fall through 到 Tunnel（需要确认 Pages 配置）
+
+### 四、Cloudflare Tunnel 部署
+
+```
+┌─────────────┐     ┌──────────────┐     ┌───────────────┐
+│  Cloudflare  │────▶│  Cloudflare  │────▶│  FastAPI      │
+│  Pages       │     │  Tunnel      │     │  localhost:   │
+│  (前端)      │     │  (代理 /api) │     │  8000         │
+└─────────────┘     └──────────────┘     └───────────────┘
+       │                                        │
+       └─ 静态资源                               └─ DeepSeek API
+          shrine-data/*                             api.deepseek.com
+          topics-data/*
+```
+
+**步骤**：
+1. 安装 `cloudflared`：`winget install cloudflare.cloudflared`（Windows 上 cloudflared 需以服务形式运行）
+2. 创建 Tunnel：`cloudflared tunnel create vue-blog-api`
+3. 配置 DNS：`cloudflared tunnel route dns vue-blog-api api.wangyulong.top`
+4. 写 `~/.cloudflared/config.yml`：
+   ```yaml
+   tunnel: <TUNNEL_ID>
+   credentials-file: /root/.cloudflared/<ID>.json
+   ingress:
+     - hostname: api.wangyulong.top
+       service: http://localhost:8000
+     - service: http_status:404
+   ```
+5. 安装为系统服务：`cloudflared service install`
+6. 验证：`curl https://api.wangyulong.top/api/health`
+
+**域名**：需要确认是否有可用域名。如果没有或不想用自定义域名，可以：
+- Cloudflare Tunnel 免费提供 `*.cfargotunnel.com` 域名
+- 或使用已有的 `wangyulong.top` 子域名
+
+### 五、前端 API 地址配置
+
+在 `vite.config.js` 中配置代理（开发环境）：
+```js
+// vite.config.js
+server: {
+  proxy: {
+    '/api': 'http://localhost:8000'  // 开发时代理到本地 FastAPI
+  }
 }
 ```
 
-**攻略三种分类的视觉区分**：
+生产环境前端通过 Tunnel 域名调用后端：
+- `https://api.wangyulong.top/api/chat`
 
-| 分类 | 图标 | 左边框颜色 |
-|------|------|-----------|
-| 战斗攻略 | ⚔️ | 金色 `#C9A96E` |
-| 角色考据 | 📖 | 紫色 `#B088F9` |
-| 官方资料 | 📋 | 粉色 `#D488EE` |
+### 六、实施步骤
 
-### 7. 技术实现
+| 步骤 | 内容 | 预计改动 |
+|------|------|----------|
+| 1 | 重构 `backend/`：项目结构 + system_prompt + knowledge + chat API | `backend/` 全部文件 |
+| 2 | 简化 `ChatTab.vue`：删除 Ollama 逻辑、统一 API 调用 | `ChatTab.vue` |
+| 3 | 清理 `_worker.js`：删除 `/api/chat`、prompt、knowledge | `_worker.js` |
+| 4 | 更新 `vite.config.js`：添加开发代理 | `vite.config.js` |
+| 5 | 本地联调：前后端一起启动，验证对话功能 | - |
+| 6 | 构建验证：`npm run build` | - |
+| 7 | Cloudflare Tunnel 部署：安装 cloudflared、创建 Tunnel | - |
+| 8 | 生产环境验证 + 提交 git | - |
 
-| 需求 | 方案 | 说明 |
-|------|------|------|
-| B站视频 | `<iframe>` 嵌入 (复用 About.vue 模式) | `player.bilibili.com/player.html?bvid=...&high_quality=1&danmaku=0` |
-| B站封面 | B站 API `api.bilibili.com/x/web-interface/view?bvid=...` | 自动获取 `pic` 字段作为缩略图 |
-| Pixiv 插画 | 外链卡片（不嵌原图） | Pixiv 有跨域/防盗链限制，用缩略图卡片 + "在 Pixiv 查看"按钮 |
-| 其他平台 | 通用链接卡片 | 显示平台标签 + 标题 + 作者 + 外链按钮 |
-| Markdown 渲染 | `marked` 库 | Wiki 攻略正文用 MD 编写，前端 `<div v-html>` 渲染 |
-| 数据驱动 | `fetch('/shrine-data/index.json')` | 添加内容只需编辑 JSON |
-| SPA 兜底 | JSON 内嵌 5 条兜底数据 | 复用 HotTopics.vue 模式，检测 Content-Type 判断是否被 SPA 拦截 |
-| 粒子背景 | CSS only `<div>` + `@keyframes` | 3-5 个菱形伪雷晶，不同延迟/速度浮动 |
-
-### 8. 实施步骤
-
-1. **准备图片**：用户将雷电将军立绘放到 `frontend/public/shrine-data/images/avatar.png`
-2. **创建数据文件**：`frontend/public/shrine-data/index.json`，填入初始数据（gallery ≥ 5 条、guides ≥ 2 条、news ≥ 3 条）
-3. **安装依赖**：`npm install marked`
-4. **创建 ElectroParticles.vue**：CSS 浮动雷晶粒子背景
-5. **创建 RaidenHero.vue**：立绘+角色名+称号+金句+简介，紫色发光边框，标题呼吸发光
-6. **创建 GalleryTab.vue**：响应式网格，B站/Pixiv/其他平台卡片，hover 雷光边框
-7. **创建 WikiTab.vue**：三分类卡片+Markdown 展开，左侧金色/紫色/粉色竖线
-8. **创建 NewsTab.vue**：垂直时间线，紫色发光节点
-9. **创建 Shrine.vue**：集成所有子组件 + Tab 切换 + 数据加载 + SPA 兜底
-10. **配置路由**：router 添加 `/shrine`
-11. **更新导航**：Sidebar 添加"厨厨⚡"
-12. **构建验证**：`npm run build`
-13. **Git 提交**："feat: 新增厨厨板块 — 雷电将军角色应援页"
-
-=====================================================================
+===============================================================
