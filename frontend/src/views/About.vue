@@ -1,12 +1,8 @@
 <template>
-  <!--
-    关于页面
-    液态玻璃头部 + B站视频展示（缩略图网格 + 弹窗播放）
-    视频托管：B站（Bilibili），免费、国内高速访问
-  -->
+  <!-- 关于页面 — 项目视频展示 -->
   <div class="about-page">
-    <!-- 头部 — 液态玻璃 -->
-    <div class="header liquid-glass">
+    <!-- 头部 -->
+    <div class="header">
       <h1>关于我</h1>
       <p class="subtitle">这里记录了我的一些项目和学习历程</p>
     </div>
@@ -14,7 +10,7 @@
     <!-- 视频画廊 -->
     <div class="video-gallery">
       <h2 class="gallery-title">
-        <AppIcon icon="camera" size="22" /> 项目视频展示
+        <AppIcon icon="camera" size="20" /> 项目视频展示
         <span class="video-count">（{{ videos.length }} 个）</span>
       </h2>
 
@@ -22,24 +18,22 @@
         <div
           v-for="(video, index) in videos"
           :key="index"
-          class="video-card glass-card"
-          :style="{ transitionDelay: index * 40 + 'ms' }"
+          class="video-card card card-interactive"
+          :style="{ transitionDelay: index * 30 + 'ms' }"
           @click="openVideo(video)"
         >
           <!-- 缩略图 -->
           <div class="video-thumb">
-            <img
-              v-if="video.thumb"
-              :src="video.thumb"
-              :alt="video.title"
-            />
+            <img v-if="video.thumb" :src="video.thumb" :alt="video.title" loading="lazy" />
             <div v-else class="thumb-placeholder">
-              <AppIcon icon="camera" size="32" />
+              <AppIcon icon="camera" size="28" />
               <span>待上传</span>
             </div>
             <!-- 播放按钮覆盖层 -->
             <div class="play-overlay">
-              <AppIcon icon="controller" size="28" />
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="rgba(255,255,255,0.9)">
+                <polygon points="8,5 19,12 8,19" />
+              </svg>
             </div>
             <!-- 时长标签 -->
             <span v-if="video.duration" class="duration-tag">{{ video.duration }}</span>
@@ -56,12 +50,11 @@
       </div>
     </div>
 
-    <!-- ===== 弹窗播放器 ===== -->
+    <!-- 弹窗播放器 -->
     <Teleport to="body">
       <div v-if="activeVideo" class="modal-overlay" @click.self="closeVideo">
-        <div class="modal-content glass-card">
-          <button class="modal-close" @click="closeVideo" aria-label="关闭">✕</button>
-
+        <div class="modal-content card">
+          <button class="modal-close" @click="closeVideo" aria-label="关闭">&#10005;</button>
           <h3 class="modal-title">{{ activeVideo.title }}</h3>
 
           <div class="player-wrapper">
@@ -69,14 +62,12 @@
               v-if="activeVideo.bvid"
               :src="`//player.bilibili.com/player.html?bvid=${activeVideo.bvid}&page=1&autoplay=1`"
               scrolling="no"
-              border="0"
               frameborder="no"
-              framespacing="0"
               allowfullscreen="true"
               class="bilibili-player"
             ></iframe>
             <div v-else class="player-empty">
-              <AppIcon icon="cloud-download" size="36" />
+              <AppIcon icon="cloud-download" size="32" />
               <p>视频正在上传中...</p>
               <p class="hint">请将视频上传至 B站 并填入 BV 号</p>
             </div>
@@ -91,159 +82,30 @@
 import { ref, onMounted } from 'vue'
 import AppIcon from '@/components/AppIcon.vue'
 
-// ============================================================
-// 视频数据 — 上传到 B站 后填入 bvid 即可
-// B站 BV 号格式：BV1xx411c7mD（在视频地址栏复制）
-// 缩略图留空则自动通过 B站 API 获取封面
-// ============================================================
-
 const videos = ref([
-  {
-    title: '人体追踪',
-    bvid: '',
-    tags: ['MediaPipe', 'AI'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: 'C51 流水灯',
-    bvid: '',
-    tags: ['嵌入式', 'C51'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '摄像头 AI Demo',
-    bvid: '',
-    tags: ['OpenCV', 'AI'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '摄像头巡线',
-    bvid: '',
-    tags: ['OpenCV', '机器人'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '颜色识别',
-    bvid: '',
-    tags: ['OpenCV', '视觉'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: 'SLAM 建图',
-    bvid: '',
-    tags: ['SLAM', 'ROS2'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '雷达数据获取',
-    bvid: '',
-    tags: ['激光雷达', 'ROS2'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '摄像头初始化',
-    bvid: '',
-    tags: ['相机', '驱动'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '原车摄像头初始化',
-    bvid: '',
-    tags: ['相机', '嵌入式'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '实验室项目 2',
-    bvid: '',
-    tags: ['ROS2', 'Nav2'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: 'MediaPipe 舵机控制',
-    bvid: '',
-    tags: ['MediaPipe', '舵机'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: 'Nav2 导航',
-    bvid: 'BV1dK3T6rEBA',
-    tags: ['ROS2', 'Nav2', '导航'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '雷达地图',
-    bvid: '',
-    tags: ['激光雷达', 'SLAM'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '远程遥控机器人',
-    bvid: '',
-    tags: ['ROS2', '遥控'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: 'Gazebo 仿真',
-    bvid: 'BV1iK3T6rEnc',
-    tags: ['Gazebo', 'ROS2', '仿真'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '舵机控制',
-    bvid: '',
-    tags: ['舵机', '嵌入式'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '巡线测试',
-    bvid: '',
-    tags: ['机器人', '巡线'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '雷达使用',
-    bvid: '',
-    tags: ['激光雷达', 'ROS2'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: 'YOLOv5 训练',
-    bvid: 'BV1h53T6KERN',
-    tags: ['YOLO', 'AI', '训练'],
-    duration: '',
-    thumb: '',
-  },
-  {
-    title: '首次机器人运行',
-    bvid: '',
-    tags: ['机器人', 'ROS2'],
-    duration: '',
-    thumb: '',
-  },
+  { title: '人体追踪', bvid: '', tags: ['MediaPipe', 'AI'], duration: '', thumb: '' },
+  { title: 'C51 流水灯', bvid: '', tags: ['嵌入式', 'C51'], duration: '', thumb: '' },
+  { title: '摄像头 AI Demo', bvid: '', tags: ['OpenCV', 'AI'], duration: '', thumb: '' },
+  { title: '摄像头巡线', bvid: '', tags: ['OpenCV', '机器人'], duration: '', thumb: '' },
+  { title: '颜色识别', bvid: '', tags: ['OpenCV', '视觉'], duration: '', thumb: '' },
+  { title: 'SLAM 建图', bvid: '', tags: ['SLAM', 'ROS2'], duration: '', thumb: '' },
+  { title: '雷达数据获取', bvid: '', tags: ['激光雷达', 'ROS2'], duration: '', thumb: '' },
+  { title: '摄像头初始化', bvid: '', tags: ['相机', '驱动'], duration: '', thumb: '' },
+  { title: '原车摄像头初始化', bvid: '', tags: ['相机', '嵌入式'], duration: '', thumb: '' },
+  { title: '实验室项目 2', bvid: '', tags: ['ROS2', 'Nav2'], duration: '', thumb: '' },
+  { title: 'MediaPipe 舵机控制', bvid: '', tags: ['MediaPipe', '舵机'], duration: '', thumb: '' },
+  { title: 'Nav2 导航', bvid: 'BV1dK3T6rEBA', tags: ['ROS2', 'Nav2', '导航'], duration: '', thumb: '' },
+  { title: '雷达地图', bvid: '', tags: ['激光雷达', 'SLAM'], duration: '', thumb: '' },
+  { title: '远程遥控机器人', bvid: '', tags: ['ROS2', '遥控'], duration: '', thumb: '' },
+  { title: 'Gazebo 仿真', bvid: 'BV1iK3T6rEnc', tags: ['Gazebo', 'ROS2', '仿真'], duration: '', thumb: '' },
+  { title: '舵机控制', bvid: '', tags: ['舵机', '嵌入式'], duration: '', thumb: '' },
+  { title: '巡线测试', bvid: '', tags: ['机器人', '巡线'], duration: '', thumb: '' },
+  { title: '雷达使用', bvid: '', tags: ['激光雷达', 'ROS2'], duration: '', thumb: '' },
+  { title: 'YOLOv5 训练', bvid: 'BV1h53T6KERN', tags: ['YOLO', 'AI', '训练'], duration: '', thumb: '' },
+  { title: '首次机器人运行', bvid: '', tags: ['机器人', 'ROS2'], duration: '', thumb: '' },
 ])
 
-// ============================================================
 // 自动获取 B站 视频封面
-// ============================================================
-
 async function fetchCovers() {
   const needFetch = videos.value.filter(v => v.bvid && !v.thumb)
   if (needFetch.length === 0) return
@@ -266,14 +128,10 @@ async function fetchCovers() {
 
 onMounted(fetchCovers)
 
-// ============================================================
 // 弹窗播放器
-// ============================================================
-
 const activeVideo = ref(null)
 
 function openVideo(video) {
-  // 阻止背景滚动
   document.body.style.overflow = 'hidden'
   activeVideo.value = video
 }
@@ -283,70 +141,66 @@ function closeVideo() {
   activeVideo.value = null
 }
 
-// ESC 关闭
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && activeVideo.value) closeVideo()
 })
 </script>
 
 <style scoped>
-/* ====== 布局 ====== */
 .about-page {
   max-width: 1100px;
   margin: 0 auto;
   padding-bottom: 40px;
 }
 
-/* ====== 头部 ====== */
+/* -------- 头部 -------- */
 .header {
   text-align: center;
-  padding: 24px 0;
-  margin-bottom: 24px;
-}
-.header h1 {
-  color: #5a4fcf;
-  font-size: 2.5rem;
-  position: relative;
-  z-index: 2;
-}
-.subtitle {
-  color: #666;
-  font-size: 1.1rem;
-  margin-top: 5px;
-  position: relative;
-  z-index: 2;
+  padding: 36px 0 24px;
 }
 
-/* ====== 画廊标题 ====== */
+.header h1 {
+  color: var(--text-primary);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--text-tertiary);
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+/* -------- 画廊标题 -------- */
 .gallery-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #5a4fcf;
+  color: var(--text-primary);
+  font-size: 1.15rem;
+  font-weight: 600;
   margin-bottom: 16px;
   padding-left: 4px;
 }
+
 .video-count {
   font-size: 0.82rem;
-  color: #999;
+  color: var(--text-tertiary);
   font-weight: 400;
 }
 
-/* ====== 缩略图网格 ====== */
+/* -------- 缩略图网格 -------- */
 .video-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
 }
 
-/* ====== 视频卡片 ====== */
 .video-card {
   padding: 0;
   overflow: hidden;
-  cursor: pointer;
-}
-.video-card:hover {
-  transform: translateY(-6px);
 }
 
 /* 缩略图容器 */
@@ -354,19 +208,21 @@ document.addEventListener('keydown', (e) => {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: #f0edff;
+  background: var(--bg-input);
 }
+
 .video-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s;
 }
+
 .video-card:hover .video-thumb img {
   transform: scale(1.06);
 }
 
-/* 无缩略图时的占位 */
+/* 无缩略图占位 */
 .thumb-placeholder {
   width: 100%;
   height: 100%;
@@ -375,29 +231,24 @@ document.addEventListener('keydown', (e) => {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: #b0a8e0;
+  color: var(--text-tertiary);
   font-size: 0.85rem;
 }
 
-/* 播放按钮覆盖层 */
+/* 播放覆盖层 */
 .play-overlay {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.35);
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 .video-card:hover .play-overlay {
   opacity: 1;
-}
-.play-overlay .app-icon {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  padding: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* 时长标签 */
@@ -407,37 +258,32 @@ document.addEventListener('keydown', (e) => {
   right: 6px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-/* 卡片下方的文本 */
+/* 卡片文本 */
 .video-info {
   padding: 12px 14px;
-  position: relative;
-  z-index: 2;
 }
+
 .video-title {
   font-weight: 600;
-  color: #333;
-  margin-bottom: 6px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
   font-size: 0.93rem;
+  line-height: 1.35;
 }
+
 .video-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-}
-.tag {
-  padding: 1px 8px;
-  border-radius: 10px;
-  font-size: 0.72rem;
-  background: rgba(90, 79, 207, 0.07);
-  color: #5a4fcf;
+  gap: 6px;
 }
 
-/* ====== 弹窗 ====== */
+/* -------- 弹窗 -------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -445,7 +291,7 @@ document.addEventListener('keydown', (e) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
   animation: fadeIn 0.25s ease;
 }
@@ -454,20 +300,20 @@ document.addEventListener('keydown', (e) => {
   position: relative;
   width: 90vw;
   max-width: 960px;
-  padding: 20px 24px 16px;
-  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 20px 24px;
+  animation: slideUp 0.3s var(--ease-spring);
 }
 
 .modal-close {
   position: absolute;
-  top: 8px;
-  right: 12px;
+  top: 12px;
+  right: 16px;
   width: 32px;
   height: 32px;
   border: none;
   border-radius: 50%;
-  background: rgba(90, 79, 207, 0.08);
-  color: #5a4fcf;
+  background: var(--bg-card);
+  color: var(--text-secondary);
   font-size: 1rem;
   cursor: pointer;
   display: flex;
@@ -476,23 +322,23 @@ document.addEventListener('keydown', (e) => {
   transition: all 0.2s;
   z-index: 2;
 }
+
 .modal-close:hover {
-  background: #5a4fcf;
+  background: var(--accent);
   color: #fff;
 }
 
 .modal-title {
-  color: #333;
-  margin: 0 0 14px 0;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
   padding-right: 36px;
   font-size: 1.1rem;
 }
 
-/* 播放器容器 */
 .player-wrapper {
   position: relative;
   aspect-ratio: 16 / 9;
-  border-radius: 8px;
+  border-radius: var(--radius);
   overflow: hidden;
   background: #000;
 }
@@ -510,68 +356,56 @@ document.addEventListener('keydown', (e) => {
   justify-content: center;
   gap: 10px;
   height: 100%;
-  color: #999;
+  color: var(--text-tertiary);
 }
+
 .player-empty .hint {
   font-size: 0.85rem;
-  color: #aaa;
+  color: var(--text-tertiary);
 }
 
 /* ====== 动画 ====== */
 @keyframes fadeIn {
-  from { opacity: 0 }
-  to   { opacity: 1 }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
+
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px) scale(0.97) }
-  to   { opacity: 1; transform: translateY(0) scale(1) }
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
-  .about-page {
-    padding: 0 8px 30px;
-  }
+  .about-page { padding: 0 8px 30px; }
+  .header { padding: 24px 0; }
+  .header h1 { font-size: 1.6rem; }
+  .subtitle { font-size: 0.9rem; }
+  .gallery-title { font-size: 1.05rem; }
+  .video-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
 
-  .header { padding: 16px 0 }
-  .header h1 { font-size: 1.8rem }
-  .subtitle { font-size: 0.95rem }
-  .gallery-title { font-size: 1.1rem }
-  .video-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px }
-
-  /* 弹窗在移动端全屏 */
-  .modal-overlay {
-    align-items: flex-end;
-  }
-
+  .modal-overlay { align-items: flex-end; }
   .modal-content {
     width: 100vw;
     max-width: 100vw;
-    border-radius: 16px 16px 0 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     padding: 14px 16px 12px;
     padding-bottom: calc(12px + env(safe-area-inset-bottom));
-    animation: slideUpMobile 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: slideUpMobile 0.3s var(--ease-spring);
   }
 
   @keyframes slideUpMobile {
-    from { opacity: 0; transform: translateY(100%); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .modal-close {
-    top: 12px; right: 16px;
-    width: 36px; height: 36px;
-    font-size: 1.1rem;
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
   }
 }
 
 @media (max-width: 480px) {
-  .header h1 { font-size: 1.4rem }
-  .subtitle { font-size: 0.85rem }
-  .video-grid { grid-template-columns: 1fr; gap: 12px }
-  .video-title { font-size: 0.85rem }
-  .video-info { padding: 10px 12px }
-
-  .modal-title { font-size: 1rem; padding-right: 32px }
+  .header h1 { font-size: 1.4rem; }
+  .subtitle { font-size: 0.85rem; }
+  .video-grid { grid-template-columns: 1fr; gap: 12px; }
+  .video-title { font-size: 0.85rem; }
+  .video-info { padding: 10px 12px; }
+  .modal-title { font-size: 1rem; padding-right: 32px; }
 }
 </style>

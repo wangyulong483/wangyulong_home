@@ -18,8 +18,9 @@
       poster="/video/hero-poster.webp"
     ></video>
 
-    <!-- ====== hero 文字（正常流，随滚动离去） ====== -->
+    <!-- ====== hero 文字（在视频上方，随滚动离去） ====== -->
     <section class="hero-screen">
+      <div class="hero-overlay"></div>
       <div class="hero-text">
         <p class="hero-saying">
           谁终将声震人间，必长久深自缄默<br />
@@ -94,7 +95,6 @@ function onVisibility() {
 
 onMounted(() => {
   heroProgress.value = 0
-  document.body.style.background = 'transparent'
   window.addEventListener('scroll', onScroll, { passive: true })
 
   if (!shouldPlay()) { videoRef.value?.remove(); return }
@@ -103,7 +103,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   heroProgress.value = 0
-  document.body.style.background = ''
   document.body.style.paddingRight = ''
   window.removeEventListener('scroll', onScroll)
   document.removeEventListener('visibilitychange', onVisibility)
@@ -111,19 +110,18 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ====== 视频 — 固定全屏，z-index:10 最顶层 ====== */
+/* ====== 视频 — 固定全屏最高层 ====== */
 .hero-video {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  z-index: 10;
+  z-index: 100;
   display: block;
-  will-change: transform, opacity, filter;
 }
 
-/* ====== 第一屏：hero 文字（100vh，透明，z-index:1 在视频下方） ====== */
+/* ====== 第一屏：hero 文字（100vh，在视频上方） ====== */
 .hero-screen {
   height: 100vh;
   display: flex;
@@ -131,10 +129,24 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 1;
+  z-index: 101;
 }
 
-.hero-text { text-align: center; padding: 20px; }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(10, 10, 15, 0.4) 0%,
+      rgba(10, 10, 15, 0.15) 35%,
+      rgba(10, 10, 15, 0.25) 60%,
+      rgba(10, 10, 15, 0.75) 85%,
+      rgba(10, 10, 15, 0.95) 100%
+    );
+  z-index: 0;
+}
+
+.hero-text { position: relative; z-index: 1; text-align: center; padding: 20px; }
 
 .hero-saying {
   color: rgba(255, 255, 255, 0.9);
@@ -161,7 +173,7 @@ onUnmounted(() => {
   transform: translateX(-50%);
   color: rgba(255, 255, 255, 0.4);
   animation: bounce 2s ease-in-out infinite;
-  z-index: 1;
+  z-index: 2;
 }
 
 @keyframes bounce {

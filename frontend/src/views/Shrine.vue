@@ -336,18 +336,20 @@ onMounted(() => {
 .retry-btn {
   margin-top: 16px;
   padding: 8px 24px;
-  border-radius: 16px;
-  border: 1px solid rgba(176, 136, 249, 0.3);
-  background: rgba(176, 136, 249, 0.1);
-  color: #B088F9;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.3s;
+  font-family: inherit;
 }
 
 .retry-btn:hover {
-  background: rgba(176, 136, 249, 0.2);
-  border-color: rgba(176, 136, 249, 0.5);
+  border-color: var(--border-hover);
+  color: var(--accent);
+  background: var(--bg-card-hover);
 }
 
 /* ====== Tab 导航 ====== */
@@ -357,7 +359,7 @@ onMounted(() => {
   display: flex;
   gap: 4px;
   margin-bottom: 28px;
-  border-bottom: 1px solid rgba(176, 136, 249, 0.1);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 0;
 }
 
@@ -369,22 +371,23 @@ onMounted(() => {
   padding: 12px 22px;
   border: none;
   background: transparent;
-  color: rgba(180, 170, 210, 0.5);
+  color: var(--text-tertiary);
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s;
   border-radius: 10px 10px 0 0;
+  font-family: inherit;
 }
 
 .tab-btn:hover {
-  color: rgba(200, 190, 230, 0.8);
-  background: rgba(176, 136, 249, 0.04);
+  color: var(--text-primary);
+  background: var(--accent-muted);
 }
 
 .tab-btn.active {
   color: #B088F9;
   font-weight: 600;
-  background: rgba(176, 136, 249, 0.06);
+  background: rgba(108, 92, 231, 0.08);
 }
 
 /* 雷光下划线 */
@@ -397,7 +400,7 @@ onMounted(() => {
   height: 2.5px;
   background: linear-gradient(90deg, transparent, #B088F9, transparent);
   border-radius: 2px;
-  transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: width 0.35s var(--ease-out);
 }
 
 .tab-btn.active .tab-underline {
