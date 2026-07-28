@@ -1,8 +1,8 @@
 <template>
-  <!-- 首页 — PPT 翻页式整屏滑动 -->
-  <div class="home-page">
-    <!-- ====== 第一屏：全屏视频 Hero ====== -->
-    <section class="hero" :style="{ opacity: videoOpacity }">
+  <!-- 首页 — 两个独立全屏页，翻页切换 -->
+  <div class="home-root">
+    <!-- ====== 第一页：全屏视频 ====== -->
+    <section class="slide slide-1">
       <video
         ref="videoRef"
         class="hero-video"
@@ -30,8 +30,8 @@
       </div>
     </section>
 
-    <!-- ====== 第二屏：首页内容 ====== -->
-    <section class="home-content" :style="{ opacity: contentOpacity }">
+    <!-- ====== 第二页：内容 ====== -->
+    <section class="slide slide-2">
       <div class="content-card card">
         <h3>关于 MY_WEBSITE</h3>
         <ul>
@@ -58,36 +58,13 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { heroScroll, heroVisible, videoOpacity, sidebarOpacity, contentOpacity } from '@/composables/useHeroScroll.js'
+import { heroVisible } from '@/composables/useHeroScroll.js'
 
 const videoRef = ref(null)
 
-// clamp 工具函数
-function clamp(v, min, max) {
-  return Math.max(min, Math.min(max, v))
-}
-
-let ticking = false
-function onScroll() {
-  if (ticking) return
-  ticking = true
-  requestAnimationFrame(() => {
-    const h = window.innerHeight
-    // 滚动进度：0 = 顶部, 1 = hero 完全滚过
-    heroScroll.value = clamp(window.scrollY / h, 0, 1)
-    heroVisible.value = heroScroll.value < 1
-
-    // 视频：随滚动线性淡出，1.3x 加速确保滚到 77% 时完全透明
-    videoOpacity.value = clamp(1 - heroScroll.value * 1.3, 0, 1)
-
-    // 侧边栏：视频淡化到 20% 后开始出现
-    sidebarOpacity.value = clamp((heroScroll.value - 0.2) / 0.6, 0, 1)
-
-    // 内容卡片：视频淡化到 35% 后开始出现
-    contentOpacity.value = clamp((heroScroll.value - 0.35) / 0.55, 0, 1)
-
-    ticking = false
-  })
+function updateSlide() {
+  // 当前滚动位置超过半屏 → 第二页；否则第一页
+  heroVisible.value = window.scrollY < window.innerHeight * 0.5
 }
 
 function shouldPlay() {
@@ -106,41 +83,41 @@ function onVisibility() {
 }
 
 onMounted(() => {
-  heroScroll.value = 0
   heroVisible.value = true
-  videoOpacity.value = 1
-  sidebarOpacity.value = 0
-  contentOpacity.value = 0
-  window.addEventListener('scroll', onScroll, { passive: true })
+  // 启用整页 snap 滚动
+  document.documentElement.style.scrollSnapType = 'y mandatory'
+  window.addEventListener('scroll', updateSlide, { passive: true })
 
   if (!shouldPlay()) { videoRef.value?.remove(); return }
   document.addEventListener('visibilitychange', onVisibility)
 })
 
 onUnmounted(() => {
-  heroScroll.value = 0
   heroVisible.value = false
-  videoOpacity.value = 1
-  sidebarOpacity.value = 0
-  contentOpacity.value = 0
-  window.removeEventListener('scroll', onScroll)
+  document.documentElement.style.scrollSnapType = ''
+  window.removeEventListener('scroll', updateSlide)
   document.removeEventListener('visibilitychange', onVisibility)
 })
 </script>
 
 <style scoped>
-/* ====== 全屏 Hero — 100vh 占据整个视口 ====== */
-.hero {
-  position: relative;
-  height: 100vh;
-  min-height: 100vh;
-  overflow: hidden;
-  /* 突破父容器约束，占满全宽 */
-  margin-left: -20px;
-  margin-right: -20px;
+/* ====== 根容器：两页 200vh，撑开窗口滚动 ====== */
+.home-root {
+  /* 突破 main-content 的 padding，占满全屏 */
+  margin: -20px;
   width: calc(100% + 40px);
-  /* scroll 驱动的 opacity 由 inline style 控制 */
-  will-change: opacity;
+}
+
+/* ====== 每一页 ====== */
+.slide {
+  height: 100vh;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+/* ====== 第一页：全屏视频 ====== */
+.slide-1 {
+  position: relative;
 }
 
 .hero-video {
@@ -149,11 +126,9 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
   display: block;
 }
 
-/* 暗色渐变叠加 */
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -206,19 +181,20 @@ onUnmounted(() => {
   50%      { transform: translateX(-50%) translateY(8px); opacity: 0.7; }
 }
 
-/* ====== 内容区 ====== */
-.home-content {
-  position: relative;
-  z-index: 2;
+/* ====== 第二页：内容 ====== */
+.slide-2 {
   background: var(--bg-primary);
-  padding: 80px 0 40px;
-  /* scroll 驱动的 opacity 由 inline style 控制 */
-  will-change: opacity;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 40px 20px;
 }
 
 .content-card {
-  max-width: 700px;
-  margin: 20px auto;
+  max-width: 640px;
+  width: 100%;
 }
 
 .content-card h3 {
@@ -262,18 +238,25 @@ onUnmounted(() => {
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
-  .hero {
-    height: 100svh;
-    margin-left: -12px;
-    margin-right: -12px;
+  .home-root {
+    margin: -16px -12px;
     width: calc(100% + 24px);
+  }
+
+  .slide-1 {
+    height: 100svh;
     background: url('/video/hero-poster.webp') center / cover no-repeat, var(--bg-primary);
   }
   .hero-video { display: none; }
   .hero-saying { font-size: 1rem; line-height: 1.7; }
   .hero-author { font-size: 0.8rem; margin-top: 10px; }
-  .home-content { padding: 40px 0 24px; }
-  .content-card { margin: 14px 8px; padding: 18px 20px; }
+
+  .slide-2 {
+    height: auto;
+    min-height: 100svh;
+    padding: 40px 16px;
+  }
+  .content-card { margin: 0; padding: 18px 20px; }
   .content-card h3 { font-size: 1.05rem; }
   .platform-link { padding: 8px 16px; font-size: 0.82rem; min-height: 44px; }
 }
@@ -281,7 +264,7 @@ onUnmounted(() => {
 @media (max-width: 480px) {
   .hero-saying { font-size: 0.9rem; padding: 0 12px; }
   .scroll-hint { bottom: 16px; }
-  .content-card { padding: 14px 16px; margin: 10px 8px; }
+  .content-card { padding: 14px 16px; }
   .content-card li { font-size: 0.9rem; margin: 6px 0; }
   .platform-link { padding: 6px 14px; font-size: 0.8rem; }
 }

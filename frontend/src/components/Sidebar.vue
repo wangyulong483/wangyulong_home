@@ -9,80 +9,68 @@
     <span></span><span></span><span></span>
   </button>
 
-  <div class="right-box" :class="{ 'mobile-open': mobileOpen }" :style="rightBoxStyle">
-    <div class="sidebar">
-      <!-- 头像 -->
-      <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
-        <img src="/image/mylog.jpg" alt="头像" />
-      </router-link>
+  <Transition name="sidebar">
+    <div v-if="sidebarVisible" class="right-box" :class="{ 'mobile-open': mobileOpen }">
+      <div class="sidebar">
+        <!-- 头像 -->
+        <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
+          <img src="/image/mylog.jpg" alt="头像" />
+        </router-link>
 
-      <!-- 导航 -->
-      <nav>
-        <ul>
-          <li><router-link to="/" class="nav-link" @click="close"><AppIcon icon="compass" size="18" /> 首页</router-link></li>
-          <li><router-link to="/applist" class="nav-link" @click="close"><AppIcon icon="controller" size="18" /> 应用</router-link></li>
-          <li><router-link to="/about" class="nav-link" @click="close"><AppIcon icon="user-avatar" size="18" /> 关于</router-link></li>
-        </ul>
-      </nav>
+        <!-- 导航 -->
+        <nav>
+          <ul>
+            <li><router-link to="/" class="nav-link" @click="close"><AppIcon icon="compass" size="18" /> 首页</router-link></li>
+            <li><router-link to="/applist" class="nav-link" @click="close"><AppIcon icon="controller" size="18" /> 应用</router-link></li>
+            <li><router-link to="/about" class="nav-link" @click="close"><AppIcon icon="user-avatar" size="18" /> 关于</router-link></li>
+          </ul>
+        </nav>
 
-      <!-- 底部：主题切换 -->
-      <button class="theme-toggle" @click="toggleTheme" :aria-label="isLight ? '切换到暗色模式' : '切换到亮色模式'">
-        <!-- 太阳图标（亮色模式显示） -->
-        <svg v-if="isLight" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <!-- 月亮图标（暗色模式显示） -->
-        <svg v-else viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-        <span class="toggle-label">{{ isLight ? '亮色' : '暗色' }}</span>
-      </button>
+        <!-- 底部：主题切换 -->
+        <button class="theme-toggle" @click="toggleTheme" :aria-label="isLight ? '切换到暗色模式' : '切换到亮色模式'">
+          <svg v-if="isLight" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg v-else viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span class="toggle-label">{{ isLight ? '亮色' : '暗色' }}</span>
+        </button>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AppIcon from '@/components/AppIcon.vue'
-import { heroVisible, sidebarOpacity } from '@/composables/useHeroScroll.js'
+import { heroVisible } from '@/composables/useHeroScroll.js'
 
 const router = useRouter()
 const mobileOpen = ref(false)
 const isLight = ref(false)
 
-// 侧边栏：非首页始终可见；首页由 sidebarOpacity 驱动平滑渐显
-const isHome = computed(() => router.currentRoute.value?.name === 'Home')
+// 侧边栏可见性：
+//   首页第一页（heroVisible=true） → 隐藏
+//   首页第二页（heroVisible=false）→ 显示
+//   其他页面 → 始终显示
 const sidebarVisible = computed(() => {
-  if (!isHome.value) return true
-  // 首页：sidebarOpacity > 0 时 sidebar 参与布局
-  return sidebarOpacity.value > 0
-})
-
-// 首页：侧边栏 opacity 由 scroll 驱动平滑过渡；非首页始终 1
-const rightBoxStyle = computed(() => {
-  const opacity = isHome.value ? sidebarOpacity.value : 1
-  return {
-    opacity,
-    transform: `translateX(${(1 - opacity) * 20}px)`,
-    pointerEvents: opacity > 0.05 ? 'auto' : 'none',
-  }
+  const onHome = router.currentRoute.value?.name === 'Home'
+  return onHome ? !heroVisible.value : true
 })
 
 function toggle() { mobileOpen.value = !mobileOpen.value }
 function close() { mobileOpen.value = false }
 
-// 路由变化自动关闭移动端侧边栏
 watch(() => router.currentRoute.value, close)
 
-// ESC 关闭
 function onKey(e) { if (e.key === 'Escape') close() }
 
-// 主题切换
 function toggleTheme() {
   const html = document.documentElement
   const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light'
@@ -95,23 +83,14 @@ function syncTheme() {
   isLight.value = document.documentElement.getAttribute('data-theme') === 'light'
 }
 
-// 首页 hero 可见时移除 body 右侧留白，侧边栏出现时逐渐恢复
-// 非首页始终保留 200px 留白
+// body 右侧留白：首页第一页无留白，否则 200px
 function updateBodyPadding() {
-  if (isHome.value) {
-    // 首页：平滑跟随 sidebarOpacity
-    document.body.style.paddingRight = (sidebarOpacity.value * 200) + 'px'
-  } else {
-    // 非首页：恢复 CSS 默认值（200px）
-    document.body.style.paddingRight = ''
-  }
+  const onHome = router.currentRoute.value?.name === 'Home'
+  document.body.style.paddingRight = (onHome && heroVisible.value) ? '0' : ''
 }
 
-// 首页：跟随 sidebarOpacity 平滑过渡
-watch(sidebarOpacity, updateBodyPadding, { immediate: false })
-
-// 离开首页时恢复 body padding
-watch(isHome, updateBodyPadding)
+watch(heroVisible, updateBodyPadding, { immediate: false })
+watch(() => router.currentRoute.value?.name, updateBodyPadding)
 
 onMounted(() => {
   syncTheme()
@@ -177,7 +156,6 @@ onUnmounted(() => {
   right: 0; top: 0;
   height: 100vh;
   z-index: 99;
-  /* opacity + transform 由 inline style 驱动 */
 }
 
 /* ====== 侧边栏本体 ====== */
@@ -190,7 +168,7 @@ onUnmounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.015);
+  background: var(--bg-primary);
   border-left: 1px solid var(--border);
   transition: width 0.35s var(--ease-out);
 }
@@ -259,7 +237,6 @@ onUnmounted(() => {
   padding-left: 18px;
 }
 
-/* 激活态 — 左侧色条指示器 */
 .nav-link.router-link-active {
   color: var(--accent);
   background: var(--accent-muted);
@@ -293,6 +270,22 @@ onUnmounted(() => {
 
 .toggle-label {
   font-size: 0.72rem;
+}
+
+/* ====== sidebar 进入/离开过渡 ====== */
+.sidebar-enter-active {
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.sidebar-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.sidebar-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.sidebar-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
 }
 
 /* ====== 移动端 ====== */

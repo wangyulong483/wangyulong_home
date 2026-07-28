@@ -3,7 +3,7 @@
     App.vue — 根组件
     布局：粒子背景 + 主内容区 + 右侧边栏
   -->
-  <ParticleBackground :count="100" :opacity="0.8" :z-index="-1" />
+  <ParticleBackground v-if="showParticles" :count="100" :opacity="0.8" :z-index="-1" />
 
   <div class="app-layout">
     <main class="main-content">
@@ -19,8 +19,19 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Sidebar from '@/components/Sidebar.vue'
 import ParticleBackground from '@/components/ParticleBackground.vue'
+import { heroVisible } from '@/composables/useHeroScroll.js'
+
+const route = useRoute()
+
+// 首页第一页（全屏视频）不显示粒子背景
+const showParticles = computed(() => {
+  if (route.name === 'Home') return !heroVisible.value
+  return true
+})
 </script>
 
 <!-- ===== 全局样式 ===== -->
@@ -107,7 +118,7 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
+  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out), padding-right 0.35s ease;
 }
 
 a {
