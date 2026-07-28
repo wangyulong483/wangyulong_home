@@ -9,7 +9,7 @@ const props = defineProps({
   opacity: { type: Number, default: 0.8 },
   count: { type: Number, default: 100 },
   zIndex: { type: Number, default: -1 },
-  color: { type: String, default: '45,118,200' },
+  color: { type: String, default: '108,92,231' },
 })
 
 const canvasRef = ref(null)

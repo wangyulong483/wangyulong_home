@@ -17,7 +17,6 @@
   <div
     class="right-box js-sidebar"
     :class="{ 'mobile-open': mobileOpen, 'home-route': isHome }"
-    :style="rightBoxStyle"
   >
       <div class="sidebar">
         <!-- 头像 -->
@@ -52,17 +51,6 @@ const router = useRouter()
 const mobileOpen = ref(false)
 
 const isHome = computed(() => router.currentRoute.value?.name === 'Home')
-
-/*
-  侧边栏样式：
-  - 首页：GSAP ScrollTrigger 控制 .js-sidebar 的 opacity + translateX
-          Vue 不插手，返回空对象（style 绑定不生效）
-  - 非首页：始终完全可见，CSS transition 处理平滑切换
-*/
-const rightBoxStyle = computed(() => {
-  if (isHome.value) return {} // GSAP 接管
-  return { opacity: 1, transform: 'translateX(0)', pointerEvents: 'auto' }
-})
 
 function toggle() { mobileOpen.value = !mobileOpen.value }
 function close() { mobileOpen.value = false }
@@ -231,6 +219,13 @@ onUnmounted(() => {
 }
 
 @media (min-width: 769px) {
+  .right-box:not(.home-route) {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    pointer-events: auto !important;
+  }
+
   .right-box.home-route {
     opacity: 0;
     visibility: hidden;
@@ -258,11 +253,17 @@ onUnmounted(() => {
   .mobile-overlay { display: block; }
 
   .right-box {
-    transform: translateX(100%);
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(100%) !important;
+    pointer-events: none !important;
     transition: transform 0.3s var(--ease-out);
   }
 
-  .right-box.mobile-open { transform: translateX(0); }
+  .right-box.mobile-open {
+    transform: translateX(0) !important;
+    pointer-events: auto !important;
+  }
 
   .sidebar {
     width: min(78vw, 288px) !important;

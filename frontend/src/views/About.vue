@@ -24,10 +24,20 @@
         >
           <!-- 缩略图 -->
           <div class="video-thumb">
-            <img v-if="video.thumb" :src="video.thumb" :alt="video.title" loading="lazy" />
-            <div v-else class="thumb-placeholder">
-              <AppIcon icon="camera" size="28" />
-              <span>待上传</span>
+            <img
+              v-if="video.thumb"
+              :src="video.thumb"
+              :alt="`${video.title} 视频封面`"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+              @error="onCoverError(video)"
+            />
+            <div v-else class="thumb-placeholder" :class="{ 'is-published': video.bvid }">
+              <AppIcon :icon="video.bvid ? 'camera' : 'cloud-download'" size="28" />
+              <span v-if="!video.bvid">待上传</span>
+              <span v-else-if="video.coverState === 'failed'">视频已发布</span>
+              <span v-else>封面加载中</span>
             </div>
             <!-- 播放按钮覆盖层 -->
             <div class="play-overlay">
@@ -94,16 +104,19 @@ const videos = ref([
   { title: '原车摄像头初始化', bvid: '', tags: ['相机', '嵌入式'], duration: '', thumb: '' },
   { title: '实验室项目 2', bvid: '', tags: ['ROS2', 'Nav2'], duration: '', thumb: '' },
   { title: 'MediaPipe 舵机控制', bvid: '', tags: ['MediaPipe', '舵机'], duration: '', thumb: '' },
-  { title: 'Nav2 导航', bvid: 'BV1dK3T6rEBA', tags: ['ROS2', 'Nav2', '导航'], duration: '', thumb: '' },
+  { title: 'Nav2 导航', bvid: 'BV1dK3T6rEBA', tags: ['ROS2', 'Nav2', '导航'], duration: '', thumb: '/video-covers/nav2.jpg' },
   { title: '雷达地图', bvid: '', tags: ['激光雷达', 'SLAM'], duration: '', thumb: '' },
   { title: '远程遥控机器人', bvid: '', tags: ['ROS2', '遥控'], duration: '', thumb: '' },
-  { title: 'Gazebo 仿真', bvid: 'BV1iK3T6rEnc', tags: ['Gazebo', 'ROS2', '仿真'], duration: '', thumb: '' },
+  { title: 'Gazebo 仿真', bvid: 'BV1iK3T6rEnc', tags: ['Gazebo', 'ROS2', '仿真'], duration: '', thumb: '/video-covers/gazebo.jpg' },
   { title: '舵机控制', bvid: '', tags: ['舵机', '嵌入式'], duration: '', thumb: '' },
   { title: '巡线测试', bvid: '', tags: ['机器人', '巡线'], duration: '', thumb: '' },
   { title: '雷达使用', bvid: '', tags: ['激光雷达', 'ROS2'], duration: '', thumb: '' },
-  { title: 'YOLOv5 训练', bvid: 'BV1h53T6KERN', tags: ['YOLO', 'AI', '训练'], duration: '', thumb: '' },
+  { title: 'YOLOv5 训练', bvid: 'BV1h53T6KERN', tags: ['YOLO', 'AI', '训练'], duration: '', thumb: '/video-covers/yolov5.jpg' },
   { title: '首次机器人运行', bvid: '', tags: ['机器人', 'ROS2'], duration: '', thumb: '' },
-])
+].map(video => ({
+  ...video,
+  coverState: video.thumb ? 'ready' : video.bvid ? 'loading' : 'missing',
+})))
 
 // 自动获取 B站 视频封面
 async function fetchCovers() {
@@ -111,19 +124,30 @@ async function fetchCovers() {
   if (needFetch.length === 0) return
 
   const results = await Promise.allSettled(
-    needFetch.map(v =>
-      fetch(`https://api.bilibili.com/x/web-interface/view?bvid=${v.bvid}`)
-        .then(r => r.json())
-        .then(d => ({ bvid: v.bvid, pic: (d?.data?.pic || '').replace('http://', 'https://') }))
-    )
+    needFetch.map(async (video) => {
+      const response = await fetch(`https://api.bilibili.com/x/web-interface/view?bvid=${video.bvid}`)
+      if (!response.ok) throw new Error(`Bilibili API ${response.status}`)
+
+      const data = await response.json()
+      const pic = (data?.data?.pic || '').replace('http://', 'https://')
+      if (!pic) throw new Error('Bilibili cover is unavailable')
+      return { video, pic }
+    })
   )
 
-  for (const r of results) {
-    if (r.status === 'fulfilled' && r.value.pic) {
-      const v = videos.value.find(v => v.bvid === r.value.bvid)
-      if (v) v.thumb = r.value.pic
+  results.forEach((result, index) => {
+    if (result.status === 'fulfilled') {
+      result.value.video.thumb = result.value.pic
+      result.value.video.coverState = 'ready'
+    } else {
+      needFetch[index].coverState = 'failed'
     }
-  }
+  })
+}
+
+function onCoverError(video) {
+  video.thumb = ''
+  video.coverState = 'failed'
 }
 
 onMounted(fetchCovers)
@@ -211,14 +235,14 @@ document.addEventListener('keydown', (e) => {
   background: var(--bg-input);
 }
 
-.video-thumb img {
+.video-thumb > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s;
 }
 
-.video-card:hover .video-thumb img {
+.video-card:hover .video-thumb > img {
   transform: scale(1.06);
 }
 
@@ -233,6 +257,11 @@ document.addEventListener('keydown', (e) => {
   gap: 8px;
   color: var(--text-tertiary);
   font-size: 0.85rem;
+}
+
+.thumb-placeholder.is-published {
+  color: var(--accent);
+  background: rgba(108, 92, 231, 0.06);
 }
 
 /* 播放覆盖层 */
