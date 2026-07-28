@@ -1,70 +1,64 @@
 <template>
   <!--
     首页
-    视频固定全屏背景 → 内容从下方滚动上来覆盖视频
-    参考：Apple 产品页 / Kindness.org scrollytelling
+    视频 position:fixed z-index:-1 全屏背景
+    内容从下方滚动，实体背景覆盖视频
+    参考：CSS-Tricks "One Viewport Header, Content Scrolls Over Header"
   -->
   <div class="home-page">
-    <!-- ====== 固定视频背景（始终在底层） ====== -->
-    <div class="video-bg">
-      <video
-        ref="videoRef"
-        class="video-bg__media"
-        src="/video/试试_6.mp4"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster="/video/hero-poster.webp"
-      ></video>
-    </div>
+    <!-- ====== 固定视频背景（z-index: -1，body 透明时透出） ====== -->
+    <video
+      ref="videoRef"
+      class="video-bg"
+      src="/video/试试_6.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="/video/hero-poster.webp"
+    ></video>
 
-    <!-- ====== 滚动内容层（覆盖在视频上方） ====== -->
-    <div class="scroll-layer">
+    <!-- ====== 第一屏：hero 文字（100vh，背景透明） ====== -->
+    <section class="hero-screen">
+      <div class="hero-overlay">
+        <p class="hero-saying">
+          谁终将声震人间，必长久深自缄默<br />
+          谁终将点燃闪电，必长久如云漂泊
+        </p>
+        <p class="hero-author">—— 尼采</p>
 
-      <!-- 第一屏：透视区 — 视频透出 -->
-      <section class="hero-screen">
-        <div class="hero-overlay">
-          <p class="hero-saying">
-            谁终将声震人间，必长久深自缄默<br />
-            谁终将点燃闪电，必长久如云漂泊
-          </p>
-          <p class="hero-author">—— 尼采</p>
-
-          <div class="scroll-hint">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-          </div>
+        <div class="scroll-hint">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- 第二屏：内容区 — 实体背景覆盖视频 -->
-      <section class="content-screen">
-        <div class="content-card card">
-          <h3>关于 MY_WEBSITE</h3>
-          <ul>
-            <li>它记录我的学习，它见证我的成长</li>
-            <li>它记录现在的我的无知与浅薄，让未来的我嘲笑自己的狂妄</li>
-            <li>也许未来它会用到别的地方</li>
-            <li>......</li>
-          </ul>
-        </div>
+    <!-- ====== 第二屏：内容区（实体背景覆盖视频） ====== -->
+    <section class="content-screen">
+      <div class="content-card card">
+        <h3>关于 MY_WEBSITE</h3>
+        <ul>
+          <li>它记录我的学习，它见证我的成长</li>
+          <li>它记录现在的我的无知与浅薄，让未来的我嘲笑自己的狂妄</li>
+          <li>也许未来它会用到别的地方</li>
+          <li>......</li>
+        </ul>
+      </div>
 
-        <div class="content-card card">
-          <h3>学习平台</h3>
-          <ul class="platform-list">
-            <li><a href="https://www.bilibili.com/" target="_blank" class="platform-link" rel="noopener">哔哩哔哩</a></li>
-            <li><a href="https://www.csdn.net/" target="_blank" class="platform-link" rel="noopener">CSDN</a></li>
-            <li><a href="https://www.runoob.com/" target="_blank" class="platform-link" rel="noopener">菜鸟教程</a></li>
-            <li><a href="https://fishros.org.cn/" target="_blank" class="platform-link" rel="noopener">鱼香 ROS</a></li>
-            <li><a href="https://forum.d-robotics.cc/" target="_blank" class="platform-link" rel="noopener">地瓜机器人社区</a></li>
-          </ul>
-        </div>
-      </section>
-
-    </div>
+      <div class="content-card card">
+        <h3>学习平台</h3>
+        <ul class="platform-list">
+          <li><a href="https://www.bilibili.com/" target="_blank" class="platform-link" rel="noopener">哔哩哔哩</a></li>
+          <li><a href="https://www.csdn.net/" target="_blank" class="platform-link" rel="noopener">CSDN</a></li>
+          <li><a href="https://www.runoob.com/" target="_blank" class="platform-link" rel="noopener">菜鸟教程</a></li>
+          <li><a href="https://fishros.org.cn/" target="_blank" class="platform-link" rel="noopener">鱼香 ROS</a></li>
+          <li><a href="https://forum.d-robotics.cc/" target="_blank" class="platform-link" rel="noopener">地瓜机器人社区</a></li>
+        </ul>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -73,14 +67,13 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { heroVisible } from '@/composables/useHeroScroll.js'
 
 const videoRef = ref(null)
+let bodyBg = ''
 
 // 内容区顶部进入视口 → heroVisible = false → 侧边栏出现
 function onScroll() {
-  const contentEl = document.querySelector('.content-screen')
-  if (!contentEl) return
-  const rect = contentEl.getBoundingClientRect()
-  // 内容区顶部触及视口顶部 → 切换到第二页
-  heroVisible.value = rect.top > 80
+  const el = document.querySelector('.content-screen')
+  if (!el) return
+  heroVisible.value = el.getBoundingClientRect().top > 80
 }
 
 function shouldPlay() {
@@ -100,6 +93,9 @@ function onVisibility() {
 
 onMounted(() => {
   heroVisible.value = true
+  // 首页 body 背景透明，让 video 透出
+  bodyBg = document.body.style.background || ''
+  document.body.style.background = 'transparent'
   window.addEventListener('scroll', onScroll, { passive: true })
 
   if (!shouldPlay()) { videoRef.value?.remove(); return }
@@ -108,6 +104,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   heroVisible.value = false
+  document.body.style.background = bodyBg
   window.removeEventListener('scroll', onScroll)
   document.removeEventListener('visibilitychange', onVisibility)
 })
@@ -118,30 +115,20 @@ onUnmounted(() => {
 .video-bg {
   position: fixed;
   inset: 0;
-  z-index: 0;
-}
-
-.video-bg__media {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
+  z-index: -1;
   display: block;
 }
 
-/* ====== 滚动内容层 ====== */
-.scroll-layer {
-  position: relative;
-  z-index: 1;
-  /* 需要足够高度撑开滚动 */
-}
-
-/* ====== 第一屏：透视区（100vh） ====== */
+/* ====== 第一屏：hero 透视区（100vh，透明） ====== */
 .hero-screen {
   height: 100vh;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .hero-overlay {

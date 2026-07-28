@@ -163,7 +163,7 @@ onUnmounted(() => {
   color: var(--text-primary);
   padding: 10px;
   height: 100%;
-  width: 180px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -173,7 +173,7 @@ onUnmounted(() => {
   transition: width 0.35s var(--ease-out);
 }
 
-.sidebar:hover { width: 210px; }
+.sidebar:hover { width: 220px; }
 
 /* ====== 头像 ====== */
 .sidebar-avatar {
