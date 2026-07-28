@@ -109,6 +109,10 @@ const particlesVisible = computed(() => {
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden; /* 防止 video + padding 产生横向滚动条 */
+}
+
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -118,7 +122,13 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out), padding-right 0.35s ease;
+  overflow-x: hidden;
+  /*
+    首页 padding-right 由 GSAP ScrollTrigger 动画驱动（0→200px）
+    不设 padding-right transition，避免与 GSAP 的 60fps 更新冲突
+    主题切换的 background/color transition 保留
+  */
+  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
 }
 
 a {

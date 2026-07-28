@@ -9,7 +9,7 @@
     <span></span><span></span><span></span>
   </button>
 
-  <div class="right-box" :class="{ 'mobile-open': mobileOpen }" :style="rightBoxStyle">
+  <div class="right-box js-sidebar" :class="{ 'mobile-open': mobileOpen }" :style="rightBoxStyle">
       <div class="sidebar">
         <!-- 头像 -->
         <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
@@ -47,7 +47,6 @@
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AppIcon from '@/components/AppIcon.vue'
-import { sidebarStyle, bodyPaddingPx, heroProgress } from '@/composables/useHeroScroll.js'
 
 const router = useRouter()
 const mobileOpen = ref(false)
@@ -55,10 +54,15 @@ const isLight = ref(false)
 
 const isHome = computed(() => router.currentRoute.value?.name === 'Home')
 
-// 侧边栏样式：首页由 scroll 驱动，非首页始终完全可见
+/*
+  侧边栏样式：
+  - 首页：GSAP ScrollTrigger 控制 .js-sidebar 的 opacity + translateX
+          Vue 不插手，返回空对象（style 绑定不生效）
+  - 非首页：始终完全可见，CSS transition 处理平滑切换
+*/
 const rightBoxStyle = computed(() => {
-  if (!isHome.value) return { opacity: 1, transform: 'translateX(0)', pointerEvents: 'auto' }
-  return sidebarStyle.value
+  if (isHome.value) return {} // GSAP 接管
+  return { opacity: 1, transform: 'translateX(0)', pointerEvents: 'auto' }
 })
 
 function toggle() { mobileOpen.value = !mobileOpen.value }
@@ -80,26 +84,12 @@ function syncTheme() {
   isLight.value = document.documentElement.getAttribute('data-theme') === 'light'
 }
 
-// body 右侧留白：首页由 heroProgress 驱动平滑过渡，非首页 200px
-function updateBodyPadding() {
-  if (isHome.value) {
-    document.body.style.paddingRight = bodyPaddingPx.value + 'px'
-  } else {
-    document.body.style.paddingRight = ''
-  }
-}
-
-watch(bodyPaddingPx, () => { if (isHome.value) updateBodyPadding() })
-watch(isHome, updateBodyPadding)
-
 onMounted(() => {
   syncTheme()
   document.addEventListener('keydown', onKey)
-  updateBodyPadding()
 })
 
 onUnmounted(() => {
-  document.body.style.paddingRight = ''
   document.removeEventListener('keydown', onKey)
 })
 </script>

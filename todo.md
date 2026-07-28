@@ -345,3 +345,262 @@ contentOpacity  = clamp(0, (heroScroll - 0.35) / 0.55, 1)
 - 移动端始终保持 `padding-right: 0`
 
 ===============================================================
+
+## 需求
+
+首页沉浸式滚动效果重构：修正 DOM 架构层面的根本问题，实现 Apple 产品页级别的两阶段滚动叙事。
+
+### 当前实现的核心问题（DOM 架构错误）
+
+```
+现有结构：
+  Video (fixed z-100)
+  Hero Text (z-101)
+  Content Cards (z-1, 正常流)
+  
+问题：视频和内容在 z 轴上简单堆叠，滚动时就像"视频背景 + 普通页面往下滚"
+```
+
+这不是调 CSS 能解决的问题。需要**推翻重建动画架构**。
+
+### 目标体验
+
+参考 Apple MacBook Pro / Vision Pro 产品页：
+
+```
+Stage 1 (首屏):     全屏视频独占，无导航、无侧边栏
+Stage 2 (过渡区):   200-300vh 的滚动空间，视频退出 + 内容登场
+Stage 3 (正常页):   完整首页，导航/内容/侧边栏全部就位
+```
+
+## 方案
+
+### 研究总结：我们学到的 5 个关键教训
+
+从 Apple、Stripe、Linear、Vercel、Zentry 的实际分析中提炼：
+
+| # | 教训 | 来源 | 在我们的项目中如何应用 |
+|---|------|------|----------------------|
+| 1 | **Hold Phase** — 动画不是一路 fade 到底，而是 entry→hold→exit 三段式 | Apple 产品页 | 视频前 15% 的 scroll 保持不变（让用户看清），之后才开始退出 |
+| 2 | **Staggered Reveal** — 每个元素有独立的时间窗口，错峰出现 | Stripe 首页 | 标题→描述→卡片→侧边栏，间隔 10-15% progress |
+| 3 | **Scroll Room** — 用 300-500vh 的 spacer 制造滚动距离 | Apple/Zentry | 过渡区高度设为 250vh，而不是 100vh |
+| 4 | **z-index 舞台模型** — 不是"视频背景+内容"，而是"视频舞台 → 幕布拉开 → 内容登场" | 所有参考站 | VideoLayer (fixed z-100) → TransitionSpacer → MainStage (z-1) |
+| 5 | **ScrollTrigger scrub** — 动画精确绑定到滚动位置，可双向播放 | Awwwards 获奖站 | 使用 GSAP ScrollTrigger + scrub:true |
+
+### 新 DOM 架构
+
+```
+Home.vue
+│
+├── <div class="hero-stage">          ← fixed, z-index: 100, 覆盖全屏
+│   ├── <video class="hero-video">    ← 全屏视频
+│   ├── <div class="hero-overlay">    ← 渐变遮罩
+│   └── <div class="hero-text">       ← 尼采名言 + 滚动提示
+│
+├── <div class="transition-spacer">   ← height: 250vh, 不可见
+│                                         作用是制造滚动距离
+│
+├── <div class="main-stage">          ← position: relative, z-index: 1
+│   ├── <div class="content-card">    ← 关于 MY_WEBSITE
+│   ├── <div class="content-card">    ← 学习平台
+│   └── ...
+│
+└── (Sidebar 在 App.vue 中，fixed z-99)
+```
+
+**关键区别**：
+- 旧架构：video (z-100) + content (z-1) 直接堆叠，滚动就露出下面的 content
+- 新架构：hero-stage 和 main-stage 之间有一个 **250vh 的 spacer**，视频在 spacer 滚动期间慢慢退出，内容在 spacer 后半段慢慢出现
+
+### GSAP ScrollTrigger 动画时间线
+
+```
+scrollProgress:  0 (过渡区顶部) → 1 (过渡区底部，scrollY=250vh)
+
+═══════════════════════════════════════════════════════════
+阶段 1: HOLD (progress 0.00 → 0.12)
+═══════════════════════════════════════════════════════════
+  视频:   opacity 1, scale 1, blur 0
+  内容:   全部隐藏
+  侧边栏: 全部隐藏
+  body:   padding-right 0
+  
+  视觉效果：视频保持完整显示，让用户沉浸 3-5 秒的滚动距离
+
+═══════════════════════════════════════════════════════════
+阶段 2: VIDEO EXIT (progress 0.12 → 0.48)
+═══════════════════════════════════════════════════════════
+  视频:   opacity 1 → 0
+          scale 1 → 1.12 (镜头拉远感)
+          blur 0 → 8px
+          brightness 1 → 0.4 (变暗，电影转场感)
+  
+  hero文字: opacity 1 → 0, translateY 0 → -30px (先于视频离去)
+
+═══════════════════════════════════════════════════════════
+阶段 3: CONTENT ENTRANCE (progress 0.35 → 0.80)
+═══════════════════════════════════════════════════════════
+  用 stagger 错峰出现:
+  
+  0.35→0.55:  第一个卡片 (关于MY_WEBSITE)
+              opacity 0→1, translateY 60px→0
+  
+  0.48→0.68:  第二个卡片 (学习平台)  
+              opacity 0→1, translateY 60px→0
+  
+  0.40→0.65:  侧边栏
+              opacity 0→1, translateX 80px→0
+              body padding-right 0→200px
+
+═══════════════════════════════════════════════════════════
+阶段 4: COMPLETE (progress 0.80 → 1.00)
+═══════════════════════════════════════════════════════════
+  所有元素就位，video pointer-events: none
+  用户继续正常滚动浏览
+```
+
+### 动画曲线
+
+不使用线性插值，使用以下 easing：
+
+```js
+// 视频退出：ease-in-out，先慢后快再慢
+const videoEase = 'power2.inOut'
+
+// 内容进入：ease-out，快速出现然后减速到达终点
+const contentEase = 'power3.out'
+
+// 侧边栏：ease-out expo，丝滑滑入
+const sidebarEase = 'expo.out'
+```
+
+### 解决横向滚动条问题
+
+当前 `body { padding-right: 200px }` + `video { width: 100vw }` 导致 100vw 不包含 padding，产生横向溢出。
+
+修复方案：
+```css
+body {
+  padding-right: 0;           /* 初始无 padding */
+  overflow-x: hidden;          /* 防止横向溢出 */
+}
+.hero-video {
+  width: 100%;                /* 不用 100vw */
+  left: 0; right: 0;          /* 跟随 body padding 自适应 */
+}
+/* padding-right 在动画后期才过渡到 200px */
+```
+
+### 技术选型：GSAP ScrollTrigger
+
+引入 GSAP 的理由（基于研究结论）：
+
+| 需求 | 纯 Vue/rAF 方案 | GSAP ScrollTrigger |
+|------|----------------|-------------------|
+| 视频 scrub 到滚动 | 手动 map scrollY → 属性 | `scrub: true` 一行搞定 |
+| Hold phase | 手动分段 if/else | `timeline` 自然支持 |
+| Stagger 错峰 | 手动写多个 computed | `stagger` 属性 |
+| 双向滚动回放 | 计算式天然支持 | 内置支持 |
+| pin 固定元素 | 手动切换 position | `pin: true` |
+| 性能 | 需要自己调优 | GSAP 已优化 10+ 年 |
+
+包大小：GSAP + ScrollTrigger ≈ 30KB gzipped，对首页加载影响可接受。
+
+### 组件改动清单
+
+| 文件 | 改动类型 | 内容 |
+|------|---------|------|
+| `frontend/package.json` | 新增依赖 | `npm install gsap` |
+| `frontend/src/views/Home.vue` | **重写** | 新 DOM 结构（hero-stage + spacer + main-stage），GSAP ScrollTrigger 动画 |
+| `frontend/src/composables/useHeroScroll.js` | **重写** | 简化为 GSAP 动画状态管理，废弃旧的 computed 驱动方式 |
+| `frontend/src/components/Sidebar.vue` | 修改 | 使用 GSAP 动画替代 inline style 绑定，侧边栏从右侧滑入 |
+| `frontend/src/App.vue` | 修改 | body padding-right 过渡由 GSAP 驱动，移除旧的 CSS transition |
+
+### 实施步骤
+
+| 步骤 | 内容 | 涉及文件 |
+|------|------|---------|
+| 1 | 安装 GSAP | `frontend/package.json` |
+| 2 | 重写 `useHeroScroll.js` — GSAP timeline + ScrollTrigger | `composables/useHeroScroll.js` |
+| 3 | 重写 `Home.vue` — 新 DOM 架构 | `views/Home.vue` |
+| 4 | 修改 `Sidebar.vue` — GSAP 驱动的入场动画 | `components/Sidebar.vue` |
+| 5 | 修改 `App.vue` — body padding + overflow-x 修复 | `App.vue` |
+| 6 | 移动端适配 — ≤768px 降级为静态图 | `Home.vue` |
+| 7 | `npm run build` 构建验证 | 全项目 |
+
+===============================================================
+
+## 需求
+
+彻底重做首页过渡：参考 nanfu.global 的环形开合转场，实现"全屏视频舞台 → 圆形虹膜关闭 → 首页内容绽放"的滚动叙事。
+
+### 新交互流程
+
+```
+初始状态（scroll=0）              转场中（scroll 0→200vh）        最终状态（scroll≥200vh）
+┌────────────────────┐           ┌────────────────────┐        ┌──────┬──────────────┐
+│ Video Fullscreen   │           │ ╭─clip-path缩小─╮  │        │Video │ 名言          │
+│                    │     →     │ │ Video          │  │   →   │      │ 关于MY_WEBSITE│
+│ 名言（左侧，不挡人）│           │ ╰────────────────╯  │        │      │ 学习平台      │
+│                    │           │  内容从中心绽放     │        └──────┴──────┬───────┘
+└────────────────────┘           └────────────────────┘                     │Sidebar│
+                                                                           └───────┘
+```
+
+### 核心改动
+
+1. **环形虹膜转场**：Hero mask 使用 `clip-path: circle(100% → 0%)`，从中心收缩消失，露出下方首页
+2. **名言平滑飞入**：名言从视频左侧 → 飞到内容区上方（FLIP 动画）
+3. **视频位置切换**：全屏视频消失 → 首页左列出现缩略视频
+4. **侧边栏 + 卡片**：stagger 淡入
+
+## 方案
+
+### DOM 架构
+
+```
+Home.vue
+├── .homepage-base（正常流，始终存在，初始被 hero-mask 遮挡）
+│   ├── .page-layout
+│   │   ├── .video-col     → video（最终位置，初始隐藏）
+│   │   └── .content-col   → 名言目标位 + 内容卡片
+│   └── Sidebar（App.vue）
+│
+├── .hero-mask（fixed 全屏，z-100，clip-path: circle）
+│   └── <video> 全屏
+│
+├── .hero-quote（fixed，初始在视频左侧）
+│   └── 名言 → GSAP FLIP 飞入 .content-col 目标位
+│
+└── .transition-spacer（200vh）
+```
+
+### 动画时间线（GSAP ScrollTrigger + scrub）
+
+```
+progress 0→1，对应 spacer 200vh 滚动区间
+
+0.00→0.10  HOLD：      视频全屏 + 名言在左侧
+0.10→0.55  IRIS CLOSE： clip-path: circle(100%) → circle(0%)
+                        名言 FLIP：从视频左侧飞向内容区上方
+0.40→0.65  CARDS：      内容卡片 stagger 淡入（opacity + translateY）
+0.45→0.70  SIDEBAR：    侧边栏滑入 + body padding 过渡
+0.55→1.00  COMPLETE：   全部就位，正常浏览
+```
+
+### 技术选型
+
+- `clip-path: circle()` 虹膜遮罩（GPU 加速，性能最优）
+- GSAP ScrollTrigger + scrub 驱动
+- 名言使用 FLIP 动画（JS 计算初始/目标位置，GSAP tween translate）
+
+### 实施步骤
+
+| 步骤 | 内容 |
+|------|------|
+| 1 | 重写 HeroTransition.vue → 改为 iris 架构 |
+| 2 | 重写 Home.vue → 新布局（video左 + content右） |
+| 3 | 更新 useHeroScroll.js |
+| 4 | 构建验证 |
+
+===============================================================
