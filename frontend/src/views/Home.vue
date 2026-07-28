@@ -1,11 +1,15 @@
 <template>
-  <!-- 首页 — 两个独立全屏页，翻页切换 -->
-  <div class="home-root">
-    <!-- ====== 第一页：全屏视频 ====== -->
-    <section class="slide slide-1">
+  <!--
+    首页
+    视频固定全屏背景 → 内容从下方滚动上来覆盖视频
+    参考：Apple 产品页 / Kindness.org scrollytelling
+  -->
+  <div class="home-page">
+    <!-- ====== 固定视频背景（始终在底层） ====== -->
+    <div class="video-bg">
       <video
         ref="videoRef"
-        class="hero-video"
+        class="video-bg__media"
         src="/video/试试_6.mp4"
         autoplay
         muted
@@ -14,45 +18,53 @@
         preload="metadata"
         poster="/video/hero-poster.webp"
       ></video>
+    </div>
 
-      <div class="hero-overlay">
-        <p class="hero-saying">
-          谁终将声震人间，必长久深自缄默<br />
-          谁终将点燃闪电，必长久如云漂泊
-        </p>
-        <p class="hero-author">—— 尼采</p>
+    <!-- ====== 滚动内容层（覆盖在视频上方） ====== -->
+    <div class="scroll-layer">
 
-        <div class="scroll-hint">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 5v14M5 12l7 7 7-7"/>
-          </svg>
+      <!-- 第一屏：透视区 — 视频透出 -->
+      <section class="hero-screen">
+        <div class="hero-overlay">
+          <p class="hero-saying">
+            谁终将声震人间，必长久深自缄默<br />
+            谁终将点燃闪电，必长久如云漂泊
+          </p>
+          <p class="hero-author">—— 尼采</p>
+
+          <div class="scroll-hint">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ====== 第二页：内容 ====== -->
-    <section class="slide slide-2">
-      <div class="content-card card">
-        <h3>关于 MY_WEBSITE</h3>
-        <ul>
-          <li>它记录我的学习，它见证我的成长</li>
-          <li>它记录现在的我的无知与浅薄，让未来的我嘲笑自己的狂妄</li>
-          <li>也许未来它会用到别的地方</li>
-          <li>......</li>
-        </ul>
-      </div>
+      <!-- 第二屏：内容区 — 实体背景覆盖视频 -->
+      <section class="content-screen">
+        <div class="content-card card">
+          <h3>关于 MY_WEBSITE</h3>
+          <ul>
+            <li>它记录我的学习，它见证我的成长</li>
+            <li>它记录现在的我的无知与浅薄，让未来的我嘲笑自己的狂妄</li>
+            <li>也许未来它会用到别的地方</li>
+            <li>......</li>
+          </ul>
+        </div>
 
-      <div class="content-card card">
-        <h3>学习平台</h3>
-        <ul class="platform-list">
-          <li><a href="https://www.bilibili.com/" target="_blank" class="platform-link" rel="noopener">哔哩哔哩</a></li>
-          <li><a href="https://www.csdn.net/" target="_blank" class="platform-link" rel="noopener">CSDN</a></li>
-          <li><a href="https://www.runoob.com/" target="_blank" class="platform-link" rel="noopener">菜鸟教程</a></li>
-          <li><a href="https://fishros.org.cn/" target="_blank" class="platform-link" rel="noopener">鱼香 ROS</a></li>
-          <li><a href="https://forum.d-robotics.cc/" target="_blank" class="platform-link" rel="noopener">地瓜机器人社区</a></li>
-        </ul>
-      </div>
-    </section>
+        <div class="content-card card">
+          <h3>学习平台</h3>
+          <ul class="platform-list">
+            <li><a href="https://www.bilibili.com/" target="_blank" class="platform-link" rel="noopener">哔哩哔哩</a></li>
+            <li><a href="https://www.csdn.net/" target="_blank" class="platform-link" rel="noopener">CSDN</a></li>
+            <li><a href="https://www.runoob.com/" target="_blank" class="platform-link" rel="noopener">菜鸟教程</a></li>
+            <li><a href="https://fishros.org.cn/" target="_blank" class="platform-link" rel="noopener">鱼香 ROS</a></li>
+            <li><a href="https://forum.d-robotics.cc/" target="_blank" class="platform-link" rel="noopener">地瓜机器人社区</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
   </div>
 </template>
 
@@ -62,9 +74,13 @@ import { heroVisible } from '@/composables/useHeroScroll.js'
 
 const videoRef = ref(null)
 
-function updateSlide() {
-  // 当前滚动位置超过半屏 → 第二页；否则第一页
-  heroVisible.value = window.scrollY < window.innerHeight * 0.5
+// 内容区顶部进入视口 → heroVisible = false → 侧边栏出现
+function onScroll() {
+  const contentEl = document.querySelector('.content-screen')
+  if (!contentEl) return
+  const rect = contentEl.getBoundingClientRect()
+  // 内容区顶部触及视口顶部 → 切换到第二页
+  heroVisible.value = rect.top > 80
 }
 
 function shouldPlay() {
@@ -84,9 +100,7 @@ function onVisibility() {
 
 onMounted(() => {
   heroVisible.value = true
-  // 启用整页 snap 滚动
-  document.documentElement.style.scrollSnapType = 'y mandatory'
-  window.addEventListener('scroll', updateSlide, { passive: true })
+  window.addEventListener('scroll', onScroll, { passive: true })
 
   if (!shouldPlay()) { videoRef.value?.remove(); return }
   document.addEventListener('visibilitychange', onVisibility)
@@ -94,57 +108,43 @@ onMounted(() => {
 
 onUnmounted(() => {
   heroVisible.value = false
-  document.documentElement.style.scrollSnapType = ''
-  window.removeEventListener('scroll', updateSlide)
+  window.removeEventListener('scroll', onScroll)
   document.removeEventListener('visibilitychange', onVisibility)
 })
 </script>
 
 <style scoped>
-/* ====== 根容器：两页 200vh，撑开窗口滚动 ====== */
-.home-root {
-  /* 突破 main-content 的 padding，占满全屏 */
-  margin: -20px;
-  width: calc(100% + 40px);
-}
-
-/* ====== 每一页 ====== */
-.slide {
-  height: 100vh;
-  scroll-snap-align: start;
-  overflow: hidden;
-}
-
-/* ====== 第一页：全屏视频 ====== */
-.slide-1 {
-  position: relative;
-}
-
-.hero-video {
-  position: absolute;
+/* ====== 固定视频背景 ====== */
+.video-bg {
+  position: fixed;
   inset: 0;
+  z-index: 0;
+}
+
+.video-bg__media {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
+/* ====== 滚动内容层 ====== */
+.scroll-layer {
+  position: relative;
   z-index: 1;
+  /* 需要足够高度撑开滚动 */
+}
+
+/* ====== 第一屏：透视区（100vh） ====== */
+.hero-screen {
+  height: 100vh;
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background:
-    linear-gradient(180deg,
-      rgba(10, 10, 15, 0.4) 0%,
-      rgba(10, 10, 15, 0.15) 35%,
-      rgba(10, 10, 15, 0.25) 60%,
-      rgba(10, 10, 15, 0.75) 85%,
-      rgba(10, 10, 15, 0.95) 100%
-    );
+}
+
+.hero-overlay {
   text-align: center;
   padding: 20px;
 }
@@ -181,15 +181,16 @@ onUnmounted(() => {
   50%      { transform: translateX(-50%) translateY(8px); opacity: 0.7; }
 }
 
-/* ====== 第二页：内容 ====== */
-.slide-2 {
+/* ====== 第二屏：内容区（实体背景，覆盖视频） ====== */
+.content-screen {
   background: var(--bg-primary);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 24px;
-  padding: 40px 20px;
+  padding: 80px 20px;
 }
 
 .content-card {
@@ -224,35 +225,21 @@ onUnmounted(() => {
 }
 
 /* ====== 亮色主题 ====== */
-[data-theme="light"] .hero-overlay {
-  background:
-    linear-gradient(180deg,
-      rgba(250,250,250,0.15) 0%, rgba(250,250,250,0.05) 35%,
-      rgba(250,250,250,0.2) 60%, rgba(250,250,250,0.75) 85%,
-      rgba(250,250,250,0.95) 100%
-    );
-}
 [data-theme="light"] .hero-saying { color: rgba(30,30,30,0.9); text-shadow: 0 2px 8px rgba(255,255,255,0.3); }
 [data-theme="light"] .hero-author { color: rgba(50,50,50,0.5); }
 [data-theme="light"] .scroll-hint { color: rgba(50,50,50,0.35); }
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
-  .home-root {
-    margin: -16px -12px;
-    width: calc(100% + 24px);
-  }
-
-  .slide-1 {
+  .hero-screen {
     height: 100svh;
-    background: url('/video/hero-poster.webp') center / cover no-repeat, var(--bg-primary);
+    background: url('/video/hero-poster.webp') center / cover no-repeat, #0A0A0F;
   }
-  .hero-video { display: none; }
+  .video-bg { display: none; }
   .hero-saying { font-size: 1rem; line-height: 1.7; }
   .hero-author { font-size: 0.8rem; margin-top: 10px; }
 
-  .slide-2 {
-    height: auto;
+  .content-screen {
     min-height: 100svh;
     padding: 40px 16px;
   }
