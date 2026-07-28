@@ -96,6 +96,11 @@ onUnmounted(() => {
   --shadow-md: 0 8px 24px rgba(20, 20, 24, 0.08);
   --shadow-glow: 0 0 24px var(--accent-glow);
 
+  /* 页面滚动条 */
+  --scrollbar-thumb: rgba(108, 92, 231, 0.32);
+  --scrollbar-thumb-hover: rgba(108, 92, 231, 0.54);
+  --scrollbar-thumb-active: rgba(91, 78, 211, 0.72);
+
   /* 圆角 */
   --radius-sm: 8px;
   --radius: 12px;
@@ -117,6 +122,53 @@ onUnmounted(() => {
 
 html {
   overflow-x: hidden; /* 防止 video + padding 产生横向滚动条 */
+}
+
+/* 桌面端保留原生滚动能力，仅弱化轨道并统一品牌视觉 */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+    scrollbar-width: thin;
+  }
+
+  @supports selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-color: auto;
+      scrollbar-width: auto;
+    }
+
+    html::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    html::-webkit-scrollbar-track,
+    html::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
+    html::-webkit-scrollbar-thumb {
+      min-height: 56px;
+      border: 3px solid transparent;
+      border-radius: 999px;
+      background-color: var(--scrollbar-thumb);
+      background-clip: content-box;
+    }
+
+    html::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+
+    html::-webkit-scrollbar-thumb:active {
+      background-color: var(--scrollbar-thumb-active);
+    }
+
+    html::-webkit-scrollbar-button {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
 }
 
 body {
