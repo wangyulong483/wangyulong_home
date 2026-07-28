@@ -1,43 +1,41 @@
 <template>
   <!--
-    首页
-    视频 position:fixed z-index:-1 全屏背景
-    内容从下方滚动，实体背景覆盖视频
-    参考：CSS-Tricks "One Viewport Header, Content Scrolls Over Header"
+    首页 — 沉浸式滚动过渡
+    progress 0→1 驱动 video/sidebar/content 全部动画
   -->
   <div class="home-page">
-    <!-- ====== 固定视频背景（z-index: -1，body 透明时透出） ====== -->
+    <!-- ====== 视频（最高层 z-index:10，覆盖一切） ====== -->
     <video
       ref="videoRef"
-      class="video-bg"
+      class="hero-video"
+      :style="videoStyle"
       src="/video/试试_6.mp4"
       autoplay
       muted
       loop
       playsinline
-      preload="metadata"
+      preload="auto"
       poster="/video/hero-poster.webp"
     ></video>
 
-    <!-- ====== 第一屏：hero 文字（100vh，背景透明） ====== -->
+    <!-- ====== hero 文字（正常流，随滚动离去） ====== -->
     <section class="hero-screen">
-      <div class="hero-overlay">
+      <div class="hero-text">
         <p class="hero-saying">
           谁终将声震人间，必长久深自缄默<br />
           谁终将点燃闪电，必长久如云漂泊
         </p>
         <p class="hero-author">—— 尼采</p>
-
-        <div class="scroll-hint">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 5v14M5 12l7 7 7-7"/>
-          </svg>
-        </div>
+      </div>
+      <div class="scroll-hint">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
       </div>
     </section>
 
-    <!-- ====== 第二屏：内容区（实体背景覆盖视频） ====== -->
-    <section class="content-screen">
+    <!-- ====== 内容区（正常流，实体背景覆盖视频） ====== -->
+    <section class="content-screen" :style="contentStyle">
       <div class="content-card card">
         <h3>关于 MY_WEBSITE</h3>
         <ul>
@@ -64,16 +62,19 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { heroVisible } from '@/composables/useHeroScroll.js'
+import { heroProgress, videoStyle, contentStyle } from '@/composables/useHeroScroll.js'
 
 const videoRef = ref(null)
-let bodyBg = ''
+let ticking = false
 
-// 内容区顶部进入视口 → heroVisible = false → 侧边栏出现
+// rAF 驱动的 scroll → heroProgress
 function onScroll() {
-  const el = document.querySelector('.content-screen')
-  if (!el) return
-  heroVisible.value = el.getBoundingClientRect().top > 80
+  if (ticking) return
+  ticking = true
+  requestAnimationFrame(() => {
+    heroProgress.value = Math.min(1, Math.max(0, window.scrollY / window.innerHeight))
+    ticking = false
+  })
 }
 
 function shouldPlay() {
@@ -92,9 +93,7 @@ function onVisibility() {
 }
 
 onMounted(() => {
-  heroVisible.value = true
-  // 首页 body 背景透明，让 video 透出
-  bodyBg = document.body.style.background || ''
+  heroProgress.value = 0
   document.body.style.background = 'transparent'
   window.addEventListener('scroll', onScroll, { passive: true })
 
@@ -103,38 +102,39 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  heroVisible.value = false
-  document.body.style.background = bodyBg
+  heroProgress.value = 0
+  document.body.style.background = ''
+  document.body.style.paddingRight = ''
   window.removeEventListener('scroll', onScroll)
   document.removeEventListener('visibilitychange', onVisibility)
 })
 </script>
 
 <style scoped>
-/* ====== 固定视频背景 ====== */
-.video-bg {
+/* ====== 视频 — 固定全屏，z-index:10 最顶层 ====== */
+.hero-video {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  z-index: -1;
+  z-index: 10;
   display: block;
+  will-change: transform, opacity, filter;
 }
 
-/* ====== 第一屏：hero 透视区（100vh，透明） ====== */
+/* ====== 第一屏：hero 文字（100vh，透明，z-index:1 在视频下方） ====== */
 .hero-screen {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: 1;
 }
 
-.hero-overlay {
-  text-align: center;
-  padding: 20px;
-}
+.hero-text { text-align: center; padding: 20px; }
 
 .hero-saying {
   color: rgba(255, 255, 255, 0.9);
@@ -159,16 +159,17 @@ onUnmounted(() => {
   bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.4);
   animation: bounce 2s ease-in-out infinite;
+  z-index: 1;
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.35; }
-  50%      { transform: translateX(-50%) translateY(8px); opacity: 0.7; }
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+  50%      { transform: translateX(-50%) translateY(8px); opacity: 0.75; }
 }
 
-/* ====== 第二屏：内容区（实体背景，覆盖视频） ====== */
+/* ====== 第二屏：内容区（实体背景，z-index:1） ====== */
 .content-screen {
   background: var(--bg-primary);
   min-height: 100vh;
@@ -178,20 +179,13 @@ onUnmounted(() => {
   justify-content: center;
   gap: 24px;
   padding: 80px 20px;
+  position: relative;
+  z-index: 1;
+  will-change: transform, opacity;
 }
 
-.content-card {
-  max-width: 640px;
-  width: 100%;
-}
-
-.content-card h3 {
-  color: var(--accent);
-  margin-bottom: 12px;
-  font-size: 1.15rem;
-  font-weight: 600;
-}
-
+.content-card { max-width: 640px; width: 100%; }
+.content-card h3 { color: var(--accent); margin-bottom: 12px; font-size: 1.15rem; font-weight: 600; }
 .content-card ul { padding-left: 20px; }
 .content-card li { margin: 8px 0; color: var(--text-secondary); }
 
@@ -205,16 +199,12 @@ onUnmounted(() => {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   transition: all 0.25s var(--ease-out);
 }
-.platform-link:hover {
-  background: rgba(108, 92, 231, 0.18);
-  border-color: var(--border-hover);
-  transform: translateY(-2px); color: var(--accent);
-}
+.platform-link:hover { background: rgba(108, 92, 231, 0.18); border-color: var(--border-hover); transform: translateY(-2px); }
 
 /* ====== 亮色主题 ====== */
 [data-theme="light"] .hero-saying { color: rgba(30,30,30,0.9); text-shadow: 0 2px 8px rgba(255,255,255,0.3); }
 [data-theme="light"] .hero-author { color: rgba(50,50,50,0.5); }
-[data-theme="light"] .scroll-hint { color: rgba(50,50,50,0.35); }
+[data-theme="light"] .scroll-hint { color: rgba(50,50,50,0.4); }
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
@@ -222,14 +212,10 @@ onUnmounted(() => {
     height: 100svh;
     background: url('/video/hero-poster.webp') center / cover no-repeat, #0A0A0F;
   }
-  .video-bg { display: none; }
+  .hero-video { display: none; }
   .hero-saying { font-size: 1rem; line-height: 1.7; }
   .hero-author { font-size: 0.8rem; margin-top: 10px; }
-
-  .content-screen {
-    min-height: 100svh;
-    padding: 40px 16px;
-  }
+  .content-screen { min-height: 100svh; padding: 40px 16px; }
   .content-card { margin: 0; padding: 18px 20px; }
   .content-card h3 { font-size: 1.05rem; }
   .platform-link { padding: 8px 16px; font-size: 0.82rem; min-height: 44px; }
@@ -239,7 +225,6 @@ onUnmounted(() => {
   .hero-saying { font-size: 0.9rem; padding: 0 12px; }
   .scroll-hint { bottom: 16px; }
   .content-card { padding: 14px 16px; }
-  .content-card li { font-size: 0.9rem; margin: 6px 0; }
   .platform-link { padding: 6px 14px; font-size: 0.8rem; }
 }
 </style>

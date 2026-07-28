@@ -9,8 +9,7 @@
     <span></span><span></span><span></span>
   </button>
 
-  <Transition name="sidebar">
-    <div v-if="sidebarVisible" class="right-box" :class="{ 'mobile-open': mobileOpen }">
+  <div class="right-box" :class="{ 'mobile-open': mobileOpen }" :style="rightBoxStyle">
       <div class="sidebar">
         <!-- 头像 -->
         <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
@@ -42,26 +41,24 @@
         </button>
       </div>
     </div>
-  </Transition>
 </template>
 
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AppIcon from '@/components/AppIcon.vue'
-import { heroVisible } from '@/composables/useHeroScroll.js'
+import { sidebarStyle, bodyPaddingPx, heroProgress } from '@/composables/useHeroScroll.js'
 
 const router = useRouter()
 const mobileOpen = ref(false)
 const isLight = ref(false)
 
-// 侧边栏可见性：
-//   首页第一页（heroVisible=true） → 隐藏
-//   首页第二页（heroVisible=false）→ 显示
-//   其他页面 → 始终显示
-const sidebarVisible = computed(() => {
-  const onHome = router.currentRoute.value?.name === 'Home'
-  return onHome ? !heroVisible.value : true
+const isHome = computed(() => router.currentRoute.value?.name === 'Home')
+
+// 侧边栏样式：首页由 scroll 驱动，非首页始终完全可见
+const rightBoxStyle = computed(() => {
+  if (!isHome.value) return { opacity: 1, transform: 'translateX(0)', pointerEvents: 'auto' }
+  return sidebarStyle.value
 })
 
 function toggle() { mobileOpen.value = !mobileOpen.value }
@@ -83,14 +80,17 @@ function syncTheme() {
   isLight.value = document.documentElement.getAttribute('data-theme') === 'light'
 }
 
-// body 右侧留白：首页第一页无留白，否则 200px
+// body 右侧留白：首页由 heroProgress 驱动平滑过渡，非首页 200px
 function updateBodyPadding() {
-  const onHome = router.currentRoute.value?.name === 'Home'
-  document.body.style.paddingRight = (onHome && heroVisible.value) ? '0' : ''
+  if (isHome.value) {
+    document.body.style.paddingRight = bodyPaddingPx.value + 'px'
+  } else {
+    document.body.style.paddingRight = ''
+  }
 }
 
-watch(heroVisible, updateBodyPadding, { immediate: false })
-watch(() => router.currentRoute.value?.name, updateBodyPadding)
+watch(bodyPaddingPx, () => { if (isHome.value) updateBodyPadding() })
+watch(isHome, updateBodyPadding)
 
 onMounted(() => {
   syncTheme()
@@ -270,22 +270,6 @@ onUnmounted(() => {
 
 .toggle-label {
   font-size: 0.72rem;
-}
-
-/* ====== sidebar 进入/离开过渡 ====== */
-.sidebar-enter-active {
-  transition: opacity 0.35s ease, transform 0.35s ease;
-}
-.sidebar-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.sidebar-enter-from {
-  opacity: 0;
-  transform: translateX(20px);
-}
-.sidebar-leave-to {
-  opacity: 0;
-  transform: translateX(20px);
 }
 
 /* ====== 移动端 ====== */

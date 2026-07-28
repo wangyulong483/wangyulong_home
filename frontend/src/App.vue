@@ -3,7 +3,7 @@
     App.vue — 根组件
     布局：粒子背景 + 主内容区 + 右侧边栏
   -->
-  <ParticleBackground v-if="showParticles" :count="100" :opacity="0.8" :z-index="-1" />
+  <ParticleBackground v-if="particlesVisible" :count="100" :opacity="0.8" :z-index="-1" />
 
   <div class="app-layout">
     <main class="main-content">
@@ -23,13 +23,13 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Sidebar from '@/components/Sidebar.vue'
 import ParticleBackground from '@/components/ParticleBackground.vue'
-import { heroVisible } from '@/composables/useHeroScroll.js'
+import { showParticles } from '@/composables/useHeroScroll.js'
 
 const route = useRoute()
 
-// 首页第一页（全屏视频）不显示粒子背景
-const showParticles = computed(() => {
-  if (route.name === 'Home') return !heroVisible.value
+// 首页：progress > 0.15 时粒子出现；非首页始终显示
+const particlesVisible = computed(() => {
+  if (route.name === 'Home') return showParticles.value
   return true
 })
 </script>
