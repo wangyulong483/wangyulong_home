@@ -111,7 +111,7 @@ import AppIcon from '@/components/AppIcon.vue'
 .app-desc {
   font-size: 0.82rem;
   color: var(--text-tertiary);
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
 }
 
 @media (max-width: 768px) {

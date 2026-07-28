@@ -293,7 +293,7 @@ onUnmounted(() => { running=false; cancelAnimationFrame(animId); window.removeEv
 h1 { color: var(--accent); font-size:2rem; font-weight:700; margin-bottom:14px }
 .controls { background: var(--bg-card); border: 1px solid var(--border); padding:10px 16px; border-radius:var(--radius); margin:10px 0; font-size:0.85rem }
 .control-group { color: var(--text-secondary) }
-.key { display:inline-block; padding:2px 7px; margin:1px; background:rgba(255,255,255,0.08); color:var(--text-primary); border:1px solid var(--border); border-radius:4px; font-weight:bold; font-size:0.8rem; font-family:'JetBrains Mono',monospace }
+.key { display:inline-block; padding:2px 7px; margin:1px; background:rgba(255,255,255,0.08); color:var(--text-primary); border:1px solid var(--border); border-radius:4px; font-weight:bold; font-size:0.8rem; font-family:'Cascadia Code','Cascadia Mono',Consolas,monospace }
 .game-container { position:relative; margin:16px 0 }
 canvas { border:2px solid var(--border-hover); border-radius:var(--radius); background:#000; box-shadow:0 0 20px rgba(108,92,231,0.15); display:block; margin:0 auto; max-width:100%; height:auto }
 .screen { position:absolute; top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);display:flex;flex-direction:column;justify-content:center;align-items:center;border-radius:var(--radius) }

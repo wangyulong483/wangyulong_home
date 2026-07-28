@@ -8,7 +8,7 @@
       <section class="mobile-character js-mobile-character" aria-labelledby="mobile-character-name">
         <img
           class="mobile-character-image"
-          src="/shrine-data/images/image.png"
+          src="/shrine-data/images/image.webp"
           alt="雷电将军手持梦想一心的角色立绘"
           width="750"
           height="1899"
@@ -95,7 +95,7 @@ function onProgress(progress) {
 .quote-author {
   margin-top: 6px;
   color: var(--text-tertiary);
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
   font-size: 0.8rem;
 }
 
@@ -140,7 +140,7 @@ function onProgress(progress) {
   border-radius: 8px;
   background: var(--accent-muted);
   color: var(--accent);
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
   font-size: 0.85rem;
   font-weight: 500;
   transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
@@ -196,7 +196,7 @@ function onProgress(progress) {
   .character-en {
     margin-bottom: 2px;
     color: #c6b1f2;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
     font-size: 0.68rem;
     font-weight: 600;
   }

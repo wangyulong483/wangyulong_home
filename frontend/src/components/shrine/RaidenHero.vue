@@ -9,10 +9,15 @@
       <!-- 透明底抠图立绘，悬浮效果 -->
       <div class="hero-visual">
         <img
-          v-if="character.cutout"
+          v-if="character.cutout && !cutoutError"
           :src="character.cutout"
           :alt="character.name"
           class="cutout-img"
+          width="1200"
+          height="1200"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
           @error="onCutoutError"
         />
         <div v-else class="cutout-placeholder">
@@ -70,11 +75,17 @@
             class="carousel-slide"
           >
             <img
+              v-if="shouldLoadSlide(idx)"
               :src="item.image"
               :alt="`${item.year} 生日贺图`"
               class="birthday-img"
-              loading="lazy"
+              width="1600"
+              height="1600"
+              :loading="idx === currentSlide ? 'eager' : 'lazy'"
+              decoding="async"
+              :fetchpriority="idx === currentSlide ? 'high' : 'low'"
             />
+            <div v-else class="birthday-placeholder" aria-hidden="true"></div>
             <span class="birthday-label">{{ item.year }}</span>
           </div>
         </div>
@@ -126,6 +137,13 @@ function prevSlide() {
   if (birthdays.value.length > 1) {
     currentSlide.value = (currentSlide.value - 1 + birthdays.value.length) % birthdays.value.length
   }
+}
+
+function shouldLoadSlide(index) {
+  const length = birthdays.value.length
+  if (length <= 3) return true
+  const distance = Math.abs(index - currentSlide.value)
+  return Math.min(distance, length - distance) <= 1
 }
 
 /* 自动轮播 */
@@ -378,10 +396,17 @@ watch(birthdays, () => {
 
 .birthday-img {
   width: 100%;
+  aspect-ratio: 1 / 1;
   max-height: 480px;
   object-fit: contain;
   display: block;
   border-radius: 10px;
+  background: rgba(13, 13, 26, 0.3);
+}
+
+.birthday-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background: rgba(13, 13, 26, 0.3);
 }
 

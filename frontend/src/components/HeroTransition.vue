@@ -6,19 +6,21 @@
       <slot />
     </div>
 
-    <div ref="stageRef" class="hero-stage" aria-hidden="true">
-      <video
-        ref="videoRef"
-        class="hero-video"
-        :src="videoSrc"
-        :poster="posterSrc"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-      ></video>
-    </div>
+    <Teleport to="body">
+      <div ref="stageRef" class="hero-stage" aria-hidden="true">
+        <video
+          ref="videoRef"
+          class="hero-video"
+          :src="videoSrc"
+          :poster="posterSrc"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -46,6 +48,8 @@ let timeline
 let resizeTimer
 let videoIsPaused = false
 let animatedNavigation
+let stageIsHidden = false
+let lastEmittedProgress = -1
 
 function shouldAutoplay() {
   const connection = navigator.connection || {}
@@ -80,7 +84,11 @@ function setupAnimation() {
   animatedNavigation = navigation
 
   gsap.set(stage, { autoAlpha: 1, pointerEvents: 'auto' })
-  gsap.set(video, { autoAlpha: 1, scale: 1, filter: 'blur(0px)' })
+  stageIsHidden = false
+  lastEmittedProgress = -1
+  stage.style.willChange = 'opacity'
+  if (video) video.style.willChange = 'opacity, transform'
+  gsap.set(video, { autoAlpha: 1, scale: 1 })
   gsap.set(contentItems, { autoAlpha: 0, y: reduceMotion ? 0 : 32 })
   if (characterVisual) {
     gsap.set(characterVisual, {
@@ -104,12 +112,23 @@ function setupAnimation() {
       trigger: spacer,
       start: 'top top',
       end: 'bottom top',
-      scrub: reduceMotion ? true : 0.65,
+      scrub: reduceMotion ? true : 0.2,
       invalidateOnRefresh: true,
       onUpdate: ({ progress }) => {
-        emit('progress', progress)
-        stage.style.visibility = progress >= 0.72 ? 'hidden' : 'visible'
-        setVideoPaused(document.hidden || progress >= 0.72)
+        const shouldHideStage = progress >= 0.72
+        if (shouldHideStage !== stageIsHidden) {
+          stageIsHidden = shouldHideStage
+          stage.style.visibility = shouldHideStage ? 'hidden' : 'visible'
+          stage.style.willChange = shouldHideStage ? 'auto' : 'opacity'
+          if (video) video.style.willChange = shouldHideStage ? 'auto' : 'opacity, transform'
+          setVideoPaused(document.hidden || shouldHideStage)
+        }
+
+        const crossedParticleThreshold = (lastEmittedProgress <= 0.6) !== (progress <= 0.6)
+        if (crossedParticleThreshold || Math.abs(progress - lastEmittedProgress) >= 0.01) {
+          lastEmittedProgress = progress
+          emit('progress', progress)
+        }
       },
     },
   })
@@ -118,7 +137,6 @@ function setupAnimation() {
     .to(video, {
       autoAlpha: 0,
       scale: reduceMotion ? 1 : 1.025,
-      filter: reduceMotion ? 'blur(0px)' : 'blur(8px)',
       duration: reduceMotion ? 0.08 : 0.34,
     }, 0.12)
     .to(stage, { autoAlpha: 0, duration: reduceMotion ? 0.06 : 0.18 }, 0.52)
@@ -228,7 +246,7 @@ onUnmounted(() => {
   height: 100%;
   display: block;
   object-fit: cover;
-  will-change: opacity, transform, filter;
+  will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

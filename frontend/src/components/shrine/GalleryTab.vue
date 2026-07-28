@@ -5,7 +5,7 @@
   封面和播放量通过 B站 view API 客户端拉取
 -->
 <template>
-  <div class="gallery-tab">
+  <div ref="galleryRef" class="gallery-tab">
 
     <!-- ===== 官方精选 ===== -->
     <div class="section-label">官方精选</div>
@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
 
 const props = defineProps({
   items: { type: Array, required: true },
@@ -113,6 +113,9 @@ function play(id) { playingMap[id] = true }
 
 /* ===== 通过 view API 批量拉取封面+播放量+点赞 ===== */
 const statCache = reactive({})
+const galleryRef = ref(null)
+let observer
+let hasLoadedInfo = false
 
 async function fetchInfo(bvid) {
   if (statCache[bvid]) return
@@ -145,13 +148,34 @@ function formatNum(n) {
   return String(n)
 }
 
-onMounted(async () => {
+async function loadVisibleInfo() {
+  if (hasLoadedInfo) return
+  hasLoadedInfo = true
+
   /* 批量拉取，每次最多并发 6 个避免限流 */
   const batch = allItems.value.map(i => i.url)
   for (let i = 0; i < batch.length; i += 6) {
     await Promise.all(batch.slice(i, i + 6).map(bvid => fetchInfo(bvid)))
   }
+}
+
+onMounted(() => {
+  if (!('IntersectionObserver' in window)) {
+    loadVisibleInfo()
+    return
+  }
+
+  observer = new IntersectionObserver(([entry]) => {
+    if (!entry?.isIntersecting) return
+    observer?.disconnect()
+    observer = null
+    loadVisibleInfo()
+  }, { rootMargin: '160px 0px' })
+
+  if (galleryRef.value) observer.observe(galleryRef.value)
 })
+
+onUnmounted(() => observer?.disconnect())
 </script>
 
 <style scoped>

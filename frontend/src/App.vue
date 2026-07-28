@@ -45,7 +45,7 @@ const particlesVisible = computed(() => {
   return true
 })
 
-const particleCount = computed(() => isMobile.value ? 42 : 100)
+const particleCount = computed(() => isMobile.value ? 32 : 84)
 const particleOpacity = computed(() => isMobile.value ? 0.45 : 0.8)
 
 onMounted(() => {
@@ -176,7 +176,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   padding-right: 200px;
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'Segoe UI Variable', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -302,7 +302,7 @@ a {
   padding: 2px 10px;
   border-radius: 12px;
   font-size: 0.75rem;
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
   background: var(--accent-muted);
   color: var(--accent);
   border: 1px solid rgba(108, 92, 231, 0.15);

@@ -37,6 +37,11 @@
           :src="data.character.banner"
           :alt="data.character.name"
           class="banner-img"
+          width="840"
+          height="400"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
         />
         <div class="banner-overlay">
           <h1 class="banner-title">{{ data.character.name }}</h1>
@@ -101,17 +106,17 @@ const FALLBACK_DATA = {
     birthday: "6月26日",
     constellation: "天下人座",
     quote: "常道恢弘，鸣神永恒",
-    banner: "/shrine-data/images/image (2).png",
-    cutout: "/shrine-data/images/image (1).png",
+    banner: "/shrine-data/images/image (2).webp",
+    cutout: "/shrine-data/images/image (1).webp",
     bio: "雷电将军，真名「雷电影」，魔神名「巴尔泽布」，稻妻的现任雷神。她是极致的武人，稻妻的薙刀术、剑术和各门派的锻刀技术皆出自她手。外表威严冷峻，以「永恒」为信念统治稻妻。",
     whyLove: "第一眼就被她的外形击中——紫色长发、和服铠甲的华丽设计，胸口拔刀的视觉冲击力无与伦比。深入了解后更着迷于她的反差：对外是威严冷峻的雷神，私底下却是个不会做饭、宅在一心净土里的天然呆。这种神性与可爱的巨大反差，让她不止是一尊神明，更是一个鲜活的人。",
     colors: { primary: "#6B4C9A", accent: "#B088F9", gold: "#C9A96E" },
     birthdayIllustrations: [
-      { year: 2022, image: "/shrine-data/images/image (3).png" },
-      { year: 2023, image: "/shrine-data/images/image (4).png" },
-      { year: 2024, image: "/shrine-data/images/image (5).png" },
-      { year: 2025, image: "/shrine-data/images/image (6).png" },
-      { year: 2026, image: "/shrine-data/images/image (7).png" }
+      { year: 2022, image: "/shrine-data/images/image (3).webp" },
+      { year: 2023, image: "/shrine-data/images/image (4).webp" },
+      { year: 2024, image: "/shrine-data/images/image (5).webp" },
+      { year: 2025, image: "/shrine-data/images/image (6).webp" },
+      { year: 2026, image: "/shrine-data/images/image (7).webp" }
     ]
   },
   gallery: [

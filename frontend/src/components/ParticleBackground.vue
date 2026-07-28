@@ -21,11 +21,27 @@ let canvasHeight = 0
 let pixelRatio = 1
 let animationId = null
 let startTimer = null
+let resizeTimer = null
 let particles = []
-let allPoints = []
 let lastTimestamp = null
+let lastRenderTimestamp = null
 let running = false
 let reducedMotion = false
+let minimumFrameTime = 1000 / 60
+
+const GRID_SIZE = 80
+const PARTICLE_DISTANCE = 6000
+
+function deviceProfile() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches
+  const lowEnd = (navigator.hardwareConcurrency || 8) <= 4
+    || (navigator.deviceMemory || 8) <= 4
+
+  return {
+    maxPixelRatio: lowEnd ? 1.25 : isMobile ? 1.5 : 2,
+    frameRate: lowEnd ? 30 : 60,
+  }
+}
 
 function resizeCanvas() {
   const canvas = canvasRef.value
@@ -33,7 +49,9 @@ function resizeCanvas() {
 
   canvasWidth = window.innerWidth || document.documentElement.clientWidth
   canvasHeight = window.innerHeight || document.documentElement.clientHeight
-  pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+  const profile = deviceProfile()
+  pixelRatio = Math.min(window.devicePixelRatio || 1, profile.maxPixelRatio)
+  minimumFrameTime = (1000 / profile.frameRate) - 0.5
 
   canvas.width = Math.round(canvasWidth * pixelRatio)
   canvas.height = Math.round(canvasHeight * pixelRatio)
@@ -49,9 +67,28 @@ function createParticles() {
     y: Math.random() * canvasHeight,
     xa: 2 * Math.random() - 1,
     ya: 2 * Math.random() - 1,
-    max: 6000,
+    max: PARTICLE_DISTANCE,
   }))
-  allPoints = [...particles, mousePoint]
+}
+
+function gridKey(column, row) {
+  return `${column}:${row}`
+}
+
+function drawConnection(first, second, maxDistance) {
+  const offsetX = first.x - second.x
+  const offsetY = first.y - second.y
+  const distance = offsetX * offsetX + offsetY * offsetY
+  if (distance >= maxDistance) return null
+
+  const ratio = (maxDistance - distance) / maxDistance
+  ctx.beginPath()
+  ctx.lineWidth = ratio / 2
+  ctx.strokeStyle = `rgba(${props.color},${Math.min(ratio + 0.2, 1)})`
+  ctx.moveTo(first.x, first.y)
+  ctx.lineTo(second.x, second.y)
+  ctx.stroke()
+  return { offsetX, offsetY, distance }
 }
 
 function drawFrame(timestamp = performance.now(), advance = true) {
@@ -65,6 +102,8 @@ function drawFrame(timestamp = performance.now(), advance = true) {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight)
   ctx.fillStyle = `rgba(${props.color},0.9)`
 
+  const grid = new Map()
+
   particles.forEach((particle, index) => {
     if (advance) {
       particle.x += particle.xa * frameScale
@@ -75,33 +114,47 @@ function drawFrame(timestamp = performance.now(), advance = true) {
 
     ctx.fillRect(particle.x - 0.5, particle.y - 0.5, 1, 1)
 
-    for (let otherIndex = index + 1; otherIndex < allPoints.length; otherIndex += 1) {
-      const other = allPoints[otherIndex]
-      if (other.x === null || other.y === null) continue
+    const column = Math.floor(particle.x / GRID_SIZE)
+    const row = Math.floor(particle.y / GRID_SIZE)
+    const key = gridKey(column, row)
+    const cell = grid.get(key)
+    if (cell) cell.push(index)
+    else grid.set(key, [index])
+  })
 
-      const offsetX = particle.x - other.x
-      const offsetY = particle.y - other.y
-      const distance = offsetX * offsetX + offsetY * offsetY
-      if (distance >= other.max) continue
+  particles.forEach((particle, index) => {
+    const column = Math.floor(particle.x / GRID_SIZE)
+    const row = Math.floor(particle.y / GRID_SIZE)
 
-      if (advance && other === mousePoint && distance >= other.max / 2) {
-        particle.x -= 0.03 * offsetX * frameScale
-        particle.y -= 0.03 * offsetY * frameScale
+    for (let offsetColumn = -1; offsetColumn <= 1; offsetColumn += 1) {
+      for (let offsetRow = -1; offsetRow <= 1; offsetRow += 1) {
+        const candidates = grid.get(gridKey(column + offsetColumn, row + offsetRow)) || []
+        candidates.forEach((otherIndex) => {
+          if (otherIndex <= index) return
+          drawConnection(particle, particles[otherIndex], PARTICLE_DISTANCE)
+        })
       }
+    }
 
-      const ratio = (other.max - distance) / other.max
-      ctx.beginPath()
-      ctx.lineWidth = ratio / 2
-      ctx.strokeStyle = `rgba(${props.color},${Math.min(ratio + 0.2, 1)})`
-      ctx.moveTo(particle.x, particle.y)
-      ctx.lineTo(other.x, other.y)
-      ctx.stroke()
+    if (mousePoint.x !== null && mousePoint.y !== null) {
+      const connection = drawConnection(particle, mousePoint, mousePoint.max)
+      if (advance && connection && connection.distance >= mousePoint.max / 2) {
+        particle.x -= 0.03 * connection.offsetX * frameScale
+        particle.y -= 0.03 * connection.offsetY * frameScale
+      }
     }
   })
 }
 
 function animate(timestamp) {
   if (!running) return
+
+  if (lastRenderTimestamp !== null && timestamp - lastRenderTimestamp < minimumFrameTime) {
+    animationId = requestAnimationFrame(animate)
+    return
+  }
+
+  lastRenderTimestamp = timestamp
   drawFrame(timestamp, true)
   animationId = requestAnimationFrame(animate)
 }
@@ -110,6 +163,7 @@ function startAnimation() {
   if (running || reducedMotion) return
   running = true
   lastTimestamp = null
+  lastRenderTimestamp = null
   animationId = requestAnimationFrame(animate)
 }
 
@@ -118,6 +172,7 @@ function stopAnimation() {
   if (animationId !== null) cancelAnimationFrame(animationId)
   animationId = null
   lastTimestamp = null
+  lastRenderTimestamp = null
 }
 
 function rebuildParticles() {
@@ -127,8 +182,11 @@ function rebuildParticles() {
 }
 
 function onResize() {
-  resizeCanvas()
-  rebuildParticles()
+  window.clearTimeout(resizeTimer)
+  resizeTimer = window.setTimeout(() => {
+    resizeCanvas()
+    rebuildParticles()
+  }, 120)
 }
 
 function onMouseMove(event) {
@@ -169,13 +227,13 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.clearTimeout(startTimer)
+  window.clearTimeout(resizeTimer)
   stopAnimation()
   window.removeEventListener('resize', onResize)
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('mouseout', onMouseLeave)
   document.removeEventListener('visibilitychange', onVisibilityChange)
   particles = []
-  allPoints = []
   ctx = null
 })
 </script>

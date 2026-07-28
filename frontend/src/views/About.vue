@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import AppIcon from '@/components/AppIcon.vue'
 
 const videos = ref([
@@ -165,8 +165,15 @@ function closeVideo() {
   activeVideo.value = null
 }
 
-document.addEventListener('keydown', (e) => {
+function onKeydown(e) {
   if (e.key === 'Escape' && activeVideo.value) closeVideo()
+}
+
+onMounted(() => document.addEventListener('keydown', onKeydown))
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', onKeydown)
+  if (activeVideo.value) closeVideo()
 })
 </script>
 
@@ -290,7 +297,7 @@ document.addEventListener('keydown', (e) => {
   background: rgba(0, 0, 0, 0.75);
   color: #fff;
   font-size: 0.72rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
 }
 
 /* 卡片文本 */

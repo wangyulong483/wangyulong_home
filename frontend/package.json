@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp _worker.js dist/_worker.js && mkdir dist\\knowledge 2>nul & cp knowledge/topics.json dist/knowledge/topics.json",
+    "build": "vite build && node scripts/finalize-build.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
