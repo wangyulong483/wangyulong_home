@@ -3,7 +3,12 @@
     App.vue — 根组件
     布局：粒子背景 + 主内容区 + 右侧边栏
   -->
-  <ParticleBackground v-if="particlesVisible" :count="100" :opacity="0.8" :z-index="-1" />
+  <ParticleBackground
+    v-if="particlesVisible"
+    :count="particleCount"
+    :opacity="particleOpacity"
+    :z-index="-1"
+  />
 
   <div class="app-layout">
     <main class="main-content">
@@ -19,18 +24,38 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Sidebar from '@/components/Sidebar.vue'
 import ParticleBackground from '@/components/ParticleBackground.vue'
 import { showParticles } from '@/composables/useHeroScroll.js'
 
 const route = useRoute()
+const isMobile = ref(false)
 
-// 首页：progress > 0.15 时粒子出现；非首页始终显示
+let mobileQuery
+
+function syncMobileViewport(event) {
+  isMobile.value = event.matches
+}
+
+// 首页在视频退出后显示粒子；非首页始终显示
 const particlesVisible = computed(() => {
   if (route.name === 'Home') return showParticles.value
   return true
+})
+
+const particleCount = computed(() => isMobile.value ? 38 : 100)
+const particleOpacity = computed(() => isMobile.value ? 0.32 : 0.8)
+
+onMounted(() => {
+  mobileQuery = window.matchMedia('(max-width: 768px)')
+  isMobile.value = mobileQuery.matches
+  mobileQuery.addEventListener('change', syncMobileViewport)
+})
+
+onUnmounted(() => {
+  mobileQuery?.removeEventListener('change', syncMobileViewport)
 })
 </script>
 

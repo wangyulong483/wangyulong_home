@@ -5,16 +5,30 @@
   <div v-if="mobileOpen" class="mobile-overlay" @click="close"></div>
 
   <!-- 移动端：汉堡按钮 -->
-  <button class="hamburger" @click="toggle" :class="{ open: mobileOpen }" aria-label="菜单">
+  <button
+    class="hamburger js-mobile-menu"
+    :class="{ open: mobileOpen, 'home-route': isHome }"
+    aria-label="菜单"
+    @click="toggle"
+  >
     <span></span><span></span><span></span>
   </button>
 
-  <div class="right-box js-sidebar" :class="{ 'mobile-open': mobileOpen }" :style="rightBoxStyle">
+  <div
+    class="right-box js-sidebar"
+    :class="{ 'mobile-open': mobileOpen, 'home-route': isHome }"
+    :style="rightBoxStyle"
+  >
       <div class="sidebar">
         <!-- 头像 -->
         <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
-          <img src="/image/mylog.jpg" alt="头像" />
+          <img src="/image/mylog.jpg" alt="雷电将军头像" />
         </router-link>
+
+        <div class="sidebar-identity">
+          <strong>雷电影</strong>
+          <span>一心净土</span>
+        </div>
 
         <!-- 导航 -->
         <nav>
@@ -150,6 +164,11 @@ onUnmounted(() => {
 
 /* ====== 侧边栏本体 ====== */
 .sidebar {
+  --bg-card: rgba(20, 20, 24, 0.04);
+  --bg-card-hover: rgba(20, 20, 24, 0.07);
+  --border: rgba(20, 20, 24, 0.09);
+  --text-primary: #1c1c20;
+  --text-secondary: #66666e;
   color: var(--text-primary);
   padding: 10px;
   height: 100%;
@@ -158,8 +177,9 @@ onUnmounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: var(--bg-primary);
-  border-left: 1px solid var(--border);
+  background: #ffffff;
+  border-left: 1px solid rgba(20, 20, 24, 0.09);
+  box-shadow: -12px 0 36px rgba(10, 10, 15, 0.06);
   transition: width 0.35s var(--ease-out);
 }
 
@@ -189,6 +209,10 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.sidebar-identity {
+  display: none;
 }
 
 /* ====== 导航 ====== */
@@ -262,9 +286,31 @@ onUnmounted(() => {
   font-size: 0.72rem;
 }
 
+@media (min-width: 769px) {
+  .right-box.home-route {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+}
+
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
-  .hamburger { display: flex; }
+  .hamburger {
+    display: flex;
+    border-color: rgba(176, 136, 249, 0.48);
+    border-radius: 8px;
+    background: rgba(18, 14, 31, 0.9);
+    box-shadow: 0 8px 24px rgba(19, 12, 35, 0.24);
+  }
+  .hamburger span { background: #b088f9; }
+  .hamburger.home-route {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(18px);
+    pointer-events: none;
+  }
   .mobile-overlay { display: block; }
 
   .right-box {
@@ -275,17 +321,41 @@ onUnmounted(() => {
   .right-box.mobile-open { transform: translateX(0); }
 
   .sidebar {
-    width: 240px !important;
+    width: min(78vw, 288px) !important;
     padding-top: max(60px, env(safe-area-inset-top));
     padding-bottom: max(80px, env(safe-area-inset-bottom));
     justify-content: flex-start;
-    background: var(--bg-primary);
+    background: #ffffff;
     border-left: 1px solid var(--border);
   }
 
-  .sidebar:hover { width: 240px !important; }
+  .sidebar:hover { width: min(78vw, 288px) !important; }
 
-  .sidebar-avatar { width: 72px; height: 72px; }
+  .sidebar-avatar {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    border-color: rgba(176, 136, 249, 0.5);
+    box-shadow: 0 8px 28px rgba(107, 76, 154, 0.18);
+  }
+
+  .sidebar-identity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .sidebar-identity strong {
+    color: #2d2141;
+    font-size: 1rem;
+  }
+
+  .sidebar-identity span {
+    margin-top: 2px;
+    color: #80649f;
+    font-size: 0.72rem;
+  }
 
   .nav-link {
     padding: 14px 18px;

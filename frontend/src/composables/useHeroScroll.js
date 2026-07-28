@@ -10,4 +10,4 @@
 import { ref, computed } from 'vue'
 
 export const heroProgress = ref(0)
-export const showParticles = computed(() => heroProgress.value > 0.15)
+export const showParticles = computed(() => heroProgress.value > 0.6)
