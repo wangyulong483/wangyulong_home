@@ -39,20 +39,6 @@
           </ul>
         </nav>
 
-        <!-- 底部：主题切换 -->
-        <button class="theme-toggle" @click="toggleTheme" :aria-label="isLight ? '切换到暗色模式' : '切换到亮色模式'">
-          <svg v-if="isLight" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-          <svg v-else viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <span class="toggle-label">{{ isLight ? '亮色' : '暗色' }}</span>
-        </button>
       </div>
     </div>
 </template>
@@ -64,7 +50,6 @@ import AppIcon from '@/components/AppIcon.vue'
 
 const router = useRouter()
 const mobileOpen = ref(false)
-const isLight = ref(false)
 
 const isHome = computed(() => router.currentRoute.value?.name === 'Home')
 
@@ -86,20 +71,7 @@ watch(() => router.currentRoute.value, close)
 
 function onKey(e) { if (e.key === 'Escape') close() }
 
-function toggleTheme() {
-  const html = document.documentElement
-  const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light'
-  html.setAttribute('data-theme', next)
-  localStorage.setItem('theme', next)
-  isLight.value = next === 'light'
-}
-
-function syncTheme() {
-  isLight.value = document.documentElement.getAttribute('data-theme') === 'light'
-}
-
 onMounted(() => {
-  syncTheme()
   document.addEventListener('keydown', onKey)
 })
 
@@ -258,34 +230,6 @@ onUnmounted(() => {
   box-shadow: inset 2px 0 0 var(--accent);
 }
 
-/* ====== 主题切换按钮 ====== */
-.theme-toggle {
-  position: absolute;
-  bottom: 24px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  font-size: 0.78rem;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.25s var(--ease-out);
-}
-
-.theme-toggle:hover {
-  border-color: var(--border-hover);
-  color: var(--accent);
-  background: var(--bg-card-hover);
-}
-
-.toggle-label {
-  font-size: 0.72rem;
-}
-
 @media (min-width: 769px) {
   .right-box.home-route {
     opacity: 0;
@@ -323,7 +267,7 @@ onUnmounted(() => {
   .sidebar {
     width: min(78vw, 288px) !important;
     padding-top: max(60px, env(safe-area-inset-top));
-    padding-bottom: max(80px, env(safe-area-inset-bottom));
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
     justify-content: flex-start;
     background: #ffffff;
     border-left: 1px solid var(--border);

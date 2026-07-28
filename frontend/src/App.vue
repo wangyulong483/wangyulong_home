@@ -45,8 +45,8 @@ const particlesVisible = computed(() => {
   return true
 })
 
-const particleCount = computed(() => isMobile.value ? 38 : 100)
-const particleOpacity = computed(() => isMobile.value ? 0.32 : 0.8)
+const particleCount = computed(() => isMobile.value ? 42 : 100)
+const particleOpacity = computed(() => isMobile.value ? 0.45 : 0.8)
 
 onMounted(() => {
   mobileQuery = window.matchMedia('(max-width: 768px)')
@@ -62,38 +62,38 @@ onUnmounted(() => {
 <!-- ===== 全局样式 ===== -->
 <style>
 /* ============================================================
-   CSS 变量 — 暗色主题（默认）+ 亮色主题
+   CSS 变量 — 固定亮色主题
    ============================================================ */
 
 :root {
   /* 主色 */
-  --accent: #6C5CE7;
-  --accent-hover: #7D6FF0;
-  --accent-glow: rgba(108, 92, 231, 0.25);
-  --accent-muted: rgba(108, 92, 231, 0.10);
+  --accent: #5B4ED3;
+  --accent-hover: #6C5CE7;
+  --accent-glow: rgba(91, 78, 211, 0.14);
+  --accent-muted: rgba(91, 78, 211, 0.09);
 
   /* 辅助强调色 */
-  --accent-2: #00D2FF;
-  --accent-2-glow: rgba(0, 210, 255, 0.20);
+  --accent-2: #2D76C8;
+  --accent-2-glow: rgba(45, 118, 200, 0.16);
 
   /* 背景 */
-  --bg-primary: #0A0A0F;
-  --bg-card: rgba(255, 255, 255, 0.03);
-  --bg-card-hover: rgba(255, 255, 255, 0.06);
-  --bg-input: rgba(255, 255, 255, 0.06);
+  --bg-primary: #FAFAFA;
+  --bg-card: rgba(255, 255, 255, 0.72);
+  --bg-card-hover: #FFFFFF;
+  --bg-input: rgba(20, 20, 24, 0.04);
 
   /* 边框 */
-  --border: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(108, 92, 231, 0.30);
+  --border: rgba(20, 20, 24, 0.09);
+  --border-hover: rgba(91, 78, 211, 0.35);
 
   /* 文字 */
-  --text-primary: rgba(255, 255, 255, 0.92);
-  --text-secondary: rgba(255, 255, 255, 0.55);
-  --text-tertiary: rgba(255, 255, 255, 0.30);
+  --text-primary: #1A1A1E;
+  --text-secondary: #66666E;
+  --text-tertiary: #9A9AA2;
 
   /* 阴影 */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 2px rgba(20, 20, 24, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 20, 24, 0.08);
   --shadow-glow: 0 0 24px var(--accent-glow);
 
   /* 圆角 */
@@ -104,25 +104,6 @@ onUnmounted(() => {
   /* 过渡 */
   --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* 亮色主题 */
-[data-theme="light"] {
-  --bg-primary: #FAFAFA;
-  --bg-card: rgba(0, 0, 0, 0.02);
-  --bg-card-hover: rgba(0, 0, 0, 0.05);
-  --bg-input: rgba(0, 0, 0, 0.04);
-
-  --border: rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(91, 78, 211, 0.35);
-
-  --text-primary: #1A1A1A;
-  --text-secondary: #737373;
-  --text-tertiary: #A3A3A3;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 0 24px rgba(91, 78, 211, 0.12);
 }
 
 /* ============================================================

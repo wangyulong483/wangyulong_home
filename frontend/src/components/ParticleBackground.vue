@@ -1,131 +1,192 @@
 <template>
-  <!--
-    canvas-nest.js 经典粒子效果
-    亮色主题 → 紫色粒子 / 暗色主题 → 青色粒子
-  -->
-  <canvas ref="canvasRef" class="particle-canvas"></canvas>
+  <canvas ref="canvasRef" class="particle-canvas" aria-hidden="true"></canvas>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 
 const props = defineProps({
   opacity: { type: Number, default: 0.8 },
-  count:   { type: Number, default: 100 },
-  zIndex:  { type: Number, default: -1 },
+  count: { type: Number, default: 100 },
+  zIndex: { type: Number, default: -1 },
+  color: { type: String, default: '45,118,200' },
 })
 
-// 亮色紫 / 暗色青
-function currentColor() {
-  const t = document.documentElement.getAttribute('data-theme')
-  return t === 'light' ? '108,92,231' : '0,210,255'
-}
-
 const canvasRef = ref(null)
-let ctx = null
+const mousePoint = { x: null, y: null, max: 20000 }
+
+let ctx
 let canvasWidth = 0
 let canvasHeight = 0
+let pixelRatio = 1
 let animationId = null
+let startTimer = null
 let particles = []
 let allPoints = []
-const mousePoint = { x: null, y: null, max: 20000 }
-const rand = Math.random
+let lastTimestamp = null
+let running = false
+let reducedMotion = false
 
-function resize() {
-  canvasWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-  canvasHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+function resizeCanvas() {
   const canvas = canvasRef.value
-  if (canvas) {
-    canvas.width = canvasWidth
-    canvas.height = canvasHeight
-  }
+  if (!canvas || !ctx) return
+
+  canvasWidth = window.innerWidth || document.documentElement.clientWidth
+  canvasHeight = window.innerHeight || document.documentElement.clientHeight
+  pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+
+  canvas.width = Math.round(canvasWidth * pixelRatio)
+  canvas.height = Math.round(canvasHeight * pixelRatio)
+  canvas.style.width = `${canvasWidth}px`
+  canvas.style.height = `${canvasHeight}px`
+  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
 }
 
-function render() {
+function createParticles() {
+  const count = Math.max(0, Math.round(props.count))
+  particles = Array.from({ length: count }, () => ({
+    x: Math.random() * canvasWidth,
+    y: Math.random() * canvasHeight,
+    xa: 2 * Math.random() - 1,
+    ya: 2 * Math.random() - 1,
+    max: 6000,
+  }))
+  allPoints = [...particles, mousePoint]
+}
+
+function drawFrame(timestamp = performance.now(), advance = true) {
   if (!ctx) return
 
-  const color = currentColor()
+  const frameScale = lastTimestamp === null
+    ? 1
+    : Math.min((timestamp - lastTimestamp) / (1000 / 60), 2)
+  lastTimestamp = timestamp
+
   ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+  ctx.fillStyle = `rgba(${props.color},0.9)`
 
-  particles.forEach((p, i) => {
-    p.x += p.xa
-    p.y += p.ya
-    p.xa *= p.x > canvasWidth  || p.x < 0 ? -1 : 1
-    p.ya *= p.y > canvasHeight || p.y < 0 ? -1 : 1
+  particles.forEach((particle, index) => {
+    if (advance) {
+      particle.x += particle.xa * frameScale
+      particle.y += particle.ya * frameScale
+      particle.xa *= particle.x > canvasWidth || particle.x < 0 ? -1 : 1
+      particle.ya *= particle.y > canvasHeight || particle.y < 0 ? -1 : 1
+    }
 
-    // 粒子点
-    ctx.fillStyle = `rgba(${color},0.9)`
-    ctx.fillRect(p.x - 0.5, p.y - 0.5, 1, 1)
+    ctx.fillRect(particle.x - 0.5, particle.y - 0.5, 1, 1)
 
-    // 连线
-    for (let j = i + 1; j < allPoints.length; j++) {
-      const other = allPoints[j]
+    for (let otherIndex = index + 1; otherIndex < allPoints.length; otherIndex += 1) {
+      const other = allPoints[otherIndex]
       if (other.x === null || other.y === null) continue
 
-      const dx = p.x - other.x
-      const dy = p.y - other.y
-      const dist = dx * dx + dy * dy
+      const offsetX = particle.x - other.x
+      const offsetY = particle.y - other.y
+      const distance = offsetX * offsetX + offsetY * offsetY
+      if (distance >= other.max) continue
 
-      if (dist < other.max) {
-        if (other === mousePoint && dist >= other.max / 2) {
-          p.x -= 0.03 * dx
-          p.y -= 0.03 * dy
-        }
-        const ratio = (other.max - dist) / other.max
-        ctx.beginPath()
-        ctx.lineWidth = ratio / 2
-        ctx.strokeStyle = `rgba(${color},${(ratio + 0.2).toFixed(2)})`
-        ctx.moveTo(p.x, p.y)
-        ctx.lineTo(other.x, other.y)
-        ctx.stroke()
+      if (advance && other === mousePoint && distance >= other.max / 2) {
+        particle.x -= 0.03 * offsetX * frameScale
+        particle.y -= 0.03 * offsetY * frameScale
       }
+
+      const ratio = (other.max - distance) / other.max
+      ctx.beginPath()
+      ctx.lineWidth = ratio / 2
+      ctx.strokeStyle = `rgba(${props.color},${Math.min(ratio + 0.2, 1)})`
+      ctx.moveTo(particle.x, particle.y)
+      ctx.lineTo(other.x, other.y)
+      ctx.stroke()
     }
   })
-
-  animationId = requestAnimationFrame(render)
 }
 
-function onMouseMove(e) { mousePoint.x = e.clientX; mousePoint.y = e.clientY }
-function onMouseOut() { mousePoint.x = null; mousePoint.y = null }
+function animate(timestamp) {
+  if (!running) return
+  drawFrame(timestamp, true)
+  animationId = requestAnimationFrame(animate)
+}
+
+function startAnimation() {
+  if (running || reducedMotion) return
+  running = true
+  lastTimestamp = null
+  animationId = requestAnimationFrame(animate)
+}
+
+function stopAnimation() {
+  running = false
+  if (animationId !== null) cancelAnimationFrame(animationId)
+  animationId = null
+  lastTimestamp = null
+}
+
+function rebuildParticles() {
+  if (!ctx) return
+  createParticles()
+  if (reducedMotion) drawFrame(performance.now(), false)
+}
+
+function onResize() {
+  resizeCanvas()
+  rebuildParticles()
+}
+
+function onMouseMove(event) {
+  mousePoint.x = event.clientX
+  mousePoint.y = event.clientY
+}
+
+function onMouseLeave(event) {
+  if (event.relatedTarget) return
+  mousePoint.x = null
+  mousePoint.y = null
+}
+
+function onVisibilityChange() {
+  if (document.hidden) stopAnimation()
+  else if (reducedMotion) drawFrame(performance.now(), false)
+  else startAnimation()
+}
+
+watch(() => props.count, rebuildParticles)
 
 onMounted(() => {
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (prefersReduced) return
-
-  ctx = canvasRef.value?.getContext('2d')
+  ctx = canvasRef.value?.getContext('2d', { alpha: true })
   if (!ctx) return
-  resize()
 
-  particles = []
-  for (let i = 0; i < props.count; i++) {
-    particles.push({
-      x: rand() * canvasWidth,  y: rand() * canvasHeight,
-      xa: 2 * rand() - 1,       ya: 2 * rand() - 1,
-      max: 6000,
-    })
-  }
-  allPoints = [...particles, mousePoint]
+  reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  resizeCanvas()
+  createParticles()
 
-  window.addEventListener('resize', resize)
-  window.addEventListener('mousemove', onMouseMove)
-  window.addEventListener('mouseout', onMouseOut)
+  window.addEventListener('resize', onResize, { passive: true })
+  window.addEventListener('mousemove', onMouseMove, { passive: true })
+  window.addEventListener('mouseout', onMouseLeave, { passive: true })
+  document.addEventListener('visibilitychange', onVisibilityChange)
 
-  setTimeout(() => { animationId = requestAnimationFrame(render) }, 100)
+  if (reducedMotion) drawFrame(performance.now(), false)
+  else startTimer = window.setTimeout(startAnimation, 100)
 })
 
 onUnmounted(() => {
-  cancelAnimationFrame(animationId)
-  window.removeEventListener('resize', resize)
+  window.clearTimeout(startTimer)
+  stopAnimation()
+  window.removeEventListener('resize', onResize)
   window.removeEventListener('mousemove', onMouseMove)
-  window.removeEventListener('mouseout', onMouseOut)
-  particles = []; allPoints = []
+  window.removeEventListener('mouseout', onMouseLeave)
+  document.removeEventListener('visibilitychange', onVisibilityChange)
+  particles = []
+  allPoints = []
+  ctx = null
 })
 </script>
 
 <style scoped>
 .particle-canvas {
-  position: fixed; top: 0; left: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: v-bind('props.zIndex');
+  display: block;
   opacity: v-bind('props.opacity');
   pointer-events: none;
 }
