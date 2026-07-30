@@ -90,7 +90,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-import AppIcon from '@/components/AppIcon.vue'
+import AppIcon from '@/shared/components/AppIcon.vue'
 
 const videos = ref([
   { title: '人体追踪', bvid: '', tags: ['MediaPipe', 'AI'], duration: '', thumb: '' },

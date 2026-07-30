@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import AppIcon from '@/components/AppIcon.vue'
+import AppIcon from '@/shared/components/AppIcon.vue'
 </script>
 
 <style scoped>

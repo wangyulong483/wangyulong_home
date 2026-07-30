@@ -45,7 +45,7 @@
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import AppIcon from '@/components/AppIcon.vue'
+import AppIcon from '@/shared/components/AppIcon.vue'
 
 const router = useRouter()
 const mobileOpen = ref(false)

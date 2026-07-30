@@ -3,12 +3,12 @@
 ## 基本流程
 
 1. **用户提需求** → AI 使用 EXA MCP 搜集方案
-2. **AI 写方案** → 写入 `todo.md` 的 `======` 分隔线之间，包含"需求"和"方案"两部分
+2. **AI 写方案** → 写入 `docs/todo.md` 的 `======` 分隔线之间，包含"需求"和"方案"两部分
 3. **用户审核** → 用户阅读方案，提出修改意见，AI 完善方案
 4. **用户确认** → 用户说"按方案执行"或类似指令
 5. **AI 执行** → 按方案的步骤逐一实现，完成后构建验证
 
-## todo.md 格式
+## docs/todo.md 格式
 
 ```
 ## 需求
@@ -30,7 +30,7 @@
 - 完成每一步后提交 git（有意义的中文 commit message）
 - 使用 EXA MCP 搜索最新技术方案，不凭记忆猜测
 - **UI / 样式变更**：先用 `askuser` 确认方案再动手，避免反复修改
-- **小改动免方案**：图标修正、数据更新（如 BV 号）、样式微调等简单修改可跳过 `todo.md` 流程直接执行
+- **小改动免方案**：图标修正、数据更新（如 BV 号）、样式微调等简单修改可跳过 `docs/todo.md` 流程直接执行
 - **本地部署免提交**：只想部署不想提交 git 时，直接用 `npm run build && npx wrangler pages deploy frontend/dist --branch=main`（从项目根目录运行），跳过 `deploy.sh` 的 git 步骤
 
 ## 技术约束
@@ -72,14 +72,14 @@ npx wrangler pages deploy dist --project-name=wangyulong-home --branch=main
 ```
 
 - `--branch=main` **必须加**：CI 环境（GitHub Actions）中 git 处于 detached HEAD 状态，不加此标志会部署到 `HEAD` 环境而非生产环境 → 网站不会更新
-- 本地部署用 `frontend/deploy.sh`：`cd frontend && bash deploy.sh "提交信息"`
+- 本地部署用 `npm run deploy -- "提交信息"`（从项目根目录运行）
 - wrangler OAuth 登录过期时运行 `npx wrangler login` 重新认证
 
 ### GitHub Actions 部署注意事项
 
 1. `wrangler-action@v3` 的 `workingDirectory` 默认为仓库根目录，`command` 中的路径相对于根目录
 2. `npm run build` 的 `working-directory: frontend`，产物在 `frontend/dist/`
-3. 根目录 `package.json` 的 `build` 脚本委托到 `frontend/`：`cd frontend && npm ci && npm run build`
+3. 根目录 `package.json` 的 `build` 脚本通过 `npm --prefix frontend` 委托到前端
 4. `_redirects` 文件放在 `frontend/public/`（Vite 自动复制到 `dist/`），Cloudflare 解析后处理 SPA 路由
 
 ### SPA + 静态 JSON 共存

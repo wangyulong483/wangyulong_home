@@ -26,9 +26,9 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import Sidebar from '@/components/Sidebar.vue'
-import ParticleBackground from '@/components/ParticleBackground.vue'
-import { showParticles } from '@/composables/useHeroScroll.js'
+import Sidebar from '@/shared/layout/Sidebar.vue'
+import ParticleBackground from '@/shared/effects/ParticleBackground.vue'
+import { showParticles } from '@/features/home/composables/useHeroScroll.js'
 
 const route = useRoute()
 const isMobile = ref(false)

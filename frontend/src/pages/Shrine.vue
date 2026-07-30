@@ -84,12 +84,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import ElectroParticles from '@/components/shrine/ElectroParticles.vue'
-import RaidenHero from '@/components/shrine/RaidenHero.vue'
-import GalleryTab from '@/components/shrine/GalleryTab.vue'
-import WikiTab from '@/components/shrine/WikiTab.vue'
-import NewsTab from '@/components/shrine/NewsTab.vue'
-import ChatTab from '@/components/shrine/ChatTab.vue'
+import ElectroParticles from '@/features/shrine/components/ElectroParticles.vue'
+import RaidenHero from '@/features/shrine/components/RaidenHero.vue'
+import GalleryTab from '@/features/shrine/components/GalleryTab.vue'
+import WikiTab from '@/features/shrine/components/WikiTab.vue'
+import NewsTab from '@/features/shrine/components/NewsTab.vue'
+import ChatTab from '@/features/shrine/components/ChatTab.vue'
 
 // ============================================================
 // 兜底数据 — Cloudflare Pages SPA fallback 拦截 JSON 时使用

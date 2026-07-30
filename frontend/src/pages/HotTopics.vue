@@ -114,7 +114,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import AppIcon from '@/components/AppIcon.vue'
+import AppIcon from '@/shared/components/AppIcon.vue'
 
 const FALLBACK_DATA = {
   date: new Date().toISOString().slice(0, 10),

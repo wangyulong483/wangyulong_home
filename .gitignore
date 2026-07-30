@@ -5,6 +5,7 @@ node_modules
 # Build output
 dist
 dist-ssr
+.wrangler/
 
 # Env
 *.local
@@ -37,5 +38,5 @@ __pycache__/
 .venv/
 venv/
 
-# 大文件
+# Large local source files
 about_source_backup/

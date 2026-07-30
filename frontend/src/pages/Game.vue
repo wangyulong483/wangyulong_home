@@ -54,7 +54,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import AppIcon from '@/components/AppIcon.vue'
+import AppIcon from '@/shared/components/AppIcon.vue'
 
 const W = 800, H = 600
 const BULLET_MAX = 50, ENEMY_MAX = 20, PARTICLE_MAX = 150

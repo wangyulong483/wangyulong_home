@@ -56,8 +56,8 @@
 </template>
 
 <script setup>
-import HeroTransition from '@/components/HeroTransition.vue'
-import { heroProgress } from '@/composables/useHeroScroll.js'
+import HeroTransition from '@/features/home/components/HeroTransition.vue'
+import { heroProgress } from '@/features/home/composables/useHeroScroll.js'
 
 function onProgress(progress) {
   heroProgress.value = progress

@@ -1,11 +1,11 @@
 {
   "name": "wangyulong-home",
   "private": true,
-  "description": "个人博客 — Vue 3 + Vite 前端，Cloudflare Pages 部署",
+  "description": "个人博客：Vue 3 + Vite 前端与 FastAPI 服务",
   "scripts": {
-    "build": "cd frontend && npm ci && npm run build && node -e \"require('node:fs').cpSync('dist','../dist',{recursive:true,force:true})\""
-  },
-  "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.1.0"
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend ci && npm --prefix frontend run build && node scripts/build/copy-frontend.mjs",
+    "preview": "npm --prefix frontend run preview",
+    "deploy": "bash scripts/deploy/deploy.sh"
   }
 }
