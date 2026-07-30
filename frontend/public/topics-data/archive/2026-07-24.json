@@ -1,567 +1,71 @@
 {
-  "date": "2026-07-25",
+  "date": "2026-07-24",
   "items": [
     {
-      "id": "bf6afc8257fb",
-      "title": "📦 flashinfer-ai/flashinfer",
-      "summary": "FlashInfer: Kernel Library for LLM Serving",
+      "id": "e4e82bc3334b",
+      "title": "📦 microsoft/SkillOpt",
+      "summary": "SkillOpt is a text-space optimizer that trains reusable natural-language skills for frozen LLM agents through trajectory-driven edits, validation-gated updates, and deployable best_skill.md artifacts.",
       "source": "GitHub Trending",
       "sourceIcon": "github",
-      "url": "https://github.com/flashinfer-ai/flashinfer",
+      "url": "https://github.com/microsoft/SkillOpt",
       "category": "ai",
       "tags": [
         "ai"
       ],
-      "publishedAt": "2026-07-25T02:42:18.255073+00:00"
+      "publishedAt": "2026-07-24T02:43:30.416354+00:00"
     },
     {
-      "id": "63658bbe27b4",
-      "title": "📦 calesthio/OpenMontage",
-      "summary": "World's first open-source, agentic video production system. 12 production pipelines, 100+ tools, 700+ agent skill and production-knowledge files. Turn your AI coding assistant into a full video production studio.",
-      "source": "GitHub Trending",
-      "sourceIcon": "github",
-      "url": "https://github.com/calesthio/OpenMontage",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-25T02:42:18.254917+00:00"
-    },
-    {
-      "id": "0f2bf5ae6250",
-      "title": "📦 paperless-ngx/paperless-ngx",
-      "summary": "A community-supported supercharged document management system: scan, index and archive all your documents",
-      "source": "GitHub Trending",
-      "sourceIcon": "github",
-      "url": "https://github.com/paperless-ngx/paperless-ngx",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-25T02:42:18.254401+00:00"
-    },
-    {
-      "id": "f9d62f7d301e",
-      "title": "scan_detection_fusion — LiDAR + camera fusion library for ROS 2 Jazzy",
-      "summary": "Hi ROS community, I’m a high school student and wanted to share a package I’ve just released into the Jazzy distribution: scan_detection_fusion , a reusable ROS 2 library that fuses 2D LiDAR scans with camera object detections to produce range-resolved, semantically labeled obstacles and class-aware",
+      "id": "7ad70813c756",
+      "title": "2026 ROS Summer School – Hangzhou, China Successfully Concludes",
+      "summary": "After seven intensive days of academic lectures, hands-on lab training, technical exchanges and team project challenges, the 2026 ROS Summer School – Hangzhou, China has officially come to a successful close. Launched with 23 parallel specialized training tracks as previously announced, this annual ",
       "source": "ROS Discourse",
       "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/scan-detection-fusion-lidar-camera-fusion-library-for-ros-2-jazzy/56944#post_1",
+      "url": "https://discourse.openrobotics.org/t/2026-ros-summer-school-hangzhou-china-successfully-concludes/56913#post_1",
       "category": "ros2",
       "tags": [
-        "ai",
-        "lidar",
-        "ros2"
-      ],
-      "publishedAt": "2026-07-25T01:47:39+00:00"
-    },
-    {
-      "id": "bcd94f5b59da",
-      "title": "Inside Pavlov Mini Wheel (Part 2): From Camera Frame to Navigation Goal",
-      "summary": "Hi everyone, I’ve just published Part 2 of my Pavlov Mini Wheel series, where I take a deeper look at the software architecture behind my ROS 2 autonomous robot. This article follows the complete perception pipeline—from a single camera frame to a navigation goal—and explains how the system is organ",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/inside-pavlov-mini-wheel-part-2-from-camera-frame-to-navigation-goal/56943#post_1",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-25T01:47:16+00:00"
-    },
-    {
-      "id": "a8e6d7cfc3ba",
-      "title": "Actuator for robot arm",
-      "summary": "Hi everyone. I am currently trying to make a 6DOF robot arm. After looking at the options for motors, I found that almost all options are very expensive. However I am thinking of using a DC geared motor with a planetary gear reducer and encoder as an actuator for my joints. Thinking of using a 37mm ",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5q2v7/actuator_for_robot_arm/",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-24T22:24:09+00:00"
-    },
-    {
-      "id": "1eeed0e28170",
-      "title": "Extending Support to AMD's lineup of edge devices",
-      "summary": "If you’re using it to port/initial testing, then the fastest solution would be to either buy the new AMD Halo machine or the GMKTec EVO-X2. These are identical SOCs, just not in the embedded packaging and with slightly better RAM (which you can artificially set to match the Kria’s speeds in the BIOS",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/extending-support-to-amds-lineup-of-edge-devices/56925#post_5",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T20:51:42+00:00"
-    },
-    {
-      "id": "30a363071893",
-      "title": "[Nav2] Open Navigation's Robotics Workload Benchmark Release",
-      "summary": "I do not have that information unfortunately",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/nav2-open-navigations-robotics-workload-benchmark-release/56909#post_4",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T20:46:32+00:00"
-    },
-    {
-      "id": "1651397581db",
-      "title": "Nvidia Jetson price increase by up to 100%, what other boards are you using to run ROS?",
-      "summary": "I used an extremely similar product whose only difference is the RAM speeds, but I actually went into the BIOS to reduce the RAM speeds to match those of this new product so that it should be precisely the same!",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/nvidia-jetson-price-increase-by-up-to-100-what-other-boards-are-you-using-to-run-ros/56841#post_6",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T20:46:02+00:00"
-    },
-    {
-      "id": "15786fc1e759",
-      "title": "[Collab] Anyone in Houston wants to team up on a robot project",
-      "summary": "Hey everyone, I’m currently working on a robot project and was wondering if anyone in the Houston, Texas area would like to join forces. The idea is to combine skills, share knowledge, and build something awesome together. I have the engineering background and some parts already, but I’d love to con",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5lcnb/collab_anyone_in_houston_wants_to_team_up_on_a/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T19:27:07+00:00"
-    },
-    {
-      "id": "a14db6a480d9",
-      "title": "ROS News for the Week of July 20th, 2026",
-      "summary": "ROS News for the week of July 20th, 2026 I’ve had quite the week! In the past seven days, I’ve been to Open Sauce , AMD’s developer conference , and now I’m at Teardown in Portland. It might have also been my birthday this week. I’ve run into so many fantastic people building wonderful ROS robots, i",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/ros-news-for-the-week-of-july-20th-2026/56937#post_1",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T18:53:49+00:00"
-    },
-    {
-      "id": "a7d1172a937f",
-      "title": "Generalist’s GEN-1 foundation model now supports a range of robot end effectors",
-      "summary": "By training GEN-1 to work with new hands, Generalist said a single base model can learn sensorimotor policies on different robots. The post Generalist’s GEN-1 foundation model now supports a range of robot end effectors appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/generalists-gen-1-foundation-model-now-supports-a-range-of-robot-end-effectors/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T18:23:42+00:00"
-    },
-    {
-      "id": "5da7a756209c",
-      "title": "`runtime_integrity`: execution-integrity evidence for Nav2 AMRs under EU AI Act logging / oversight pressure",
-      "summary": "Great evolution of your initial work. Please consider adding a license declaration file to your repo.",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/runtime-integrity-execution-integrity-evidence-for-nav2-amrs-under-eu-ai-act-logging-oversight-pressure/55020#post_2",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T18:00:19+00:00"
-    },
-    {
-      "id": "24fb7df16f6b",
-      "title": "Buildfarmer Dashboard: ROS & Gazebo test health in one place",
-      "summary": "This is great work indeed! I’d like to pass on some feedback I got. It seems like there are additional flaky tests that have been flagged by the Gazebo team but don’t show up in the dashboard. Here are some examples: ApplyLinkWrenchTestFixture.PersistentFromTopic test is flaky · Issue #2727 · gazebo",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/buildfarmer-dashboard-ros-gazebo-test-health-in-one-place/56858#post_3",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T17:55:44+00:00"
-    },
-    {
-      "id": "335bf4bf3483",
-      "title": "Claude Code skills for ROS 2 Jazzy that route to official docs instead of guessing APIs (measured before/after included)",
-      "summary": "submitted by /u/Usual_Government_769 [link] [comments]",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5h7ud/claude_code_skills_for_ros_2_jazzy_that_route_to/",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T17:01:10+00:00"
-    },
-    {
-      "id": "d28fedbaa278",
-      "title": "Do warehouse AMR operators actually monitor their fleets for security in production?",
-      "summary": "Hi @RoboticsTehnologis , Nice to hear you are using ROS in production! While I can’t answer your question directly, the OSRA is about to kick off some work on improving ROS security. It would be really valuable to get your experiences, thoughts, and questions folded in to that effort. Can you DM me ",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/do-warehouse-amr-operators-actually-monitor-their-fleets-for-security-in-production/56931#post_2",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T16:56:22+00:00"
-    },
-    {
-      "id": "ef9faf0af9fe",
-      "title": "How time series databases unlock real-time data for robotics",
-      "summary": "Discover how time series databases help robotics teams manage high-volume sensor data, power AI insights, and keep systems running at scale. The post How time series databases unlock real-time data for robotics appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/how-time-series-databases-unlock-real-time-data-for-robotics/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T16:28:39+00:00"
-    },
-    {
-      "id": "a4d1dd978909",
-      "title": "Bob (my robot) died 😢 I tried consolidating 2 LiPo batteries into a 1 larger one and fried its Raspberry Pi brains. I'm gonna rebuild him with a Nvidia Jetson brain and RealSense D457 GMSL camera.",
-      "summary": "submitted by /u/Chemical-Hunter-5479 [link] [comments]",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5faas/bob_my_robot_died_i_tried_consolidating_2_lipo/",
-      "category": "robot",
-      "tags": [
-        "robot",
+        "ros2",
         "camera"
       ],
-      "publishedAt": "2026-07-24T15:52:45+00:00"
+      "publishedAt": "2026-07-24T00:34:31+00:00"
     },
     {
-      "id": "d918fde8ead1",
-      "title": "[Project] Reproducing NVIDIA’s Isaac Lab-to-VLA pipeline with 50 remotely collected VR demonstrations",
-      "summary": "I’m part of the team that ran this experiment at Sim XR. Sharing it here as a technical project rather than a product announcement. We started by reproducing NVIDIA’s published Isaac Lab → LeRobot → VLA fine-tuning → Arena evaluation workflow for the Unitree G1 apple task. In our matched simulation ",
+      "id": "28e7d89257d8",
+      "title": "[Showcase] Built a processing engine for egocentric video and looking for labs to test it out for free",
+      "summary": "If you're building physical AI, teleoperation rigs, or fine-tuning Vision-Language-Action (VLA) models, you already know that data plumbing devours hours of GPU time and engineering effort. Handling raw egocentric video usually comes with a bunch of friction and to solve this, we’ve been building a ",
       "source": "Reddit r/robotics",
       "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5ewia/project_reproducing_nvidias_isaac_labtovla/",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-24T15:38:45+00:00"
-    },
-    {
-      "id": "c89f8b8ca3fa",
-      "title": "I built a real Wall-E",
-      "summary": "I made this real life Wall-E robot from scratch and am really proud of it so check my youtube video about it out if you would like submitted by /u/Financial-Abroad-561 [link] [comments]",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5dvxn/i_built_a_real_walle/",
+      "url": "https://www.reddit.com/r/robotics/comments/1v4u1k4/showcase_built_a_processing_engine_for_egocentric/",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-07-24T15:01:19+00:00"
+      "publishedAt": "2026-07-23T23:14:13+00:00"
     },
     {
-      "id": "0f891662f79a",
-      "title": "Human Fall Detection By 3D Dtof LIDAR HM-LD1",
-      "summary": "submitted by /u/RiskHot1017 [link] [comments]",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5crci/human_fall_detection_by_3d_dtof_lidar_hmld1/",
-      "category": "robot",
+      "id": "704a02c50b0f",
+      "title": "Built a tool that generates complete, production-ready ROS2 packages from plain English — web app and CLI. ros2vine.vercel.app · pip install ros2vine",
+      "summary": "I’m a second-year engineering student on the IIT Bombay Mars Rover Team. I built this because writing ROS2 boilerplate from scratch is slow, and Copilot gives you snippets — not a package that actually builds. Describe what your robot should do. ros2vine writes the nodes, launch files, build config,",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/built-a-tool-that-generates-complete-production-ready-ros2-packages-from-plain-english-web-app-and-cli-ros2vine-vercel-app-pip-install-ros2vine/56911#post_1",
+      "category": "ros2",
       "tags": [
-        "robot",
-        "ai",
-        "camera",
-        "sensor",
-        "lidar"
-      ],
-      "publishedAt": "2026-07-24T14:19:53+00:00"
-    },
-    {
-      "id": "48cb40c2f3fa",
-      "title": "A C++ real time ring buffer",
-      "summary": "Hi everyone Renkasha here I just wanted to share this feel free to use it,test and give feedback . I’m not looking for work or requests just want to help out. GitHub link https://github.com/Renkasha/real-time-ring-buffer Uses https://github.com/Renkasha/real-time-ring-buffer/blob/main/USE\\_CASES.md ",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v5byfw/a_c_real_time_ring_buffer/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T13:49:20+00:00"
-    },
-    {
-      "id": "30d4d793d162",
-      "title": "NEURA Robotics establishes NEURA Gym RWTH Aachen to train physical AI",
-      "summary": "NEURA Robotics has partnered with a German university for NEURA Gym RWTH Aachen, one of 10 facilities for training physical AI. The post NEURA Robotics establishes NEURA Gym RWTH Aachen to train physical AI appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/neura-robotics-establishes-neura-gym-rwth-aachen-train-physical-ai/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T12:30:42+00:00"
-    },
-    {
-      "id": "446808984e01",
-      "title": "The second attempt tells more than the success clip",
-      "summary": "In a robot demo, I usually watch what happens right after the first miss. Does the robot look again and change its approach, repeat the same motion, or wait for someone off camera to reset the object? For a LingBot-VLA 2.0 evaluation, keep the camera running through the failed grasp and the retry. T",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v58r1r/the_second_attempt_tells_more_than_the_success/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T11:31:31+00:00"
-    },
-    {
-      "id": "9c61b1c69ad5",
-      "title": "Unitree “Super Athlete\" AS2-W (wheeled-leg variant of the AS2)",
-      "summary": "From Unitree on 𝕏: https://x.com/UnitreeRobotics/status/2080549171661295907 - Weight: ~25 kg with battery. - Speed: Over 6 m/s (higher than the pure-legged As2). - Payload: Continuous ~16 kg; higher static capacity. - Endurance: Unloaded >3 hours / 30+ km; loaded (>16 kg) >2 hours / >16 km. Same 648",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v582o5/unitree_super_athlete_as2w_wheeledleg_variant_of/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T10:57:49+00:00"
-    },
-    {
-      "id": "0971be169790",
-      "title": "New AMD Robotics SoC: X100 - 128GB Unified Memory",
-      "summary": "Saw on blog by Steve Macenski: https://opennav.org/news/opennav-robotics-workload-benchmark/ running extended ROS 2 workloads. Pretty cool HW-wise, especially with recent Jetson 50-100% price increase. Hopefully AMD won't price it same as new Thor price 👀 Also vote if you can what HW you use to run ",
-      "source": "Reddit r/robotics",
-      "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v57zsa/new_amd_robotics_soc_x100_128gb_unified_memory/",
-      "category": "robot",
-      "tags": [
-        "robot",
         "ros2"
       ],
-      "publishedAt": "2026-07-24T10:53:41+00:00"
+      "publishedAt": "2026-07-23T22:26:26+00:00"
     },
     {
-      "id": "79dc07f9ad2a",
-      "title": "Autonomous RC car loses gps connection when starts the route.",
-      "summary": "Hi everyone I need your help! I don't know if this is the right place for this post, but I'll give it a shot. My thesis is to write a manual for this particular rover and also make a \"test drive\" with it. I drew the plan in mission planner, changed the necessary parameters and det the rc to auto. Ev",
+      "id": "aaade93b4c33",
+      "title": "Introduction",
+      "summary": "Robotics Academy | Learn Physical AI Hey everyone 👋🏻 I recently launched an X account dedicated to teaching robotics and physical AI. I plan to regularly publish content, latest breakthroughs and explain important concepts in a more approachable way, creating a fun learning experience. If you want t",
       "source": "Reddit r/robotics",
       "sourceIcon": "reddit",
-      "url": "https://www.reddit.com/r/robotics/comments/1v55vrx/autonomous_rc_car_loses_gps_connection_when/",
+      "url": "https://www.reddit.com/r/robotics/comments/1v4rufg/introduction/",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-07-24T08:56:28+00:00"
-    },
-    {
-      "id": "9b51e88aea39",
-      "title": "HERMES: Heterogeneous Edge-Relational Multi-Head Embedded SSM Attention for Traffic Conflict Prediction at Signalized Intersections",
-      "summary": "arXiv:2607.20505v1 Announce Type: new \nAbstract: Surrogate safety measures (SSMs) enable proactive traffic safety assessment, but many existing methods evaluate pairwise interactions independently or flatten multi-agent scenes into fixed feature vectors, limiting their ability to represent heterogen",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20505",
-      "category": "ai",
-      "tags": [
-        "ai",
-        "camera"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "eba6cf88d0c5",
-      "title": "PhysCoRe: Physics-Corrected Residual World Models for Material-Aware Deformable Dynamics",
-      "summary": "arXiv:2607.20653v1 Announce Type: new \nAbstract: Predicting how deformable objects evolve under robotic manipulation is a longstanding challenge. Existing approaches typically rely on per-object optimization to fit material parameters, which can be slow and cannot generalize, while end-to-end learne",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20653",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "90622f8c6409",
-      "title": "Scalable Low-Cost Laboratory Automation: A Digital Twin-Integrated Robotic Platform for Autonomous Liquid Handling (RAINBOTTM)",
-      "summary": "arXiv:2607.20662v1 Announce Type: new \nAbstract: Laboratory automation accelerates discovery, yet its adoption is constrained by the high cost, proprietary design, and limited remote supervisability of commercial liquid-handling systems. This work presents RAINBOT\\textsuperscript{TM}, a low-cost, op",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20662",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "b638c5ab3200",
-      "title": "Safe and Scalable Multi-Drone Payload Transport via CBF-based Reinforcement Learning with Zero-Shot Sim-to-Real Transfer",
-      "summary": "arXiv:2607.20665v1 Announce Type: new \nAbstract: Multi-drone payload transportation has emerged as a promising research paradigm with potential applications in construction, logistics, and disaster response. However, the complex coupled dynamics among drones, cables, and payloads pose significant ch",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20665",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "461c1c9f2008",
-      "title": "Towards Capability-Aware Traversability Navigation for Unstructured Environments",
-      "summary": "arXiv:2607.20679v1 Announce Type: new \nAbstract: Estimating traversability in unstructured environments requires conditioning on robot embodiment, as the same terrain can be traversable for one platform and unsafe for another. Existing methods often transfer predictions across morphologies through l",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20679",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "037dbc96c813",
-      "title": "FELT: Generating Tactile Signals from Vision for Visuo-Tactile Manipulation",
-      "summary": "arXiv:2607.20683v1 Announce Type: new \nAbstract: The sense of touch is central to manipulation, especially when vision is occluded or ambiguous. Although combining vision and touch improves manipulation, learning robust visuo-tactile policies requires substantial tactile data. Such data remains scar",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20683",
-      "category": "ai",
-      "tags": [
-        "ai",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "03df214b4e28",
-      "title": "Decentralized UAV Swarms for Ground Target Protection in GPS- and Communication-Denied Environments",
-      "summary": "arXiv:2607.20710v1 Announce Type: new \nAbstract: The presence of UAVs in military operations has recently increased, also increasing the demand for defense systems against UAV attacks. UAVs can also be used as countermeasures. Most available methods rely on UAV-to-UAV communication and global positi",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20710",
-      "category": "ai",
-      "tags": [
-        "ai",
-        "camera"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "ad6fa051e7d4",
-      "title": "Self-Supervised Bio-Inspired Robotic Trajectory Planning with Obstacle Avoidance",
-      "summary": "arXiv:2607.20743v1 Announce Type: new \nAbstract: Trajectory planning is a fundamental problem in robotics, requiring the generation of collision-free and efficient trajectories in a potentially complex environment. While sampling-based planners remain the dominant approach, they are often computatio",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20743",
-      "category": "ai",
-      "tags": [
-        "ai",
-        "ros2"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "c5d227cbae7f",
-      "title": "A real-time RGB-D perception pipeline for autonomous impact hammers in mining: self-filtering, rock segmentation and rock-breaking poses generation",
-      "summary": "arXiv:2607.20748v1 Announce Type: new \nAbstract: Impact hammers, also known as rock-breakers, are essential machines in mining operations, where they perform secondary reduction. In underground mining, these machines are typically teleoperated, limiting operational efficiency. This paper presents a ",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20748",
-      "category": "ai",
-      "tags": [
-        "ai",
-        "camera"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "5da42e18a42c",
-      "title": "Emergent Compositional Skills in Mixture-of-Experts VLAs",
-      "summary": "arXiv:2607.20771v1 Announce Type: new \nAbstract: We consider the problem of learning compositional robot policies end-to-end from expert demonstrations, without any pre-specified notion of task decomposition or hierarchy. We ask whether a VLA trained with a simplified Mixture-of-Experts (MoE) action",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20771",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "9cb3dcd4925a",
-      "title": "Socially Consistent Multi-Robot Navigation Using Decoupled Planning and Trajectory Coordination",
-      "summary": "arXiv:2607.20772v1 Announce Type: new \nAbstract: The successful integration of mobile robots in human-centric environments requires navigation that is not only safe and efficient, but also predictable and aligned with social conventions, key precursors for human comfort and acceptance. While signifi",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20772",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "0e722d463b10",
-      "title": "Robostral Navigate",
-      "summary": "arXiv:2607.20785v1 Announce Type: new \nAbstract: Deploying navigation systems at scale requires a recipe that minimizes sensor assumptions, generalizes across robot embodiments, and trains efficiently. Yet, today's best systems depend on depth sensors, multi-camera rigs, or pre-built maps, limiting ",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20785",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "b02877de43d6",
-      "title": "URF: A Unified Robot Control-Policy Framework for Stable Contact Aware Manipulation",
-      "summary": "arXiv:2607.20912v1 Announce Type: new \nAbstract: Learning-based manipulation policies usually predict robot actions from sensory observations and leave their execution to a separate low-level controller. In rigid contact, this separation can be problematic: the same motion to a virtual target or com",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20912",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "6ac53b857802",
-      "title": "Deep Reinforcement-Learning-Guided Model Predictive Control for Preventing Overtakes in Autonomous Racing",
-      "summary": "arXiv:2607.20973v1 Announce Type: new \nAbstract: This paper addresses defensive blocking in autonomous racing, where a vehicle must prevent a faster opponent from overtaking while operating near its dynamic limits. Different from lap-time minimization, we formulate defense as a spatial occupancy reg",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20973",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
-    },
-    {
-      "id": "dd2f41842bb7",
-      "title": "Distributed Model-Based Diffusion For Scalable Multi-Robot Trajectory Optimization",
-      "summary": "arXiv:2607.20992v1 Announce Type: new \nAbstract: Trajectory optimization for multi-robot systems remains a critical challenge, particularly when navigating highly non-convex, non-linear, and non-differentiable environments. While Model-Based Diffusion (MBD) has recently emerged as a promising sampli",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.20992",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-24T04:00:00+00:00"
+      "publishedAt": "2026-07-23T21:47:16+00:00"
     },
     {
       "id": "84746503c85c",
@@ -575,6 +79,19 @@
         "robot"
       ],
       "publishedAt": "2026-07-23T20:45:47+00:00"
+    },
+    {
+      "id": "28042d8daf10",
+      "title": "[Nav2] Open Navigation's Robotics Workload Benchmark Release",
+      "summary": "Howdy everyone - Your Friendly Neighborhood Navigator here with one more key announcement this month! We just open-sourced a robotics workload benchmark that tests compute platforms the way they’re actually used: running a full autonomous stack doing forklift pick-and-place, not simple isolated synt",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/nav2-open-navigations-robotics-workload-benchmark-release/56909#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T19:07:04+00:00"
     },
     {
       "id": "8b0cd33b48ce",
@@ -603,6 +120,46 @@
       "publishedAt": "2026-07-23T18:30:56+00:00"
     },
     {
+      "id": "95251e0768b1",
+      "title": "HYPE VS PRODUCTION",
+      "summary": "Hello everyone, I know there is a lot of excitement in the robot models like VLA, world models , but these are for generalisation , PROBLEM:in case of controlled environment with some variations in the scenarios , what do you suggest works better for a one or two tasks like sort, pick and place . I ",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v4mdia/hype_vs_production/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-23T18:30:50+00:00"
+    },
+    {
+      "id": "200dbad4b7c8",
+      "title": "built cotter, an open source framework to stress test your robot policies",
+      "summary": "Cotter is a pytest-style CLI that runs statistical safety, regression, and adversarial compliance tests on robot control policies and generates audit-ready reports. Cotter loads a trained robot policy as a black box (observation → action), runs it through a battery of standardized tests in MuJoCo si",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v4m5gv/built_cotter_an_open_source_framework_to_stress/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "camera"
+      ],
+      "publishedAt": "2026-07-23T18:23:16+00:00"
+    },
+    {
+      "id": "431494a29921",
+      "title": "Lift lobby and lift selection enhancement",
+      "summary": "arjo129: when we dont have very good control over the lifts themselves. That’s usually the real bottleneck. At least back in 2019 when I left Savioke/Relay, elevator APIs, if they even existed, were still very different between the various elevator makers and service providers. And when they don’t y",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/lift-lobby-and-lift-selection-enhancement/56880#post_4",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T18:20:45+00:00"
+    },
+    {
       "id": "54e8b839c478",
       "title": "I built a laser-cut rack & pinion for a NEMA 17 stepper",
       "summary": "Design files (DXF) and Arduino code: https://drive.google.com/drive/folders/13WhHXtmIfWlrlRav29l_HFwwOCRubMLY?usp=sharing submitted by /u/XA_Mechatronics [link] [comments]",
@@ -614,6 +171,45 @@
         "robot"
       ],
       "publishedAt": "2026-07-23T17:49:16+00:00"
+    },
+    {
+      "id": "52a933fa419e",
+      "title": "ZeroDDS: a pure-Rust RMW for ROS 2 (rc.3), built against 349 real ROS↔DDS pain reports",
+      "summary": "ZeroDDS 1.0.0-rc.6 is out, and this one goes where Rust doesn’t. The easy part of “DDS everywhere” was always the modern Linux box. The hard part is the endpoint that will never get a Rust toolchain: a big-endian controller older than the language, a node too constrained for a modern compiler, a pla",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/zerodds-a-pure-rust-rmw-for-ros-2-rc-3-built-against-349-real-ros-dds-pain-reports/55581#post_2",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T17:14:08+00:00"
+    },
+    {
+      "id": "75fc79e05a13",
+      "title": "Convert in the terminal",
+      "summary": "Would you use a free CLI tool to convert CAD assemblies to URDF? No CAD plugins. Just one command from your terminal to work in Ros directly. I’m thinking about open-sourcing the core of a tool I’ve been building over the past few months, and I’d love to validate the idea before releasing it. Would ",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/convert-in-the-terminal/56908#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T17:04:12+00:00"
+    },
+    {
+      "id": "5c58122b416a",
+      "title": "ROS 2 node for PlayStation 5 HD camera",
+      "summary": "Please consider adding a license declaration file to the repo. Great work!!",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-2-node-for-playstation-5-hd-camera/56162#post_17",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T16:17:45+00:00"
     },
     {
       "id": "046af46cf852",
@@ -629,6 +225,19 @@
       "publishedAt": "2026-07-23T15:55:39+00:00"
     },
     {
+      "id": "a275fb237dee",
+      "title": "Logging and Observability Guide Review Part 2 | Cloud Robotics WG Meeting 2026-08-24",
+      "summary": "The group is skipping two meetings (2026-07-27, 2026-08-10) due to lack of available members! The next meeting of the CRWG will be at Mon, Aug 24, 2026 4:00 PM UTC → Mon, Aug 24, 2026 5:00 PM UTC , where we will continue editing the first draft of the Logging and Observability guide. We also worked ",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/logging-and-observability-guide-review-part-2-cloud-robotics-wg-meeting-2026-08-24/56907#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T15:19:16+00:00"
+    },
+    {
       "id": "03e0ce14a757",
       "title": "Playto Labs is a scam",
       "summary": "Do not sign up with this company unless you want to be scammed. I signed up for their most expensive program, but was not satisfied and requested a refund. It was much less than I thought, but it still wasn't a small amount (a little under $1000). The teachers were nice, but my son was not learning ",
@@ -640,6 +249,325 @@
         "robot"
       ],
       "publishedAt": "2026-07-23T14:00:34+00:00"
+    },
+    {
+      "id": "b9deb3c49f19",
+      "title": "The Breakdown: Saronic",
+      "summary": "submitted by /u/Roadtochessmaster [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v4eoqi/the_breakdown_saronic/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-23T13:57:20+00:00"
+    },
+    {
+      "id": "3bf00c6486ae",
+      "title": "Why iRobot chose not to give Roomba a real personality",
+      "summary": "Colin Angle explains that giving a robot a voice does more than change the interface. It changes the user’s entire understanding of what the machine can do. Roomba eventually received spoken maintenance messages because communicating problems such as clogged rollers or a lost Wi-Fi connection throug",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v4e1dj/why_irobot_chose_not_to_give_roomba_a_real/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-23T13:31:49+00:00"
+    },
+    {
+      "id": "dcd2574cea8c",
+      "title": "Caught these two little robots putting on a dance performance",
+      "summary": "Two cute little robots dancing to the music and enjoying their moment in the spotlight. Their synchronized movements, tiny gestures, and playful rhythm were surprisingly delightful to watch. I came across this little performance during my day and couldn’t resist recording it. submitted by /u/Xinprot",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v49m9t/caught_these_two_little_robots_putting_on_a_dance/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "camera"
+      ],
+      "publishedAt": "2026-07-23T10:09:59+00:00"
+    },
+    {
+      "id": "643fdb2dbdef",
+      "title": "Ask us anything",
+      "summary": "Hey r/robotics , Curious what problems you're all solving with robotics and automation right now. Happy to discuss laser technology, process design, or whatever manufacturing questions you've got. submitted by /u/TRUMPFGroup [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v49blm/ask_us_anything/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-23T09:53:56+00:00"
+    },
+    {
+      "id": "0f541330bb89",
+      "title": "Build Your Own Human-Sized Humanoid with the Humanoid Robotics Masterclass",
+      "summary": "Hi ROS community, Humanoid robotics is one of the fastest-growing fields in robotics today. Yet despite the rapid progress, there is still no comprehensive learning path that teaches the complete modern humanoid robotics stack. To bridge this gap, we’ve created the Humanoid Robotics Masterclass , st",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/build-your-own-human-sized-humanoid-with-the-humanoid-robotics-masterclass/56895#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2",
+        "camera"
+      ],
+      "publishedAt": "2026-07-23T09:19:15+00:00"
+    },
+    {
+      "id": "5e26e3723130",
+      "title": "Built this 6DOF using aluminum angles and acrylic plates.",
+      "summary": "Built this 6dof with parts bought from local hardware store. Lot of loose parts now, needs fine tune or redo. Plan is to create mobile arm. Waiting for wheels and step motor. Controlled by raspberry pi. submitted by /u/Defiant_Ear7162 [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v45ity/built_this_6dof_using_aluminum_angles_and_acrylic/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-23T06:18:23+00:00"
+    },
+    {
+      "id": "0cdc73104263",
+      "title": "I built a free interactive robotics learning platform with browser-based simulators. I'd love feedback from the robotics community.",
+      "summary": "submitted by /u/Glad_Ad_5236 [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v44ws7/i_built_a_free_interactive_robotics_learning/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-23T05:45:12+00:00"
+    },
+    {
+      "id": "8221b6fe5708",
+      "title": "ModPack: An Extensible Teleoperation Interface for Bimanual Mobile Manipulation",
+      "summary": "arXiv:2607.19479v1 Announce Type: new \nAbstract: Existing teleoperation systems are often tailored to specific robot hardware and task domains, limiting their scalability and adaptability. We present ModPack, a modular and extensible teleoperation system designed to support diverse robot embodiments",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19479",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "aede0a6a26fb",
+      "title": "Emergent Autonomous Drifting for Collision Avoidance in Real-World Winter Driving Scenarios",
+      "summary": "arXiv:2607.19484v1 Announce Type: new \nAbstract: Real-world collision avoidance is a core motivation for studying the dynamics and control of high sideslip drifting in vehicles, yet the practical benefit of such maneuvers has so far primarily been tested in scenarios explicitly engineered to require",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19484",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "34a419b44175",
+      "title": "Milo, a Fully Autonomous Indoor/Outdoor Robotic Guide Dog",
+      "summary": "arXiv:2607.19530v1 Announce Type: new \nAbstract: Many Blind and Low-Vision (BLV) people rely on guide dogs for moment-to-moment navigation, such as staying on path and avoiding obstacles and pedestrians. However, guide dogs are expensive to acquire and maintain (approximately \\$50k USD plus ongoing ",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19530",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "f23db6493bf1",
+      "title": "Learning Personalized Safety Interventions for Haptic Human-Robot Shared Control",
+      "summary": "arXiv:2607.19534v1 Announce Type: new \nAbstract: Haptic feedback provides an implicit channel for communicating safety intentions during human-robot shared control. Existing haptic guidance systems typically employ predefined intervention strategies that cannot accommodate the diverse safety prefere",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19534",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "camera"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "ac6380951caf",
+      "title": "LENS: LLM-guided Environment Simplification for Planning and Control in Clutter",
+      "summary": "arXiv:2607.19633v1 Announce Type: new \nAbstract: Despite recent advances in general-purpose robotic manipulation, real-world multi-object clutter remains challenging to handle for today's prevalent approaches. The problem scales in complexity due to more objects and collisions, more unpredictable co",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19633",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "930ceda5bd32",
+      "title": "Remote ID Spoofing-Aware Trajectory Planning for Small Unmanned Aerial Systems",
+      "summary": "arXiv:2607.19650v1 Announce Type: new \nAbstract: This work presents a decentralized, spoofing-aware trajectory planning framework for small unmanned aerial systems operating under Remote Identification (RID) location spoofing attacks. Existing planners typically assume RID broadcasts are trustworthy",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19650",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "camera"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "58ff025ba516",
+      "title": "NavVerse: Benchmarking Indoor-to-Outdoor Embodied Navigation in Continuous Robot Simulation",
+      "summary": "arXiv:2607.19695v1 Announce Type: new \nAbstract: Robots deployed in delivery, campus, and emergency-response settings often need to navigate from buildings to streets within a single continuous episode. Existing benchmarks usually evaluate indoor and outdoor navigation separately, and many abstract ",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19695",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "f48e9552f665",
+      "title": "Contact-Persistent Full Actuation for Aerial Physical Interaction",
+      "summary": "arXiv:2607.19708v1 Announce Type: new \nAbstract: Fully actuated unmanned aerial vehicles (UAVs) are usually certified through rank conditions on a control-allocation matrix or through free-flight tracking performance. For aerial physical interaction, this certification may be incomplete. During sust",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19708",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "3c0d30abad95",
+      "title": "Morphing MILR: Design and control of a cable-driven limbless robot with rolling joints for maneuvering in complex environments",
+      "summary": "arXiv:2607.19714v1 Announce Type: new \nAbstract: Limbless robots offer exceptional mobility in confined and cluttered environments due to their slender bodies and their ability to exploit body-terrain interactions. Recent designs incorporating compliance demonstrate robust locomotion without complex",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19714",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "acf78fe18679",
+      "title": "EgoRecovery: Acquiring Failure Recovery Ability Through Human Recovery Demonstration",
+      "summary": "arXiv:2607.19745v2 Announce Type: new \nAbstract: Robust embodied robots should be able to recover from failures and retry tasks in order to operate reliably in unstructured and noisy real-world environments. Achieving this capability requires training policies on data that captures recovery behavior",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19745",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "181ab177afa2",
+      "title": "Defer to Plan: Adaptive Multi-Agent Fusion for End-to-End V2X Driving",
+      "summary": "arXiv:2607.19774v1 Announce Type: new \nAbstract: Vehicle-to-everything-aided autonomous driving (V2X-AD) significantly enhances driving performance through information sharing. However, existing collaborative perception methods only optimize module-level perception capabilities and fail to effective",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19774",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "0d846f7e5587",
+      "title": "V2F: Vision-Informed Grasp Force Prediction for Damage-Aware Robotic Handling of Date Fruits",
+      "summary": "arXiv:2607.19804v1 Announce Type: new \nAbstract: This paper presents a vision-informed grasp force prediction framework for robotic handling of date fruits. Addressing the dual challenge of high detachment forces and low bruise thresholds, we first conduct mechanical characterization on date samples",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19804",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "e0e17565e9f6",
+      "title": "Clinical Pathways as Safety Specifications for Physical AI in Hospital Wards",
+      "summary": "arXiv:2607.19827v1 Announce Type: new \nAbstract: Ensuring safety in Physical AI systems operating in real-world environments is a critical challenge, particularly in hospital wards where vulnerable patients, clinical staff, medical devices, and assistive robots coexist. In this paper, we reinterpret",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19827",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "f9bb14d41aa3",
+      "title": "SOPD-SocialNav: Selective On-Policy Distillation for Vision-Language Social Navigation",
+      "summary": "arXiv:2607.19850v1 Announce Type: new \nAbstract: Vision-language models have shown strong potential for social robot navigation by leveraging rich semantic understanding of complex environments and human behaviors. However, large scale VLMs are difficult to deploy on resource-constrained robotic pla",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19850",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "ed75a117c4e3",
+      "title": "KineBench: Benchmarking Embodied World Models via IDM-Free Kinematic Grounding",
+      "summary": "arXiv:2607.19876v1 Announce Type: new \nAbstract: Evaluating the physical consistency of embodied world models(EWMs) is a critical open challenge. While closed-loop evaluation via simulator rollouts offers a more faithful assessment of physical plausibility than open-loop alternatives, existing frame",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.19876",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-23T04:00:00+00:00"
+    },
+    {
+      "id": "3301efe94ee5",
+      "title": "Robotics Solution Architect / Field Application Engineer at TriOrb",
+      "summary": "We are hiring!!! Feel free to reach out if you’re interested in this role. (and Japan ) TriOrb is a robotics startup headquartered in Kitakyushu, Japan, with R&D at AIST (National Institute of Advanced Industrial Science and Technology) Tokyo Waterfront and a growing presence in Detroit, Michigan. W",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/robotics-solution-architect-field-application-engineer-at-triorb/56881#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T01:48:41+00:00"
+    },
+    {
+      "id": "cae8401da97c",
+      "title": "PyZeROS: a Python-first alternative to `rclpy` over Zenoh",
+      "summary": "Got some early benchmarks on a strong desktop PC! Empty String message: pyzeros : 12us AsyncNode : 10us 12 joints JointStates messages: pyzeros : 16us AsyncNode : 22us Standard deviation is 4us for all So basically, AsyncNode is slightly lighter, I guess because it’s just a callback, whereas pyzeros",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/pyzeros-a-python-first-alternative-to-rclpy-over-zenoh/56806#post_6",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-23T01:34:45+00:00"
     },
     {
       "id": "3e88b47a68e2",
@@ -666,6 +594,45 @@
         "robot"
       ],
       "publishedAt": "2026-07-22T17:22:00+00:00"
+    },
+    {
+      "id": "e1ed173840f5",
+      "title": "Built my first robot",
+      "summary": "Built my first robot still have a lot to learn. Open to any advice on how to improve look of wires. When I built this, I lost two of the baby screws for the knee of the robot so it topples over in the middle of its dance. But it was fun to build and I learned a lot. Also, open to any ideas on other ",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v3kseq/built_my_first_robot/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-22T16:15:48+00:00"
+    },
+    {
+      "id": "104bf7202f32",
+      "title": "Humanoid robots are entering factories, but manufacturers still care more about reliability than form factor",
+      "summary": "Most humanoid robots in factories are still being tested in pilot programs, and many are only reaching 20% to 50% effectiveness. A3 President Jeff Burnstein told Forbes that manufacturers are not focused on whether a robot looks human. They want systems that are reliable, affordable and safe. Safety",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v3ige8/humanoid_robots_are_entering_factories_but/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-22T14:53:51+00:00"
+    },
+    {
+      "id": "29b4cb52d1d0",
+      "title": "What Finally Helped Me Understand Inverse Kinematics After Building a 6-Axis Robot Arm",
+      "summary": "I spent the last year building a 6-axis desktop robot arm from scratch, and inverse kinematics was the hardest concept for me to internalize. Here’s what finally helped. Forward kinematics felt relatively straightforward. Given the joint angles, I could compute the end-effector pose by chaining homo",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1v3907d/what_finally_helped_me_understand_inverse/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-22T07:29:54+00:00"
     },
     {
       "id": "e68ef56ed600",
@@ -703,8 +670,8 @@
       "category": "robot",
       "tags": [
         "robot",
-        "camera",
-        "sensor"
+        "sensor",
+        "camera"
       ],
       "publishedAt": "2026-07-21T19:44:26+00:00"
     },
@@ -759,6 +726,46 @@
         "robot"
       ],
       "publishedAt": "2026-07-20T18:39:57+00:00"
+    },
+    {
+      "id": "f7aba283d58e",
+      "title": "BrainCo demonstrates brain-controlled robot AI platform",
+      "summary": "During BrainCo's demo, the mind-controlled robotic arm completed tasks that require precision, such as grasping a cup or picking up an apple. The post BrainCo demonstrates brain-controlled robot AI platform appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/brainco-demonstrates-brain-controlled-robot-ai-platform/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-20T18:14:11+00:00"
+    },
+    {
+      "id": "00f5ea3ba7e7",
+      "title": "Boston Dynamics to discuss the art behind human-robot interaction",
+      "summary": "Boston Dynamics experts will share insights into design considerations for safe human-robot interaction in a webinar. The post Boston Dynamics to discuss the art behind human-robot interaction appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/boston-dynamics-discuss-art-behind-human-robot-interaction/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-20T17:53:58+00:00"
+    },
+    {
+      "id": "3f8bade9639b",
+      "title": "AGIBOT unveils four embodied AI products for real-world operations at WAIC",
+      "summary": "AGIBOT said its demoes and industrial deployments show its progress in turning embodied AI capabilities into repeatable workflows. The post AGIBOT unveils four embodied AI products for real-world operations at WAIC appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/agibot-unveils-four-embodied-ai-products-real-world-operations-waic/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-20T15:18:07+00:00"
     },
     {
       "id": "7699a0ca06d9",
@@ -1309,6 +1316,6 @@
       "icon": "pushpin"
     }
   ],
-  "total": 96,
-  "generatedAt": "2026-07-25T02:42:19.038624+00:00"
+  "total": 97,
+  "generatedAt": "2026-07-24T02:43:31.202907+00:00"
 }

@@ -1,0 +1,1304 @@
+{
+  "date": "2026-07-16",
+  "items": [
+    {
+      "id": "75e86153c535",
+      "title": "📦 PrimeIntellect-ai/prime-rl",
+      "summary": "Agentic RL Training at Scale",
+      "source": "GitHub Trending",
+      "sourceIcon": "github",
+      "url": "https://github.com/PrimeIntellect-ai/prime-rl",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-16T02:39:43.203352+00:00"
+    },
+    {
+      "id": "0f2ad0b2c500",
+      "title": "📦 microsoft/markitdown",
+      "summary": "Python tool for converting files and office documents to Markdown.",
+      "source": "GitHub Trending",
+      "sourceIcon": "github",
+      "url": "https://github.com/microsoft/markitdown",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-16T02:39:43.202916+00:00"
+    },
+    {
+      "id": "61876f79ff98",
+      "title": "📦 Shubhamsaboo/awesome-llm-apps",
+      "summary": "100+ AI Agent & RAG apps you can actually run — clone, customize, ship.",
+      "source": "GitHub Trending",
+      "sourceIcon": "github",
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-16T02:39:43.202599+00:00"
+    },
+    {
+      "id": "29838af6d833",
+      "title": "After a few days of integration hell, our Raspberry Pi robot (Miu V2) can finally navigate a room on its own",
+      "summary": "submitted by /u/Spinning-Complex [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uxnil8/after_a_few_days_of_integration_hell_our/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-16T00:30:29+00:00"
+    },
+    {
+      "id": "fd4d9d3dc063",
+      "title": "Tailsitter in PteroSim, PX4/Ardupilot in the loop. Hover, transition, forward flight, all stabilization on thrust alone.",
+      "summary": "submitted by /u/AlexThunderRex [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uxn0bn/tailsitter_in_pterosim_px4ardupilot_in_the_loop/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-16T00:08:21+00:00"
+    },
+    {
+      "id": "2fb65d8f0a32",
+      "title": "3D Reasoning with LeRobot",
+      "summary": "I’ve been working on a small open-source project called LeRobot 3D — a 3D-grounded teleoperation stack for the SO101 robot. Most accessible robot learning pipelines still primarily operate on 2D camera observations. But for many manipulation tasks, what we really care about is inherently 3D: where o",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uxmefp/3d_reasoning_with_lerobot/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T23:42:56+00:00"
+    },
+    {
+      "id": "88b2ab11f968",
+      "title": "WebRTC Latency: A Breakdown",
+      "summary": "submitted by /u/moglito [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uxll6x/webrtc_latency_a_breakdown/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T23:08:40+00:00"
+    },
+    {
+      "id": "7ea87c5af2a2",
+      "title": "ROS OE Community Meeting #59 - July 20, 2026 @ 3pm UTC",
+      "summary": "Our next meeting is on Monday. The work to get Navigation2, Moveit2, and ros2_control working for all supported combinations should be complete. Suggested topics for discussion include reviewing the suggested packagegroups to increase build coverage and using AI tooling to automatically diagnose and",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-oe-community-meeting-59-july-20-2026-3pm-utc/56635#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-15T20:45:07+00:00"
+    },
+    {
+      "id": "f70a86da15b6",
+      "title": "Robotic Torque Control Drift",
+      "summary": "Hi I am attempting to use torque control on the Baxter robot by Rethink robotics. However I seem to have an issue, when I apply zero torques to the arm using the set_joint_torques function via the SDK and the arm seems to drift and move to a certain position and is reporting non zero torques. I expe",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uxh2c0/robotic_torque_control_drift/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T20:14:19+00:00"
+    },
+    {
+      "id": "53c8e3a0fd5c",
+      "title": "Walden Robotics launches at $1.1B valuation for general-purpose robots",
+      "summary": "Leading technology companies have invested in Walden Robotics, which emerged from stealth as it develops full-stack physical AI. The post Walden Robotics launches at $1.1B valuation for general-purpose robots appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/walden-robotics-launches-1-1b-valuation-general-purpose-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T20:04:03+00:00"
+    },
+    {
+      "id": "278b1d90dd89",
+      "title": "LinkForge just passed 5,000 Blender downloads – exploring an IR-based workflow for robot descriptions",
+      "summary": "Hi everyone, LinkForge recently crossed 5,000 downloads on the Blender Extensions platform, which was a nice milestone. The project started as a Blender extension for building robot models, but over time it has evolved into something a bit different: a programmable Intermediate Representation (IR) f",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uxggb5/linkforge_just_passed_5000_blender_downloads/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T19:51:05+00:00"
+    },
+    {
+      "id": "d886bb93ef40",
+      "title": "Agility outlines six recommendations for U.S. humanoid robot policies",
+      "summary": "Peggy Johnson, CEO of Agility, said the U.S. needs a policy framework that can strengthen what's already working for the humanoid industry. The post Agility outlines six recommendations for U.S. humanoid robot policies appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/agility-outlines-six-recommendations-for-u-s-humanoid-robot-policies/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T18:58:29+00:00"
+    },
+    {
+      "id": "b633f3671beb",
+      "title": "Vicarious Surgical board seeks to dissolve company",
+      "summary": "The board is asking shareholders to approve their plan to dissolve and liquidate the business at a special meeting scheduled for July 21, but said it can not predict how much (if anything) investors would recover or when. The post Vicarious Surgical board seeks to dissolve company appeared first on ",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/vicarious-surgical-board-seeks-to-dissolve-company/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T18:43:48+00:00"
+    },
+    {
+      "id": "386e951f6d28",
+      "title": "Icarus Robotics uses KULR technology to power JOY free-flying space robot",
+      "summary": "Under the agreement, KULR will supply its KULR ONE Space battery systems to power JOY’s onboard systems on the ISS. The post Icarus Robotics uses KULR technology to power JOY free-flying space robot appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/icarus-robotics-uses-kulr-technology-to-power-joy-free-flying-space-robot/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T18:10:47+00:00"
+    },
+    {
+      "id": "07eb2705af7d",
+      "title": "Ros2_info — a terminal workspace lens for ROS 2 (TUI + optional local AI)",
+      "summary": "thank you for your question , and suggestion and i thought yah i can add this so thanks to you i added that features Run it on the Docker host (where docker is reachable): ros2_info compose              # whole-system table across all containers ros2_info compose --json       # raw JSON (also GET /a",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros2-info-a-terminal-workspace-lens-for-ros-2-tui-optional-local-ai/56590#post_5",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-15T16:23:29+00:00"
+    },
+    {
+      "id": "25786032e41a",
+      "title": "My Hexapod Robot Dog Indoor Walking Showcase",
+      "summary": "I have been working on this project over the past 6 months. Its a 3d printed hexapod robot dog, I call it HexaDog ZBD (English Pronunciation of ZBD means raggedy in Turkish). I used ESP32 S3 for its brains, 2x PCA9586 boards for servo connections, 18x DS3218 servos, 1x IMU, 3x 15a 300W buck converte",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uxakl7/my_hexapod_robot_dog_indoor_walking_showcase/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-15T16:17:56+00:00"
+    },
+    {
+      "id": "192f7b648c00",
+      "title": "Opportunity for ROS Developers: AMD AI DevMaster Hackathon Physical AI Track",
+      "summary": "AMD AI DevMaster Hackathon Official Registration: AMD AI DevMaster Hackathon · Luma Overview ​Join developers, researchers, students, AI practitioners, and open-source contributors worldwide to build innovative AI applications on AMD Radeon™ GPUs and the ROCm™ software stack. The AMD AI DevMaster Ha",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/opportunity-for-ros-developers-amd-ai-devmaster-hackathon-physical-ai-track/56629#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-15T15:01:37+00:00"
+    },
+    {
+      "id": "931d89b5c3ab",
+      "title": "ros2_lingua: a runtime capability-registration layer so LLMs only call actions that actually exist",
+      "summary": "Hi all, wanted to share a project I’ve been building and get some outside eyes on it. The problem I’m trying to solve When you wire an LLM up to control a robot, the usual approach is a static system prompt listing available actions. That list goes stale the moment a node isn’t running, a service is",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros2-lingua-a-runtime-capability-registration-layer-so-llms-only-call-actions-that-actually-exist/56628#post_1",
+      "category": "ros2",
+      "tags": [
+        "ai",
+        "ros2"
+      ],
+      "publishedAt": "2026-07-15T15:00:42+00:00"
+    },
+    {
+      "id": "f62533e5e07e",
+      "title": "Why robotics needs both university research and startups",
+      "summary": "Dr. Ayanna Howard, recently named the President at Spellman College and former Dean of The Ohio State University College of Engineering, NASA roboticist and founder of Zyrobotics, explains why both universities and startups are necessary to advance robotics. Universities support foundational researc",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1ux73rv/why_robotics_needs_both_university_research_and/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T14:15:03+00:00"
+    },
+    {
+      "id": "29b27f3728c3",
+      "title": "3D Camera P008G indoor test",
+      "summary": "submitted by /u/RiskHot1017 [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1ux68tp/3d_camera_p008g_indoor_test/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T13:42:45+00:00"
+    },
+    {
+      "id": "e04b74ea10af",
+      "title": "Will AI Finally Make Fruit Harvesting Robots Practical?",
+      "summary": "Fruit harvesting remains one of the most challenging robotics applications. Detecting ripe fruit is becoming easier with modern vision models, but reliable picking in unstructured environments is still difficult. Do you think the biggest challenge today is: • Vision? • Motion planning? • End-effecto",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1ux5l2j/will_ai_finally_make_fruit_harvesting_robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T13:16:28+00:00"
+    },
+    {
+      "id": "2e715e910534",
+      "title": "\"Physical Atari: A Robust and Accessible Platform for Real-time Reinforcement Learning on Robots\", Javed et al. 2026 {Keen Technologies} (first paper from John Carmack and Richard Sutton's new AI effort)",
+      "summary": "submitted by /u/RecmacfonD [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1ux55bg/physical_atari_a_robust_and_accessible_platform/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T12:58:36+00:00"
+    },
+    {
+      "id": "89008f120103",
+      "title": "Hardening HRI Safety with a Deterministic Wrapper: A Webots Demo Using TIAGo",
+      "summary": "Being upfront like that costs something, and it’s worth more than traction. Hysteresis-first is the right order, and parking the signaling layer until you have hardware is a sound call — it matters exactly then. Good luck with the fundamentals; the thread stays open.",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/hardening-hri-safety-with-a-deterministic-wrapper-a-webots-demo-using-tiago/56428#post_5",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-15T11:49:33+00:00"
+    },
+    {
+      "id": "1a4adec78272",
+      "title": "Cubic Doggo Update: What does it takes to lift its feet up 4mm?",
+      "summary": "Update since: https://www.reddit.com/r/ROS/comments/1ugw66z/cubic_doggo_update_returning_to_basics_after_all/ Hello hello, I made some mechanical updates to Cubic Doggo 06R , just for it to lift its feet while walking. The black padding is measured to be around 4 mm thick. I really thought this woul",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1ux2n51/cubic_doggo_update_what_does_it_takes_to_lift_its/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-15T11:03:03+00:00"
+    },
+    {
+      "id": "af1d1cc94b5c",
+      "title": "EFLUX: Elastic Multi-Robot Formation Navigation and Adaptation with Agentic LLMs",
+      "summary": "arXiv:2607.12050v1 Announce Type: new \nAbstract: Multi-robot teams operating in confined or cluttered environments must adapt both their formation geometry and group topology to navigate through complex obstacles. This adaptation requires two complementary behaviors: deformation, where the team cont",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12050",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "1aeb6c678c71",
+      "title": "Enabling 24-hour Agricultural Robotics: Unsupervised Day-to-Night Cross-Modal Image Translation for Nighttime Visual Navigation",
+      "summary": "arXiv:2607.12065v1 Announce Type: new \nAbstract: While visual navigation has been extensively studied in agricultural robotics, most existing systems assume daytime conditions. In fact, deploying autonomous robots at night offers significant advantages, including 24-hour crop and soil monitoring, fr",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12065",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "c839ff35fa5e",
+      "title": "Robust In-Hand Manipulation via Priors in Reinforcement Learning and Mechanical Design",
+      "summary": "arXiv:2607.12105v1 Announce Type: new \nAbstract: In-hand manipulation without external sensing is challenging due to uncertainties from finger-object contacts and disturbances by gravity. While reinforcement learning has shown promise in learning complex finger gaiting, existing approaches do not pr",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12105",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "d4593267ab3e",
+      "title": "GaitSpan: Growing Humanoid Locomotion from Walking to Running",
+      "summary": "arXiv:2607.12114v1 Announce Type: new \nAbstract: A humanoid that can walk should not relearn locomotion from scratch to jog or run. Yet current approaches often obtain gait diversity by prescribing gait schedules, imitating motion clips, training experts to switch between or distilling skills into o",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12114",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "ead2ebfb913c",
+      "title": "A Behavioral State Vocabulary in Sony ERS-111 R-CODE",
+      "summary": "arXiv:2607.12115v1 Announce Type: new \nAbstract: This paper presents a corpus-level analysis of generated behavior diagrams derived from Sony's R-CODE sample distribution for the ERS-111 AIBO. Rather than reading each script in isolation, the study compares named states across the corpus to identify",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12115",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "0c86686c20be",
+      "title": "More than a Manipulator: Planning Propellant-Free Attitude Maneuvers for Free-Floating Spacecraft",
+      "summary": "arXiv:2607.12130v1 Announce Type: new \nAbstract: Spacecraft attitude control is traditionally achieved using momentum exchange devices or propellant-consuming thrusters. Meanwhile, a growing number of missions require robotic manipulators, which are typically treated as disturbance sources to be rej",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12130",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "fa8e7bbf5d20",
+      "title": "Analysis of Mutual and Referential Human and Robot Gazes in a Collaborative Word Association Game",
+      "summary": "arXiv:2607.12181v1 Announce Type: new \nAbstract: Robot gaze is a major component of human-robot dialogue coordination. Most studies of gaze in human-robot dialogue focus on face-to-face social conversations, but little is known about gaze in demanding task-focused interactions. In this paper, we inv",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12181",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "36b4de495e83",
+      "title": "Contract-Grounded Behavior Tree Synthesis via Coding Agents",
+      "summary": "arXiv:2607.12220v1 Announce Type: new \nAbstract: Synthesizing deployable robot behavior trees (BTs) from natural language (NL) requires grounding to ensure every generated BT references only skills a robot can actually execute. Existing LLM-based BT synthesis approaches often place this grounding re",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12220",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "6045b8992751",
+      "title": "DiffRadar: Differentiable Physics-Aware Radar SLAM with Gaussian Fields",
+      "summary": "arXiv:2607.12265v1 Announce Type: new \nAbstract: Radar sensing is increasingly used in mobile systems because it operates reliably under poor lighting, adverse weather, and privacy-sensitive settings where cameras and LiDAR often fail. However, most existing radar SLAM systems estimate motion throug",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12265",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "lidar"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "62761977f1f3",
+      "title": "Flatness-Preserving Residual Learning for Real-Time Tight Quadrotor Formation Flight",
+      "summary": "arXiv:2607.12275v1 Announce Type: new \nAbstract: Quadrotors flying in tight formations are severely affected by turbulent aerodynamic interactions, such as downwash, that can cause catastrophic collisions if left unmodeled. To compensate for these effects, we propose a physics-informed residual dyna",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12275",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "5d99e0720c02",
+      "title": "Reducing Temporal Redundancy for Efficient Vision-Language-Action Inference",
+      "summary": "arXiv:2607.12287v1 Announce Type: new \nAbstract: Vision-Language-Action (VLA) models exhibit strong generalization for robotic manipulation, yet their high inference latency limits real time deployment. We identify two primary sources of temporal redundancy in existing VLA pipelines: repeated visual",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12287",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "a50a697993a4",
+      "title": "VistaVLA: Geometry- and Semantic-Aware 3D Gaussian-Grounded VLA for Robotic Manipulation",
+      "summary": "arXiv:2607.12356v1 Announce Type: new \nAbstract: Vision-Language-Action (VLA) models have emerged as a powerful end-to-end paradigm for robotic manipulation by mapping language instructions and 2D visual inputs directly to actions. However, these models lack an explicit, scene-level 3D representatio",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12356",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "f562c630e707",
+      "title": "StratMamba: Strategic and Reactive Stream Partitioning for Path-Efficient LiDAR-Based Obstacle Avoidance",
+      "summary": "arXiv:2607.12370v1 Announce Type: new \nAbstract: This paper proposes StratMamba, a dual-stream Mamba-based temporal modeling architecture, to more efficiently capture long-horizon temporal dependencies required for robot navigation in complex and obstacle-rich environments. StratMamba leverages a co",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12370",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "lidar"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "845bc002ea70",
+      "title": "Model-Based Diffusion Optimal Control for Multi-Robot Motion Planning",
+      "summary": "arXiv:2607.12423v1 Announce Type: new \nAbstract: Multi-Robot Motion Planning in continuous environments, where robots must generate dynamically feasible, collision-free trajectories, is challenging due to the combinatorial growth of the joint trajectory space and the difficulty of enforcing dynamic ",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12423",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "0b9fe99bcd6a",
+      "title": "Deployable Human Preference Alignment in Robotics: Learning Representative Rewards from Diverse Human Preferences",
+      "summary": "arXiv:2607.12466v1 Announce Type: new \nAbstract: Aligning robot policies with human preferences is essential for deployment to diverse end users. In per-user alignment approach, preference feedback is often sparse, so learning becomes unstable and vulnerable to human preference noise, and a growing ",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.12466",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-15T04:00:00+00:00"
+    },
+    {
+      "id": "be0a1e15f867",
+      "title": "ROS2-DDSConfig-Optimizer Support CycloneDDS Now!",
+      "summary": "Previously, we introduced a new tool — ROS2-DDSConfig-Optimizer, which is an AI-driven tool that automatically tunes DDS configuration for ROS2 applications. Initially, it only supported Fast DDS, but now it supports Cyclone DDS as well! Here we show a comparison between traditional manual tuning an",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros2-ddsconfig-optimizer-support-cyclonedds-now/56609#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-15T02:03:47+00:00"
+    },
+    {
+      "id": "8ae83fac0b06",
+      "title": "MoveIt Community Meeting: Tuesday July 21",
+      "summary": "Hi all, For the next MoveIt Community meeting, we are going to meet earlier in the day to better accommodate Asia and Europe timezones - Tuesday Tue, Jul 21, 2026 1:30 PM UTC . We will use this Google Meet meeting Agenda Updates on expansion of people with availability to help with maintenance Isaac",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/moveit-community-meeting-tuesday-july-21/56593#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-14T23:14:27+00:00"
+    },
+    {
+      "id": "a7013bd6552d",
+      "title": "My DIY Self-Balancing PVC Rover + Custom LoRa Handheld Controller",
+      "summary": "I’ve been teaching myself robotics over the last few months, and I wanted to share my latest project. The main goal was simple: Build a self-balancing two-wheel rover using PVC pipe as the chassis while designing as much of the hardware myself as possible. Nearly every structural part you see was de",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uwokmi/my_diy_selfbalancing_pvc_rover_custom_lora/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-14T23:11:45+00:00"
+    },
+    {
+      "id": "2ac9b8dff7a1",
+      "title": "ROS 2 node for PlayStation 5 HD camera",
+      "summary": "@Vladimir_Privalov thanks for updating the ReadMe. That helps a lot. Quick question because I am not familiar with the hardware. Does the node support a depth image out of the box? I didn’t see anything in the source code. Given what I’ve read here it sounds like the hardware supports producing a de",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-2-node-for-playstation-5-hd-camera/56162#post_13",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-14T21:41:37+00:00"
+    },
+    {
+      "id": "11868769469d",
+      "title": "Key to Humanoid Progress: Managing the Power Behind the Robots",
+      "summary": "Murata Power Solutions' John Quinlan on how advanced robotics converts, distributes and controls on-board power from battery to actuator. The post Key to Humanoid Progress: Managing the Power Behind the Robots appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/key-to-humanoid-progress-managing-the-power-behind-the-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-14T21:38:28+00:00"
+    },
+    {
+      "id": "f3f0241972fe",
+      "title": "NVIDIA shares how to evaluate general-purpose robot policies for real-world deployment",
+      "summary": "RoboLab research powers NVIDIA Isaac Lab-Arena, an open-source simulation framework for large-scale policy setup and evaluation. The post NVIDIA shares how to evaluate general-purpose robot policies for real-world deployment appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/nvidia-shares-how-evaluate-general-purpose-robot-policies-real-world-deployment/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-14T20:08:27+00:00"
+    },
+    {
+      "id": "ec711b2bc859",
+      "title": "robotic arm with computer vision (sorting candy)",
+      "summary": "Teaching my 13-year-old grandson programming using Arduino, Python, and AI. We are currently programming this small robotic arm. I originally built the arm for him 5 years ago for Christmas. Back then he just played with it, but now he is writing new code for it. The goal is to detect candies placed",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uwif6g/robotic_arm_with_computer_vision_sorting_candy/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-14T19:18:09+00:00"
+    },
+    {
+      "id": "2d8fbb3f875e",
+      "title": "A soft floating robot for indoor interaction. It uses helium and flapping fins. It can follow people, give reminders, and act as a study buddy (paper)",
+      "summary": "From clankr on 𝕏: https://x.com/clankrmedia/status/2076593164744376707 Paper: Floating Companion: Exploring Design Space for Soft Floating Robots in Indoor Environments: https://dl.acm.org/doi/10.1145/3800645.3813051 Published at ACM DIS 2026: https://dis.acm.org/2026/dis-2026-awards-and-recognition",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uw4dji/a_soft_floating_robot_for_indoor_interaction_it/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-14T10:04:50+00:00"
+    },
+    {
+      "id": "b367bc562b07",
+      "title": "Alan Turing's biggest AI assumption may have been wrong",
+      "summary": "A new book claims AI has been built on a flawed assumption dating back to Alan Turing's famous 1950 paper. Peter J. Denning argues that the most important parts of human intelligence, including common sense, intuition, culture, and practical know-how, cannot be encoded into computers. He believes th",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/07/260713084850.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-14T03:12:35+00:00"
+    },
+    {
+      "id": "c5708b3b20d6",
+      "title": "Ondas acquires DZYNE for $875.8M, expanding its defense capabilities",
+      "summary": "DZYNE Technologies specializes in long-endurance autonomous aircraft, counter-drone systems, and autonomous effects. The post Ondas acquires DZYNE for $875.8M, expanding its defense capabilities appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/ondas-acquires-dzyne-875-8m-expanding-its-defense-capabilities/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-13T22:16:05+00:00"
+    },
+    {
+      "id": "b98d798632c1",
+      "title": "Yaskawa America gets information security certification",
+      "summary": "Yaskawa America said that independent ISO/IEC 27001:2022 certification shows its focus on protecting customer information. The post Yaskawa America gets information security certification appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/yaskawa-america-gets-information-seccurity-certification/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-13T19:55:06+00:00"
+    },
+    {
+      "id": "3941d63514ab",
+      "title": "Scientists discovered the brain doesn't make decisions the way we thought",
+      "summary": "A new study suggests the brain begins making decisions much earlier than scientists previously thought. Researchers found that even primary sensory regions are influenced by higher brain areas through rapid feedback loops, rather than simply passing information forward. This more dynamic view of bra",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/07/260712011757.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-13T12:12:27+00:00"
+    },
+    {
+      "id": "ed29c9cc4fe6",
+      "title": "The Robot Report parent company, WTWH Media, rebrands as Arrowfly",
+      "summary": "The Arrowfly name unifies more than 40 brands under a new identity built for the future of B2B content and events. The post The Robot Report parent company, WTWH Media, rebrands as Arrowfly appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/the-robot-report-parent-company-wtwh-media-rebrands-as-arrowfly/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-13T12:04:39+00:00"
+    },
+    {
+      "id": "061b5604cd74",
+      "title": "STEM education in the classroom, introducing BotBall",
+      "summary": "Botball addresses STEM education with autonomous robotics, real coding, and a level playing field driven entirely by students. The post STEM education in the classroom, introducing BotBall appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/stem-education-classroom-introducing-botball/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-12T10:00:26+00:00"
+    },
+    {
+      "id": "37a965d4d37b",
+      "title": "Are suppliers ready for new robot safety standards?",
+      "summary": "Suppliers that are well prepared for standard changes will benefit, while underprepared companies may face market access disruption. The post Are suppliers ready for new robot safety standards? appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/are-suppliers-ready-for-new-robot-safety-standards/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-11T13:30:02+00:00"
+    },
+    {
+      "id": "4af2cb5de922",
+      "title": "Why robotics teams need virtual gyms before deployment",
+      "summary": "To address environmental and task variability, robots can benefit from 'virtual gyms' to bridge the sim-to-real gap, says SoftServe. The post Why robotics teams need virtual gyms before deployment appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/why-robotics-teams-need-virtual-gyms-before-deployment/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-11T12:36:16+00:00"
+    },
+    {
+      "id": "57aa899f9235",
+      "title": "How Path Robotics uses AI to optimize robotic welding",
+      "summary": "CEO Andy Lonsberry explains how Path Robotics applies AI to welding, and UC San Diego professor Michael Yip discusses robot learning. The post How Path Robotics uses AI to optimize robotic welding appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/how-path-robotics-uses-ai-optimize-robotic-welding/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T23:02:23+00:00"
+    },
+    {
+      "id": "406856411d9d",
+      "title": "XTEND secures U.S. patent for autonomous navigation technology",
+      "summary": "XTEND said the newly granted patent expands its portfolio supporting autonomous navigation, operator assistance, and mission execution. The post XTEND secures U.S. patent for autonomous navigation technology appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/xtend-secures-u-s-patent-autonomous-navigation-technology/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T21:31:28+00:00"
+    },
+    {
+      "id": "15c43ce64d16",
+      "title": "AI² Robotics raises $735M at $3B valuation for wheeled humanoid robots",
+      "summary": "Shenzhen’s Ai2 Robotics raised $735 million at a $2.8 billion valuation, backed by state, corporate, and financial giants. The post AI² Robotics raises $735M at $3B valuation for wheeled humanoid robots appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/ai%c2%b2-robotics-raises-735m-3b-valuation-wheeled-humanoid-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T19:44:55+00:00"
+    },
+    {
+      "id": "8d6d6be1f947",
+      "title": "Harvard scientists turn a silicon chip into a DNA writing machine",
+      "summary": "Scientists have created a silicon chip that can write dozens of DNA sequences simultaneously using electricity and water-based enzymes, offering a cleaner alternative to conventional DNA manufacturing. The breakthrough could eventually support portable DNA-writing devices and even massive DNA data s",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/07/260708022202.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-09T02:48:06+00:00"
+    },
+    {
+      "id": "15a66ed4f6ba",
+      "title": "Scientists used AI to crack one of water's biggest mysteries",
+      "summary": "Water’s odd behavior becomes even more dramatic when it is supercooled, but scientists have struggled to compare the many different ways of describing its microscopic structure. Researchers at the University of Osaka used an AI model trained on computer simulations to evaluate 16 different structura",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/07/260707025047.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-08T22:31:30+00:00"
+    },
+    {
+      "id": "d36e02a56499",
+      "title": "This startup thinks robotics is about to have its ChatGPT moment",
+      "summary": "General Intuition is betting millions of hours of video game data can train the foundation models for physical AI, making it easier to build smarter robots with minimal real-world data.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/08/this-startup-thinks-robotics-is-about-to-have-its-chatgpt-moment/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-08T19:19:15+00:00"
+    },
+    {
+      "id": "071c6ec4bb9a",
+      "title": "New AI model reveals how neutron star mergers forge heavy elements",
+      "summary": "Researchers have created an AI-based simulation that makes it much faster to model how neutron star mergers produce many of the universe's heaviest elements. The new tool could improve predictions of these powerful explosions while helping scientists better connect observations in space with experim",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260626030426.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-08T04:07:40+00:00"
+    },
+    {
+      "id": "2244daafd817",
+      "title": "The first American autonomous ground vehicles are fighting in Ukraine",
+      "summary": "Forterra has deployed more than 100 of its self-driving ATVs in conflict zones in Ukraine.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/07/the-first-american-autonomous-ground-vehicles-are-fighting-in-ukraine/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-07T09:00:00+00:00"
+    },
+    {
+      "id": "a213a67a0e3e",
+      "title": "This humanoid robotics company is going public, but its CEO isn’t promising a robot in your home anytime soon",
+      "summary": "While other humanoid startups chase sky-high valuations, Agility Robotics is betting its future on execution — and a SPAC.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-06T06:05:29+00:00"
+    },
+    {
+      "id": "09c82d711b0d",
+      "title": "Builders Stage agenda revealed: Practical strategies for scaling startups at TechCrunch Disrupt 2026",
+      "summary": "The Builders Stage is returning to TechCrunch Disrupt 2026, bringing together 10,000+ founders, startup operators, and investors for practical conversations. and Q&A on what it takes to build and scale successful companies. Register now to save up to $330.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/01/builders-stage-agenda-revealed-practical-strategies-for-scaling-startups-at-techcrunch-disrupt-2026/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-01T14:00:00+00:00"
+    },
+    {
+      "id": "37db88ada3b6",
+      "title": "Millions of exploding stars could soon reveal dark energy's secrets",
+      "summary": "A new AI-powered framework could transform how astronomers measure the expansion of the Universe. By analyzing images of Type Ia supernovae and modeling their environments in unprecedented detail, researchers can estimate cosmic distances with near-spectroscopic accuracy. The technique is designed f",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260621060315.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-29T21:57:17+00:00"
+    },
+    {
+      "id": "828d4911d5ab",
+      "title": "Robot hand company settles Tesla trade secret suit and announces $11M raise",
+      "summary": "The startup, Proception, is taking a unique approach to collecting training data to tackle one of the hardest problems in robotics: hands.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/29/robot-hand-company-settles-tesla-trade-secret-suit-and-announces-11m-raise/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-29T14:00:08+00:00"
+    },
+    {
+      "id": "1ee1985b980e",
+      "title": "General Intuition’s $2.3B bet that video games can train AI agents for the real world",
+      "summary": "General Intuition has raised $320 million to scale AI trained on millions of hours of gameplay, betting action data can help AI develop something closer to human intuition.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/25/general-intuitions-2-3b-bet-that-video-games-can-train-ai-agents-for-the-real-world/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-25T16:55:00+00:00"
+    },
+    {
+      "id": "56b3602dce60",
+      "title": "Agility Robotics plans to go public via SPAC in a $2.5B deal",
+      "summary": "Agility Robotics, the humanoid robotics startup that spun out of Oregon State University in 2015, expects to generate $620 million in proceeds.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/24/agility-robotics-plans-to-go-public-via-spac-in-a-2-5b-deal/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-24T16:48:43+00:00"
+    },
+    {
+      "id": "09955028d116",
+      "title": "Founders Fund’s outlier bet on humanely killed fish",
+      "summary": "Shinkei makes a refrigerator-sized robot called Poseidon to kill fish quickly and humanely.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/20/founders-funds-outlier-bet-on-humanely-killed-fish/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "camera"
+      ],
+      "publishedAt": "2026-06-20T18:26:02+00:00"
+    },
+    {
+      "id": "2207243ad4b1",
+      "title": "SpaceX wants to build AI data centers in space. Will it work?",
+      "summary": "The race to build data centers in space is gaining momentum as AI drives unprecedented demand for computing power. Orbital facilities could tap into abundant solar energy and avoid many of the environmental challenges faced on Earth. Yet space remains a harsh and expensive place to operate, with maj",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260618041501.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-19T03:43:09+00:00"
+    },
+    {
+      "id": "3f7ab11fae21",
+      "title": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
+      "summary": "Unlike humanoid robots designed around a fixed form — think Boston Dynamics — Theker's machines are built to be reconfigured.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-12T01:48:07+00:00"
+    },
+    {
+      "id": "4d074d29d2da",
+      "title": "Scientists discover a strange property in rice and turn it into a smart material",
+      "summary": "Scientists discovered that rice behaves in a highly unusual way: it weakens under rapid compression but stays stronger when pressure is applied slowly. Using this effect, they engineered a new material that reacts differently to gentle movements and sudden impacts. The material can adapt its stiffne",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260611024621.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-11T12:29:52+00:00"
+    },
+    {
+      "id": "e3d8770c6083",
+      "title": "AI could uncover new physics faster but there’s a surprising catch",
+      "summary": "Scientists found that transfer learning can make the search for new physics in the universe much faster, slashing the need for expensive simulations. Yet the approach can backfire when AI relies too heavily on familiar patterns, potentially missing evidence of something truly new.",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260611024557.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-06-11T09:16:15+00:00"
+    },
+    {
+      "id": "a31d2f43ac74",
+      "title": "A classic brain test exposed AI's biggest weakness",
+      "summary": "Researchers gave top AI models a classic attention test used in psychology and found a major flaw. While the models could correctly name colors in short lists, their performance deteriorated sharply as the task became longer and more complex. Some leading systems fell from over 90% accuracy to nearl",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260610003049.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-10T10:52:17+00:00"
+    },
+    {
+      "id": "3fa7ac83f9af",
+      "title": "Startup Battlefield 200 applications officially close in 3 days",
+      "summary": "Applications for Startup Battlefield 200 officially close on June 8, 11:59 p.m. PT. Don't wait any longer. Secure your shot at competing on the Disrupt Stage at TechCrunch Disrupt 2026 this October at San Francisco's Moscone West.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/05/startup-battlefield-200-applications-officially-close-in-3-days/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-05T20:00:00+00:00"
+    },
+    {
+      "id": "6f494ec48897",
+      "title": "AI-designed universal coronavirus vaccine passes first human trial",
+      "summary": "Scientists have successfully tested an AI-designed universal coronavirus vaccine in humans for the first time, finding it to be safe and well tolerated. The vaccine generated immune responses against multiple coronaviruses, including SARS-CoV-2, SARS, and related bat viruses with pandemic potential.",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260605023357.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-05T15:42:19+00:00"
+    },
+    {
+      "id": "b871a7d2af3c",
+      "title": "Scientists are seriously asking if bees and ChatGPT are conscious",
+      "summary": "New studies suggest consciousness can't be judged solely by behavior, whether it's a chatbot discussing philosophy or a bee searching for nectar. Researchers are increasingly focusing on the internal mechanisms of brains and computers, concluding that today's AI is likely not conscious while leaving",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260604044258.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-05T05:27:32+00:00"
+    },
+    {
+      "id": "b6ac45697456",
+      "title": "Is Silicon Valley ready to put robots in people’s homes? Hello Robot is.",
+      "summary": "The California startup released the fourth-generation of its home assistance robot, Stretch.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/04/is-silicon-valley-ready-to-put-robots-in-peoples-homes-hello-robot-is/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-04T15:05:00+00:00"
+    },
+    {
+      "id": "a56c0cd3285e",
+      "title": "The forgotten organ that could predict how long you live",
+      "summary": "A long-overlooked organ may hold surprising clues to healthy aging and cancer survival. Researchers at Mass General Brigham used AI to analyze CT scans from tens of thousands of adults and found that people with healthier thymuses—a small immune-system organ once thought to become largely irrelevant",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260601025352.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-01T10:17:04+00:00"
+    },
+    {
+      "id": "6d2c5dc96c5e",
+      "title": "New 3D silicon chip breakthrough could extend Moore’s Law for years",
+      "summary": "As traditional chip miniaturization slows, researchers have found a way to pack more computing power into the same space by stacking silicon circuits in multiple layers. The new process uses ultra-thin silicon membranes and low-temperature manufacturing techniques to overcome a major obstacle that h",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/05/260530053412.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-30T10:26:24+00:00"
+    },
+    {
+      "id": "bc0aeaf5f347",
+      "title": "Stanford quantum computing breakthrough uses twisted light to work without extreme cooling",
+      "summary": "A new room-temperature quantum device uses twisted light to entangle photons and electrons, overcoming one of the biggest hurdles in quantum technology. The breakthrough could pave the way for smaller, cheaper quantum systems with applications ranging from secure communications to future AI and comp",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/05/260528074028.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-30T05:08:07+00:00"
+    },
+    {
+      "id": "7cc3595b4008",
+      "title": "Today is the last day to apply to speak at TechCrunch Disrupt 2026",
+      "summary": "Submit your session topic before today ends for a chance to speak at TechCrunch Disrupt 2026. Apply now to share your insight and help shape the conversations defining the tech industry.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/29/today-is-the-last-day-to-apply-to-speak-at-techcrunch-disrupt-2026/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-29T14:15:00+00:00"
+    },
+    {
+      "id": "0fd45339227e",
+      "title": "Final 24 hours to save up to $410 on your TechCrunch Disrupt 2026 ticket",
+      "summary": "You now have until tonight at 11:59 p.m. PT to lock in Early Bird savings of up to $410 for TechCrunch Disrupt 2026 before prices increase. Join 10,000+ tech leaders in October for one of the most anticipated tech events of the year. Register now.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/29/final-24-hours-to-save-up-to-410-on-your-techcrunch-disrupt-2026-ticket/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-29T14:00:00+00:00"
+    },
+    {
+      "id": "2e9a9e530239",
+      "title": "2 days left: Lock in ticket savings of up to $410 to TechCrunch Disrupt 2026",
+      "summary": "Savings of up to $410 on TechCrunch Disrupt 2026 tickets end tomorrow, May 29, 11:59 p.m. PT. Register now to save and join 10,000+ tech leaders on October 13-15 in San Francisco.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/28/2-days-left-lock-in-ticket-savings-of-up-to-410-to-techcrunch-disrupt-2026/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-28T14:00:00+00:00"
+    },
+    {
+      "id": "e1deb1238fdb",
+      "title": "Startup Battlefield 200 applications close today: Nominate a founder or submit your startup",
+      "summary": "Today is the final day to apply or nominate a startup for Startup Battlefield 200. Once the clock strikes 11:59 p.m. PT, the window closes on your chance to compete for $100,000 in equity-free funding, gain global visibility, connect directly with investors, and launch on the TechCrunch Disrupt stag",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/27/startup-battlefield-200-applications-close-today-nominate-a-founder-or-submit-your-startup/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-27T14:15:00+00:00"
+    },
+    {
+      "id": "361a8dde4c55",
+      "title": "ANYbotics uses AWS to deploy a global robot workforce for industrial inspections",
+      "summary": "ANYbotics, a pioneering company at the forefront of autonomous mobile robots, is using AWS to deploy their global robot workforce. They revolutionize the operation of large industrial facilities by providing intelligent inspection solutions that improve safety, efficiency, and sustainability. Connec",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/anybotics-uses-aws-to-deploy-a-global-robot-workforce-for-industrial-inspections/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-11-07T07:36:33+00:00"
+    },
+    {
+      "id": "3246a14a62b7",
+      "title": "Running high-fidelity O3DE simulations in AWS RoboMaker",
+      "summary": "Developing autonomous robots is hard. Because it requires both hardware and software to be developed, integrated and tested, doing so in a physical environment is difficult and costly. Using simulations, robot developers can test their code quickly, iterating many times before finally deploying soft",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/running-high-fidelity-o3de-simulations-in-aws-robomaker/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2023-08-14T23:50:40+00:00"
+    },
+    {
+      "id": "ad8971ff0149",
+      "title": "Running an SSH server on AWS RoboMaker",
+      "summary": "Overview AWS RoboMaker is a fully managed service that enables Robotics developers to build, run, scale, and automate simulations without managing any infrastructure. During the development cycle, roboticists frequently need to perform a deeper inspection of what is going on within the running conta",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/running-an-ssh-server-on-aws-robomaker/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2023-06-23T17:20:07+00:00"
+    },
+    {
+      "id": "79ec5a442047",
+      "title": "New introductory course on how to build, deploy, and manage robots with AWS",
+      "summary": "From autonomous mobile robots (AMRs) and robotic arms to drones and uncrewed surface vessels (USVs), AWS provides a variety of cloud and edge services that customers use to build next generation robots. Next generation robots are connected – either periodically in denied, disrupted, intermittent, or",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/new-introductory-course-on-how-to-build-deploy-and-manage-robots-with-aws/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-03-17T20:40:05+00:00"
+    },
+    {
+      "id": "2fe98838ebad",
+      "title": "AWS empowers SEQSENSE to build Autonomous Security Robots",
+      "summary": "Introduction According to national institute of population and social security research, the working population in Japan is expected to decrease by 30% in the next 30 years. A rapidly aging population in Japan causes a shortage of labor in the security space. Figure 1: SEQSENSE’s security robot SQ-2",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/aws-empowers-seqsense-to-build-autonomous-security-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-03-01T15:39:46+00:00"
+    },
+    {
+      "id": "e30e08d3364a",
+      "title": "How Brisa Robotics uses AWS to improve robotics operations",
+      "summary": "In this post, you’ll learn how Brisa Robotics leverages Amazon Web Services (AWS) to collect, store, and process data from mixed fleets of vehicles to improve customer operations. Brisa transforms non-autonomous machines into fleets of autonomous vehicles that collect data to help customers track ke",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/how-brisa-robotics-uses-aws-to-improve-robotics-operations/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-02-24T16:12:56+00:00"
+    },
+    {
+      "id": "6513dc8d9d5b",
+      "title": "Adaptive Reprogramming of Industrial Robots and Toolpath Validation in the Cloud",
+      "summary": "Guest Blog By Sebastian Andraos, Chief Executive Officer, HAL Robotics Ltd. At HAL Robotics, we enable the automation of variable, complex, and uncommon tasks with robots. Over the past 8 years, our software has powered innovation for multi-nationals and subject matter experts in aerospace, construc",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/adaptive-reprogramming-of-industrial-robots-and-toolpath-validation-in-the-cloud/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2022-12-20T23:17:36+00:00"
+    },
+    {
+      "id": "23d12af863d4",
+      "title": "How to provide improved data isolation for tenant robots",
+      "summary": "Introduction Robots are used in various industries and use cases, such as medical robotics for surgeries, material movement robots for industrial automation, security robots for surveillance and monitoring, fruit picking robots for agriculture, and many more. Depending on the application, these robo",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/how-to-provide-improved-data-isolation-for-tenant-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2022-12-15T17:59:21+00:00"
+    },
+    {
+      "id": "5e669208a358",
+      "title": "ANT61 accelerates reinforcement learning for space robots using AWS",
+      "summary": "Introduction ANT61 robotics is a start-up based in Sydney, Australia, that develops autonomous robots for space applications such as in-orbit satellite servicing to avoid putting human lives at risk. Their robots use AI-based control systems that enable them to perform installation and servicing tas",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/ant61-accelerates-reinforcement-learning-for-space-robots-using-aws/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2022-11-28T19:03:49+00:00"
+    },
+    {
+      "id": "4c8203e89570",
+      "title": "Build headless robotic simulations with AWS Batch",
+      "summary": "Introduction Headless robotic simulations with AWS Batch allow robot developers to increase their velocity by running their code through thousands of scenarios and iterating before moving onto physical device testing. The real-world environments and situations a robot can find itself in are nearly e",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/build-headless-robotic-simulations-with-aws-batch/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2022-11-23T17:04:46+00:00"
+    }
+  ],
+  "categories": [
+    {
+      "key": "ros2",
+      "label": "ROS2",
+      "icon": "settings"
+    },
+    {
+      "key": "robot",
+      "label": "机器人",
+      "icon": "controller"
+    },
+    {
+      "key": "lidar",
+      "label": "激光雷达",
+      "icon": "compass"
+    },
+    {
+      "key": "camera",
+      "label": "深度相机",
+      "icon": "camera"
+    },
+    {
+      "key": "ai",
+      "label": "AI",
+      "icon": "fire"
+    },
+    {
+      "key": "sensor",
+      "label": "传感器",
+      "icon": "pushpin"
+    }
+  ],
+  "total": 96,
+  "generatedAt": "2026-07-16T02:39:43.806849+00:00"
+}

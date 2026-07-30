@@ -1,0 +1,1121 @@
+{
+  "date": "2026-07-13",
+  "items": [
+    {
+      "id": "0f2bf5ae6250",
+      "title": "📦 paperless-ngx/paperless-ngx",
+      "summary": "A community-supported supercharged document management system: scan, index and archive all your documents",
+      "source": "GitHub Trending",
+      "sourceIcon": "github",
+      "url": "https://github.com/paperless-ngx/paperless-ngx",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-13T02:52:06.019057+00:00"
+    },
+    {
+      "id": "61876f79ff98",
+      "title": "📦 Shubhamsaboo/awesome-llm-apps",
+      "summary": "100+ AI Agent & RAG apps you can actually run — clone, customize, ship.",
+      "source": "GitHub Trending",
+      "sourceIcon": "github",
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-13T02:52:06.018033+00:00"
+    },
+    {
+      "id": "2c8b0ab04d7d",
+      "title": "ViewKit - An interactive website to view dataset files",
+      "summary": "I've been working on ML/Robotics research for a while and often work with HDF5, Parquet, and Zarr files. Personally, I love the myHDF5 viewer, but there's no good equivalent for Parquet and Zarr, and switching between different sites also gets annoying. So, I built a tool that provides a unified sol",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uuxbt1/viewkit_an_interactive_website_to_view_dataset/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-13T01:13:35+00:00"
+    },
+    {
+      "id": "089946f9a151",
+      "title": "OpenAMRobot v0.0.1 - Open-source ROS 2 mobile robot platform",
+      "summary": "Hi everyone, We have released OpenAMRobot v0.0.1 , the first public product-level release of our open-source mobile robotics platform. OpenAMRobot is built around ROS 2 Jazzy and is intended for robotics research, education, rapid prototyping, and early-stage embodied AI development. The current rel",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/openamrobot-v0-0-1-open-source-ros-2-mobile-robot-platform/56515#post_1",
+      "category": "ros2",
+      "tags": [
+        "ai",
+        "ros2"
+      ],
+      "publishedAt": "2026-07-13T00:36:59+00:00"
+    },
+    {
+      "id": "566f280b5cce",
+      "title": "Announcement: Welcoming Vicky (VM) Brasseur as Our New Chief Program Officer",
+      "summary": "What do you mean? That’s an accurate photo. Just like mine.",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/announcement-welcoming-vicky-vm-brasseur-as-our-new-chief-program-officer/56259#post_5",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-13T00:29:15+00:00"
+    },
+    {
+      "id": "c5174165bacf",
+      "title": "Hardening HRI Safety with a Deterministic Wrapper: A Webots Demo Using TIAGo",
+      "summary": "Nice demo. Running the safety evaluation as a deterministic wrapper next to the standard controller, without lagging the sim step, is a solid architecture call. And the keyboard-stubbed triggers are labeled as such, which makes the claim easy to assess. Once a real distress detector replaces the ‘D’",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/hardening-hri-safety-with-a-deterministic-wrapper-a-webots-demo-using-tiago/56428#post_2",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-12T23:06:15+00:00"
+    },
+    {
+      "id": "96c4c5ab8bef",
+      "title": "REP-2000 update",
+      "summary": "REP-2000 [1] is a very useful document that defines the required dependency versions for each version of ROS 2. However, the latest distribution listed on the page is Kilted Kaiju, and information for Lyrical Luth has not yet been published. Could you please update the page to include the Lyrical Lu",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/rep-2000-update/56502#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-12T19:27:59+00:00"
+    },
+    {
+      "id": "088ca8f387b8",
+      "title": "Teleop study break",
+      "summary": "submitted by /u/nettrotten [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uujob3/teleop_study_break/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-12T16:11:26+00:00"
+    },
+    {
+      "id": "2f9d25d73f83",
+      "title": "Cool AI robot arm I made",
+      "summary": "https://youtube.com/shorts/DapBP4Frb9c?si=u6yqt5xPw4Y-4\\_09 Link to full vid 4-DOF Raspberry Pi 4B robot arm with a Three.js 3D web interface. Features YOLOv8 object detection, VL53L1X depth sensing, 2-link inverse kinematics, autonomous object pickup, INA219 current-based gripper stall detection, f",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uuijs6/cool_ai_robot_arm_i_made/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-12T15:28:54+00:00"
+    },
+    {
+      "id": "a185aa6886e7",
+      "title": "Consciousness is all you need",
+      "summary": "This new paper develops an information-processing theory of consciousness and uses it to identify how consciousness can be instantiated in AI, paving the way for genuine AGI and beyond (the paper demonstrates that conscious functioning is the missing ingredient that enables a toddler to navigate an ",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uuci3g/consciousness_is_all_you_need/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-12T11:08:18+00:00"
+    },
+    {
+      "id": "8807b0583ecc",
+      "title": "Wheelchair Made Based on a Quadruped Robot",
+      "summary": "Full video: YouTube: JLaservideo: I Built My Dad Bionic Legs!: https://www.youtube.com/watch?v=ZyHrKD3SE-M It's an Unitree B2: https://shop.unitree.com/products/unitree-b2 submitted by /u/Nunki08 [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uubs2y/wheelchair_made_based_on_a_quadruped_robot/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-12T10:29:36+00:00"
+    },
+    {
+      "id": "061b5604cd74",
+      "title": "STEM education in the classroom, introducing BotBall",
+      "summary": "Botball addresses STEM education with autonomous robotics, real coding, and a level playing field driven entirely by students. The post STEM education in the classroom, introducing BotBall appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/stem-education-classroom-introducing-botball/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-12T10:00:26+00:00"
+    },
+    {
+      "id": "5c5a6823b8ff",
+      "title": "I made my tracking robot finally functional 11-07-2026 #raspberrypi #rob...",
+      "summary": "I made a 2dof raspberry pi object tracking robot in c++. It is the second iteration of a 1dof version i had made: https://github.com/Dawsatek22/raspberrypi_objectracking_1dof_cpp . i still need to make te documentation and post the cad files but if you wanna check the code i posted it on the repo: h",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uua73v/i_made_my_tracking_robot_finally_functional/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-12T08:58:50+00:00"
+    },
+    {
+      "id": "9bd33b37393f",
+      "title": "Title: I built an engineering learning app with 8 guided labs and an evidence-focused desktop workbench",
+      "summary": "submitted by /u/Odd-Doctor-0401 [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uu8ngh/title_i_built_an_engineering_learning_app_with_8/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-12T07:28:05+00:00"
+    },
+    {
+      "id": "3b5040d5cc96",
+      "title": "Why Robots Can't Walk Up a Wet Hill (And How a Goat Solved It)",
+      "summary": "Engineers have spent billions teaching robots to do backflips and solve complex math, yet a wet, mossy hill can stop a state-of-the-art robot completely. This video breaks down how researchers solved that problem not with better software, but by copying the design of a mountain goat's hoof, using a ",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1utrx75/why_robots_cant_walk_up_a_wet_hill_and_how_a_goat/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-11T18:35:13+00:00"
+    },
+    {
+      "id": "b19f25a0a1f1",
+      "title": "First full-body movements of my DIY robot lamp",
+      "summary": "This is the first movement test with the assembled prototype. The motion is still rough and the wiring is currently a complete mess, but all the connected joints are finally moving — so naturally, I made it dance. Next: smoother trajectories, control tuning, and proper cable management. UPD: In this",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1utpuci/first_fullbody_movements_of_my_diy_robot_lamp/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-11T17:16:30+00:00"
+    },
+    {
+      "id": "98050a35017b",
+      "title": "A Standard Interface from LLM to Robot Actions",
+      "summary": "github.com GitHub - ClawsJoy/clawsjoy_robotics: ClawsJoy Robotics - A standard interface from LLM... ClawsJoy Robotics - A standard interface from LLM to ROS/2 robot actions. 12 motion primitives, task planner, world model. Any LLM outputs an action, any robot implements these topics.",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/a-standard-interface-from-llm-to-robot-actions/55894#post_4",
+      "category": "ros2",
+      "tags": [
+        "ros2",
+        "ai"
+      ],
+      "publishedAt": "2026-07-11T14:01:21+00:00"
+    },
+    {
+      "id": "37a965d4d37b",
+      "title": "Are suppliers ready for new robot safety standards?",
+      "summary": "Suppliers that are well prepared for standard changes will benefit, while underprepared companies may face market access disruption. The post Are suppliers ready for new robot safety standards? appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/are-suppliers-ready-for-new-robot-safety-standards/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-11T13:30:02+00:00"
+    },
+    {
+      "id": "0f937aac75bb",
+      "title": "ROS 2 node for PlayStation 5 HD camera",
+      "summary": "That seems pretty good for the price, though the baseline is a bit short. The cameras are presumably trigger synchronized?",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-2-node-for-playstation-5-hd-camera/56162#post_5",
+      "category": "ros2",
+      "tags": [
+        "ros2",
+        "camera"
+      ],
+      "publishedAt": "2026-07-11T12:38:36+00:00"
+    },
+    {
+      "id": "4af2cb5de922",
+      "title": "Why robotics teams need virtual gyms before deployment",
+      "summary": "To address environmental and task variability, robots can benefit from 'virtual gyms' to bridge the sim-to-real gap, says SoftServe. The post Why robotics teams need virtual gyms before deployment appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/why-robotics-teams-need-virtual-gyms-before-deployment/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-11T12:36:16+00:00"
+    },
+    {
+      "id": "a78c27f530c7",
+      "title": "I'm glad to share the little robot we designed that can drift, jump, and track you just launched the Kickstarter!",
+      "summary": "submitted by /u/lanyusea [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uti96j/im_glad_to_share_the_little_robot_we_designed/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-11T12:01:32+00:00"
+    },
+    {
+      "id": "fc7c47255f6d",
+      "title": "[Most robots react. This one thinks a step ahead.] Ant Group's Robbyant just published LingBot-VA 2.0 — a video-action foundation model built from scratch for robot control, not fine-tuned from a video generator.",
+      "summary": "submitted by /u/ai-lover [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uted5n/most_robots_react_this_one_thinks_a_step_ahead/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-11T08:24:49+00:00"
+    },
+    {
+      "id": "4c05bc43d93a",
+      "title": "Ground Robots Inherit the Kill Zone - Ukrainian roboticists build toward a human-free frontline",
+      "summary": "submitted by /u/HenryGCase [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1utclru/ground_robots_inherit_the_kill_zone_ukrainian/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-11T06:43:59+00:00"
+    },
+    {
+      "id": "57aa899f9235",
+      "title": "How Path Robotics uses AI to optimize robotic welding",
+      "summary": "CEO Andy Lonsberry explains how Path Robotics applies AI to welding, and UC San Diego professor Michael Yip discusses robot learning. The post How Path Robotics uses AI to optimize robotic welding appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/how-path-robotics-uses-ai-optimize-robotic-welding/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T23:02:23+00:00"
+    },
+    {
+      "id": "406856411d9d",
+      "title": "XTEND secures U.S. patent for autonomous navigation technology",
+      "summary": "XTEND said the newly granted patent expands its portfolio supporting autonomous navigation, operator assistance, and mission execution. The post XTEND secures U.S. patent for autonomous navigation technology appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/xtend-secures-u-s-patent-autonomous-navigation-technology/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T21:31:28+00:00"
+    },
+    {
+      "id": "15c43ce64d16",
+      "title": "AI² Robotics raises $735M at $3B valuation for wheeled humanoid robots",
+      "summary": "Shenzhen’s Ai2 Robotics raised $735 million at a $2.8 billion valuation, backed by state, corporate, and financial giants. The post AI² Robotics raises $735M at $3B valuation for wheeled humanoid robots appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/ai%c2%b2-robotics-raises-735m-3b-valuation-wheeled-humanoid-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T19:44:55+00:00"
+    },
+    {
+      "id": "add48cc4eb49",
+      "title": "Built an open-source 5-axis desktop robot arm with ESP32 for under $100 in parts",
+      "summary": "Hey r/robotics ! After months of design and testing, I finally have a working 5-axis robot arm fully printable in PLA or PETG — no CNC, no laser cutter, just your printer. Here's what makes it different: - 5 axes (shoulder, elbow, wrist, gripper + base stepper motor) - ESP32 brain — totally open-sou",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1ustmvg/built_an_opensource_5axis_desktop_robot_arm_with/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T17:06:39+00:00"
+    },
+    {
+      "id": "cd1bcf5b2d90",
+      "title": "ROS News for the Week of July 6th, 2026",
+      "summary": "ROS News for the Week of July 6th, 2026 THIS SUNDAY, JULY 12th, is the last day to purchase early bird ROSCon Global tickets. Regular tickets are $150 off, which should cover one night at a hotel or make your workshop effectively free. The fine folks over at the NeoBotics Foundation are in town for ",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-news-for-the-week-of-july-6th-2026/56384#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-10T16:53:25+00:00"
+    },
+    {
+      "id": "ec4ffaa0b19e",
+      "title": "12 free browser-based tools for URDF and simulation work — validator, 3D viewer, format converters, mesh inertia. No install, files never leave your browser",
+      "summary": "Hi all — I’m Rahul, a robotics/UAV engineer from India. Over the past months I built a set of free browser-based tools for the URDF/simulation debugging work I kept doing by hand, and I’d like to share them: https://robosimtools.com Everything runs client-side (WASM/JS) — your files never leave your",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/12-free-browser-based-tools-for-urdf-and-simulation-work-validator-3d-viewer-format-converters-mesh-inertia-no-install-files-never-leave-your-browser/56379#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-10T15:14:40+00:00"
+    },
+    {
+      "id": "2ccefe73e9ab",
+      "title": "Avoid dynamic loading of libraries (on Windows)",
+      "summary": "Hello. I am currently working on a recipe to build a ros2-godot plugin ( GitHub - Kotakku/ros2-for-godot · GitHub ) on Windows. The goal is to have a ‘standalone’ plugin embedding all the needed dll (so without needing to install a ROS environment). Please note that I do not know a lot about ROS2… I",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/avoid-dynamic-loading-of-libraries-on-windows/56378#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-10T15:14:20+00:00"
+    },
+    {
+      "id": "e0a2367dc5ed",
+      "title": "SW2GZ — export SolidWorks assemblies straight to ROS 2 + Gazebo (no hand-written URDF)",
+      "summary": "Hi all, I’ve been working on SW2GZ , a SolidWorks add-in that exports an assembly directly into a ready-to-launch ROS 2 package or Gazebo (Gz Sim) model/world — no manual URDF authoring. What it does: Reads masses, inertias, joint frames, and mates straight from the SolidWorks model instead of you t",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/sw2gz-export-solidworks-assemblies-straight-to-ros-2-gazebo-no-hand-written-urdf/56376#post_1",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-10T15:14:01+00:00"
+    },
+    {
+      "id": "8963e91efdce",
+      "title": "Robotic Welding at Premier Automation",
+      "summary": "submitted by /u/PremierAutomation412 [link] [comments]",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1usogqq/robotic_welding_at_premier_automation/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T13:57:43+00:00"
+    },
+    {
+      "id": "c1be5f37e585",
+      "title": "Most demos showcasing degrees of freedom are based on bare-metal setups. Do cosmetic elements, such as the casing, affect the smoothness of motion?",
+      "summary": "For aesthetic reasons, robots are typically equipped with outer casings around their core components. Could the degrees of freedom of a bare robot be compromised in terms of performance due to design constraints? Is that why the demonstration robot in the example uses rubber gloves as its outer casi",
+      "source": "Reddit r/robotics",
+      "sourceIcon": "reddit",
+      "url": "https://www.reddit.com/r/robotics/comments/1uslg44/most_demos_showcasing_degrees_of_freedom_are/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-10T11:52:10+00:00"
+    },
+    {
+      "id": "d45b39c78605",
+      "title": "ForSight Robotics’ road to performing a fully robotic cataract surgery",
+      "summary": "ForSight Robotics' JASPER Platform assists surgeons with cataract surgeries, while still leaving the power in the surgeon's hands. The post ForSight Robotics’ road to performing a fully robotic cataract surgery appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/forsight-robotics-road-to-performing-a-fully-robotic-cataracts-surgery/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-09T21:14:06+00:00"
+    },
+    {
+      "id": "58c877b4b315",
+      "title": "Calling all robotics startups: apply to RoboBusiness Startup Alley",
+      "summary": "We're looking for robotics startups that are creating a full system, component, or software system to show off their work at RoboBusiness. The post Calling all robotics startups: apply to RoboBusiness Startup Alley appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/calling-all-robotics-startups-apply-to-robobusiness-startup-alley/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-09T17:53:38+00:00"
+    },
+    {
+      "id": "27054a13f29f",
+      "title": "Rollon launches two telescopic rails with integrated magnets",
+      "summary": "Rollon said the magnets deliver improved load management, smoother extension, and increased durability, even under intensive operating conditions. The post Rollon launches two telescopic rails with integrated magnets appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/rollon-launches-two-telescopic-rails-integrated-magnets/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-09T16:41:39+00:00"
+    },
+    {
+      "id": "b26a849a741f",
+      "title": "Beyond da Vinci: Why versatile humanoid robots are the next frontier in surgery",
+      "summary": "For the first time, teleoperated humanoid robots successfully performed surgeries during a UC San Diego preclinical trial. The post Beyond da Vinci: Why versatile humanoid robots are the next frontier in surgery appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/beyond-da-vinci-why-versatile-humanoid-robots-are-next-frontier-surgery/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-09T12:30:47+00:00"
+    },
+    {
+      "id": "8d6d6be1f947",
+      "title": "Harvard scientists turn a silicon chip into a DNA writing machine",
+      "summary": "Scientists have created a silicon chip that can write dozens of DNA sequences simultaneously using electricity and water-based enzymes, offering a cleaner alternative to conventional DNA manufacturing. The breakthrough could eventually support portable DNA-writing devices and even massive DNA data s",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/07/260708022202.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-09T02:48:06+00:00"
+    },
+    {
+      "id": "536f0016a264",
+      "title": "Tickets, geofences, and 1M miles: The new reality of California AV compliance",
+      "summary": "Guident CEO Harald Braun breaks down the new AV mandates in California mandates and how they will affect the driverless industry. The post Tickets, geofences, and 1M miles: The new reality of California AV compliance appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/tickets-geofences-1m-miles-new-reality-california-av-compliance/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-08T23:48:11+00:00"
+    },
+    {
+      "id": "7b45837ce162",
+      "title": "NVIDIA and Hugging Face bring new models and frameworks to LeRobot",
+      "summary": "Hugging Face LeRobot is an open-source robotics library for training, running, and sharing robot datasets, models, policies, and workflows. The post NVIDIA and Hugging Face bring new models and frameworks to LeRobot appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/nvidia-hugging-face-bring-new-models-frameworks-lerobot/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-08T22:49:50+00:00"
+    },
+    {
+      "id": "15a66ed4f6ba",
+      "title": "Scientists used AI to crack one of water's biggest mysteries",
+      "summary": "Water’s odd behavior becomes even more dramatic when it is supercooled, but scientists have struggled to compare the many different ways of describing its microscopic structure. Researchers at the University of Osaka used an AI model trained on computer simulations to evaluate 16 different structura",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/07/260707025047.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-08T22:31:30+00:00"
+    },
+    {
+      "id": "d36e02a56499",
+      "title": "This startup thinks robotics is about to have its ChatGPT moment",
+      "summary": "General Intuition is betting millions of hours of video game data can train the foundation models for physical AI, making it easier to build smarter robots with minimal real-world data.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/08/this-startup-thinks-robotics-is-about-to-have-its-chatgpt-moment/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-08T19:19:15+00:00"
+    },
+    {
+      "id": "79df23d9f975",
+      "title": "ENCY Software and Stäubli Robotics partner to simplify robot programming",
+      "summary": "ENCY Software and Stäubli Robotics have signed a global agreement to make robot programming more intuitive, faster, and more accessible. The post ENCY Software and Stäubli Robotics partner to simplify robot programming appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/ency-software-staubli-robotics-partner-simplify-robot-programming/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-08T15:02:53+00:00"
+    },
+    {
+      "id": "071c6ec4bb9a",
+      "title": "New AI model reveals how neutron star mergers forge heavy elements",
+      "summary": "Researchers have created an AI-based simulation that makes it much faster to model how neutron star mergers produce many of the universe's heaviest elements. The new tool could improve predictions of these powerful explosions while helping scientists better connect observations in space with experim",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260626030426.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-08T04:07:40+00:00"
+    },
+    {
+      "id": "9d0789ecb49d",
+      "title": "ABB Robotics includes vSLAM navigation in F712 autonomous forklift",
+      "summary": "The Flexley Stacy F712 forklift uses vision to navigate, works with other robots, and complies with safety standards, says ABB Robotics. The post ABB Robotics includes vSLAM navigation in F712 autonomous forklift appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/abb-robotics-includes-vslam-navigation-f712-autonomous-forklift/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-07T20:24:24+00:00"
+    },
+    {
+      "id": "79d290c49fb5",
+      "title": "Tesollo initiates IPO process while developing humanoid hands",
+      "summary": "Tesollo, a South Korean robotic hand specialist, has officially begun preparations for its initial public offering. The post Tesollo initiates IPO process while developing humanoid hands appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/tesollo-initiates-ipo-process-developing-humanoid-hands/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-07T13:17:40+00:00"
+    },
+    {
+      "id": "2244daafd817",
+      "title": "The first American autonomous ground vehicles are fighting in Ukraine",
+      "summary": "Forterra has deployed more than 100 of its self-driving ATVs in conflict zones in Ukraine.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/07/the-first-american-autonomous-ground-vehicles-are-fighting-in-ukraine/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-07T09:00:00+00:00"
+    },
+    {
+      "id": "a213a67a0e3e",
+      "title": "This humanoid robotics company is going public, but its CEO isn’t promising a robot in your home anytime soon",
+      "summary": "While other humanoid startups chase sky-high valuations, Agility Robotics is betting its future on execution — and a SPAC.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-06T06:05:29+00:00"
+    },
+    {
+      "id": "09c82d711b0d",
+      "title": "Builders Stage agenda revealed: Practical strategies for scaling startups at TechCrunch Disrupt 2026",
+      "summary": "The Builders Stage is returning to TechCrunch Disrupt 2026, bringing together 10,000+ founders, startup operators, and investors for practical conversations. and Q&A on what it takes to build and scale successful companies. Register now to save up to $330.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/01/builders-stage-agenda-revealed-practical-strategies-for-scaling-startups-at-techcrunch-disrupt-2026/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-01T14:00:00+00:00"
+    },
+    {
+      "id": "37db88ada3b6",
+      "title": "Millions of exploding stars could soon reveal dark energy's secrets",
+      "summary": "A new AI-powered framework could transform how astronomers measure the expansion of the Universe. By analyzing images of Type Ia supernovae and modeling their environments in unprecedented detail, researchers can estimate cosmic distances with near-spectroscopic accuracy. The technique is designed f",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260621060315.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-29T21:57:17+00:00"
+    },
+    {
+      "id": "828d4911d5ab",
+      "title": "Robot hand company settles Tesla trade secret suit and announces $11M raise",
+      "summary": "The startup, Proception, is taking a unique approach to collecting training data to tackle one of the hardest problems in robotics: hands.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/29/robot-hand-company-settles-tesla-trade-secret-suit-and-announces-11m-raise/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-29T14:00:08+00:00"
+    },
+    {
+      "id": "1ee1985b980e",
+      "title": "General Intuition’s $2.3B bet that video games can train AI agents for the real world",
+      "summary": "General Intuition has raised $320 million to scale AI trained on millions of hours of gameplay, betting action data can help AI develop something closer to human intuition.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/25/general-intuitions-2-3b-bet-that-video-games-can-train-ai-agents-for-the-real-world/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-25T16:55:00+00:00"
+    },
+    {
+      "id": "56b3602dce60",
+      "title": "Agility Robotics plans to go public via SPAC in a $2.5B deal",
+      "summary": "Agility Robotics, the humanoid robotics startup that spun out of Oregon State University in 2015, expects to generate $620 million in proceeds.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/24/agility-robotics-plans-to-go-public-via-spac-in-a-2-5b-deal/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-24T16:48:43+00:00"
+    },
+    {
+      "id": "09955028d116",
+      "title": "Founders Fund’s outlier bet on humanely killed fish",
+      "summary": "Shinkei makes a refrigerator-sized robot called Poseidon to kill fish quickly and humanely.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/20/founders-funds-outlier-bet-on-humanely-killed-fish/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "camera"
+      ],
+      "publishedAt": "2026-06-20T18:26:02+00:00"
+    },
+    {
+      "id": "2207243ad4b1",
+      "title": "SpaceX wants to build AI data centers in space. Will it work?",
+      "summary": "The race to build data centers in space is gaining momentum as AI drives unprecedented demand for computing power. Orbital facilities could tap into abundant solar energy and avoid many of the environmental challenges faced on Earth. Yet space remains a harsh and expensive place to operate, with maj",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260618041501.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-19T03:43:09+00:00"
+    },
+    {
+      "id": "3f7ab11fae21",
+      "title": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
+      "summary": "Unlike humanoid robots designed around a fixed form — think Boston Dynamics — Theker's machines are built to be reconfigured.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-12T01:48:07+00:00"
+    },
+    {
+      "id": "4d074d29d2da",
+      "title": "Scientists discover a strange property in rice and turn it into a smart material",
+      "summary": "Scientists discovered that rice behaves in a highly unusual way: it weakens under rapid compression but stays stronger when pressure is applied slowly. Using this effect, they engineered a new material that reacts differently to gentle movements and sudden impacts. The material can adapt its stiffne",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260611024621.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-11T12:29:52+00:00"
+    },
+    {
+      "id": "e3d8770c6083",
+      "title": "AI could uncover new physics faster but there’s a surprising catch",
+      "summary": "Scientists found that transfer learning can make the search for new physics in the universe much faster, slashing the need for expensive simulations. Yet the approach can backfire when AI relies too heavily on familiar patterns, potentially missing evidence of something truly new.",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260611024557.htm",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-06-11T09:16:15+00:00"
+    },
+    {
+      "id": "a31d2f43ac74",
+      "title": "A classic brain test exposed AI's biggest weakness",
+      "summary": "Researchers gave top AI models a classic attention test used in psychology and found a major flaw. While the models could correctly name colors in short lists, their performance deteriorated sharply as the task became longer and more complex. Some leading systems fell from over 90% accuracy to nearl",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260610003049.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-10T10:52:17+00:00"
+    },
+    {
+      "id": "3fa7ac83f9af",
+      "title": "Startup Battlefield 200 applications officially close in 3 days",
+      "summary": "Applications for Startup Battlefield 200 officially close on June 8, 11:59 p.m. PT. Don't wait any longer. Secure your shot at competing on the Disrupt Stage at TechCrunch Disrupt 2026 this October at San Francisco's Moscone West.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/05/startup-battlefield-200-applications-officially-close-in-3-days/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-05T20:00:00+00:00"
+    },
+    {
+      "id": "6f494ec48897",
+      "title": "AI-designed universal coronavirus vaccine passes first human trial",
+      "summary": "Scientists have successfully tested an AI-designed universal coronavirus vaccine in humans for the first time, finding it to be safe and well tolerated. The vaccine generated immune responses against multiple coronaviruses, including SARS-CoV-2, SARS, and related bat viruses with pandemic potential.",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260605023357.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-05T15:42:19+00:00"
+    },
+    {
+      "id": "b871a7d2af3c",
+      "title": "Scientists are seriously asking if bees and ChatGPT are conscious",
+      "summary": "New studies suggest consciousness can't be judged solely by behavior, whether it's a chatbot discussing philosophy or a bee searching for nectar. Researchers are increasingly focusing on the internal mechanisms of brains and computers, concluding that today's AI is likely not conscious while leaving",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260604044258.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-05T05:27:32+00:00"
+    },
+    {
+      "id": "b6ac45697456",
+      "title": "Is Silicon Valley ready to put robots in people’s homes? Hello Robot is.",
+      "summary": "The California startup released the fourth-generation of its home assistance robot, Stretch.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/06/04/is-silicon-valley-ready-to-put-robots-in-peoples-homes-hello-robot-is/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-04T15:05:00+00:00"
+    },
+    {
+      "id": "a56c0cd3285e",
+      "title": "The forgotten organ that could predict how long you live",
+      "summary": "A long-overlooked organ may hold surprising clues to healthy aging and cancer survival. Researchers at Mass General Brigham used AI to analyze CT scans from tens of thousands of adults and found that people with healthier thymuses—a small immune-system organ once thought to become largely irrelevant",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/06/260601025352.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-06-01T10:17:04+00:00"
+    },
+    {
+      "id": "6d2c5dc96c5e",
+      "title": "New 3D silicon chip breakthrough could extend Moore’s Law for years",
+      "summary": "As traditional chip miniaturization slows, researchers have found a way to pack more computing power into the same space by stacking silicon circuits in multiple layers. The new process uses ultra-thin silicon membranes and low-temperature manufacturing techniques to overcome a major obstacle that h",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/05/260530053412.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-30T10:26:24+00:00"
+    },
+    {
+      "id": "bc0aeaf5f347",
+      "title": "Stanford quantum computing breakthrough uses twisted light to work without extreme cooling",
+      "summary": "A new room-temperature quantum device uses twisted light to entangle photons and electrons, overcoming one of the biggest hurdles in quantum technology. The breakthrough could pave the way for smaller, cheaper quantum systems with applications ranging from secure communications to future AI and comp",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/05/260528074028.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-30T05:08:07+00:00"
+    },
+    {
+      "id": "7cc3595b4008",
+      "title": "Today is the last day to apply to speak at TechCrunch Disrupt 2026",
+      "summary": "Submit your session topic before today ends for a chance to speak at TechCrunch Disrupt 2026. Apply now to share your insight and help shape the conversations defining the tech industry.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/29/today-is-the-last-day-to-apply-to-speak-at-techcrunch-disrupt-2026/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-29T14:15:00+00:00"
+    },
+    {
+      "id": "0fd45339227e",
+      "title": "Final 24 hours to save up to $410 on your TechCrunch Disrupt 2026 ticket",
+      "summary": "You now have until tonight at 11:59 p.m. PT to lock in Early Bird savings of up to $410 for TechCrunch Disrupt 2026 before prices increase. Join 10,000+ tech leaders in October for one of the most anticipated tech events of the year. Register now.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/29/final-24-hours-to-save-up-to-410-on-your-techcrunch-disrupt-2026-ticket/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-29T14:00:00+00:00"
+    },
+    {
+      "id": "2e9a9e530239",
+      "title": "2 days left: Lock in ticket savings of up to $410 to TechCrunch Disrupt 2026",
+      "summary": "Savings of up to $410 on TechCrunch Disrupt 2026 tickets end tomorrow, May 29, 11:59 p.m. PT. Register now to save and join 10,000+ tech leaders on October 13-15 in San Francisco.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/28/2-days-left-lock-in-ticket-savings-of-up-to-410-to-techcrunch-disrupt-2026/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-28T14:00:00+00:00"
+    },
+    {
+      "id": "e1deb1238fdb",
+      "title": "Startup Battlefield 200 applications close today: Nominate a founder or submit your startup",
+      "summary": "Today is the final day to apply or nominate a startup for Startup Battlefield 200. Once the clock strikes 11:59 p.m. PT, the window closes on your chance to compete for $100,000 in equity-free funding, gain global visibility, connect directly with investors, and launch on the TechCrunch Disrupt stag",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/05/27/startup-battlefield-200-applications-close-today-nominate-a-founder-or-submit-your-startup/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-27T14:15:00+00:00"
+    },
+    {
+      "id": "56dc12964dce",
+      "title": "AI-powered spectrometer chip shrinks lab technology to the size of a grain of sand",
+      "summary": "A new AI-powered chip from UC Davis can analyze light and chemicals using a device tiny enough to fit almost anywhere. By combining smart silicon sensors with machine learning, it achieves lab-style spectral analysis without the bulky equipment.",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/05/260525000501.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-26T13:09:27+00:00"
+    },
+    {
+      "id": "c7999bf50048",
+      "title": "AI won’t replace you but someone using AI might",
+      "summary": "Generative AI is transforming the workplace faster than ever, but new research from the University of Vaasa suggests the biggest threat may not be AI itself — it’s falling behind in learning how to use it. Researcher Zhe Zhu found that employees who see tools like ChatGPT and Gemini as helpful colla",
+      "source": "ScienceDaily Robotics",
+      "sourceIcon": "science",
+      "url": "https://www.sciencedaily.com/releases/2026/05/260525000448.htm",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-05-25T11:21:14+00:00"
+    },
+    {
+      "id": "361a8dde4c55",
+      "title": "ANYbotics uses AWS to deploy a global robot workforce for industrial inspections",
+      "summary": "ANYbotics, a pioneering company at the forefront of autonomous mobile robots, is using AWS to deploy their global robot workforce. They revolutionize the operation of large industrial facilities by providing intelligent inspection solutions that improve safety, efficiency, and sustainability. Connec",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/anybotics-uses-aws-to-deploy-a-global-robot-workforce-for-industrial-inspections/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-11-07T07:36:33+00:00"
+    },
+    {
+      "id": "3246a14a62b7",
+      "title": "Running high-fidelity O3DE simulations in AWS RoboMaker",
+      "summary": "Developing autonomous robots is hard. Because it requires both hardware and software to be developed, integrated and tested, doing so in a physical environment is difficult and costly. Using simulations, robot developers can test their code quickly, iterating many times before finally deploying soft",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/running-high-fidelity-o3de-simulations-in-aws-robomaker/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2023-08-14T23:50:40+00:00"
+    },
+    {
+      "id": "ad8971ff0149",
+      "title": "Running an SSH server on AWS RoboMaker",
+      "summary": "Overview AWS RoboMaker is a fully managed service that enables Robotics developers to build, run, scale, and automate simulations without managing any infrastructure. During the development cycle, roboticists frequently need to perform a deeper inspection of what is going on within the running conta",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/running-an-ssh-server-on-aws-robomaker/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2023-06-23T17:20:07+00:00"
+    },
+    {
+      "id": "79ec5a442047",
+      "title": "New introductory course on how to build, deploy, and manage robots with AWS",
+      "summary": "From autonomous mobile robots (AMRs) and robotic arms to drones and uncrewed surface vessels (USVs), AWS provides a variety of cloud and edge services that customers use to build next generation robots. Next generation robots are connected – either periodically in denied, disrupted, intermittent, or",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/new-introductory-course-on-how-to-build-deploy-and-manage-robots-with-aws/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-03-17T20:40:05+00:00"
+    },
+    {
+      "id": "2fe98838ebad",
+      "title": "AWS empowers SEQSENSE to build Autonomous Security Robots",
+      "summary": "Introduction According to national institute of population and social security research, the working population in Japan is expected to decrease by 30% in the next 30 years. A rapidly aging population in Japan causes a shortage of labor in the security space. Figure 1: SEQSENSE’s security robot SQ-2",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/aws-empowers-seqsense-to-build-autonomous-security-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-03-01T15:39:46+00:00"
+    },
+    {
+      "id": "e30e08d3364a",
+      "title": "How Brisa Robotics uses AWS to improve robotics operations",
+      "summary": "In this post, you’ll learn how Brisa Robotics leverages Amazon Web Services (AWS) to collect, store, and process data from mixed fleets of vehicles to improve customer operations. Brisa transforms non-autonomous machines into fleets of autonomous vehicles that collect data to help customers track ke",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/how-brisa-robotics-uses-aws-to-improve-robotics-operations/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2023-02-24T16:12:56+00:00"
+    },
+    {
+      "id": "6513dc8d9d5b",
+      "title": "Adaptive Reprogramming of Industrial Robots and Toolpath Validation in the Cloud",
+      "summary": "Guest Blog By Sebastian Andraos, Chief Executive Officer, HAL Robotics Ltd. At HAL Robotics, we enable the automation of variable, complex, and uncommon tasks with robots. Over the past 8 years, our software has powered innovation for multi-nationals and subject matter experts in aerospace, construc",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/adaptive-reprogramming-of-industrial-robots-and-toolpath-validation-in-the-cloud/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2022-12-20T23:17:36+00:00"
+    },
+    {
+      "id": "23d12af863d4",
+      "title": "How to provide improved data isolation for tenant robots",
+      "summary": "Introduction Robots are used in various industries and use cases, such as medical robotics for surgeries, material movement robots for industrial automation, security robots for surveillance and monitoring, fruit picking robots for agriculture, and many more. Depending on the application, these robo",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/how-to-provide-improved-data-isolation-for-tenant-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2022-12-15T17:59:21+00:00"
+    },
+    {
+      "id": "5e669208a358",
+      "title": "ANT61 accelerates reinforcement learning for space robots using AWS",
+      "summary": "Introduction ANT61 robotics is a start-up based in Sydney, Australia, that develops autonomous robots for space applications such as in-orbit satellite servicing to avoid putting human lives at risk. Their robots use AI-based control systems that enable them to perform installation and servicing tas",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/ant61-accelerates-reinforcement-learning-for-space-robots-using-aws/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2022-11-28T19:03:49+00:00"
+    },
+    {
+      "id": "4c8203e89570",
+      "title": "Build headless robotic simulations with AWS Batch",
+      "summary": "Introduction Headless robotic simulations with AWS Batch allow robot developers to increase their velocity by running their code through thousands of scenarios and iterating before moving onto physical device testing. The real-world environments and situations a robot can find itself in are nearly e",
+      "source": "AWS Robotics Blog",
+      "sourceIcon": "aws",
+      "url": "https://aws.amazon.com/blogs/robotics/build-headless-robotic-simulations-with-aws-batch/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2022-11-23T17:04:46+00:00"
+    }
+  ],
+  "categories": [
+    {
+      "key": "ros2",
+      "label": "ROS2",
+      "icon": "settings"
+    },
+    {
+      "key": "robot",
+      "label": "机器人",
+      "icon": "controller"
+    },
+    {
+      "key": "lidar",
+      "label": "激光雷达",
+      "icon": "compass"
+    },
+    {
+      "key": "camera",
+      "label": "深度相机",
+      "icon": "camera"
+    },
+    {
+      "key": "ai",
+      "label": "AI",
+      "icon": "fire"
+    },
+    {
+      "key": "sensor",
+      "label": "传感器",
+      "icon": "pushpin"
+    }
+  ],
+  "total": 82,
+  "generatedAt": "2026-07-13T02:52:06.567421+00:00"
+}
