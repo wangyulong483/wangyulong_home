@@ -1,360 +1,419 @@
-<!--
-  攻略/Wiki Tab
-  三分类卡片（战斗攻略 / 角色考据 / 官方资料）
-  左侧彩色竖线区分分类，Markdown 展开详情
--->
 <template>
-  <div class="wiki-tab">
-    <!-- 分类筛选 -->
-    <div class="category-filter" v-if="categories.length > 1">
+  <section class="knowledge-library">
+    <header class="module-header">
+      <div>
+        <p class="module-kicker">KNOWLEDGE BASE / {{ String(items.length).padStart(2, '0') }}</p>
+        <h2>攻略与角色档案</h2>
+        <p class="module-meta">战斗养成 · 角色考据 · 官方机制</p>
+      </div>
+      <label class="search-box">
+        <AppIcon icon="search" size="15" />
+        <input v-model.trim="query" type="search" placeholder="搜索攻略或正文" aria-label="搜索攻略" />
+      </label>
+    </header>
+
+    <div class="category-bar" aria-label="攻略分类">
       <button
-        v-for="cat in categories"
-        :key="cat.key"
-        class="cat-btn"
-        :class="{ active: activeCat === cat.key }"
-        @click="activeCat = cat.key"
+        v-for="category in categories"
+        :key="category.key"
+        type="button"
+        class="category-btn"
+        :class="{ active: activeCategory === category.key }"
+        @click="activeCategory = category.key"
       >
-        <span class="cat-icon">{{ cat.icon }}</span>
-        {{ cat.label }}
-        <span class="cat-count">({{ countByCat(cat.key) }})</span>
+        {{ category.label }}
+        <span>{{ category.count }}</span>
       </button>
     </div>
 
-    <!-- 攻略列表 -->
-    <div class="wiki-list" v-if="filteredItems.length">
-      <div
+    <div class="result-line">
+      <span>{{ filteredItems.length }} 篇内容</span>
+      <button v-if="hasFilters" type="button" @click="resetFilters">
+        <AppIcon icon="8-ui/cross" size="11" /> 重置
+      </button>
+    </div>
+
+    <div v-if="filteredItems.length" class="guide-list">
+      <article
         v-for="item in filteredItems"
         :key="item.id"
-        class="wiki-card"
-        :class="{ expanded: expandedId === item.id }"
-        :style="{ '--accent-color': categoryColor(item.category) }"
+        class="guide-card"
+        :class="[{ expanded: expandedId === item.id }, categoryClass(item.category)]"
       >
-        <!-- 收起状态：摘要卡片 -->
-        <div class="wiki-summary" @click="toggleExpand(item.id)">
-          <div class="accent-bar"></div>
-          <div class="summary-content">
-            <div class="summary-header">
-              <span class="wiki-cat-tag">{{ item.category }}</span>
-              <span class="wiki-date">{{ item.date }}</span>
-            </div>
-            <h4 class="wiki-title">{{ item.title }}</h4>
-            <p class="wiki-desc">{{ item.summary }}</p>
-            <div class="wiki-meta">
-              <span class="wiki-source" v-if="item.source">
-                来源：{{ item.source }}
-                <a v-if="item.sourceUrl" :href="item.sourceUrl" target="_blank" rel="noopener" class="source-link">[来源]</a>
-              </span>
-              <span class="expand-hint">{{ expandedId === item.id ? '点击收起 ▲' : '点击展开 ▼' }}</span>
-            </div>
-          </div>
-        </div>
+        <button type="button" class="guide-summary" @click="toggleExpand(item.id)" :aria-expanded="expandedId === item.id">
+          <span class="guide-index">{{ String(item.id).padStart(2, '0') }}</span>
+          <span class="summary-main">
+            <span class="summary-top">
+              <span class="category-label">{{ item.category }}</span>
+              <span>{{ formatDate(item.date) }}</span>
+              <span><AppIcon icon="clock" size="11" /> {{ readingTime(item) }} 分钟</span>
+            </span>
+            <strong>{{ item.title }}</strong>
+            <span class="guide-description">{{ item.summary }}</span>
+            <span class="source-preview">
+              <AppIcon icon="link" size="11" /> 来源 · {{ item.source || '站内整理' }}
+            </span>
+          </span>
+          <span class="expand-control" :class="{ open: expandedId === item.id }">
+            <AppIcon icon="arrow-down" size="16" />
+          </span>
+        </button>
 
-        <!-- 展开状态：Markdown 正文 -->
-        <div class="wiki-detail" v-if="expandedId === item.id" v-html="renderedContent(item)">
+        <div v-if="expandedId === item.id" class="guide-detail">
+          <aside class="source-panel">
+            <AppIcon icon="document" size="18" />
+            <div>
+              <strong>资料来源：{{ item.source || '站内整理' }}</strong>
+              <p>{{ item.sourceNote || '内容经站内整理，请结合当前游戏版本核对。' }}</p>
+            </div>
+            <a v-if="item.sourceUrl" :href="item.sourceUrl" target="_blank" rel="noopener noreferrer">
+              查看原始来源 <AppIcon icon="8-ui/arrow-up-right" size="13" />
+            </a>
+          </aside>
+          <div class="markdown-body" v-html="renderedContent(item)"></div>
         </div>
-      </div>
+      </article>
     </div>
 
-    <!-- 空状态 -->
     <div v-else class="empty-state">
-      <p>还没有攻略内容</p>
+      <AppIcon icon="search" size="24" />
+      <strong>没有匹配的攻略</strong>
+      <button type="button" @click="resetFilters">清除筛选</button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
 import { marked } from 'marked'
+import AppIcon from '@/shared/components/AppIcon.vue'
 
-/* marked 安全配置 */
-marked.setOptions({
-  breaks: true,
-  gfm: true,
-})
+marked.setOptions({ breaks: true, gfm: true })
 
 const props = defineProps({
   items: { type: Array, required: true }
 })
 
-/* 分类列表 */
+const query = ref('')
+const activeCategory = ref('all')
+const expandedId = ref(null)
+
 const categories = computed(() => {
-  const keys = [...new Set(props.items.map(i => i.category))]
-  return [{ key: 'all', label: '全部', icon: '' },
-    ...keys.map(k => ({ key: k, label: k, icon: catIcon(k) }))]
+  const keys = [...new Set(props.items.map(item => item.category).filter(Boolean))]
+  return [
+    { key: 'all', label: '全部', count: props.items.length },
+    ...keys.map(key => ({ key, label: key, count: props.items.filter(item => item.category === key).length }))
+  ]
 })
-
-function catIcon(cat) {
-  const map = { '战斗攻略': '', '角色考据': '', '官方资料': '' }
-  return map[cat] || ''
-}
-
-function categoryColor(cat) {
-  const map = { '战斗攻略': '#C9A96E', '角色考据': '#B088F9', '官方资料': '#D488EE' }
-  return map[cat] || '#B088F9'
-}
-
-/* 筛选 */
-const activeCat = ref('all')
-
-function countByCat(cat) {
-  if (cat === 'all') return props.items.length
-  return props.items.filter(i => i.category === cat).length
-}
 
 const filteredItems = computed(() => {
-  if (activeCat.value === 'all') return props.items
-  return props.items.filter(i => i.category === activeCat.value)
+  const keyword = query.value.toLowerCase()
+  return props.items.filter(item => {
+    const categoryMatched = activeCategory.value === 'all' || item.category === activeCategory.value
+    const text = [item.title, item.summary, item.content, item.source, item.category].join(' ').toLowerCase()
+    return categoryMatched && (!keyword || text.includes(keyword))
+  })
 })
 
-/* 展开/收起 */
-const expandedId = ref(null)
+const hasFilters = computed(() => query.value || activeCategory.value !== 'all')
+
+function resetFilters() {
+  query.value = ''
+  activeCategory.value = 'all'
+}
 
 function toggleExpand(id) {
   expandedId.value = expandedId.value === id ? null : id
 }
 
-/* Markdown 渲染 */
 function renderedContent(item) {
   return marked(item.content || '')
+}
+
+function readingTime(item) {
+  return Math.max(1, Math.ceil(String(item.content || '').length / 500))
+}
+
+function formatDate(value) {
+  return String(value || '').replaceAll('-', '.')
+}
+
+function categoryClass(category) {
+  const map = { '战斗攻略': 'combat', '角色考据': 'lore', '官方资料': 'official' }
+  return map[category] || 'default'
 }
 </script>
 
 <style scoped>
-/* ====== 分类筛选 ====== */
-.category-filter {
+.knowledge-library { min-width: 0; }
+
+.module-header {
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 6px 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.module-kicker {
+  margin: 0 0 7px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.module-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.45rem;
+  line-height: 1.1;
+}
+
+.module-meta {
+  margin: 9px 0 0;
+  color: var(--text-tertiary);
+  font-size: 0.76rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
   gap: 8px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  width: min(280px, 34vw);
+  min-height: 38px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(12, 12, 17, 0.72);
+  color: var(--text-tertiary);
 }
 
-.cat-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(176, 136, 249, 0.2);
-  background: transparent;
-  color: rgba(200, 190, 230, 0.7);
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: all 0.25s;
-}
+.search-box:focus-within { border-color: var(--border-hover); color: var(--accent); }
 
-.cat-btn:hover {
-  border-color: rgba(176, 136, 249, 0.5);
-  color: #B088F9;
-}
-
-.cat-btn.active {
-  background: rgba(176, 136, 249, 0.15);
-  border-color: rgba(176, 136, 249, 0.5);
-  color: #B088F9;
-  font-weight: 600;
-}
-
-.cat-icon { font-size: 0.9rem; }
-.cat-count { font-size: 0.72rem; opacity: 0.6; }
-
-/* ====== 攻略列表 ====== */
-.wiki-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* ====== 攻略卡片 ====== */
-.wiki-card {
-  background: rgba(107, 76, 154, 0.06);
-  border: 1px solid rgba(176, 136, 249, 0.1);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: all 0.3s;
-}
-
-.wiki-card:hover {
-  border-color: rgba(176, 136, 249, 0.25);
-}
-
-.wiki-card.expanded {
-  border-color: rgba(176, 136, 249, 0.3);
-  box-shadow: 0 0 16px rgba(176, 136, 249, 0.06);
-}
-
-/* 收起状态 */
-.wiki-summary {
-  display: flex;
-  cursor: pointer;
-  user-select: none;
-}
-
-/* 左侧彩色竖线 */
-.accent-bar {
-  width: 4px;
-  flex-shrink: 0;
-  background: var(--accent-color, #B088F9);
-  border-radius: 2px 0 0 2px;
-  transition: width 0.3s;
-}
-
-.wiki-card:hover .accent-bar {
-  width: 6px;
-}
-
-.summary-content {
-  flex: 1;
-  padding: 16px 20px;
-  min-width: 0;
-}
-
-.summary-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.wiki-cat-tag {
-  font-size: 0.7rem;
-  padding: 2px 10px;
-  border-radius: 10px;
-  background: rgba(176, 136, 249, 0.12);
-  color: rgba(176, 136, 249, 0.8);
-}
-
-.wiki-date {
-  font-size: 0.72rem;
-  color: rgba(180, 170, 210, 0.45);
-}
-
-.wiki-title {
-  margin: 0 0 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: rgba(220, 210, 245, 0.9);
-}
-
-.wiki-desc {
-  margin: 0 0 10px;
-  font-size: 0.84rem;
-  color: rgba(200, 190, 230, 0.6);
-  line-height: 1.5;
-}
-
-.wiki-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.wiki-source {
-  font-size: 0.72rem;
-  color: rgba(180, 170, 210, 0.4);
-}
-
-.source-link {
-  text-decoration: none;
-  font-size: 0.7rem;
-}
-
-.expand-hint {
-  font-size: 0.7rem;
-  color: rgba(176, 136, 249, 0.35);
-}
-
-/* 展开：Markdown 正文 */
-.wiki-detail {
-  padding: 0 20px 20px 24px;
-  border-top: 1px solid rgba(176, 136, 249, 0.1);
-}
-
-/* Markdown 样式 */
-.wiki-detail :deep(h1),
-.wiki-detail :deep(h2),
-.wiki-detail :deep(h3) {
-  color: #C9A96E;
-  margin: 20px 0 10px;
-}
-
-.wiki-detail :deep(h2) { font-size: 1.1rem; }
-.wiki-detail :deep(h3) { font-size: 0.95rem; }
-
-.wiki-detail :deep(p) {
-  color: rgba(200, 190, 230, 0.7);
-  font-size: 0.86rem;
-  line-height: 1.8;
-  margin: 0 0 10px;
-}
-
-.wiki-detail :deep(table) {
+.search-box input {
   width: 100%;
-  border-collapse: collapse;
-  margin: 12px 0;
-  font-size: 0.82rem;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.78rem;
 }
 
-.wiki-detail :deep(th) {
-  background: rgba(176, 136, 249, 0.12);
-  color: #B088F9;
-  padding: 8px 12px;
+.search-box input::placeholder { color: var(--text-tertiary); }
+
+.category-bar {
+  display: flex;
+  gap: 6px;
+  padding: 15px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.category-bar::-webkit-scrollbar { display: none; }
+
+.category-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 12px;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: rgba(18, 17, 24, 0.68);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.category-btn span { color: var(--text-tertiary); font-size: 0.62rem; }
+.category-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.category-btn.active { border-color: var(--signal); background: var(--signal); color: #0b0b0e; }
+.category-btn.active span { color: rgba(11, 11, 14, 0.58); }
+
+.result-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 28px;
+  margin-bottom: 9px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.result-line button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+}
+
+.guide-list { display: grid; gap: 10px; }
+
+.guide-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(17, 16, 22, 0.86);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.guide-card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  content: '';
+  background: var(--guide-accent, var(--accent));
+}
+
+.guide-card.combat { --guide-accent: #C9A96E; }
+.guide-card.lore { --guide-accent: var(--accent); }
+.guide-card.official { --guide-accent: var(--signal); }
+.guide-card:hover, .guide-card.expanded { border-color: var(--border-hover); box-shadow: var(--shadow-glow); }
+
+.guide-summary {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 36px;
+  gap: 14px;
+  width: 100%;
+  padding: 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
   text-align: left;
-  border: 1px solid rgba(176, 136, 249, 0.15);
 }
 
-.wiki-detail :deep(td) {
-  padding: 6px 12px;
-  border: 1px solid rgba(176, 136, 249, 0.1);
-  color: rgba(200, 190, 230, 0.65);
+.guide-index {
+  color: var(--guide-accent, var(--accent));
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
-.wiki-detail :deep(blockquote) {
-  border-left: 3px solid rgba(201, 169, 110, 0.4);
-  padding: 6px 14px;
-  margin: 10px 0;
-  background: rgba(201, 169, 110, 0.04);
-  color: rgba(201, 169, 110, 0.7);
-  border-radius: 0 6px 6px 0;
+.summary-main { display: flex; min-width: 0; flex-direction: column; }
+
+.summary-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
 }
 
-.wiki-detail :deep(code) {
-  background: rgba(176, 136, 249, 0.1);
+.summary-top > span { display: inline-flex; align-items: center; gap: 4px; }
+
+.category-label {
   padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  color: #D488EE;
+  border: 1px solid color-mix(in srgb, var(--guide-accent) 35%, transparent);
+  border-radius: 2px;
+  color: var(--guide-accent);
 }
 
-.wiki-detail :deep(hr) {
-  border: none;
-  border-top: 1px solid rgba(176, 136, 249, 0.15);
-  margin: 16px 0;
+.summary-main > strong {
+  margin: 9px 0 6px;
+  color: var(--text-primary);
+  font-size: 0.98rem;
+  line-height: 1.4;
 }
 
-.wiki-detail :deep(strong) {
-  color: rgba(220, 210, 245, 0.9);
+.guide-description { color: var(--text-secondary); font-size: 0.78rem; line-height: 1.65; }
+
+.source-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
 }
 
-.wiki-detail :deep(ul),
-.wiki-detail :deep(ol) {
-  color: rgba(200, 190, 230, 0.7);
-  font-size: 0.86rem;
-  line-height: 1.8;
-  padding-left: 20px;
+.expand-control {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-tertiary);
+  transition: transform 0.25s, color 0.25s, border-color 0.25s;
 }
 
-/* ====== 空状态 ====== */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(176, 136, 249, 0.35);
-  font-size: 0.95rem;
+.expand-control.open { transform: rotate(180deg); border-color: var(--guide-accent); color: var(--guide-accent); }
+
+.guide-detail {
+  padding: 0 20px 24px 78px;
+  border-top: 1px solid rgba(246, 243, 233, 0.08);
 }
 
-/* ====== 移动端 ====== */
-@media (max-width: 768px) {
-  .wiki-summary { flex-direction: column; }
-  .accent-bar { width: 100%; height: 4px; border-radius: 2px 2px 0 0; }
-  .wiki-card:hover .accent-bar { width: 100%; height: 6px; }
+.source-panel {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  margin: 18px 0 20px;
+  padding: 12px;
+  border: 1px solid rgba(201, 169, 110, 0.24);
+  border-radius: var(--radius);
+  background: rgba(201, 169, 110, 0.06);
+  color: #C9A96E;
+}
+
+.source-panel strong { color: #e7d3ad; font-size: 0.73rem; }
+.source-panel p { margin: 4px 0 0; color: var(--text-secondary); font-size: 0.68rem; line-height: 1.55; }
+.source-panel a { display: inline-flex; align-items: center; gap: 5px; color: var(--signal); font-family: var(--font-mono); font-size: 0.64rem; text-decoration: none; }
+
+.markdown-body :deep(h1), .markdown-body :deep(h2), .markdown-body :deep(h3) {
+  margin: 22px 0 10px;
+  color: #e7d3ad;
+  font-family: var(--font-body);
+}
+.markdown-body :deep(h2) { font-size: 1.08rem; }
+.markdown-body :deep(h3) { font-size: 0.94rem; }
+.markdown-body :deep(p), .markdown-body :deep(li) { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.85; }
+.markdown-body :deep(ul), .markdown-body :deep(ol) { padding-left: 22px; }
+.markdown-body :deep(strong) { color: var(--text-primary); }
+.markdown-body :deep(hr) { margin: 20px 0; border: 0; border-top: 1px solid var(--border); }
+.markdown-body :deep(blockquote) { margin: 14px 0; padding: 9px 12px; border-left: 2px solid #C9A96E; background: rgba(201, 169, 110, 0.06); }
+.markdown-body :deep(blockquote p) { margin: 0; color: #d6c4a3; }
+.markdown-body :deep(table) { width: 100%; margin: 14px 0; border-collapse: collapse; font-size: 0.75rem; }
+.markdown-body :deep(th), .markdown-body :deep(td) { padding: 9px 10px; border: 1px solid var(--border); text-align: left; }
+.markdown-body :deep(th) { background: var(--accent-muted); color: #d8ccff; }
+.markdown-body :deep(td) { color: var(--text-secondary); }
+
+.empty-state { display: grid; min-height: 260px; place-items: center; align-content: center; gap: 10px; color: var(--text-tertiary); }
+.empty-state strong { color: var(--text-secondary); font-size: 0.9rem; }
+.empty-state button { border: 0; background: transparent; color: var(--accent); cursor: pointer; }
+
+@media (max-width: 720px) {
+  .module-header { align-items: stretch; flex-direction: column; gap: 16px; }
+  .module-header h2 { font-size: 1.2rem; }
+  .search-box { width: 100%; min-height: 42px; box-sizing: border-box; }
+  .category-bar { margin-right: -12px; padding-right: 12px; }
+  .category-btn { min-height: 38px; }
+  .guide-summary { grid-template-columns: 34px minmax(0, 1fr) 30px; gap: 9px; padding: 14px 12px; }
+  .guide-index { font-size: 0.92rem; }
+  .summary-top { gap: 7px; }
+  .summary-main > strong { font-size: 0.9rem; }
+  .guide-detail { padding: 0 12px 18px; }
+  .source-panel { grid-template-columns: 20px minmax(0, 1fr); }
+  .source-panel a { grid-column: 2; }
+  .markdown-body { overflow-x: auto; }
 }
 </style>

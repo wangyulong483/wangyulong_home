@@ -60,9 +60,10 @@
             :key="tab.key"
             class="tab-btn"
             :class="{ active: activeTab === tab.key }"
-            @click="activeTab = tab.key"
+            @click="selectTab(tab.key)"
+            :aria-current="activeTab === tab.key ? 'page' : undefined"
           >
-            <span class="tab-icon">{{ tab.icon }}</span>
+            <AppIcon :icon="tab.icon" size="14" class="tab-icon" />
             <span class="tab-label">{{ tab.label }}</span>
             <span class="tab-count" v-if="tabCount(tab.key)">({{ tabCount(tab.key) }})</span>
             <!-- 雷光下划线 -->
@@ -90,6 +91,7 @@ import GalleryTab from '@/features/shrine/components/GalleryTab.vue'
 import WikiTab from '@/features/shrine/components/WikiTab.vue'
 import NewsTab from '@/features/shrine/components/NewsTab.vue'
 import ChatTab from '@/features/shrine/components/ChatTab.vue'
+import AppIcon from '@/shared/components/AppIcon.vue'
 
 // ============================================================
 // 兜底数据 — Cloudflare Pages SPA fallback 拦截 JSON 时使用
@@ -135,13 +137,17 @@ const FALLBACK_DATA = {
     { id: 108, title: "雷电将军：这也是必要的课程吗", platform: "bilibili", platformLabel: "B站", url: "BV1d9Mi6HE5b", author: "烤堇瓜壁纸", thumbnail: "/shrine-data/covers/BV1d9Mi6HE5b.jpg", duration: 20, view: 2823, like: 94, summary: "适合作为动态壁纸灵感参考的短篇角色展示。", date: "2026-07-08", tags: ["壁纸", "展示"] }
   ],
   guides: [
-    { id: 1, title: "雷电将军配队全面指南", summary: "从雷电国家队到雷九万班，当前版本主流配队推荐与输出手法详解", content: "## 雷电国家队\n\n阵容：雷电将军 + 行秋 + 香菱 + 班尼特\n\n输出手法：雷神E → 班尼特QE → 行秋QE → 香菱QE → 雷神Q站场7秒", source: "NGA", sourceUrl: "https://bbs.nga.cn/", category: "战斗攻略", date: "2026-07-01" },
-    { id: 2, title: "雷电将军角色设计考据", summary: "从日本神话、佛教文化与江户历史解读雷电将军的设计原型", content: "## 原型考据\n\n雷电将军的设计原型之一是天之御中主神——日本神话里别天神之首。其手持长矛的形象与雷电将军的薙刀相呼应。\n\n雷电将军使用薙刀与江户时代武家妇女必须学习薙刀术的传统有关。", source: "米游社", sourceUrl: "https://www.miyoushe.com/", category: "角色考据", date: "2026-06-15" }
+    { id: 1, title: "雷电将军配队全面指南", summary: "从雷电国家队到雷九万班，当前版本主流配队推荐与输出手法详解", content: "## 雷电国家队\n\n阵容：雷电将军 + 行秋 + 香菱 + 班尼特\n\n输出手法：雷神E → 班尼特QE → 行秋QE → 香菱QE → 雷神Q站场7秒", source: "NGA 玩家社区 · 站内整理", sourceUrl: "https://bbs.nga.cn/", sourceNote: "配队与养成建议依据社区常见方案整理，版本环境变化时请以游戏内数据为准。", category: "战斗攻略", date: "2026-07-01" },
+    { id: 2, title: "雷电将军角色设计考据", summary: "从日本神话、佛教文化与江户历史解读雷电将军的设计原型", content: "## 原型考据\n\n雷电将军的设计原型之一是天之御中主神——日本神话里别天神之首。其手持长矛的形象与雷电将军的薙刀相呼应。\n\n雷电将军使用薙刀与江户时代武家妇女必须学习薙刀术的传统有关。", source: "米游社社区资料 · 站内整理", sourceUrl: "https://www.miyoushe.com/", sourceNote: "文化考据为社区资料整理与解读，不代表原神官方设定结论。", category: "角色考据", date: "2026-06-15" },
+    { id: 3, title: "官方技能机制与养成速查", summary: "元素战技、元素爆发、愿力机制与培养优先级的快速索引", content: "## 角色定位\n\n雷电将军兼具全队元素爆发增益、能量回复与站场爆发三种能力。\n\n## 培养优先级\n\n1. 元素爆发\n2. 元素战技\n3. 普通攻击通常无需优先升级\n\n> 具体倍率以当前游戏客户端为准。", source: "原神官方 · 拾枝杂谈", sourceUrl: "https://www.bilibili.com/video/BV1rb4y1m7My", sourceNote: "机制描述依据官方角色资料与拾枝杂谈整理；具体倍率以游戏内当前版本为准。", category: "官方资料", date: "2026-07-30" }
   ],
   news: [
-    { id: 1, title: "雷电将军 6.7版本复刻 — 「一心净土」祈愿开启", summary: "雷电将军于6.7版本下半期（7月21日18:00至8月11日）迎来复刻，同期UP专武「薙草之稻光」。", date: "2026-07-21", tag: "游戏", url: "" },
-    { id: 2, title: "雷电将军「一心净土Ver.」1/7手办预售中", summary: "APEX-TOYS × miHoYo 联合出品，高35.7cm，售价1499元，预售至8月27日。初回特典含「梦想一心」武器摆件。", date: "2026-05-27", tag: "周边", url: "https://www.miyoushe.com/ys/article/75539985" },
-    { id: 3, title: "Nendoroid 雷电将军 黏土人 出货", summary: "Good Smile Company 出品，含三种表情及配件「梦想一心」「薙草之稻光」「团子牛奶」，2025年6月出货。", date: "2025-06-01", tag: "周边", url: "https://www.goodsmile.com/en/product/21681/Nendoroid+Raiden+Shogun" }
+    { id: 1, title: "雷电将军 6.7版本复刻 — 「一心净土」祈愿开启", summary: "雷电将军于6.7版本下半期（7月21日18:00至8月11日）迎来复刻，同期UP专武「薙草之稻光」。", date: "2026-07-21", tag: "游戏", url: "", source: "站内版本资料整理", sourceNote: "祈愿时间与卡池信息请以游戏内公告和原神官方公告为最终依据。" },
+    { id: 2, title: "雷电将军「一心净土Ver.」1/7手办预售中", summary: "APEX-TOYS × miHoYo 联合出品，高35.7cm，售价1499元，预售至8月27日。初回特典含「梦想一心」武器摆件。", date: "2026-05-27", tag: "周边", url: "https://www.miyoushe.com/ys/article/75539985", source: "米游社" },
+    { id: 3, title: "Nendoroid 雷电将军 黏土人 出货", summary: "Good Smile Company 出品，含三种表情及配件「梦想一心」「薙草之稻光」「团子牛奶」，2025年6月出货。", date: "2025-06-01", tag: "周边", url: "https://www.goodsmile.com/en/product/21681/Nendoroid+Raiden+Shogun", source: "Good Smile Company" },
+    { id: 4, title: "角色PV「噩梦」：在失去与永恒之间", summary: "官方角色PV以梦境和回忆呈现影对失去的恐惧，并补充她追求永恒的情感动机。", date: "2021-08-23", tag: "官方档案", url: "https://www.bilibili.com/video/BV1Y3411B7SX", source: "原神官方" },
+    { id: 5, title: "角色演示「净土裁断」公开", summary: "集中展示梦想一心、无想的一刀以及雷电将军的战斗演出与角色气质。", date: "2021-09-01", tag: "官方档案", url: "https://www.bilibili.com/video/BV1kb4y1m7e7", source: "原神官方" },
+    { id: 6, title: "拾枝杂谈「鸣雷寂灭」机制解析", summary: "由戴因斯雷布讲解角色背景、元素战技、元素爆发和愿力机制。", date: "2021-09-01", tag: "官方档案", url: "https://www.bilibili.com/video/BV1rb4y1m7My", source: "原神官方" }
   ]
 }
 
@@ -152,15 +158,25 @@ const FALLBACK_DATA = {
 const data = ref(null)
 const loading = ref(true)
 const loadError = ref(null)
-const activeTab = ref('gallery')
 
 // Tab 定义
 const tabs = [
-  { key: 'gallery', label: '厨力画廊', icon: '' },
-  { key: 'wiki',    label: '攻略/Wiki', icon: '' },
-  { key: 'news',    label: '资讯动态', icon: '' },
-  { key: 'chat',    label: '与影对话', icon: '' },
+  { key: 'gallery', label: '厨力画廊', icon: 'camera' },
+  { key: 'wiki',    label: '攻略/Wiki', icon: 'book' },
+  { key: 'news',    label: '资讯动态', icon: 'bullhorn' },
+  { key: 'chat',    label: '与影对话', icon: 'message' },
 ]
+
+const requestedTab = new URLSearchParams(window.location.search).get('tab')
+const activeTab = ref(tabs.some(tab => tab.key === requestedTab) ? requestedTab : 'gallery')
+
+function selectTab(key) {
+  activeTab.value = key
+  const url = new URL(window.location.href)
+  if (key === 'gallery') url.searchParams.delete('tab')
+  else url.searchParams.set('tab', key)
+  window.history.replaceState(window.history.state, '', url)
+}
 
 function tabCount(key) {
   if (!data.value) return 0
@@ -216,9 +232,9 @@ onMounted(() => {
 .shrine-page {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(160deg, #0D0D1A 0%, #141428 40%, #1A1A2E 70%, #0F0F23 100%);
-  color: rgba(220, 210, 240, 0.85);
-  overflow: hidden;
+  background: #0b0b0e;
+  color: var(--text-secondary);
+  overflow-x: clip;
 }
 
 .shrine-content {
@@ -234,7 +250,8 @@ onMounted(() => {
   max-width: 1100px;
   margin: 0 auto 0;
   overflow: hidden;
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  border-bottom: 1px solid var(--border);
 }
 
 .banner-img {
@@ -264,7 +281,7 @@ onMounted(() => {
   font-size: 2.4rem;
   font-weight: 700;
   color: #C9A96E;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   margin: 0;
   text-shadow: 0 0 32px rgba(201, 169, 110, 0.5), 0 2px 8px rgba(0, 0, 0, 0.6);
   animation: banner-glow 3s ease-in-out infinite;
@@ -279,7 +296,7 @@ onMounted(() => {
   font-size: 0.85rem;
   color: rgba(200, 190, 230, 0.7);
   margin: 8px 0 0;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
 }
 
 /* ====== 三巴纹水印 ====== */
@@ -359,13 +376,16 @@ onMounted(() => {
 
 /* ====== Tab 导航 ====== */
 .tab-bar {
-  position: relative;
-  z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
-  gap: 4px;
-  margin-bottom: 28px;
+  gap: 6px;
+  margin-bottom: 24px;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 0;
+  padding: 8px 0;
+  background: rgba(11, 11, 14, 0.9);
+  backdrop-filter: blur(14px);
 }
 
 .tab-btn {
@@ -373,52 +393,42 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 12px 22px;
-  border: none;
-  background: transparent;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.02);
   color: var(--text-tertiary);
-  font-size: 0.9rem;
+  font-size: 0.76rem;
   cursor: pointer;
-  transition: all 0.3s;
-  border-radius: 10px 10px 0 0;
-  font-family: inherit;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  border-radius: 3px;
+  font-family: var(--font-mono);
 }
 
 .tab-btn:hover {
   color: var(--text-primary);
-  background: var(--accent-muted);
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.045);
 }
 
 .tab-btn.active {
-  color: #B088F9;
-  font-weight: 600;
-  background: rgba(108, 92, 231, 0.08);
+  border-color: var(--signal);
+  color: #0b0b0e;
+  font-weight: 700;
+  background: var(--signal);
 }
 
 /* 雷光下划线 */
-.tab-underline {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2.5px;
-  background: linear-gradient(90deg, transparent, #B088F9, transparent);
-  border-radius: 2px;
-  transition: width 0.35s var(--ease-out);
-}
+.tab-underline { display: none; }
 
-.tab-btn.active .tab-underline {
-  width: 60%;
-}
-
-.tab-icon { font-size: 1rem; }
+.tab-icon { opacity: 0.86; }
 .tab-count { font-size: 0.72rem; opacity: 0.5; }
 
 /* ====== Tab 内容区 ====== */
 .tab-content {
   position: relative;
   z-index: 1;
+  min-height: 360px;
 }
 
 /* ====== 移动端 ====== */
@@ -428,7 +438,7 @@ onMounted(() => {
   }
 
   .top-banner {
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 
   .banner-img {
@@ -445,20 +455,24 @@ onMounted(() => {
 
   /* Tab 栏横向滚动（保留标签文字） */
   .tab-bar {
-    gap: 2px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3px;
+    overflow: visible;
   }
-  .tab-bar::-webkit-scrollbar { display: none; }
 
   .tab-btn {
-    padding: 10px 16px;
-    font-size: 0.85rem;
+    justify-content: center;
+    gap: 3px;
+    min-width: 0;
+    padding: 8px 3px;
+    font-size: 0.68rem;
     white-space: nowrap;
-    flex-shrink: 0;
     min-height: 44px;
+  }
+
+  .tab-icon {
+    flex: 0 0 auto;
   }
 
   .tab-label {
