@@ -120,20 +120,19 @@ const FALLBACK_DATA = {
     ]
   },
   gallery: [
-    { id: 0, title: "雷电将军角色PV——「噩梦」", platform: "bilibili", platformLabel: "B站", url: "BV1Y3411B7SX", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-08-23", tags: ["官方", "PV"] },
-    { id: 1, title: "雷电将军角色演示——「净土裁断」", platform: "bilibili", platformLabel: "B站", url: "BV1kb4y1m7e7", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-09-01", tags: ["官方", "角色演示"] },
-    { id: 2, title: "拾枝杂谈——「雷电将军：鸣雷寂灭」", platform: "bilibili", platformLabel: "B站", url: "BV1rb4y1m7My", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "", date: "2021-09-01", tags: ["官方", "拾枝杂谈"] }
+    { id: 0, title: "雷电将军角色PV——「噩梦」", platform: "bilibili", platformLabel: "B站", url: "BV1Y3411B7SX", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "/shrine-data/covers/BV1Y3411B7SX.jpg", duration: 397, view: 12612917, like: 594527, summary: "以梦境回望失去与永恒，补全雷电将军人物动机的官方角色短片。", date: "2021-08-23", tags: ["官方", "PV"] },
+    { id: 1, title: "雷电将军角色演示——「净土裁断」", platform: "bilibili", platformLabel: "B站", url: "BV1kb4y1m7e7", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "/shrine-data/covers/BV1kb4y1m7e7.jpg", duration: 645, view: 27302240, like: 852819, summary: "集中展示梦想一心、无想的一刀与元素爆发演出的官方角色演示。", date: "2021-09-01", tags: ["官方", "角色演示"] },
+    { id: 2, title: "拾枝杂谈——「雷电将军：鸣雷寂灭」", platform: "bilibili", platformLabel: "B站", url: "BV1rb4y1m7My", author: "原神", authorUrl: "https://space.bilibili.com/401742377", thumbnail: "/shrine-data/covers/BV1rb4y1m7My.jpg", duration: 383, view: 4025905, like: 185047, summary: "从技能机制、充能循环到队伍定位，快速理解雷电将军的战斗价值。", date: "2021-09-01", tags: ["官方", "拾枝杂谈"] }
   ],
   related: [
-    { id: 100, title: "雷电将军什么的不干了啦！", platform: "bilibili", platformLabel: "B站", url: "BV1GY411371y", author: "巫兔菌", thumbnail: "", date: "2022-03-12", tags: ["MAD", "翻调"] },
-    { id: 101, title: "雷神生贺曲「稻光予梦」/ 原神cv原创曲", platform: "bilibili", platformLabel: "B站", url: "BV1K3411w7uM", author: "超想吃番茄", thumbnail: "", date: "2022-06-26", tags: ["原创曲", "生贺"] },
-    { id: 102, title: "你是怎么说服雷电将军陪你拍这个视频的？", platform: "bilibili", platformLabel: "B站", url: "BV1Ad4y1y7sF", author: "莫娜摸鱼专用", thumbnail: "", date: "2022-10-23", tags: ["混剪", "趣味"] },
-    { id: 103, title: "【原神MMD】雷神忍不了了", platform: "bilibili", platformLabel: "B站", url: "BV1BC9qY2EXF", author: "sujikan", thumbnail: "", date: "2025-03-03", tags: ["MMD", "Blender"] },
-    { id: 104, title: "太上头啦！雷电将军来给你洗脑啦！", platform: "bilibili", platformLabel: "B站", url: "BV1mk4y1Q7WD", author: "柚卡yk", thumbnail: "", date: "2024-01-12", tags: ["MAD", "洗脑"] },
-    { id: 105, title: "一心净土【原神/雷电将军原创曲】", platform: "bilibili", platformLabel: "B站", url: "BV19j411E79f", author: "菊花花", thumbnail: "", date: "2023-09-10", tags: ["原创曲", "CV"] },
-    { id: 106, title: "不动鸣神，泡影断灭—雷电将军PV演示COS向", platform: "bilibili", platformLabel: "B站", url: "BV1uf4y1T7fh", author: "紫氯氯", thumbnail: "", date: "2021-11-30", tags: ["COS", "PV"] },
-    { id: 107, title: "MMD Bon Bon Chocolat - Raiden Ei", platform: "bilibili", platformLabel: "B站", url: "BV1rPW5zJE8K", author: "杯子君721", thumbnail: "", date: "2025-09-19", tags: ["MMD", "舞蹈"] },
-    { id: 108, title: "雷电将军：这也是必要的课程吗", platform: "bilibili", platformLabel: "B站", url: "BV1d9Mi6HE5b", author: "烤堇瓜壁纸", thumbnail: "", date: "2026-07-08", tags: ["壁纸", "展示"] }
+    { id: 100, title: "雷电将军什么的不干了啦！", platform: "bilibili", platformLabel: "B站", url: "BV1GY411371y", author: "巫兔菌", thumbnail: "/shrine-data/covers/BV1GY411371y.jpg", duration: 92, view: 1393305, like: 90293, summary: "节奏紧凑的经典翻调二创，适合快速感受角色反差魅力。", date: "2022-03-12", tags: ["MAD", "翻调"] },
+    { id: 101, title: "雷神生贺曲「稻光予梦」/ 原神cv原创曲", platform: "bilibili", platformLabel: "B站", url: "BV1K3411w7uM", author: "超想吃番茄", thumbnail: "/shrine-data/covers/BV1K3411w7uM.jpg", duration: 247, view: 1448186, like: 126644, summary: "由角色声优参与的生日原创曲，旋律与歌词围绕稻光、愿望和陪伴展开。", date: "2022-06-26", tags: ["原创曲", "生贺"] },
+    { id: 102, title: "你是怎么说服雷电将军陪你拍这个视频的？", platform: "bilibili", platformLabel: "B站", url: "BV1Ad4y1y7sF", author: "莫娜摸鱼专用", thumbnail: "/shrine-data/covers/BV1Ad4y1y7sF.jpg", duration: 229, view: 3870495, like: 382795, summary: "角色动画与音乐节拍结合的高质量混剪，镜头语言和转场完成度突出。", date: "2022-10-23", tags: ["混剪", "趣味"] },
+    { id: 103, title: "【原神MMD】雷神忍不了了", platform: "bilibili", platformLabel: "B站", url: "BV1BC9qY2EXF", author: "sujikan", thumbnail: "/shrine-data/covers/BV1BC9qY2EXF.jpg", duration: 34, view: 344147, like: 45492, summary: "短小但表现力鲜明的 Blender MMD，突出将军冷面之下的趣味反差。", date: "2025-03-03", tags: ["MMD", "Blender"] },
+    { id: 104, title: "太上头啦！雷电将军来给你洗脑啦！", platform: "bilibili", platformLabel: "B站", url: "BV1mk4y1Q7WD", author: "柚卡yk", thumbnail: "/shrine-data/covers/BV1mk4y1Q7WD.jpg", duration: 71, view: 543879, like: 33863, summary: "高密度节奏剪辑与重复旋律结合，偏轻松娱乐向的角色 MAD。", date: "2024-01-12", tags: ["MAD", "洗脑"] },
+    { id: 106, title: "不动鸣神，泡影断灭—雷电将军PV演示COS向", platform: "bilibili", platformLabel: "B站", url: "BV1uf4y1T7fh", author: "紫氯氯", thumbnail: "/shrine-data/covers/BV1uf4y1T7fh.jpg", duration: 95, view: 74132, like: 5988, summary: "以实景、服装与后期特效复刻角色演示氛围的 COS 向作品。", date: "2021-11-30", tags: ["COS", "PV"] },
+    { id: 107, title: "MMD Bon Bon Chocolat - Raiden Ei", platform: "bilibili", platformLabel: "B站", url: "BV1rPW5zJE8K", author: "杯子君721", thumbnail: "/shrine-data/covers/BV1rPW5zJE8K.jpg", duration: 229, view: 14985, like: 1064, summary: "雷电影模型舞蹈 MMD，适合关注角色模型、动作编排与镜头设计的观众。", date: "2025-09-19", tags: ["MMD", "舞蹈"] },
+    { id: 108, title: "雷电将军：这也是必要的课程吗", platform: "bilibili", platformLabel: "B站", url: "BV1d9Mi6HE5b", author: "烤堇瓜壁纸", thumbnail: "/shrine-data/covers/BV1d9Mi6HE5b.jpg", duration: 20, view: 2823, like: 94, summary: "适合作为动态壁纸灵感参考的短篇角色展示。", date: "2026-07-08", tags: ["壁纸", "展示"] }
   ],
   guides: [
     { id: 1, title: "雷电将军配队全面指南", summary: "从雷电国家队到雷九万班，当前版本主流配队推荐与输出手法详解", content: "## 雷电国家队\n\n阵容：雷电将军 + 行秋 + 香菱 + 班尼特\n\n输出手法：雷神E → 班尼特QE → 行秋QE → 香菱QE → 雷神Q站场7秒", source: "NGA", sourceUrl: "https://bbs.nga.cn/", category: "战斗攻略", date: "2026-07-01" },
@@ -157,7 +156,7 @@ const activeTab = ref('gallery')
 
 // Tab 定义
 const tabs = [
-  { key: 'gallery', label: '画廊', icon: '' },
+  { key: 'gallery', label: '厨力画廊', icon: '' },
   { key: 'wiki',    label: '攻略/Wiki', icon: '' },
   { key: 'news',    label: '资讯动态', icon: '' },
   { key: 'chat',    label: '与影对话', icon: '' },
@@ -165,6 +164,7 @@ const tabs = [
 
 function tabCount(key) {
   if (!data.value) return 0
+  if (key === 'gallery') return (data.value.gallery?.length || 0) + (data.value.related?.length || 0)
   const map = { gallery: 'gallery', wiki: 'guides', news: 'news', chat: null }
   const arr = data.value[map[key]]
   return arr ? arr.length : 0

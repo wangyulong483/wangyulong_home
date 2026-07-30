@@ -27,8 +27,8 @@
         <span class="app-icon-wrap">
           <AppIcon icon="lightning" size="28" />
         </span>
-        <span class="app-name">？！厨厨！？</span>
-        <span class="app-desc">雷电将军 · 角色应援页</span>
+        <span class="app-name">厨力研究所</span>
+        <span class="app-desc">雷电将军 · 影像 / 攻略 / 对话</span>
       </router-link>
     </div>
   </div>

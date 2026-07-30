@@ -91,7 +91,7 @@
                 class="birthday-img"
                 width="1600"
                 height="1600"
-                :loading="idx === currentSlide ? 'eager' : 'lazy'"
+                loading="eager"
                 decoding="async"
                 :fetchpriority="idx === currentSlide ? 'high' : 'low'"
               />
@@ -142,7 +142,7 @@
               class="thumb-img"
               width="160"
               height="160"
-              loading="lazy"
+              loading="eager"
               decoding="async"
             />
             <span class="thumb-year">{{ item.year }}</span>
