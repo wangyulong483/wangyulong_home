@@ -3,14 +3,17 @@
     图标组件 — 加载 game-icon-pack 中的 SVG 图标
     用法：<AppIcon icon="controller" size="20" />
   -->
-  <img
-    :src="iconPath"
-    :alt="icon"
-    :width="size"
-    :height="size"
+  <span
     class="app-icon"
-    :style="{ filter: colorFilter }"
-  />
+    role="img"
+    :aria-label="icon"
+    :style="{
+      width: iconSize,
+      height: iconSize,
+      color: color || 'currentColor',
+      '--icon-url': `url(${iconPath})`,
+    }"
+  ></span>
 </template>
 
 <script setup>
@@ -94,10 +97,9 @@ const iconPath = computed(() => {
   return iconMap[props.icon] || `/game-icon-pack-main/svg/no-padding/${props.icon}.svg`
 })
 
-// 通过 CSS filter 给 SVG 着色（仅对纯色 icon 有效）
-const colorFilter = computed(() => {
-  if (!props.color) return 'none'
-  return `brightness(0) saturate(100%)`
+const iconSize = computed(() => {
+  const value = String(props.size)
+  return /^\d+(\.\d+)?$/.test(value) ? `${value}px` : value
 })
 </script>
 
@@ -106,5 +108,14 @@ const colorFilter = computed(() => {
   display: inline-block;
   vertical-align: middle;
   flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-image: var(--icon-url);
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-image: var(--icon-url);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
 }
 </style>

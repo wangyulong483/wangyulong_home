@@ -1,221 +1,329 @@
 <template>
-  <!-- 侧边栏 — 桌面固定在右侧，移动端滑出覆盖 -->
-
-  <!-- 移动端：遮罩层 -->
   <div v-if="mobileOpen" class="mobile-overlay" @click="close"></div>
 
-  <!-- 移动端：汉堡按钮 -->
   <button
     class="hamburger js-mobile-menu"
     :class="{ open: mobileOpen, 'home-route': isHome }"
-    aria-label="菜单"
+    :aria-label="mobileOpen ? '关闭菜单' : '打开菜单'"
     @click="toggle"
   >
     <span></span><span></span><span></span>
   </button>
 
-  <div
+  <aside
     class="right-box js-sidebar"
     :class="{ 'mobile-open': mobileOpen, 'home-route': isHome }"
   >
-      <div class="sidebar">
-        <!-- 头像 -->
-        <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
-          <img src="/image/mylog.jpg" alt="雷电将军头像" />
-        </router-link>
+    <div class="sidebar">
+      <header class="rail-head">
+        <strong>WYL</strong>
+        <span>WORLD // 01</span>
+      </header>
 
-        <div class="sidebar-identity">
-          <strong>雷电影</strong>
-          <span>一心净土</span>
-        </div>
+      <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
+        <img src="/image/mylog.jpg" alt="雷电将军头像" />
+        <span aria-hidden="true">HOME</span>
+      </router-link>
 
-        <!-- 导航 -->
-        <nav>
-          <ul>
-            <li><router-link to="/" class="nav-link" @click="close"><AppIcon icon="compass" size="18" /> 首页</router-link></li>
-            <li><router-link to="/applist" class="nav-link" @click="close"><AppIcon icon="controller" size="18" /> 应用</router-link></li>
-            <li><router-link to="/about" class="nav-link" @click="close"><AppIcon icon="user-avatar" size="18" /> 关于</router-link></li>
-          </ul>
-        </nav>
-
+      <div class="sidebar-identity">
+        <strong>雷电影</strong>
+        <span>一心净土 / ETERNITY</span>
       </div>
+
+      <nav aria-label="主导航">
+        <ul>
+          <li>
+            <router-link to="/" class="nav-link" @click="close">
+              <span class="nav-code">00</span><AppIcon icon="compass" size="18" /><span>首页</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/applist" class="nav-link" @click="close">
+              <span class="nav-code">01</span><AppIcon icon="controller" size="18" /><span>应用</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/about" class="nav-link" @click="close">
+              <span class="nav-code">02</span><AppIcon icon="user-avatar" size="18" /><span>关于</span>
+            </router-link>
+          </li>
+        </ul>
+      </nav>
+
+      <footer class="rail-foot">
+        <span><i></i> SYSTEM ONLINE</span>
+        <small>CN / 2026</small>
+      </footer>
     </div>
+  </aside>
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import AppIcon from '@/shared/components/AppIcon.vue'
 
 const router = useRouter()
 const mobileOpen = ref(false)
-
 const isHome = computed(() => router.currentRoute.value?.name === 'Home')
 
 function toggle() { mobileOpen.value = !mobileOpen.value }
 function close() { mobileOpen.value = false }
+function onKey(event) { if (event.key === 'Escape') close() }
 
 watch(() => router.currentRoute.value, close)
 
-function onKey(e) { if (e.key === 'Escape') close() }
-
-onMounted(() => {
-  document.addEventListener('keydown', onKey)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('keydown', onKey)
-})
+onMounted(() => document.addEventListener('keydown', onKey))
+onUnmounted(() => document.removeEventListener('keydown', onKey))
 </script>
 
 <style scoped>
-/* ====== 汉堡按钮 ====== */
 .hamburger {
-  display: none;
   position: fixed;
-  top: 12px;
-  right: 12px;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
   z-index: 200;
-  width: 44px; height: 44px;
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  display: none;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(234, 255, 87, 0.56);
+  border-radius: 3px;
+  background: rgba(10, 10, 13, 0.92);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
   cursor: pointer;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 0;
-  transition: all 0.3s;
-  top: max(12px, env(safe-area-inset-top));
-  right: max(12px, env(safe-area-inset-right));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .hamburger span {
   display: block;
-  width: 20px; height: 2px;
-  background: var(--accent);
-  border-radius: 2px;
-  transition: all 0.3s;
+  width: 20px;
+  height: 2px;
+  background: var(--signal);
+  transition: transform 0.28s var(--ease-out), opacity 0.2s var(--ease-out);
 }
 
 .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-/* ====== 遮罩 ====== */
 .mobile-overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
   z-index: 98;
+  display: none;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
-/* ====== 侧边栏容器 ====== */
 .right-box {
   position: fixed;
-  right: 0; top: 0;
-  height: 100vh;
+  top: 0;
+  right: 0;
   z-index: 99;
+  height: 100svh;
 }
 
-/* ====== 侧边栏本体 ====== */
 .sidebar {
-  --bg-card: rgba(20, 20, 24, 0.04);
-  --bg-card-hover: rgba(20, 20, 24, 0.07);
-  --border: rgba(20, 20, 24, 0.09);
-  --text-primary: #1c1c20;
-  --text-secondary: #66666e;
-  color: var(--text-primary);
-  padding: 10px;
-  height: 100%;
-  width: 200px;
+  position: relative;
   display: flex;
+  width: 200px;
+  height: 100%;
+  padding: 24px 18px 20px;
   flex-direction: column;
-  justify-content: center;
+  align-items: stretch;
+  border-left: 1px solid rgba(246, 243, 233, 0.13);
+  background: rgba(12, 12, 15, 0.96);
+  color: var(--text-primary);
+  box-shadow: -18px 0 60px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.sidebar::before {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 2px;
+  height: 92px;
+  content: '';
+  background: var(--signal);
+}
+
+.rail-head {
+  display: flex;
   align-items: center;
-  background: #ffffff;
-  border-left: 1px solid rgba(20, 20, 24, 0.09);
-  box-shadow: -12px 0 36px rgba(10, 10, 15, 0.06);
-  transition: width 0.35s var(--ease-out);
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
 }
 
-.sidebar:hover { width: 220px; }
+.rail-head strong {
+  color: var(--signal);
+  font-family: var(--font-display);
+  font-size: 18px;
+}
 
-/* ====== 头像 ====== */
+.rail-head span {
+  color: var(--text-tertiary);
+  font-size: 8px;
+}
+
 .sidebar-avatar {
+  position: relative;
   display: block;
-  width: 80px; height: 80px;
-  border-radius: 50%;
+  width: 96px;
+  height: 96px;
+  margin: 54px auto 16px;
   overflow: hidden;
-  margin-bottom: 24px;
-  border: 2px solid rgba(108, 92, 231, 0.20);
-  box-shadow: 0 0 16px rgba(108, 92, 231, 0.08);
-  transition: all 0.35s var(--ease-out);
-  cursor: pointer;
-  flex-shrink: 0;
+  border: 1px solid rgba(182, 156, 255, 0.48);
+  border-radius: 4px;
+  background: #17151d;
+  box-shadow: 12px 12px 0 rgba(182, 156, 255, 0.1);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
 }
+
+.sidebar-avatar::before,
+.sidebar-avatar::after {
+  position: absolute;
+  z-index: 2;
+  content: '';
+  background: var(--signal);
+}
+
+.sidebar-avatar::before { top: 8px; left: 0; width: 18px; height: 2px; }
+.sidebar-avatar::after { top: 0; left: 8px; width: 2px; height: 18px; }
 
 .sidebar-avatar:hover {
-  border-color: rgba(108, 92, 231, 0.50);
-  box-shadow: 0 0 24px rgba(108, 92, 231, 0.18);
-  transform: scale(1.06);
+  border-color: var(--signal);
+  box-shadow: 7px 7px 0 rgba(234, 255, 87, 0.16);
+  transform: translate(2px, 2px);
 }
 
 .sidebar-avatar img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
+  filter: saturate(0.76) contrast(1.06);
+}
+
+.sidebar-avatar > span {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 2px 4px;
+  background: #0b0b0e;
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 7px;
 }
 
 .sidebar-identity {
-  display: none;
+  display: flex;
+  margin-bottom: 36px;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* ====== 导航 ====== */
+.sidebar-identity strong {
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.sidebar-identity span {
+  margin-top: 3px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+
 .sidebar ul {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.sidebar ul li {
-  margin: 8px 0;
-  transition: transform 0.3s;
-}
-
-.sidebar ul li:hover {
-  transform: translateX(-4px);
+.sidebar li {
+  margin: 4px 0;
 }
 
 .nav-link {
   position: relative;
-  color: var(--text-secondary);
-  text-decoration: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px 20px 1fr;
+  min-height: 46px;
+  padding: 0 10px;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  border-radius: var(--radius);
-  transition: all 0.3s var(--ease-out);
-  font-size: 0.9rem;
-  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  transition: color 0.24s var(--ease-out), border-color 0.24s var(--ease-out), background 0.24s var(--ease-out), transform 0.24s var(--ease-out);
+}
+
+.nav-code {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 8px;
 }
 
 .nav-link:hover {
-  color: var(--accent);
+  border-color: rgba(182, 156, 255, 0.28);
   background: var(--accent-muted);
-  padding-left: 18px;
+  color: var(--text-primary);
+  transform: translateX(-3px);
 }
 
 .nav-link.router-link-active {
-  color: var(--accent);
-  background: var(--accent-muted);
-  font-weight: 600;
-  box-shadow: inset 2px 0 0 var(--accent);
+  border-color: rgba(234, 255, 87, 0.3);
+  background: var(--signal-muted);
+  color: var(--signal);
+}
+
+.nav-link.router-link-active::after {
+  position: absolute;
+  top: 8px;
+  right: -19px;
+  width: 3px;
+  height: 30px;
+  content: '';
+  background: var(--signal);
+}
+
+.rail-foot {
+  display: flex;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  flex-direction: column;
+  gap: 5px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+
+.rail-foot span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--signal);
+}
+
+.rail-foot i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
 }
 
 @media (min-width: 769px) {
@@ -234,23 +342,21 @@ onUnmounted(() => {
   }
 }
 
-/* ====== 移动端 ====== */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
-    border-color: rgba(176, 136, 249, 0.48);
-    border-radius: 8px;
-    background: rgba(18, 14, 31, 0.9);
-    box-shadow: 0 8px 24px rgba(19, 12, 35, 0.24);
   }
-  .hamburger span { background: #b088f9; }
+
   .hamburger.home-route {
     opacity: 0;
     visibility: hidden;
     transform: translateX(18px);
     pointer-events: none;
   }
-  .mobile-overlay { display: block; }
+
+  .mobile-overlay {
+    display: block;
+  }
 
   .right-box {
     opacity: 1 !important;
@@ -266,48 +372,19 @@ onUnmounted(() => {
   }
 
   .sidebar {
-    width: min(78vw, 288px) !important;
-    padding-top: max(60px, env(safe-area-inset-top));
-    padding-bottom: max(28px, env(safe-area-inset-bottom));
-    justify-content: flex-start;
-    background: #ffffff;
-    border-left: 1px solid var(--border);
+    width: min(82vw, 310px);
+    padding-top: max(24px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
-
-  .sidebar:hover { width: min(78vw, 288px) !important; }
 
   .sidebar-avatar {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
-    border-color: rgba(176, 136, 249, 0.5);
-    box-shadow: 0 8px 28px rgba(107, 76, 154, 0.18);
-  }
-
-  .sidebar-identity {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 22px;
-  }
-
-  .sidebar-identity strong {
-    color: #2d2141;
-    font-size: 1rem;
-  }
-
-  .sidebar-identity span {
-    margin-top: 2px;
-    color: #80649f;
-    font-size: 0.72rem;
+    margin-top: 46px;
   }
 
   .nav-link {
-    padding: 14px 18px;
-    font-size: 1rem;
-    min-height: 48px;
+    min-height: 50px;
+    padding-inline: 14px;
+    font-size: 14px;
   }
-
-  .sidebar ul li { margin: 4px 0; }
 }
 </style>

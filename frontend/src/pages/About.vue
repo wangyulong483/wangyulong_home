@@ -195,7 +195,7 @@ onUnmounted(() => {
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 700;
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .subtitle {
