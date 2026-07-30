@@ -43,9 +43,23 @@
           decoding="async"
           fetchpriority="high"
         />
+        <div class="banner-rail" aria-hidden="true">
+          <span>CHARACTER DATABASE</span>
+          <span>INAZUMA / 01</span>
+        </div>
         <div class="banner-overlay">
-          <h1 class="banner-title">{{ data.character.name }}</h1>
-          <p class="banner-subtitle">{{ data.character.title }}</p>
+          <div class="banner-copy">
+            <p class="banner-kicker">
+              <AppIcon icon="lightning" size="13" />
+              PLANE OF EUTHYMIA
+            </p>
+            <h1 class="banner-title">{{ data.character.name }}</h1>
+            <p class="banner-subtitle">{{ data.character.title }}</p>
+          </div>
+          <div class="banner-status">
+            <span class="status-dot"></span>
+            ARCHIVE ONLINE
+          </div>
         </div>
       </div>
 
@@ -248,55 +262,106 @@ onMounted(() => {
   position: relative;
   width: 100%;
   max-width: 1100px;
-  margin: 0 auto 0;
+  margin: 0 auto;
   overflow: hidden;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  border-bottom: 1px solid var(--border);
+  border-right: 1px solid rgba(182, 156, 255, 0.16);
+  border-bottom: 1px solid rgba(182, 156, 255, 0.24);
+  border-left: 1px solid rgba(182, 156, 255, 0.16);
 }
 
 .banner-img {
   width: 100%;
   display: block;
   object-fit: cover;
-  aspect-ratio: 4 / 1;
-  min-height: 180px;
+  object-position: center 46%;
+  aspect-ratio: 4.25 / 1;
+  min-height: 190px;
+  filter: saturate(0.78) contrast(1.04) brightness(0.66);
+  transform: scale(1.01);
 }
 
 .banner-overlay {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 34px 40px 30px;
+  background:
+    linear-gradient(90deg, rgba(8, 8, 12, 0.94) 0%, rgba(8, 8, 12, 0.68) 42%, rgba(8, 8, 12, 0.1) 76%),
+    linear-gradient(180deg, rgba(8, 8, 12, 0.04), rgba(8, 8, 12, 0.78));
+}
+
+.banner-rail {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(238, 234, 246, 0.48);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+}
+
+.banner-copy {
+  min-width: 0;
+}
+
+.banner-kicker {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg,
-    rgba(13, 13, 26, 0.3) 0%,
-    rgba(13, 13, 26, 0.6) 60%,
-    rgba(13, 13, 26, 0.9) 100%
-  );
-  text-align: center;
+  gap: 7px;
+  margin: 0 0 8px;
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
 }
 
 .banner-title {
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: #C9A96E;
-  letter-spacing: 0;
   margin: 0;
-  text-shadow: 0 0 32px rgba(201, 169, 110, 0.5), 0 2px 8px rgba(0, 0, 0, 0.6);
-  animation: banner-glow 3s ease-in-out infinite;
-}
-
-@keyframes banner-glow {
-  0%, 100% { text-shadow: 0 0 16px rgba(201, 169, 110, 0.3), 0 2px 8px rgba(0, 0, 0, 0.6); }
-  50%      { text-shadow: 0 0 40px rgba(201, 169, 110, 0.7), 0 0 64px rgba(176, 136, 249, 0.3), 0 2px 8px rgba(0, 0, 0, 0.6); }
+  color: #f4eee0;
+  font-size: 2.55rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.72);
 }
 
 .banner-subtitle {
-  font-size: 0.85rem;
-  color: rgba(200, 190, 230, 0.7);
-  margin: 8px 0 0;
+  margin: 10px 0 0;
+  color: rgba(209, 197, 232, 0.76);
+  font-size: 0.78rem;
   letter-spacing: 0;
+}
+
+.banner-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 7px 9px;
+  border: 1px solid rgba(234, 255, 87, 0.35);
+  border-radius: 3px;
+  background: rgba(10, 11, 10, 0.62);
+  color: rgba(234, 255, 87, 0.82);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 10px rgba(234, 255, 87, 0.72);
 }
 
 /* ====== 三巴纹水印 ====== */
@@ -438,19 +503,43 @@ onMounted(() => {
   }
 
   .top-banner {
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    border-right: 0;
+    border-left: 0;
   }
 
   .banner-img {
-    min-height: 120px;
+    aspect-ratio: 1.9 / 1;
+    min-height: 190px;
+    object-position: 61% center;
+  }
+
+  .banner-overlay {
+    align-items: flex-end;
+    padding: 42px 18px 18px;
+  }
+
+  .banner-rail {
+    padding: 7px 54px 7px 10px;
   }
 
   .banner-title {
-    font-size: 1.5rem;
+    font-size: 1.85rem;
   }
 
   .banner-subtitle {
-    font-size: 0.7rem;
+    max-width: 245px;
+    font-size: 0.66rem;
+    line-height: 1.45;
+  }
+
+  .banner-status {
+    padding: 6px;
+    font-size: 0;
+  }
+
+  .banner-status .status-dot {
+    width: 7px;
+    height: 7px;
   }
 
   /* Tab 栏横向滚动（保留标签文字） */
