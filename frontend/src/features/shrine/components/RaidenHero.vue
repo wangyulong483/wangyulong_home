@@ -53,61 +53,110 @@
       </div>
     </div>
 
-    <!-- ===== 历年生日贺图轮播 ===== -->
-    <div class="birthday-carousel" v-if="birthdays.length">
+    <!-- ===== 历年生日贺图画廊 ===== -->
+    <section class="birthday-gallery" v-if="birthdays.length">
       <div class="carousel-header">
-        <h3>历年生日贺图</h3>
-        <div class="carousel-controls">
-          <button class="carousel-btn" @click="prevSlide" :disabled="birthdays.length <= 1">◀</button>
-          <span class="carousel-year">{{ birthdays[currentSlide]?.year }}</span>
-          <button class="carousel-btn" @click="nextSlide" :disabled="birthdays.length <= 1">▶</button>
+        <div>
+          <p class="gallery-kicker">BIRTHDAY ARCHIVE / {{ String(birthdays.length).padStart(2, '0') }}</p>
+          <h3>历年生日贺图</h3>
         </div>
+        <p class="carousel-progress" aria-live="polite">
+          <strong>{{ String(currentSlide + 1).padStart(2, '0') }}</strong>
+          <span>/ {{ String(birthdays.length).padStart(2, '0') }}</span>
+        </p>
       </div>
 
-      <div class="carousel-viewport">
+      <div
+        class="gallery-layout"
+        @mouseenter="stopAutoplay"
+        @mouseleave="startAutoplay"
+        @focusin="stopAutoplay"
+        @focusout="startAutoplay"
+      >
         <div
-          class="carousel-track"
-          :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+          class="carousel-viewport"
+          @touchstart.passive="onTouchStart"
+          @touchend.passive="onTouchEnd"
         >
-          <div
+          <div class="carousel-track" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
+            <figure
+              v-for="(item, idx) in birthdays"
+              :key="item.year"
+              class="carousel-slide"
+            >
+              <img
+                v-if="shouldLoadSlide(idx)"
+                :src="item.image"
+                :alt="`${item.year} 生日贺图`"
+                class="birthday-img"
+                width="1600"
+                height="1600"
+                :loading="idx === currentSlide ? 'eager' : 'lazy'"
+                decoding="async"
+                :fetchpriority="idx === currentSlide ? 'high' : 'low'"
+              />
+              <div v-else class="birthday-placeholder" aria-hidden="true"></div>
+              <figcaption class="birthday-label">
+                <span>{{ item.year }}</span>
+                <small>雷电将军生日纪念</small>
+              </figcaption>
+            </figure>
+          </div>
+
+          <button
+            class="carousel-btn carousel-btn--prev"
+            type="button"
+            @click="prevSlide"
+            :disabled="birthdays.length <= 1"
+            aria-label="上一张生日贺图"
+            title="上一张"
+          >
+            <AppIcon icon="arrow-left" size="18" />
+          </button>
+          <button
+            class="carousel-btn carousel-btn--next"
+            type="button"
+            @click="nextSlide"
+            :disabled="birthdays.length <= 1"
+            aria-label="下一张生日贺图"
+            title="下一张"
+          >
+            <AppIcon icon="arrow-right" size="18" />
+          </button>
+        </div>
+
+        <nav class="birthday-index" aria-label="生日贺图年份">
+          <button
             v-for="(item, idx) in birthdays"
-            :key="item.year"
-            class="carousel-slide"
+            :key="`thumb-${item.year}`"
+            type="button"
+            class="year-thumb"
+            :class="{ active: idx === currentSlide }"
+            @click="selectSlide(idx)"
+            :aria-current="idx === currentSlide ? 'true' : undefined"
+            :aria-label="`查看 ${item.year} 年生日贺图`"
           >
             <img
-              v-if="shouldLoadSlide(idx)"
               :src="item.image"
-              :alt="`${item.year} 生日贺图`"
-              class="birthday-img"
-              width="1600"
-              height="1600"
-              :loading="idx === currentSlide ? 'eager' : 'lazy'"
+              alt=""
+              class="thumb-img"
+              width="160"
+              height="160"
+              loading="lazy"
               decoding="async"
-              :fetchpriority="idx === currentSlide ? 'high' : 'low'"
             />
-            <div v-else class="birthday-placeholder" aria-hidden="true"></div>
-            <span class="birthday-label">{{ item.year }}</span>
-          </div>
-        </div>
+            <span class="thumb-year">{{ item.year }}</span>
+            <span class="thumb-index">{{ String(idx + 1).padStart(2, '0') }}</span>
+          </button>
+        </nav>
       </div>
-
-      <!-- 指示点 -->
-      <div class="carousel-dots" v-if="birthdays.length > 1">
-        <button
-          v-for="(item, idx) in birthdays"
-          :key="item.year"
-          class="dot"
-          :class="{ active: idx === currentSlide }"
-          @click="currentSlide = idx"
-          :aria-label="`切换到 ${item.year} 年`"
-        ></button>
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import AppIcon from '@/shared/components/AppIcon.vue'
 
 const props = defineProps({
   character: { type: Object, required: true }
@@ -139,6 +188,28 @@ function prevSlide() {
   }
 }
 
+function selectSlide(index) {
+  currentSlide.value = index
+  startAutoplay()
+}
+
+let touchStartX = 0
+
+function onTouchStart(event) {
+  touchStartX = event.changedTouches[0]?.clientX || 0
+  stopAutoplay()
+}
+
+function onTouchEnd(event) {
+  const touchEndX = event.changedTouches[0]?.clientX || 0
+  const distance = touchEndX - touchStartX
+
+  if (Math.abs(distance) > 48) {
+    distance < 0 ? nextSlide() : prevSlide()
+  }
+  startAutoplay()
+}
+
 function shouldLoadSlide(index) {
   const length = birthdays.value.length
   if (length <= 3) return true
@@ -154,7 +225,7 @@ function startAutoplay() {
   if (birthdays.value.length > 1) {
     autoplayTimer = setInterval(() => {
       nextSlide()
-    }, 4000)
+    }, 6000)
   }
 }
 
@@ -164,8 +235,6 @@ function stopAutoplay() {
     autoplayTimer = null
   }
 }
-
-import { onMounted, onUnmounted, watch } from 'vue'
 
 onMounted(() => startAutoplay())
 onUnmounted(() => stopAutoplay())
@@ -316,53 +385,167 @@ watch(birthdays, () => {
   margin: 8px 0 0;
 }
 
-/* ====== 生日贺图轮播 ====== */
-.birthday-carousel {
-  background: rgba(107, 76, 154, 0.06);
-  border: 1px solid rgba(176, 136, 249, 0.12);
-  border-radius: 16px;
-  padding: 20px 24px;
+/* ====== 生日贺图画廊 ====== */
+.birthday-gallery {
+  padding: 28px 0 4px;
+  border-top: 1px solid rgba(176, 136, 249, 0.18);
 }
 
 .carousel-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.gallery-kicker {
+  margin: 0 0 5px;
+  color: rgba(176, 136, 249, 0.58);
+  font-size: 0.68rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .carousel-header h3 {
   margin: 0;
-  font-size: 1rem;
-  color: rgba(200, 190, 230, 0.8);
-  font-weight: 600;
+  color: rgba(232, 226, 244, 0.9);
+  font-size: 1.12rem;
+  line-height: 1.25;
+  font-weight: 700;
 }
 
-.carousel-controls {
+.carousel-progress {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: baseline;
+  gap: 5px;
+  margin: 0;
+  color: rgba(200, 190, 230, 0.42);
+  font-size: 0.72rem;
+}
+
+.carousel-progress strong {
+  color: #C9A96E;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.gallery-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 620px) minmax(180px, 1fr);
+  gap: 18px;
+  align-items: stretch;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.carousel-viewport {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 1px solid rgba(201, 169, 110, 0.18);
+  border-radius: 6px;
+  background: #0e0d1b;
+  box-shadow: 0 18px 50px rgba(5, 4, 14, 0.32);
+  touch-action: pan-y;
+}
+
+.carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.carousel-slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.carousel-slide::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 26%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(8, 7, 18, 0.76));
+}
+
+.birthday-img,
+.birthday-placeholder {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  display: block;
+}
+
+.birthday-img {
+  object-fit: cover;
+}
+
+.birthday-placeholder {
+  background: rgba(13, 13, 26, 0.7);
+}
+
+.birthday-label {
+  position: absolute;
+  z-index: 1;
+  left: 20px;
+  bottom: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #f1e4c8;
+}
+
+.birthday-label span {
+  font-size: 1.35rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.birthday-label small {
+  color: rgba(236, 229, 245, 0.68);
+  font-size: 0.68rem;
 }
 
 .carousel-btn {
-  width: 30px;
-  height: 30px;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 1px solid rgba(232, 226, 244, 0.24);
   border-radius: 50%;
-  border: 1px solid rgba(176, 136, 249, 0.2);
-  background: rgba(176, 136, 249, 0.08);
-  color: rgba(200, 190, 230, 0.6);
+  background: rgba(9, 8, 20, 0.64);
+  color: rgba(245, 240, 250, 0.86);
   cursor: pointer;
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.2s;
 }
 
+.carousel-btn--prev { left: 14px; }
+.carousel-btn--next { right: 14px; }
+
 .carousel-btn:hover:not(:disabled) {
-  border-color: rgba(176, 136, 249, 0.4);
-  color: #B088F9;
-  background: rgba(176, 136, 249, 0.15);
+  border-color: rgba(201, 169, 110, 0.7);
+  background: rgba(17, 14, 34, 0.9);
+  color: #C9A96E;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.carousel-btn:focus-visible,
+.year-thumb:focus-visible {
+  outline: 2px solid #C9A96E;
+  outline-offset: 2px;
 }
 
 .carousel-btn:disabled {
@@ -370,82 +553,77 @@ watch(birthdays, () => {
   cursor: not-allowed;
 }
 
-.carousel-year {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #C9A96E;
-  min-width: 48px;
-  text-align: center;
+.birthday-index {
+  display: grid;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  min-width: 0;
 }
 
-/* 轮播视口 */
-.carousel-viewport {
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.carousel-slide {
-  min-width: 100%;
+.year-thumb {
   position: relative;
-}
-
-.birthday-img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  max-height: 480px;
-  object-fit: contain;
-  display: block;
-  border-radius: 10px;
-  background: rgba(13, 13, 26, 0.3);
-}
-
-.birthday-placeholder {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: rgba(13, 13, 26, 0.3);
-}
-
-.birthday-label {
-  position: absolute;
-  bottom: 10px;
-  right: 12px;
-  font-size: 0.78rem;
-  padding: 3px 12px;
-  border-radius: 10px;
-  background: rgba(13, 13, 26, 0.7);
-  color: #C9A96E;
-  font-weight: 600;
-}
-
-/* 指示点 */
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(176, 136, 249, 0.2);
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 7px 9px 7px 7px;
+  overflow: hidden;
+  border: 1px solid rgba(176, 136, 249, 0.12);
+  border-radius: 5px;
+  background: rgba(22, 19, 40, 0.58);
+  color: rgba(218, 210, 232, 0.64);
   cursor: pointer;
-  transition: all 0.3s;
-  padding: 0;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
 }
 
-.dot.active {
-  background: #B088F9;
-  box-shadow: 0 0 6px rgba(176, 136, 249, 0.5);
-  width: 20px;
-  border-radius: 4px;
+.year-thumb::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: #C9A96E;
+  transform: scaleY(0);
+  transition: transform 0.25s;
+}
+
+.year-thumb:hover,
+.year-thumb.active {
+  border-color: rgba(201, 169, 110, 0.35);
+  background: rgba(40, 31, 62, 0.8);
+  color: #efe7f6;
+}
+
+.year-thumb.active::before {
+  transform: scaleY(1);
+}
+
+.thumb-img {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+  object-fit: cover;
+  border-radius: 3px;
+  filter: saturate(0.72) brightness(0.76);
+  transition: filter 0.25s;
+}
+
+.year-thumb:hover .thumb-img,
+.year-thumb.active .thumb-img {
+  filter: saturate(1) brightness(1);
+}
+
+.thumb-year {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.thumb-index {
+  color: rgba(176, 136, 249, 0.38);
+  font-size: 0.62rem;
+  font-weight: 700;
 }
 
 /* ====== 移动端 ====== */
@@ -468,6 +646,105 @@ watch(birthdays, () => {
   .char-title, .char-quote, .char-meta {
     text-align: center;
     justify-content: center;
+  }
+
+  .birthday-gallery {
+    padding-top: 22px;
+  }
+
+  .carousel-header {
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .gallery-kicker {
+    font-size: 0.62rem;
+  }
+
+  .carousel-header h3 {
+    font-size: 1rem;
+  }
+
+  .carousel-progress strong {
+    font-size: 1.05rem;
+  }
+
+  .gallery-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+
+  .carousel-viewport {
+    width: 100%;
+  }
+
+  .birthday-label {
+    left: 14px;
+    bottom: 13px;
+  }
+
+  .birthday-label span {
+    font-size: 1.1rem;
+  }
+
+  .carousel-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .carousel-btn--prev { left: 9px; }
+  .carousel-btn--next { right: 9px; }
+
+  .birthday-index {
+    display: flex;
+    gap: 8px;
+    padding: 2px 1px 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .birthday-index::-webkit-scrollbar {
+    display: none;
+  }
+
+  .year-thumb {
+    flex: 0 0 88px;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding: 5px 5px 7px;
+    scroll-snap-align: start;
+    text-align: center;
+  }
+
+  .year-thumb::before {
+    inset: auto 5px 0;
+    width: auto;
+    height: 2px;
+    transform: scaleX(0);
+  }
+
+  .year-thumb.active::before {
+    transform: scaleX(1);
+  }
+
+  .thumb-year {
+    font-size: 0.72rem;
+  }
+
+  .thumb-index {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track,
+  .year-thumb,
+  .year-thumb::before,
+  .thumb-img,
+  .carousel-btn {
+    transition: none;
   }
 }
 </style>
