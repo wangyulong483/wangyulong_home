@@ -26,7 +26,7 @@
       </router-link>
 
       <div class="sidebar-identity">
-        <strong>雷电影</strong>
+        <strong>归去来兮</strong>
         <span>一心净土 / ETERNITY</span>
       </div>
 
