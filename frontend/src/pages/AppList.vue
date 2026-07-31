@@ -23,6 +23,14 @@
         <span class="app-desc">机器人 & AI 前沿动态</span>
       </router-link>
 
+      <router-link to="/map-zone-painter" class="app-card card card-interactive">
+        <span class="app-icon-wrap map-tool-icon">
+          <AppIcon icon="map" size="28" />
+        </span>
+        <span class="app-name">地图区域绘制器</span>
+        <span class="app-desc">ROS2 · PGM · Nav2 Mask</span>
+      </router-link>
+
       <router-link to="/shrine" class="app-card card card-interactive">
         <span class="app-icon-wrap">
           <AppIcon icon="lightning" size="28" />
@@ -100,6 +108,12 @@ import AppIcon from '@/shared/components/AppIcon.vue'
   background: rgba(108, 92, 231, 0.18);
   border-color: var(--border-hover);
   box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.map-tool-icon {
+  color: var(--signal);
+  background: var(--signal-muted);
+  border-color: rgba(234, 255, 87, 0.24);
 }
 
 .app-name {

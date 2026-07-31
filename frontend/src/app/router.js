@@ -8,6 +8,7 @@ const routes = [
   { path: '/game',          name: 'Game',         component: () => import('@/pages/Game.vue') },
   { path: '/hot-topics',    name: 'HotTopics',    component: () => import('@/pages/HotTopics.vue') },
   { path: '/shrine',        name: 'Shrine',       component: () => import('@/pages/Shrine.vue') },
+  { path: '/map-zone-painter', name: 'MapZonePainter', component: () => import('@/pages/MapZonePainter.vue') },
 ]
 
 const router = createRouter({

@@ -87,9 +87,31 @@ const iconMap = {
   tag: '/game-icon-pack-main/svg/no-padding/9-media/tag.svg',
   earth: '/game-icon-pack-main/svg/no-padding/9-media/earth.svg',
   'cloud-download': '/game-icon-pack-main/svg/no-padding/9-media/cloud-download.svg',
+  upload: '/game-icon-pack-main/svg/no-padding/9-media/upload.svg',
+  download: '/game-icon-pack-main/svg/no-padding/9-media/download.svg',
+  trash: '/game-icon-pack-main/svg/no-padding/9-media/trash.svg',
+  folder: '/game-icon-pack-main/svg/no-padding/9-media/folder.svg',
   connection: '/game-icon-pack-main/svg/no-padding/9-media/connection.svg',
   image: '/game-icon-pack-main/svg/no-padding/9-media/image.svg',
   bug: '/game-icon-pack-main/svg/no-padding/9-media/bug.svg',
+  // 10-editing — 地图绘制工具
+  brush: '/game-icon-pack-main/svg/no-padding/10-editing/brush.svg',
+  eraser: '/game-icon-pack-main/svg/no-padding/10-editing/eraser.svg',
+  fill: '/game-icon-pack-main/svg/no-padding/10-editing/fill.svg',
+  select: '/game-icon-pack-main/svg/no-padding/10-editing/select.svg',
+  undo: '/game-icon-pack-main/svg/no-padding/10-editing/undo.svg',
+  redo: '/game-icon-pack-main/svg/no-padding/10-editing/redo.svg',
+  palette: '/game-icon-pack-main/svg/no-padding/10-editing/palette.svg',
+  'cursor-move': '/game-icon-pack-main/svg/no-padding/10-editing/cursor-move.svg',
+  // 通用工具图标
+  map: '/game-icon-pack-main/svg/no-padding/2-items/map.svg',
+  save: '/game-icon-pack-main/svg/no-padding/8-ui/save.svg',
+  refresh: '/game-icon-pack-main/svg/no-padding/8-ui/refresh.svg',
+  grid: '/game-icon-pack-main/svg/no-padding/8-ui/grid.svg',
+  'zoom-in': '/game-icon-pack-main/svg/no-padding/8-ui/zoom-in.svg',
+  'zoom-out': '/game-icon-pack-main/svg/no-padding/8-ui/zoom-out.svg',
+  plus: '/game-icon-pack-main/svg/no-padding/11-symbols/plus.svg',
+  minus: '/game-icon-pack-main/svg/no-padding/11-symbols/minus.svg',
 }
 
 // 如果传入的 icon 不在映射表中，当作自定义路径（相对于 svg/no-padding/）
