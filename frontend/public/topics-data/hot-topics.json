@@ -2,6 +2,34 @@
   "date": "2026-08-01",
   "items": [
     {
+      "id": "11d375b741f2",
+      "title": "KUKA deploys Automation Management Platform for North American automakers",
+      "summary": "KUKA has deployed its Automation Management Platform at KTPO, a major manufacturing facility in Ohio. The post KUKA deploys Automation Management Platform for North American automakers appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/kuka-deploys-automation-management-platform-north-american-automakers/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-31T20:38:15+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "47d6f86e3b03",
+      "title": "ROS OE Community Meeting #61 - August 3, 2026 @ 3pm UTC",
+      "summary": "Our next meeting is on Monday. All supported combinations have been sync’d and the work for Navigation2, MoveIt2, and ros2_control has been merged in across all combinations. Related work includes adding support for PX4 via meta-px4 as well as improving the developer workflow through enhancements in",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-oe-community-meeting-61-august-3-2026-3pm-utc/57098",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-31T20:15:04+00:00",
+      "timeType": "published"
+    },
+    {
       "id": "3f80cbd01fa4",
       "title": "ROS News for the Week of July 27th, 2026",
       "summary": "ROS News for the Week of July 27th, 2026 ROSCon Japan in Tsukuba is happening next week! We’re really looking forward to seeing all of the cool projects happening in Japan right now. Our next ROS By-The-Bay will happen on Thursday, August 13th, at the InOrbit Robot Space in Mountain View. We’ve got ",
@@ -80,8 +108,8 @@
       "url": "https://arxiv.org/abs/2607.27494",
       "category": "ai",
       "tags": [
-        "sensor",
-        "ai"
+        "ai",
+        "sensor"
       ],
       "publishedAt": "2026-07-31T04:00:00+00:00",
       "timeType": "published"
@@ -383,20 +411,6 @@
       "timeType": "published"
     },
     {
-      "id": "1215234c1f24",
-      "title": "Claude Code之父：Harness保质期只有半年，解开缰绳吧",
-      "summary": "Claude code之父：大模型是有机生物，做好AI产品疏胜于堵",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/463433.html",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T08:57:55+00:00",
-      "timeType": "published"
-    },
-    {
       "id": "858233bda1fb",
       "title": "Proposal: `rcl_executors` - a unified, canonical reference executor package for all client libraries",
       "summary": "Motivation Since the Lyrical release, the client library working group has been considering various approaches to reduce the amount of bloat in rclcpp and rclpy , remove or re-implement half-baked features, make behavior more consistent and performant across the different client library implementati",
@@ -443,18 +457,18 @@
       "icon": "connection"
     }
   ],
-  "total": 29,
-  "generatedAt": "2026-07-31T19:52:56.737485+00:00",
+  "total": 30,
+  "generatedAt": "2026-07-31T22:15:49.591063+00:00",
   "freshness": {
     "windowHours": 48,
-    "sourceCount": 5,
-    "newestPublishedAt": "2026-07-31T19:20:24+00:00",
+    "sourceCount": 4,
+    "newestPublishedAt": "2026-07-31T20:38:15+00:00",
     "oldestPublishedAt": "2026-07-29T23:26:27+00:00"
   },
   "sourceHealth": [
     {
       "name": "ROS Discourse",
-      "count": 8,
+      "count": 9,
       "status": "ok"
     },
     {
@@ -464,7 +478,7 @@
     },
     {
       "name": "The Robot Report",
-      "count": 4,
+      "count": 5,
       "status": "ok"
     },
     {
@@ -499,8 +513,8 @@
     },
     {
       "name": "量子位",
-      "count": 1,
-      "status": "ok"
+      "count": 0,
+      "status": "empty"
     }
   ]
 }
