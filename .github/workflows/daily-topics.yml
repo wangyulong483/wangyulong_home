@@ -4,6 +4,12 @@ on:
   schedule:
     # 避开整点拥堵；北京时间每 3 小时执行一次。
     - cron: "17 */3 * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/daily-topics.yml"
+      - "scripts/fetch_topics.py"
+      - "scripts/validate_topics.py"
   workflow_dispatch:
 
 concurrency:
