@@ -90,7 +90,7 @@ function searchKnowledge(userMessage) {
   return matched
 }
 
-const TOPICS_RAW_BASE = 'https://raw.githubusercontent.com/wangyulong483/wangyulong_home/main/frontend/public/topics-data'
+const TOPICS_RAW_ROOT = 'https://raw.githubusercontent.com/wangyulong483/wangyulong_home'
 
 async function serveTopics(request, env, url) {
   if (request.method !== 'GET') {
@@ -114,11 +114,12 @@ async function serveTopics(request, env, url) {
   }
 
   try {
-    const upstreamUrl = new URL(`${TOPICS_RAW_BASE}/${relativePath}`)
     const verifyVersion = url.searchParams.get('verify')
-    if (verifyVersion && /^[\w.-]{1,120}$/.test(verifyVersion)) {
-      upstreamUrl.searchParams.set('v', verifyVersion)
-    }
+    const verifiedCommit = verifyVersion?.match(/^([a-f0-9]{40})(?:-\d+)?$/i)?.[1]
+    const rawRef = verifiedCommit || 'main'
+    const upstreamUrl = new URL(
+      `${TOPICS_RAW_ROOT}/${rawRef}/frontend/public/topics-data/${relativePath}`,
+    )
 
     const upstream = await fetch(upstreamUrl, {
       headers: { 'User-Agent': 'wangyulong-home-topics/1.0' },
@@ -132,6 +133,7 @@ async function serveTopics(request, env, url) {
         'Content-Type': 'application/json; charset=utf-8',
         'Cache-Control': 'public, max-age=300, stale-while-revalidate=900',
         'X-Topics-Origin': 'github-main',
+        'X-Topics-Ref': rawRef,
       },
     })
   } catch (error) {
