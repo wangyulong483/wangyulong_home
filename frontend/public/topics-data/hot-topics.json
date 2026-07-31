@@ -2,6 +2,20 @@
   "date": "2026-07-31",
   "items": [
     {
+      "id": "a5fe5216b704",
+      "title": "A new tool to create ros2 package with executables, c++ and Python node in one package",
+      "summary": "site: GitHub - yjphhw/ros2_pkg_create: A utility script for generating ROS 2 package templates that support both C++ and Python nodes, simplifying mixed-language development within a single package. · GitHub useage is very easy, just download the ros2_pkg_create.py and put in a workspace(direction),",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/a-new-tool-to-create-ros2-package-with-executables-c-and-python-node-in-one-package/57089",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-31T13:29:54+00:00",
+      "timeType": "published"
+    },
+    {
       "id": "92309267246d",
       "title": "Procore Technologies acquires DroneDeploy for $845M",
       "summary": "Procore will integrate DroneDeploy's visual intelligence technology to link the digital world with physical construction sites. The post Procore Technologies acquires DroneDeploy for $845M appeared first on The Robot Report .",
@@ -471,18 +485,18 @@
       "icon": "connection"
     }
   ],
-  "total": 31,
-  "generatedAt": "2026-07-31T13:23:16.956459+00:00",
+  "total": 32,
+  "generatedAt": "2026-07-31T13:30:08.993860+00:00",
   "freshness": {
     "windowHours": 48,
     "sourceCount": 6,
-    "newestPublishedAt": "2026-07-31T12:49:07+00:00",
+    "newestPublishedAt": "2026-07-31T13:29:54+00:00",
     "oldestPublishedAt": "2026-07-29T14:11:19+00:00"
   },
   "sourceHealth": [
     {
       "name": "ROS Discourse",
-      "count": 7,
+      "count": 8,
       "status": "ok"
     },
     {
