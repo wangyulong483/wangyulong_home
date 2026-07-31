@@ -90,9 +90,71 @@ function searchKnowledge(userMessage) {
   return matched
 }
 
+const TOPICS_RAW_BASE = 'https://raw.githubusercontent.com/wangyulong483/wangyulong_home/main/frontend/public/topics-data'
+
+async function serveTopics(request, env, url) {
+  if (request.method !== 'GET') {
+    return new Response('GET only', { status: 405 })
+  }
+
+  let relativePath = 'hot-topics.json'
+  if (url.pathname === '/api/topics/archive-index') {
+    relativePath = 'archive/index.json'
+  } else {
+    const date = url.searchParams.get('date')
+    if (date) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return new Response(JSON.stringify({ error: 'Invalid date' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
+      relativePath = `archive/${date}.json`
+    }
+  }
+
+  try {
+    const upstreamUrl = new URL(`${TOPICS_RAW_BASE}/${relativePath}`)
+    const verifyVersion = url.searchParams.get('verify')
+    if (verifyVersion && /^[\w.-]{1,120}$/.test(verifyVersion)) {
+      upstreamUrl.searchParams.set('v', verifyVersion)
+    }
+
+    const upstream = await fetch(upstreamUrl, {
+      headers: { 'User-Agent': 'wangyulong-home-topics/1.0' },
+      cf: { cacheEverything: true, cacheTtl: 300 },
+    })
+    if (!upstream.ok) throw new Error(`GitHub raw ${upstream.status}`)
+
+    return new Response(upstream.body, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'public, max-age=300, stale-while-revalidate=900',
+        'X-Topics-Origin': 'github-main',
+      },
+    })
+  } catch (error) {
+    const assetUrl = new URL(`/topics-data/${relativePath}`, request.url)
+    const fallback = await env.ASSETS.fetch(new Request(assetUrl, request))
+    const headers = new Headers(fallback.headers)
+    headers.set('X-Topics-Origin', 'pages-fallback')
+    headers.set('Cache-Control', 'public, max-age=60')
+    return new Response(fallback.body, {
+      status: fallback.status,
+      statusText: fallback.statusText,
+      headers,
+    })
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url)
+
+    if (url.pathname === '/api/topics' || url.pathname === '/api/topics/archive-index') {
+      return serveTopics(request, env, url)
+    }
 
     if (url.pathname === '/api/chat') {
       if (request.method === 'OPTIONS') {

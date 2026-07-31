@@ -1,16 +1,17 @@
 """
 行业热点抓取脚本 —— 每日自动搜集机器人、ROS2、传感器、AI 行业动态
 
-数据源（9 个，国际源 + RSSHub 中转 + 国内源）：
+数据源（10 个，国际源 + 国内源）：
   1. ROS Discourse — ROS 2 社区讨论
   2. IEEE Spectrum Robotics — 机器人综合资讯
   3. The Robot Report — 机器人产业新闻
   4. arXiv CS.RO — 机器人学最新论文
-  5. ScienceDaily Robotics — 机器人科研动态
-  6. GitHub Trending — 热门开源项目（RSSHub 中转）
-  7. 机器之心 — 中国 AI/机器人媒体
-  8. 36氪 — 科技快讯（RSSHub 中转）
-  9. 量子位 — AI 科技前沿
+  5. TechCrunch Robotics — 机器人创业与产品动态
+  6. MIT Robotics — 机器人科研动态
+  7. ScienceDaily Robotics — 机器人科研动态
+  8. Google DeepMind — AI 研究动态
+  9. 机器之心 — 中国 AI/机器人媒体
+ 10. 量子位 — AI 科技前沿
 
 用法：
   python scripts/fetch_topics.py                     # 生成今天的热点
@@ -28,9 +29,10 @@ import os
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from difflib import SequenceMatcher
+from zoneinfo import ZoneInfo
 
 import feedparser
 import requests
@@ -51,31 +53,30 @@ TIMEOUT = 20
 # 标题去重相似度阈值（0~1，超过此值视为重复）
 DEDUP_THRESHOLD = 0.75
 
-# ============================================================
-# RSSHub 实例
-# rsshub.app — 官方实例（US 托管，GitHub Actions runner 可直连）
-# rsshub.stsecurity.moe — 社区实例（国内可达，本地测试用）
-# 可通过 --rsshub 命令行参数覆盖
-# ============================================================
+# 只保留最近 48 小时发布的内容，避免旧文章每天重复成为“热点”
+MAX_ITEM_AGE_HOURS = 48
 
-DEFAULT_RSSHUB = "https://rsshub.app"
+# 控制单次输出规模，确保页面保持可扫描性
+MAX_ITEMS = 60
+
+SHANGHAI_TZ = ZoneInfo("Asia/Shanghai")
 
 # ============================================================
-# RSS 源定义（直接 RSS + RSSHub 路由混合）
+# RSS 源定义
 # ============================================================
 
 RSS_SOURCES = [
     # ----- 国际源（GitHub Actions 海外 runner 可直接访问）-----
     {
         "name": "ROS Discourse",
-        "url": "https://discourse.openrobotics.org/posts.rss",
+        "url": "https://discourse.openrobotics.org/latest.rss",
         "category": "ros2",
         "icon": "ros",
         "lang": "en",
     },
     {
         "name": "IEEE Spectrum Robotics",
-        "url": "https://spectrum.ieee.org/feeds/robotics/rss",
+        "url": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
         "category": "robot",
         "icon": "ieee",
         "lang": "en",
@@ -95,19 +96,33 @@ RSS_SOURCES = [
         "lang": "en",
     },
     {
+        "name": "TechCrunch Robotics",
+        "url": "https://techcrunch.com/category/robotics/feed/",
+        "category": "robot",
+        "icon": "techcrunch",
+        "lang": "en",
+    },
+    {
+        "name": "MIT Robotics",
+        "url": "https://news.mit.edu/topic/mitrobotics-rss.xml",
+        "category": "robot",
+        "icon": "mit",
+        "lang": "en",
+    },
+    {
         "name": "ScienceDaily Robotics",
         "url": "https://www.sciencedaily.com/rss/computers_math/robotics.xml",
         "category": "robot",
         "icon": "science",
         "lang": "en",
     },
-    # ----- RSSHub 中转源 -----
     {
-        "name": "GitHub Trending",
-        "url": "/github/trending/daily",
+        "name": "Google DeepMind",
+        "url": "https://deepmind.google/blog/rss.xml",
         "category": "ai",
-        "icon": "github",
+        "icon": "deepmind",
         "lang": "en",
+        "require_keywords": True,
     },
     # ----- 国内源 -----
     {
@@ -116,13 +131,7 @@ RSS_SOURCES = [
         "category": "ai",
         "icon": "jiqizhixin",
         "lang": "zh",
-    },
-    {
-        "name": "36氪",
-        "url": "/36kr/newsflashes",
-        "category": "ai",
-        "icon": "lightning",
-        "lang": "zh",
+        "require_keywords": True,
     },
     {
         "name": "量子位",
@@ -130,6 +139,7 @@ RSS_SOURCES = [
         "category": "ai",
         "icon": "qbitai",
         "lang": "zh",
+        "require_keywords": True,
     },
 ]
 
@@ -181,17 +191,15 @@ def classify_by_keywords(title: str, summary: str) -> list[str]:
     return sorted(tags)
 
 
-def resolve_url(raw_url: str, rsshub_base: str) -> str:
-    """解析 RSS URL：以 / 开头的为 RSSHub 路由，拼接实例域名"""
-    if raw_url.startswith("/"):
-        return rsshub_base.rstrip("/") + raw_url
-    return raw_url
-
-
-def fetch_rss(source: dict, rsshub_base: str = DEFAULT_RSSHUB) -> list[dict]:
+def fetch_rss(
+    source: dict,
+    reference_time: datetime | None = None,
+) -> list[dict]:
     """抓取单个 RSS 源，返回条目列表"""
     items = []
-    url = resolve_url(source["url"], rsshub_base)
+    url = source["url"]
+    reference_time = reference_time or datetime.now(timezone.utc)
+    cutoff_time = reference_time - timedelta(hours=MAX_ITEM_AGE_HOURS)
     try:
         resp = requests.get(url, timeout=TIMEOUT, headers={
             "User-Agent": "Mozilla/5.0 (compatible; HotTopicsBot/1.0; +https://github.com/wangyulong483)"
@@ -214,20 +222,29 @@ def fetch_rss(source: dict, rsshub_base: str = DEFAULT_RSSHUB) -> list[dict]:
                 summary = soup.get_text(" ", strip=True)[:300]
 
             # 提取发布时间
-            published = None
+            published_dt = None
+            time_type = "published"
             for date_field in ["published_parsed", "updated_parsed"]:
                 dt = getattr(entry, date_field, None)
                 if dt:
-                    published = datetime(*dt[:6], tzinfo=timezone.utc).isoformat()
+                    published_dt = datetime(*dt[:6], tzinfo=timezone.utc)
                     break
-            if not published:
-                published = datetime.now(timezone.utc).isoformat()
+
+            # 无日期条目不冒充最新新闻。
+            if not published_dt:
+                continue
+
+            if published_dt < cutoff_time or published_dt > reference_time + timedelta(hours=2):
+                continue
 
             # 提取 URL
             url = entry.get("link", "")
 
             # 自动打标签
             auto_tags = classify_by_keywords(title, summary)
+            if source.get("require_keywords") and not auto_tags:
+                continue
+
             # 合并源默认分类和自动标签
             all_tags = list(set(auto_tags))
             if source["category"] not in all_tags:
@@ -246,77 +263,14 @@ def fetch_rss(source: dict, rsshub_base: str = DEFAULT_RSSHUB) -> list[dict]:
                 "url": url,
                 "category": source["category"],
                 "tags": all_tags[:5],  # 最多 5 个标签
-                "publishedAt": published,
+                "publishedAt": published_dt.isoformat(),
+                "timeType": time_type,
             })
 
     except requests.RequestException as e:
         print(f"  [WARN] {source['name']} 请求失败: {e}")
     except Exception as e:
         print(f"  [WARN] {source['name']} 解析失败: {e}")
-
-    return items
-
-
-def fetch_github_trending() -> list[dict]:
-    """爬取 GitHub Trending Python/robotics 相关项目"""
-    items = []
-    try:
-        # 抓取 Python 语言的 trending（日榜）
-        url = "https://github.com/trending/python?since=daily"
-        resp = requests.get(url, timeout=TIMEOUT, headers={
-            "User-Agent": "Mozilla/5.0 (compatible; HotTopicsBot/1.0)"
-        })
-        resp.raise_for_status()
-        soup = BeautifulSoup(resp.text, "lxml")
-
-        # 解析 trending 仓库卡片
-        articles = soup.select("article.Box-row")
-        for article in articles[:10]:
-            h2 = article.select_one("h2 a")
-            if not h2:
-                continue
-            # 提取 owner/repo
-            href = h2.get("href", "").strip()
-            repo_name = href.strip("/")
-
-            # 提取描述
-            desc_el = article.select_one("p")
-            desc = desc_el.get_text(strip=True) if desc_el else ""
-
-            # 过滤：只保留机器人/传感器/AI 相关项目
-            related_keywords = [
-                "robot", "ros", "slam", "lidar", "camera", "sensor", "detection",
-                "yolo", "segmentation", "tracking", "autonomous", "drone", "perception",
-                "point-cloud", "点云", "imu", "gazebo", "rviz", "navigation", "rl",
-                "reinforcement", "pytorch", "tensorflow", "transformer", "llm", "gpt",
-                "embodied", "具身", "sim-to-real", "深度", "视觉", "机器人",
-            ]
-            is_related = any(kw in (repo_name + " " + desc).lower() for kw in related_keywords)
-            if not is_related:
-                continue
-
-            auto_tags = classify_by_keywords(repo_name, desc)
-            if "ai" not in auto_tags:
-                auto_tags.append("ai")
-
-            raw_id = f"github-trending:{repo_name}"
-            item_id = hashlib.md5(raw_id.encode()).hexdigest()[:12]
-
-            items.append({
-                "id": item_id,
-                "title": f"{repo_name}",
-                "summary": desc[:300],
-                "source": "GitHub Trending",
-                "sourceIcon": "github",
-                "url": f"https://github.com/{repo_name}",
-                "category": "ai",
-                "tags": auto_tags[:5],
-                "publishedAt": datetime.now(timezone.utc).isoformat(),
-            })
-
-        print(f"  [OK] GitHub Trending: {len(items)} 条相关项目")
-    except Exception as e:
-        print(f"  [WARN] GitHub Trending 抓取失败: {e}")
 
     return items
 
@@ -352,15 +306,21 @@ def main():
     parser = argparse.ArgumentParser(description="行业热点抓取脚本")
     parser.add_argument("--date", help="指定日期 (YYYY-MM-DD)，默认今天")
     parser.add_argument("--dry-run", action="store_true", help="仅打印，不写文件")
-    parser.add_argument("--rsshub", default=DEFAULT_RSSHUB, help=f"RSSHub 实例地址 (默认: {DEFAULT_RSSHUB})")
     args = parser.parse_args()
-    rsshub_base = args.rsshub
 
-    # 确定目标日期
+    now_utc = datetime.now(timezone.utc)
+
+    # 归档日期以网站主要受众时区为准，避免北京时间凌晨仍写入前一天。
     if args.date:
         target_date = args.date
+        reference_time = (
+            datetime.strptime(args.date, "%Y-%m-%d")
+            .replace(tzinfo=SHANGHAI_TZ)
+            + timedelta(days=1)
+        ).astimezone(timezone.utc)
     else:
-        target_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        target_date = now_utc.astimezone(SHANGHAI_TZ).strftime("%Y-%m-%d")
+        reference_time = now_utc
 
     print(f"\n{'='*60}")
     print(f"行业热点抓取 — {target_date}")
@@ -370,11 +330,17 @@ def main():
     # 1. 抓取所有 RSS 源
     # ============================================================
     all_items = []
+    source_health = []
 
     for source in RSS_SOURCES:
         print(f"[FETCH] {source['name']}...")
-        items = fetch_rss(source, rsshub_base)
+        items = fetch_rss(source, reference_time)
         print(f"   -> {len(items)} 条")
+        source_health.append({
+            "name": source["name"],
+            "count": len(items),
+            "status": "ok" if items else "empty",
+        })
         all_items.extend(items)
 
     # ============================================================
@@ -385,23 +351,32 @@ def main():
     print(f"[DEDUP] 去重后: {len(all_items)} 条")
 
     # ============================================================
-    # 4. 按发布时间排序（最新在前）
+    # 3. 按发布时间排序并限制输出规模（最新在前）
     # ============================================================
     all_items.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
+    all_items = all_items[:MAX_ITEMS]
 
     # ============================================================
-    # 5. 构建输出 JSON
+    # 4. 构建输出 JSON
     # ============================================================
+    source_count = len({item["source"] for item in all_items})
     output = {
         "date": target_date,
         "items": all_items,
         "categories": CATEGORIES,
         "total": len(all_items),
-        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "generatedAt": now_utc.isoformat(),
+        "freshness": {
+            "windowHours": MAX_ITEM_AGE_HOURS,
+            "sourceCount": source_count,
+            "newestPublishedAt": all_items[0]["publishedAt"] if all_items else None,
+            "oldestPublishedAt": all_items[-1]["publishedAt"] if all_items else None,
+        },
+        "sourceHealth": source_health,
     }
 
     # ============================================================
-    # 6. 输出
+    # 5. 输出
     # ============================================================
     if args.dry_run:
         print(f"\n[PREVIEW] 预览（前 10 条）:\n")

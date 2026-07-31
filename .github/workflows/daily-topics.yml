@@ -1,45 +1,109 @@
-# 每日行业热点自动抓取
-# UTC 00:00 = 北京时间 08:00 运行
-name: 每日行业热点
+name: 行业热点持续更新
 
 on:
   schedule:
-    - cron: "0 0 * * *"
-  workflow_dispatch:  # 允许手动触发
+    # 避开整点拥堵；北京时间每 3 小时执行一次。
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: topics-production
+  cancel-in-progress: false
+
+permissions:
+  contents: write
 
 jobs:
-  fetch-topics:
+  refresh-and-deploy:
     runs-on: ubuntu-latest
-    # 给予写权限以提交 JSON 文件
-    permissions:
-      contents: write
+    timeout-minutes: 30
 
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 安装 Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
 
-      - name: 安装依赖
+      - name: 安装抓取依赖
         run: pip install -r scripts/requirements.txt
 
-      - name: 抓取行业热点
-        run: python scripts/fetch_topics.py
+      - name: 抓取并校验行业热点
+        run: |
+          python scripts/fetch_topics.py
+          python scripts/validate_topics.py
 
-      - name: 提交更新
+      - name: 提交真实数据归档
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # 仅在有变更时提交
           git add frontend/public/topics-data/
+
           if git diff --cached --quiet; then
-            echo "📭 无新数据，跳过提交"
+            echo "没有数据变化，继续部署现有有效数据"
           else
-            git commit -m "自动抓取: $(date +'%Y-%m-%d') 行业热点更新"
-            git push
-            echo "✅ 已提交并推送"
+            git commit -m "自动抓取: $(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M') 行业热点更新"
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
+
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "generated_at=$(python -c \"import json; print(json.load(open('frontend/public/topics-data/hot-topics.json', encoding='utf-8'))['generatedAt'])\")" >> "$GITHUB_OUTPUT"
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 构建生产站点
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: 部署到 Cloudflare Pages（最多重试 3 次）
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DEPLOY_SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          for attempt in 1 2 3; do
+            echo "Cloudflare 部署尝试 ${attempt}/3"
+            if npx --yes wrangler@4.114.0 pages deploy frontend/dist \
+              --project-name=wangyulong-home \
+              --branch=main \
+              --commit-hash="$DEPLOY_SHA" \
+              --commit-message="行业热点自动更新"; then
+              exit 0
+            fi
+            sleep $((attempt * 15))
+          done
+          exit 1
+
+      - name: 验证生产数据已切换
+        env:
+          EXPECTED_GENERATED_AT: ${{ steps.commit.outputs.generated_at }}
+        run: |
+          for attempt in 1 2 3 4; do
+            curl --fail --silent --show-error \
+              "https://wangyulong-home.pages.dev/api/topics?verify=${{ steps.commit.outputs.sha }}-${attempt}" \
+              --output /tmp/hot-topics.json || true
+
+            if python scripts/validate_topics.py \
+              --path /tmp/hot-topics.json \
+              --expected-generated-at "$EXPECTED_GENERATED_AT"; then
+              echo "生产热点数据验证通过"
+              exit 0
+            fi
+            sleep $((attempt * 15))
+          done
+          exit 1

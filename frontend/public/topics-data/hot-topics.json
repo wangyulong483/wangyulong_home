@@ -2,44 +2,259 @@
   "date": "2026-07-31",
   "items": [
     {
-      "id": "377caa80fdc9",
-      "title": "Proposal: `rcl_executors` - a unified, canonical reference executor package for all client libraries",
-      "summary": "2lian: Why do we need the executor and don’t directly use the RMW scheduling model? Or at least give the user the possibility to do that? Like, I would like DDS/Zenoh to execute my callback directly, without ever starting the ROS executor. Is there any reason for this not being available? It’s separ",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/proposal-rcl-executors-a-unified-canonical-reference-executor-package-for-all-client-libraries/57057#post_14",
-      "category": "ros2",
+      "id": "92309267246d",
+      "title": "Procore Technologies acquires DroneDeploy for $845M",
+      "summary": "Procore will integrate DroneDeploy's visual intelligence technology to link the digital world with physical construction sites. The post Procore Technologies acquires DroneDeploy for $845M appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/procore-technologies-acquires-dronedeploy-845m/",
+      "category": "robot",
       "tags": [
-        "ros2"
+        "robot"
       ],
-      "publishedAt": "2026-07-31T00:58:39+00:00"
+      "publishedAt": "2026-07-31T12:49:07+00:00",
+      "timeType": "published"
     },
     {
-      "id": "9ef50fed41d1",
-      "title": "What should go in the <license> tag?",
-      "summary": "rkent: there are already a lot of fields displayed in the index, and adding a new one would reduce the space available for other fields, like the description. This sounds like a good place to allow which columns are displayed to be dynamically configured. rkent: the database is currently distributed",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/what-should-go-in-the-license-tag/56952#post_8",
-      "category": "ros2",
+      "id": "64e713a87532",
+      "title": "It's Not Just More Demos: Counterfactual Action Sensitivity Coverage for Data-Efficient Robust Robot Imitation",
+      "summary": "arXiv:2607.27261v1 Announce Type: new \nAbstract: Visuomotor imitation learning has demonstrated success for manipulation tasks. However, the trained policies remain brittle to visual `nuisances', with even minor task-preserving variations such as lighting, distractions or changes in colour result in",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27261",
+      "category": "ai",
       "tags": [
-        "ros2"
+        "ai"
       ],
-      "publishedAt": "2026-07-31T00:49:29+00:00"
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
     },
     {
-      "id": "ae3245a70c49",
-      "title": "5 Physical AI Infrastructure Platforms Shaping Robotics in 2026",
-      "summary": "From accelerated computing and simulation to data operations, open-source tooling, validation engineering, and continuous learning, these five platforms represent distinct control points in the emerging physical AI stack. For most of the modern AI boom, infrastructure had a single center of gravity:",
+      "id": "d9ebbf94a4cb",
+      "title": "Simulation of Surgical Suturing Using Position-Based Dynamics and the Material Point Method for Robot Reinforcement Learning",
+      "summary": "arXiv:2607.27494v1 Announce Type: new \nAbstract: Recent advances in robotics research have created a strong demand for high-performance simulators. Surgical robotics simulation faces unique challenges due to the need to model diverse objects, such as rigid instruments, soft tissue, and fluids. While",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27494",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "sensor"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "d94bcf52fb5b",
+      "title": "Corrigible Assistance in One Round: Pragmatic-Pedagogic Best Response",
+      "summary": "arXiv:2607.27508v1 Announce Type: new \nAbstract: Assistance games formalize human-robot collaboration under asymmetric information: the human knows the goal, while the robot must infer it from observation and interaction in order to assist effectively. In general, computing optimal assistance game s",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27508",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "6d6dc7f34694",
+      "title": "Failure Detection for Surgical Robot Imitation Policies via Flow-Matching World Modeling",
+      "summary": "arXiv:2607.27511v1 Announce Type: new \nAbstract: Imitation learning has shown increasing promise for autonomous robotic surgery, yet safe deployment remains challenging due to the safety-critical nature of surgical tasks and the complexity and variability of surgical environments. Failure detection ",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27511",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "343546562a32",
+      "title": "Cross-Embodiment Transfer via Behavior-Aligned Representations",
+      "summary": "arXiv:2607.27549v1 Announce Type: new \nAbstract: Recent progress in large-scale imitation learning for robot manipulation has been driven by leveraging datasets across a wide range of robot embodiments. However, achieving significant cross-embodiment transfer is often still challenging. In this work",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27549",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "f080cd80c33f",
+      "title": "A Systems Engineering Framework for Vision-Language-Enabled UAV Triage and Disaster Response",
+      "summary": "arXiv:2607.27597v1 Announce Type: new \nAbstract: Recent advances in Vision Language Models (VLMs) have created new opportunities for disaster response, where responders must interpret large volumes of sensor data under time pressure. Current VLM applications include social media monitoring for situa",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27597",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "285430e76475",
+      "title": "Arm2Air: Cross-Embodiment Skeleton Transfer for 3D Relay Formation",
+      "summary": "arXiv:2607.27627v1 Announce Type: new \nAbstract: Unmanned aerial vehicle (UAV) relay networks can restore connectivity after communication infrastructure is damaged. Urban relay placement is difficult because line-of-sight blockage, communication range, altitude, and three-dimensional obstacles must",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27627",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "18d22aaf0a99",
+      "title": "LabEvolver: Training-Free Experience Evolution for Safe and Grounded Wet-Lab Agents",
+      "summary": "arXiv:2607.27690v1 Announce Type: new \nAbstract: We introduce LabEvolver, a training-free framework that equips safe and grounded wet-lab agents with episodic memory from execution experience. LabEvolver couples a state-grounded inner trial loop for adaptive perception, online planning, and safety v",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27690",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "97b58b0b15a7",
+      "title": "Write-Safe Flow Field Mapping under Ambiguous Onboard Sensing and Localization Drift",
+      "summary": "arXiv:2607.27713v1 Announce Type: new \nAbstract: Mobile robots can infer local flow structure from onboard sensing, but a locally plausible estimate is not always safe to write into a global map. Similar flow structures may produce ambiguous observations, while localization drift causes predicted pa",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27713",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "ae10c1029b20",
+      "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
+      "summary": "arXiv:2607.27782v1 Announce Type: new \nAbstract: Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforcement learning (RL) provides a pra",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27782",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "b2f3b9e619b1",
+      "title": "DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection",
+      "summary": "arXiv:2607.27784v1 Announce Type: new \nAbstract: Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternatives tend to provide less precise",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27784",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "39147f304bd4",
+      "title": "RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents",
+      "summary": "arXiv:2607.27881v1 Announce Type: new \nAbstract: Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical gaps: no mechanism for failure re",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27881",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "bc3ac34a5643",
+      "title": "Static In, Dynamic Out: Counterfactual Action Augmentation for Moving Object Manipulation",
+      "summary": "arXiv:2607.27890v1 Announce Type: new \nAbstract: Visuomotor policies have advanced on manipulation tasks where the target object stays static during execution, but real deployments break this assumption: parts drift on conveyors and fruits sway in the wind. We introduce Static In, Dynamic Out (SIDO)",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27890",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "dde5c91e41ba",
+      "title": "Learning Social Robot Navigation By Sensing Human Legs",
+      "summary": "arXiv:2607.27922v1 Announce Type: new \nAbstract: Robots navigating among pedestrians typically sense their surroundings with a 2D LiDAR mounted close to the ground. At that height, the sensor mostly sees moving legs rather than whole people, yet most learning-based navigation methods still treat ped",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.27922",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "lidar"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "910fedb11c6a",
+      "title": "RaDiVe: Robust 4D Radar Odometry with Distance-Bounded NDT and Velocity-Discrepancy Point Uncertainty",
+      "summary": "arXiv:2607.28045v1 Announce Type: new \nAbstract: Recent advances in 4D radar enable robust perception in adverse weather; however, the inherent sparsity, noise, and limited positional precision of radar point clouds pose significant challenges for registration-based odometry. In this letter, we prop",
+      "source": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2607.28045",
+      "category": "ai",
+      "tags": [
+        "ai",
+        "lidar"
+      ],
+      "publishedAt": "2026-07-31T04:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "02f3041d455b",
+      "title": "Daniela Rus receives Bavarian Minister-President's High-Tech Prize",
+      "summary": "Director of CSAIL and MIT professor honored for her contributions to robotics, artificial intelligence, and autonomous systems.",
+      "source": "MIT Robotics",
+      "sourceIcon": "mit",
+      "url": "https://news.mit.edu/2026/daniela-rus-receives-bavarian-minister-presidents-high-tech-prize-0730",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-30T21:00:00+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "4de5293c4979",
+      "title": "5 Physical AI infrastructure platforms shaping robotics in 2026",
+      "summary": "These five platforms address different challenges and provide the basis for the emerging physical AI tech stack, according to Lightwheel. The post 5 Physical AI infrastructure platforms shaping robotics in 2026 appeared first on The Robot Report .",
       "source": "The Robot Report",
       "sourceIcon": "robot-report",
       "url": "https://www.therobotreport.com/5-physical-ai-infrastructure-platforms-shaping-robotics-in-2026/",
       "category": "robot",
       "tags": [
-        "robot",
-        "sensor"
+        "robot"
       ],
-      "publishedAt": "2026-07-30T20:01:22+00:00"
+      "publishedAt": "2026-07-30T20:01:22+00:00",
+      "timeType": "published"
     },
     {
       "id": "1dbcd757be6e",
@@ -52,7 +267,8 @@
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-07-30T18:06:18+00:00"
+      "publishedAt": "2026-07-30T18:06:18+00:00",
+      "timeType": "published"
     },
     {
       "id": "4daf8f394a34",
@@ -65,73 +281,64 @@
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-07-30T17:38:52+00:00"
+      "publishedAt": "2026-07-30T17:38:52+00:00",
+      "timeType": "published"
     },
     {
-      "id": "89e321c01bbf",
+      "id": "96b57162f7bb",
       "title": "Exploring Runtime Trust and Authorization Patterns for ROS2-Based Autonomous Systems",
       "summary": "Hello ROS2 community, I’m exploring a challenge that I believe will become increasingly important as ROS2-based autonomous systems move from development environments into large-scale real-world deployments. Today, ROS2 enables powerful robotic applications through communication, orchestration, and e",
       "source": "ROS Discourse",
       "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/exploring-runtime-trust-and-authorization-patterns-for-ros2-based-autonomous-systems/57077#post_1",
+      "url": "https://discourse.openrobotics.org/t/exploring-runtime-trust-and-authorization-patterns-for-ros2-based-autonomous-systems/57077",
       "category": "ros2",
       "tags": [
         "ros2"
       ],
-      "publishedAt": "2026-07-30T16:52:41+00:00"
+      "publishedAt": "2026-07-30T16:52:41+00:00",
+      "timeType": "published"
     },
     {
-      "id": "4b3e82dbdccc",
+      "id": "12c1ed354390",
       "title": "How do you understand the architecture of a large ROS 2 workspace?",
       "summary": "Hi everyone, I’m curious about how other ROS 2 developers approach understanding a large or unfamiliar workspace. When joining an existing project or reviewing a large codebase, I often find myself asking questions like: Which packages depend on each other? Which nodes communicate together? What top",
       "source": "ROS Discourse",
       "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/how-do-you-understand-the-architecture-of-a-large-ros-2-workspace/57075#post_1",
+      "url": "https://discourse.openrobotics.org/t/how-do-you-understand-the-architecture-of-a-large-ros-2-workspace/57075",
       "category": "ros2",
       "tags": [
         "ros2"
       ],
-      "publishedAt": "2026-07-30T16:51:42+00:00"
+      "publishedAt": "2026-07-30T16:51:41+00:00",
+      "timeType": "published"
     },
     {
-      "id": "e27128054351",
+      "id": "afa951d5b0af",
       "title": "Looking for Robotic Perception and Autonomy Engineer (Mid to Senior) - on-site - Lynchburg, VA",
       "summary": "Framatome, Inc. Installed Base NDE services team in Lynchburg, VA, USA is hiring a Robotics Perception/Autonomy Software Engineer. This role is crucial for supporting the development of automated processes for non-destructive examination (NDE) that supports commercial nuclear power plants in USA, Ca",
       "source": "ROS Discourse",
       "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/looking-for-robotic-perception-and-autonomy-engineer-mid-to-senior-on-site-lynchburg-va/57074#post_1",
+      "url": "https://discourse.openrobotics.org/t/looking-for-robotic-perception-and-autonomy-engineer-mid-to-senior-on-site-lynchburg-va/57074",
       "category": "ros2",
       "tags": [
         "ros2"
       ],
-      "publishedAt": "2026-07-30T16:50:54+00:00"
+      "publishedAt": "2026-07-30T16:50:54+00:00",
+      "timeType": "published"
     },
     {
-      "id": "aeef0f0eff68",
+      "id": "188d0e0be4df",
       "title": "Jenkins version upgrade of build.ros2.org [Scheduled Buildfarm Downtime]",
       "summary": "Hello ROS Community, The OSRF Infrastructure Project is planning to update the Jenkins version of https://build.ros2.org as part of our ongoing efforts to maintain and improve the ROS buildfarm infrastructure. To facilitate this migration, the following services will experience downtime during the m",
       "source": "ROS Discourse",
       "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/jenkins-version-upgrade-of-build-ros2-org-scheduled-buildfarm-downtime/57073#post_1",
+      "url": "https://discourse.openrobotics.org/t/jenkins-version-upgrade-of-build-ros2-org-scheduled-buildfarm-downtime/57073",
       "category": "ros2",
       "tags": [
         "ros2"
       ],
-      "publishedAt": "2026-07-30T16:37:58+00:00"
-    },
-    {
-      "id": "e2e2e3daa89d",
-      "title": "Draft REP 158: OpenUSD Conventions for Simulation Asset Interoperability in Open Source Robotics",
-      "summary": "just skimming through this, and a few thoughts/questions I had: in a few places, the proposal is rather strict in terms of what it is willing to accept in order to align with REP 103, when conversion is an option. for example, it says that metersPerUnit , kilogramsPerUnit , and timeCodesPerSecond mu",
-      "source": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/draft-rep-158-openusd-conventions-for-simulation-asset-interoperability-in-open-source-robotics/55526#post_18",
-      "category": "ros2",
-      "tags": [
-        "ros2",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-30T16:25:38+00:00"
+      "publishedAt": "2026-07-30T16:37:57+00:00",
+      "timeType": "published"
     },
     {
       "id": "1215234c1f24",
@@ -144,309 +351,64 @@
       "tags": [
         "ai"
       ],
-      "publishedAt": "2026-07-30T08:57:55+00:00"
+      "publishedAt": "2026-07-30T08:57:55+00:00",
+      "timeType": "published"
     },
     {
-      "id": "679de9fbcb95",
-      "title": "终端市场的下一个增长点，高通押在了“个人AI”上",
-      "summary": "靠“堆参数换销量\"的逻辑，不再管用了",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/463204.html",
-      "category": "ai",
+      "id": "858233bda1fb",
+      "title": "Proposal: `rcl_executors` - a unified, canonical reference executor package for all client libraries",
+      "summary": "Motivation Since the Lyrical release, the client library working group has been considering various approaches to reduce the amount of bloat in rclcpp and rclpy , remove or re-implement half-baked features, make behavior more consistent and performant across the different client library implementati",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/proposal-rcl-executors-a-unified-canonical-reference-executor-package-for-all-client-libraries/57057",
+      "category": "ros2",
       "tags": [
-        "ai"
+        "ros2"
       ],
-      "publishedAt": "2026-07-30T08:06:47+00:00"
+      "publishedAt": "2026-07-29T23:26:27+00:00",
+      "timeType": "published"
     },
     {
-      "id": "b959dd88e95f",
-      "title": "GPT-5.6自己优化自己实锤了，新的左脚踩右脚已经出现",
-      "summary": "OpenAI的RSI焚诀，它来了！",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/463297.html",
-      "category": "ai",
+      "id": "43d4bedb3c73",
+      "title": "US government bans new foreign-made humanoids, robot dogs, and solar inverters, citing risks to national security",
+      "summary": "The ban largely affects U.S. imports from China, which currently dominates the global market for making humanoid robots and solar inverters.",
+      "source": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/07/29/us-government-bans-new-foreign-made-humanoids-robot-dogs-and-solar-inverters-citing-risks-to-national-security/",
+      "category": "robot",
       "tags": [
-        "ai"
+        "robot"
       ],
-      "publishedAt": "2026-07-30T07:51:14+00:00"
+      "publishedAt": "2026-07-29T17:41:09+00:00",
+      "timeType": "published"
     },
     {
-      "id": "9d60a12f97a8",
-      "title": "李飞飞的世界模型，终于开始训练机器人了",
-      "summary": "李飞飞老师的World Labs，补了块关键拼图",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/463217.html",
-      "category": "ai",
+      "id": "1543db723909",
+      "title": "How are you handling firmware updates on fleet robots without bricking one?",
+      "summary": "Been lurking here for a while, finally posting because this has been eating my week. We run a small fleet of AMRs (nothing fancy, mostly ROS 2 Humble on Jetson Orins with a couple of STM32s handling motor control and safety). The high level stack is fine, we push updates over the air and roll back i",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/how-are-you-handling-firmware-updates-on-fleet-robots-without-bricking-one/57050",
+      "category": "ros2",
       "tags": [
-        "ai"
+        "ros2"
       ],
-      "publishedAt": "2026-07-30T07:47:37+00:00"
+      "publishedAt": "2026-07-29T16:54:27+00:00",
+      "timeType": "published"
     },
     {
-      "id": "8ba66f35395a",
-      "title": "“接力跑”盘活全国算力，PD分离终于破局：延迟砍半、成本直降近40%！",
-      "summary": "最新完整技术报告出炉",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/463012.html",
-      "category": "ai",
+      "id": "6ad04ab28364",
+      "title": "ROS Deliberation Community Group Meeting - August 17, 2026",
+      "summary": "The next ROS Deliberation Community Group meeting will be held on Mon, Aug 17, 2026 3:00 PM UTC . IMPORTANT: This is an “off-cycle” meeting. We are combining the August and September meetings into this one, since we also did not want to have a meeting too close to ROSCon. This means the next meeting",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-deliberation-community-group-meeting-august-17-2026/57048",
+      "category": "ros2",
       "tags": [
-        "ai"
+        "ros2"
       ],
-      "publishedAt": "2026-07-30T06:14:43+00:00"
-    },
-    {
-      "id": "4858ac462fd3",
-      "title": "传奇AlphaFold团队全员解散！诺奖得主投奔Anthropic，资源转向Gemini",
-      "summary": "嚯，诺奖团队也被砍了",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/463123.html",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T06:14:26+00:00"
-    },
-    {
-      "id": "88a9a56afcee",
-      "title": "一年连融三轮数亿元！字节+清华姚班，重构企业软件工程",
-      "summary": "要做硬核的事情，而非摘低垂的果实",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/463013.html",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T06:10:13+00:00"
-    },
-    {
-      "id": "e9111cf3d7d7",
-      "title": "WorkBuddy重大升级，AI时代的Office来了",
-      "summary": "WorkBuddy已成为国内最受欢迎的效率智能体工具之一",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/462979.html",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T05:30:06+00:00"
-    },
-    {
-      "id": "ebe5b71663fa",
-      "title": "Towards Trustworthy Embodied Intelligence: A Systems Framework and Graded Trustworthiness Levels",
-      "summary": "arXiv:2607.26121v1 Announce Type: new \nAbstract: Embodied intelligence integrates learned perception and decision making with real-time computation, control, and physical interaction. Because failures can cause immediate physical or operational harm, task completion alone does not establish trustwor",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26121",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "322cad8bea87",
-      "title": "Embodied Agents Take Control: Minimal-Interface Zero-Shot Agents Rival Industrial-Scale Policies in Vision-and-Language Navigation",
-      "summary": "arXiv:2607.26148v1 Announce Type: new \nAbstract: Autonomous embodied agents must sustain a long decision-making loop that involves perceiving, acting, verifying, and self-correcting over many steps. Current systems sustain this loop through task-specific workflows or embodied policies. We study a th",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26148",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "b03624340ae9",
-      "title": "Multi-Objective Compliance-Integrated Coevolution For Simulated And Real-World Deployment Of Multi-Robot Marine Autonomy",
-      "summary": "arXiv:2607.26279v1 Announce Type: new \nAbstract: Collaborative robots are well-suited to maritime missions that benefit from coordination, such as the exploration of unknown reef structures, inspection of subsea infrastructure, or search-and-rescue operations. These missions typically provide sparse",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26279",
-      "category": "ai",
-      "tags": [
-        "ai",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "1634527f0687",
-      "title": "MoMo: Dial Motion Mode in Robot Manipulation with Spatiotemporal Action Tokenization",
-      "summary": "arXiv:2607.26315v1 Announce Type: new \nAbstract: To operate effectively across diverse contexts, robots must not only perform manipulation tasks accurately but also adapt how their actions unfold to the task, object, and interaction setting. We ask whether this execution-level variation can be learn",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26315",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "95e691faa637",
-      "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
-      "summary": "arXiv:2607.26337v1 Announce Type: new \nAbstract: Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight to",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26337",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "f61fb22a7e38",
-      "title": "Self-Adaptive Learning and Model Predictive Control for Tracking Unknown Dynamics with No Regret",
-      "summary": "arXiv:2607.26370v1 Announce Type: new \nAbstract: We propose a self-adaptive online learning for control method for tracking unknown target dynamics. The target dynamics can exhibit switching behavior, particularly, a mixture of structured, random, and/or adversarial motion. Such challenging target t",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26370",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "7077055b2d4d",
-      "title": "Reinforcement Learning on Cost-Constrained Quadrupedal Hardware",
-      "summary": "arXiv:2607.26434v2 Announce Type: new \nAbstract: Deploying learned control policies on low-cost robotic platforms introduces transport latencies and noisy motor feedback that systematically widens the sim-to-real gap. The chasm of simulation to deployment in hardware lies in the delay of the actuato",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26434",
-      "category": "ai",
-      "tags": [
-        "sensor",
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "971272d4ebbf",
-      "title": "RLMM-Flow: A Flow-based Mobile Manipulation Framework with Latent-Space Reinforcement Learning",
-      "summary": "arXiv:2607.26460v1 Announce Type: new \nAbstract: Mobile manipulation requires generating whole-body action chunks that jointly satisfy goal reaching, collision avoidance, base kinematic constraints, manipulator joint limits, and trajectory smoothness. Flow-based generative policies provide an effici",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26460",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "2ae9057c4386",
-      "title": "Explicit Kinematic Guidance from Analytic Concepts for Vision-Language-Action Models",
-      "summary": "arXiv:2607.26513v1 Announce Type: new \nAbstract: Current Vision-Language-Action (VLA) models rely mainly on 2D inputs, neglecting the rich object structural information and commonsense knowledge inherent in the 3D physical world. This deficiency restricts their spatial awareness and adaptability for",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26513",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "0ebf92812ca7",
-      "title": "Speech2Grasp: Data-Efficient Transfer of Text-Conditioned Grasp Detection to Speech in Humanoid Robots",
-      "summary": "arXiv:2607.26567v1 Announce Type: new \nAbstract: Humanoid robots increasingly require multi-modal understanding for natural interaction with humans. Despite the prominence of vision-language models, they generally assume textual rather than the more natural speech inputs. In this paper, we investiga",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26567",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "ab6b9ec0356e",
-      "title": "Semi-Decentralized Multi-Spacecraft Collision Avoidance under Communication Constraints",
-      "summary": "arXiv:2607.26570v1 Announce Type: new \nAbstract: Current spacecraft collision-avoidance operations rely on intermittent ground-station contacts, requiring operators to plan with delayed and asynchronously updated information. Consequently, maneuvers must be planned with only intermittent information",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26570",
-      "category": "ai",
-      "tags": [
-        "ai",
-        "camera"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "15ff2532cb50",
-      "title": "ContactFlow: A video action conditioning that transfers across embodiments",
-      "summary": "arXiv:2607.26579v1 Announce Type: new \nAbstract: World models offer a promising route toward robot planning by enabling agents to imagine and verify the consequences of actions before execution. However, current video-based world models often struggle to capture the physical constraints that govern ",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26579",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "c11a95ad9677",
-      "title": "Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control",
-      "summary": "arXiv:2607.26657v1 Announce Type: new \nAbstract: World generative models are typically used through what they produce: a rendered future, a video-conditioned action, or latent context computed by a costly generative branch. We argue that their more reusable asset is the computation that constructs a",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26657",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "ac077c5847c9",
-      "title": "ActSWM: Action-Sensitive World Models for Long-Horizon Planning in Open-World Games",
-      "summary": "arXiv:2607.26712v1 Announce Type: new \nAbstract: Latent world models support efficient model-predictive control by optimizing future control sequences in latent space and replanning in a receding-horizon manner. However, existing latent predictors often lack stable long-horizon rollout ability, and ",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26712",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "dece0f20fe6c",
-      "title": "Vision-TL-Action: Neuro-Symbolic Trajectory Generation from Visual Observations and Temporal Logic",
-      "summary": "arXiv:2607.26770v1 Announce Type: new \nAbstract: Temporal logic (TL) provides a compositional language for the formulation of long horizon robotic tasks, but existing TL-conditioned trajectory generators can sidestep perception-to-symbol binding by encoding exact object geometry in the task graph. W",
-      "source": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2607.26770",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T04:00:00+00:00"
-    },
-    {
-      "id": "482eb373be80",
-      "title": "这这这…翁荔光速回OpenAI上班了",
-      "summary": "6位联合创始人——只剩2名。",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/462947.html",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-30T00:31:19+00:00"
+      "publishedAt": "2026-07-29T15:43:41+00:00",
+      "timeType": "published"
     },
     {
       "id": "b36b96767588",
@@ -459,7 +421,8 @@
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-07-29T14:53:15+00:00"
+      "publishedAt": "2026-07-29T14:53:15+00:00",
+      "timeType": "published"
     },
     {
       "id": "419566e07bad",
@@ -472,349 +435,8 @@
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-07-29T14:11:19+00:00"
-    },
-    {
-      "id": "1c36e7ce74e4",
-      "title": "中科院院士对话北电数智AI专家：以 AI 与数学 “乘法效应” 开辟产业落地新路径",
-      "summary": "中科院、北电数智等专家共探数学与AI边界",
-      "source": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/07/462943.html",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-07-29T11:25:21+00:00"
-    },
-    {
-      "id": "87fc1e37b36f",
-      "title": "Registration is open for RoboBusiness 2026",
-      "summary": "This year, join us in October in Santa Clara to celebrate 20 years of robotics excellence at RoboBusiness 2026. The post Registration is open for RoboBusiness 2026 appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/registration-is-open-for-robobusiness-2026/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-28T20:54:46+00:00"
-    },
-    {
-      "id": "082dbe8d8c70",
-      "title": "ENvue Medical develops robotic feeding tube placement system",
-      "summary": "ENvue Drive is designed to assist, not replace, the clinician, who retains full control of the procedure at all times. The post ENvue Medical develops robotic feeding tube placement system appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/envue-medical-develops-robotic-feeding-tube-placement-system/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-28T19:00:55+00:00"
-    },
-    {
-      "id": "1a25adb47742",
-      "title": "Agency Tool Company wants to make OTA software updates easier",
-      "summary": "Two Scythe co-founders are using their experience building commercial robots to create tools for robotics developers at Agency Tool Co. The post Agency Tool Company wants to make OTA software updates easier appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/agency-tool-company-wants-to-make-ota-software-updates-easier/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-28T14:59:58+00:00"
-    },
-    {
-      "id": "ba6ea16a6fcd",
-      "title": "How integrated actuators improve humanoid robot joint performance and system integration",
-      "summary": "Humanoid robots have become an important area of research in robotics, attracting attention from universities, research institutions, and technology companies. The post How integrated actuators improve humanoid robot joint performance and system integration appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/how-integrated-actuators-improve-humanoid-robot-joint-performance-and-system-integration/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-28T13:25:37+00:00"
-    },
-    {
-      "id": "a0cb097e8386",
-      "title": "NORD expands compact NORDAC VFD family to 200 hp",
-      "summary": "NORD Drivesystems said its NORDAC PRO VFDs are adaptable to individual application requirements across industries. The post NORD expands compact NORDAC VFD family to 200 hp appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/nord-expands-nordac-compact-vfd-family-to-200-hp/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-27T17:37:59+00:00"
-    },
-    {
-      "id": "7e6c244700b2",
-      "title": "Kraken Technology raises Series B funding for autonomous vessels",
-      "summary": "Kraken Technology plans to use its funding to continue developing uncrewed surface vessels and localizing manufacturing around the world. The post Kraken Technology raises Series B funding for autonomous vessels appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/kraken-technology-raises-series-b-funding-autonomous-vessels/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-27T14:02:10+00:00"
-    },
-    {
-      "id": "aac68ee0f987",
-      "title": "Magmotor makes motors for a changing world for 150+ years",
-      "summary": "Magmotor has been providing motors for demanding use cases for decades and offers custom systems for robotics. The post Magmotor makes motors for a changing world for 150+ years appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/magmotor-makes-motors-changing-world-150-years/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-26T12:30:51+00:00"
-    },
-    {
-      "id": "beeed9452a16",
-      "title": "Photos: First look at J&J’s Ottava surgical robot",
-      "summary": "The robot-in-table design is meant to save space in the operating room, with J&J saying its novel architecture takes up 30-50% less space than boom-and-cart systems. The post Photos: First look at J&J’s Ottava surgical robot appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/photos-first-look-at-jjs-ottava-surgical-robot/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-25T14:00:13+00:00"
-    },
-    {
-      "id": "a7d1172a937f",
-      "title": "Generalist’s GEN-1 foundation model now supports a range of robot end effectors",
-      "summary": "By training GEN-1 to work with new hands, Generalist said a single base model can learn sensorimotor policies on different robots. The post Generalist’s GEN-1 foundation model now supports a range of robot end effectors appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/generalists-gen-1-foundation-model-now-supports-a-range-of-robot-end-effectors/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T18:23:42+00:00"
-    },
-    {
-      "id": "ef9faf0af9fe",
-      "title": "How time series databases unlock real-time data for robotics",
-      "summary": "Discover how time series databases help robotics teams manage high-volume sensor data, power AI insights, and keep systems running at scale. The post How time series databases unlock real-time data for robotics appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/how-time-series-databases-unlock-real-time-data-for-robotics/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-24T16:28:39+00:00"
-    },
-    {
-      "id": "7699a0ca06d9",
-      "title": "New AI blood test predicts heart disease 15 years early",
-      "summary": "A new AI-powered blood test could give people a remarkably early warning of serious heart and circulation problems. Developed by researchers at the University of Hong Kong, CardiOmicScore analyzes thousands of proteins and metabolites to estimate the risk of six major cardiovascular diseases, includ",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/07/260716023603.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-19T14:58:00+00:00"
-    },
-    {
-      "id": "b367bc562b07",
-      "title": "Alan Turing's biggest AI assumption may have been wrong",
-      "summary": "A new book claims AI has been built on a flawed assumption dating back to Alan Turing's famous 1950 paper. Peter J. Denning argues that the most important parts of human intelligence, including common sense, intuition, culture, and practical know-how, cannot be encoded into computers. He believes th",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/07/260713084850.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-14T03:12:35+00:00"
-    },
-    {
-      "id": "3941d63514ab",
-      "title": "Scientists discovered the brain doesn't make decisions the way we thought",
-      "summary": "A new study suggests the brain begins making decisions much earlier than scientists previously thought. Researchers found that even primary sensory regions are influenced by higher brain areas through rapid feedback loops, rather than simply passing information forward. This more dynamic view of bra",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/07/260712011757.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-13T12:12:27+00:00"
-    },
-    {
-      "id": "8d6d6be1f947",
-      "title": "Harvard scientists turn a silicon chip into a DNA writing machine",
-      "summary": "Scientists have created a silicon chip that can write dozens of DNA sequences simultaneously using electricity and water-based enzymes, offering a cleaner alternative to conventional DNA manufacturing. The breakthrough could eventually support portable DNA-writing devices and even massive DNA data s",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/07/260708022202.htm",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-09T02:48:06+00:00"
-    },
-    {
-      "id": "15a66ed4f6ba",
-      "title": "Scientists used AI to crack one of water's biggest mysteries",
-      "summary": "Water’s odd behavior becomes even more dramatic when it is supercooled, but scientists have struggled to compare the many different ways of describing its microscopic structure. Researchers at the University of Osaka used an AI model trained on computer simulations to evaluate 16 different structura",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/07/260707025047.htm",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-08T22:31:30+00:00"
-    },
-    {
-      "id": "071c6ec4bb9a",
-      "title": "New AI model reveals how neutron star mergers forge heavy elements",
-      "summary": "Researchers have created an AI-based simulation that makes it much faster to model how neutron star mergers produce many of the universe's heaviest elements. The new tool could improve predictions of these powerful explosions while helping scientists better connect observations in space with experim",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260626030426.htm",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "sensor"
-      ],
-      "publishedAt": "2026-07-08T04:07:40+00:00"
-    },
-    {
-      "id": "37db88ada3b6",
-      "title": "Millions of exploding stars could soon reveal dark energy's secrets",
-      "summary": "A new AI-powered framework could transform how astronomers measure the expansion of the Universe. By analyzing images of Type Ia supernovae and modeling their environments in unprecedented detail, researchers can estimate cosmic distances with near-spectroscopic accuracy. The technique is designed f",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260621060315.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-06-29T21:57:17+00:00"
-    },
-    {
-      "id": "2207243ad4b1",
-      "title": "SpaceX wants to build AI data centers in space. Will it work?",
-      "summary": "The race to build data centers in space is gaining momentum as AI drives unprecedented demand for computing power. Orbital facilities could tap into abundant solar energy and avoid many of the environmental challenges faced on Earth. Yet space remains a harsh and expensive place to operate, with maj",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260618041501.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-06-19T03:43:09+00:00"
-    },
-    {
-      "id": "4d074d29d2da",
-      "title": "Scientists discover a strange property in rice and turn it into a smart material",
-      "summary": "Scientists discovered that rice behaves in a highly unusual way: it weakens under rapid compression but stays stronger when pressure is applied slowly. Using this effect, they engineered a new material that reacts differently to gentle movements and sudden impacts. The material can adapt its stiffne",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260611024621.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-06-11T12:29:52+00:00"
-    },
-    {
-      "id": "e3d8770c6083",
-      "title": "AI could uncover new physics faster but there’s a surprising catch",
-      "summary": "Scientists found that transfer learning can make the search for new physics in the universe much faster, slashing the need for expensive simulations. Yet the approach can backfire when AI relies too heavily on familiar patterns, potentially missing evidence of something truly new.",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260611024557.htm",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "sensor"
-      ],
-      "publishedAt": "2026-06-11T09:16:15+00:00"
-    },
-    {
-      "id": "a31d2f43ac74",
-      "title": "A classic brain test exposed AI's biggest weakness",
-      "summary": "Researchers gave top AI models a classic attention test used in psychology and found a major flaw. While the models could correctly name colors in short lists, their performance deteriorated sharply as the task became longer and more complex. Some leading systems fell from over 90% accuracy to nearl",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260610003049.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-06-10T10:52:17+00:00"
-    },
-    {
-      "id": "6f494ec48897",
-      "title": "AI-designed universal coronavirus vaccine passes first human trial",
-      "summary": "Scientists have successfully tested an AI-designed universal coronavirus vaccine in humans for the first time, finding it to be safe and well tolerated. The vaccine generated immune responses against multiple coronaviruses, including SARS-CoV-2, SARS, and related bat viruses with pandemic potential.",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260605023357.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-06-05T15:42:19+00:00"
-    },
-    {
-      "id": "b871a7d2af3c",
-      "title": "Scientists are seriously asking if bees and ChatGPT are conscious",
-      "summary": "New studies suggest consciousness can't be judged solely by behavior, whether it's a chatbot discussing philosophy or a bee searching for nectar. Researchers are increasingly focusing on the internal mechanisms of brains and computers, concluding that today's AI is likely not conscious while leaving",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260604044258.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-06-05T05:27:32+00:00"
-    },
-    {
-      "id": "a56c0cd3285e",
-      "title": "The forgotten organ that could predict how long you live",
-      "summary": "A long-overlooked organ may hold surprising clues to healthy aging and cancer survival. Researchers at Mass General Brigham used AI to analyze CT scans from tens of thousands of adults and found that people with healthier thymuses—a small immune-system organ once thought to become largely irrelevant",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/06/260601025352.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-06-01T10:17:04+00:00"
-    },
-    {
-      "id": "6d2c5dc96c5e",
-      "title": "New 3D silicon chip breakthrough could extend Moore’s Law for years",
-      "summary": "As traditional chip miniaturization slows, researchers have found a way to pack more computing power into the same space by stacking silicon circuits in multiple layers. The new process uses ultra-thin silicon membranes and low-temperature manufacturing techniques to overcome a major obstacle that h",
-      "source": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/05/260530053412.htm",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-05-30T10:26:24+00:00"
+      "publishedAt": "2026-07-29T14:11:19+00:00",
+      "timeType": "published"
     }
   ],
   "categories": [
@@ -849,6 +471,64 @@
       "icon": "connection"
     }
   ],
-  "total": 62,
-  "generatedAt": "2026-07-31T02:52:02.454535+00:00"
+  "total": 31,
+  "generatedAt": "2026-07-31T13:23:16.956459+00:00",
+  "freshness": {
+    "windowHours": 48,
+    "sourceCount": 6,
+    "newestPublishedAt": "2026-07-31T12:49:07+00:00",
+    "oldestPublishedAt": "2026-07-29T14:11:19+00:00"
+  },
+  "sourceHealth": [
+    {
+      "name": "ROS Discourse",
+      "count": 7,
+      "status": "ok"
+    },
+    {
+      "name": "IEEE Spectrum Robotics",
+      "count": 0,
+      "status": "empty"
+    },
+    {
+      "name": "The Robot Report",
+      "count": 6,
+      "status": "ok"
+    },
+    {
+      "name": "arXiv CS.RO",
+      "count": 15,
+      "status": "ok"
+    },
+    {
+      "name": "TechCrunch Robotics",
+      "count": 1,
+      "status": "ok"
+    },
+    {
+      "name": "MIT Robotics",
+      "count": 1,
+      "status": "ok"
+    },
+    {
+      "name": "ScienceDaily Robotics",
+      "count": 0,
+      "status": "empty"
+    },
+    {
+      "name": "Google DeepMind",
+      "count": 0,
+      "status": "empty"
+    },
+    {
+      "name": "机器之心",
+      "count": 0,
+      "status": "empty"
+    },
+    {
+      "name": "量子位",
+      "count": 1,
+      "status": "ok"
+    }
+  ]
 }

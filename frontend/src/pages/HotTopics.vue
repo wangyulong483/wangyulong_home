@@ -5,6 +5,12 @@
     <div class="header">
       <h1><AppIcon icon="microchip" size="26" /> 行业热点</h1>
       <p class="subtitle">机器人 · 传感器 · AI 每日动态</p>
+      <div v-if="data" class="freshness-line" :class="`is-${freshnessState}`">
+        <span class="freshness-dot"></span>
+        <span>{{ freshnessLabel }}</span>
+        <span v-if="lastUpdatedLabel" class="updated-at">更新于 {{ lastUpdatedLabel }}</span>
+        <span v-if="dataOrigin === 'archive'" class="data-origin">当前展示最近一次真实归档</span>
+      </div>
     </div>
 
     <!-- 加载状态 -->
@@ -69,6 +75,9 @@
         <span>共 <strong>{{ filteredItems.length }}</strong> 条热点</span>
         <span v-if="searchQuery" class="stats-filtered">（已筛选）</span>
         <span class="stats-source">来源：{{ sourceCount }} 个信息源</span>
+        <span v-if="data?.freshness?.windowHours" class="stats-window">
+          时间窗：{{ data.freshness.windowHours }} 小时
+        </span>
       </div>
 
       <!-- 热点列表 -->
@@ -117,18 +126,8 @@ import { ref, computed, onMounted } from 'vue'
 import AppIcon from '@/shared/components/AppIcon.vue'
 
 const FALLBACK_DATA = {
-  date: new Date().toISOString().slice(0, 10),
+  date: null,
   items: [
-    { id: "a1b2c3d4e5f6", title: "ROS 2 Jazzy Jalisco 正式发布 — 全新 LTS 版本带来多项改进", summary: "Open Robotics 宣布 ROS 2 最新 LTS 版本 Jazzy Jalisco 正式发布，支持 Ubuntu 24.04，改进了导航栈、实时性能和 DDS 中间件兼容性。", source: "ROS Discourse", sourceIcon: "ros", url: "https://discourse.openrobotics.org/", category: "ros2", tags: ["ros2", "release"], publishedAt: "2026-07-10T14:30:00Z" },
-    { id: "b2c3d4e5f6a1", title: "特斯拉 Optimus 人形机器人进入量产阶段，目标年产 10 万台", summary: "特斯拉在 Q2 财报电话会上宣布 Optimus 人形机器人已进入试量产，2026 年目标产量 5-10 万台。", source: "The Robot Report", sourceIcon: "robot-report", url: "https://www.therobotreport.com/", category: "robot", tags: ["robot", "humanoid"], publishedAt: "2026-07-10T10:15:00Z" },
-    { id: "c3d4e5f6a1b2", title: "速腾聚创发布新一代 512 线激光雷达，测距突破 300 米", summary: "速腾聚创发布 RS-LiDAR-M2，512 线束、最远探测距离 300 米，专为 L4 自动驾驶和机器人设计。", source: "机器之心", sourceIcon: "jiqizhixin", url: "https://www.jiqizhixin.com/", category: "lidar", tags: ["lidar", "sensor"], publishedAt: "2026-07-10T09:00:00Z" },
-    { id: "d4e5f6a1b2c3", title: "Intel RealSense D457 深度相机：室内外通用，IP65 防护", summary: "Intel 推出 RealSense D457 立体深度相机，首次支持户外强光环境，IP65 防水防尘。", source: "IEEE Spectrum", sourceIcon: "ieee", url: "https://spectrum.ieee.org/", category: "camera", tags: ["camera", "sensor", "depth-camera"], publishedAt: "2026-07-10T08:45:00Z" },
-    { id: "e5f6a1b2c3d4", title: "YOLOv12：端到端目标检测新范式，推理速度提升 3 倍", summary: "Ultralytics 发布 YOLOv12，Anchor-Free + Transformer 混合架构，推理速度提升 3 倍。", source: "GitHub Trending", sourceIcon: "github", url: "https://github.com/ultralytics/ultralytics", category: "ai", tags: ["ai", "yolo", "detection"], publishedAt: "2026-07-10T07:20:00Z" },
-    { id: "f6a1b2c3d4e5", title: "具身智能赛道融资再创新高：上半年国内突破 200 亿元", summary: "2026 年上半年中国具身智能领域融资超 60 起，总金额突破 200 亿元，宇树科技、银河通用等估值超百亿。", source: "机器之心", sourceIcon: "jiqizhixin", url: "https://www.jiqizhixin.com/", category: "ai", tags: ["ai", "embodied-ai", "robot"], publishedAt: "2026-07-09T16:00:00Z" },
-    { id: "a1c2e3f4d5b6", title: "Nav2 发布新版：支持多机器人协同导航与动态障碍物预测", summary: "ROS 2 Navigation2 最新版本新增多机器人协同导航功能，支持动态障碍物轨迹预测与协同避障。", source: "ROS Discourse", sourceIcon: "ros", url: "https://discourse.openrobotics.org/", category: "ros2", tags: ["ros2", "nav2", "navigation"], publishedAt: "2026-07-09T12:10:00Z" },
-    { id: "b2d4f6a1c3e5", title: "基于 Gaussian Splatting 的实时 3D 重建：机器人 SLAM 新思路", summary: "arXiv 新论文提出将 3DGS 与 SLAM 结合，实现实时高精度 3D 场景重建，有望替代传统点云地图。", source: "arXiv CS.RO", sourceIcon: "arxiv", url: "https://arxiv.org/", category: "ai", tags: ["ai", "slam", "gaussian-splatting", "camera"], publishedAt: "2026-07-09T08:30:00Z" },
-    { id: "c3e5a1b2d4f6", title: "波士顿动力推出全新电驱动 Atlas：更强、更安静、更便宜", summary: "波士顿动力正式推出全电驱动新 Atlas，负载提升 50%，噪音降低 80%，开始接受商业订单。", source: "TechCrunch", sourceIcon: "techcrunch", url: "https://techcrunch.com/", category: "robot", tags: ["robot", "humanoid"], publishedAt: "2026-07-08T15:00:00Z" },
-    { id: "d4f6b2c3e5a1", title: "六维力传感器国产替代加速：宇立仪器拿下人形机器人亿元订单", summary: "国内六维力/力矩传感器厂商宇立仪器获得头部人形机器人公司亿元级订单，标志着力传感器进入量产阶段。", source: "机器之心", sourceIcon: "jiqizhixin", url: "https://www.jiqizhixin.com/", category: "sensor", tags: ["sensor", "torque-sensor", "robot"], publishedAt: "2026-07-08T11:30:00Z" },
   ],
   categories: [
     { key: "ros2", label: "ROS2", icon: "settings" },
@@ -138,13 +137,15 @@ const FALLBACK_DATA = {
     { key: "ai", label: "AI", icon: "microchip" },
     { key: "sensor", label: "传感器", icon: "connection" },
   ],
-  total: 10,
-  generatedAt: new Date().toISOString(),
+  total: 0,
+  generatedAt: null,
+  fallback: true,
 }
 
 const data = ref(null)
 const loading = ref(true)
 const error = ref(null)
+const dataOrigin = ref('live')
 const targetDate = ref(null)
 const archiveDates = ref([])
 const activeCategory = ref('')
@@ -192,9 +193,42 @@ const sourceCount = computed(() => {
   return sources.size
 })
 
+const freshnessAgeHours = computed(() => {
+  if (!data.value?.generatedAt) return Infinity
+  const generatedAt = new Date(data.value.generatedAt).getTime()
+  if (!Number.isFinite(generatedAt)) return Infinity
+  return Math.max(0, (Date.now() - generatedAt) / 3_600_000)
+})
+
+const freshnessState = computed(() => {
+  if (!isToday.value) return 'archive'
+  if (freshnessAgeHours.value <= 6) return 'fresh'
+  if (freshnessAgeHours.value <= 24) return 'delayed'
+  return 'stale'
+})
+
+const freshnessLabel = computed(() => {
+  if (!isToday.value) return '历史归档'
+  if (freshnessState.value === 'fresh') return '数据已同步'
+  if (freshnessState.value === 'delayed') return '数据更新延迟'
+  return '数据已过期'
+})
+
+const lastUpdatedLabel = computed(() => {
+  if (!data.value?.generatedAt) return ''
+  const date = new Date(data.value.generatedAt)
+  if (Number.isNaN(date.getTime())) return ''
+  return new Intl.DateTimeFormat('zh-CN', {
+    month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
+  }).format(date)
+})
+
 function getTodayStr() {
   const d = new Date()
-  return d.toISOString().slice(0, 10)
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 function formatDate(isoStr) {
@@ -223,6 +257,7 @@ const SOURCE_ICONS = {
   '机器之心': 'microchip', '36氪': 'lightning', '量子位': 'target', 'InfoQ 中国': 'book',
   '少数派': 'star', 'ScienceDaily Robotics': 'document', 'Reddit r/robotics': 'message',
   'TechCrunch': 'share', 'TechCrunch Robotics': 'share', 'ROS 2 GitHub Discussions': 'code',
+  'MIT Robotics': 'book', 'Google DeepMind': 'microchip',
   'AWS Robotics Blog': 'cloud-download',
 }
 
@@ -242,31 +277,84 @@ function goToNextDay() {
 
 function goToToday() { fetchTopics(null) }
 
+async function requestJson(url) {
+  const requestUrl = new URL(url, window.location.origin)
+  requestUrl.searchParams.set('_', Date.now().toString())
+  const resp = await fetch(requestUrl, { cache: 'no-store' })
+  if (!resp.ok) throw new Error('HTTP ' + resp.status)
+  const contentType = resp.headers.get('content-type') || ''
+  if (contentType.includes('text/html')) throw new Error('返回了页面而不是 JSON 数据')
+  return {
+    payload: await resp.json(),
+    origin: resp.headers.get('x-topics-origin') || 'static',
+  }
+}
+
+async function requestTopics(date) {
+  const apiUrl = date ? `/api/topics?date=${encodeURIComponent(date)}` : '/api/topics'
+  const staticUrl = date
+    ? `/topics-data/archive/${encodeURIComponent(date)}.json`
+    : '/topics-data/hot-topics.json'
+
+  try {
+    return await requestJson(apiUrl)
+  } catch {
+    return requestJson(staticUrl)
+  }
+}
+
+async function loadArchiveDates() {
+  if (archiveDates.value.length) return archiveDates.value
+  try {
+    let result
+    try {
+      result = await requestJson('/api/topics/archive-index')
+    } catch {
+      result = await requestJson('/topics-data/archive/index.json')
+    }
+    archiveDates.value = Array.isArray(result.payload) ? result.payload : []
+  } catch {
+    archiveDates.value = []
+  }
+  return archiveDates.value
+}
+
 async function fetchTopics(date) {
   loading.value = true
   error.value = null
   targetDate.value = date
 
   try {
-    let url = date ? '/topics-data/archive/' + date + '.json' : '/topics-data/hot-topics.json'
-    const resp = await fetch(url)
-    if (!resp.ok) throw new Error('HTTP ' + resp.status)
-    const ct = resp.headers.get('content-type') || ''
-    if (ct.includes('text/html')) {
-      if (!date) { data.value = FALLBACK_DATA } else { throw new Error('归档数据暂不可用') }
-    } else { data.value = await resp.json() }
+    const result = await requestTopics(date)
+    if (!Array.isArray(result.payload?.items)) throw new Error('热点数据结构无效')
+    data.value = result.payload
+    dataOrigin.value = date ? 'archive' : result.origin
   } catch (e) {
-    if (!date) { data.value = FALLBACK_DATA; error.value = null } else { error.value = e.message }
-  } finally { loading.value = false }
-
-  if (archiveDates.value.length === 0) {
-    try {
-      const resp = await fetch('/topics-data/archive/index.json')
-      if (resp.ok && !((resp.headers.get('content-type') || '').includes('text/html'))) {
-        archiveDates.value = await resp.json()
+    if (!date) {
+      const dates = await loadArchiveDates()
+      const latestArchive = dates[0]?.date
+      if (latestArchive) {
+        try {
+          const result = await requestTopics(latestArchive)
+          data.value = result.payload
+          dataOrigin.value = 'archive'
+          targetDate.value = latestArchive
+        } catch {
+          data.value = FALLBACK_DATA
+          error.value = '暂时无法获取真实热点数据'
+        }
+      } else {
+        data.value = FALLBACK_DATA
+        error.value = '暂时无法获取真实热点数据'
       }
-    } catch { /* ignore */ }
+    } else {
+      error.value = e.message || '归档数据暂不可用'
+    }
+  } finally {
+    loading.value = false
   }
+
+  await loadArchiveDates()
 }
 
 onMounted(() => fetchTopics(null))
@@ -279,6 +367,17 @@ onMounted(() => fetchTopics(null))
 .header { text-align: center; padding: 36px 0 24px; }
 .header h1 { color: var(--text-primary); font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; }
 .subtitle { color: var(--text-tertiary); font-size: 0.9rem; margin-top: 6px; }
+.freshness-line {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 7px;
+  margin-top: 12px; color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.68rem;
+}
+.freshness-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-tertiary); }
+.freshness-line.is-fresh .freshness-dot { background: var(--signal); box-shadow: 0 0 9px rgba(234, 255, 87, 0.55); }
+.freshness-line.is-delayed .freshness-dot { background: #e8b55d; }
+.freshness-line.is-stale .freshness-dot { background: #e66a72; }
+.freshness-line.is-archive .freshness-dot { background: var(--accent); }
+.updated-at, .data-origin { color: var(--text-tertiary); }
+.data-origin { padding-left: 7px; border-left: 1px solid var(--border); }
 
 /* -------- 工具栏 -------- */
 .toolbar { margin-bottom: 16px; }
@@ -318,6 +417,7 @@ onMounted(() => fetchTopics(null))
 .stats-bar { margin-bottom: 14px; padding: 0 4px; font-size: 0.82rem; color: var(--text-tertiary); }
 .stats-filtered { margin-left: 4px; }
 .stats-source { margin-left: 12px; opacity: 0.7; }
+.stats-window { margin-left: 12px; opacity: 0.7; }
 
 /* -------- 热点列表 -------- */
 .topic-list { display: flex; flex-direction: column; gap: 12px; }
@@ -356,6 +456,7 @@ onMounted(() => fetchTopics(null))
   .header h1 { font-size: 1.4rem; }
   .header { padding: 24px 0; }
   .subtitle { font-size: 0.85rem; }
+  .freshness-line { padding: 0 12px; font-size: 0.62rem; }
 
   .category-tabs { gap: 6px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
   .category-tabs::-webkit-scrollbar { display: none; }
