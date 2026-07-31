@@ -2,6 +2,34 @@
   "date": "2026-08-01",
   "items": [
     {
+      "id": "3f80cbd01fa4",
+      "title": "ROS News for the Week of July 27th, 2026",
+      "summary": "ROS News for the Week of July 27th, 2026 ROSCon Japan in Tsukuba is happening next week! We’re really looking forward to seeing all of the cool projects happening in Japan right now. Our next ROS By-The-Bay will happen on Thursday, August 13th, at the InOrbit Robot Space in Mountain View. We’ve got ",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros-news-for-the-week-of-july-27th-2026/57096",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-31T19:20:24+00:00",
+      "timeType": "published"
+    },
+    {
+      "id": "d5da9816c875",
+      "title": "VectorField Planner: 7 µs global path queries with strict optimality — REST API for occupancy grids, Nav2 plugin on roadmap",
+      "summary": "Hi all, I’ve been working on a global planning engine aimed at warehouse/fleet deployments, and I just opened a free API tier. I’d love feedback from people running real Nav2 fleets. What it does You upload an occupancy grid once. It solves a field for your goal (charging station, pick station, dock",
+      "source": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/vectorfield-planner-7-s-global-path-queries-with-strict-optimality-rest-api-for-occupancy-grids-nav2-plugin-on-roadmap/57094",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-07-31T17:02:06+00:00",
+      "timeType": "published"
+    },
+    {
       "id": "a5fe5216b704",
       "title": "A new tool to create ros2 package with executables, c++ and Python node in one package",
       "summary": "site: GitHub - yjphhw/ros2_pkg_create: A utility script for generating ROS 2 package templates that support both C++ and Python nodes, simplifying mixed-language development within a single package. · GitHub useage is very easy, just download the ros2_pkg_create.py and put in a workspace(direction),",
@@ -52,8 +80,8 @@
       "url": "https://arxiv.org/abs/2607.27494",
       "category": "ai",
       "tags": [
-        "ai",
-        "sensor"
+        "sensor",
+        "ai"
       ],
       "publishedAt": "2026-07-31T04:00:00+00:00",
       "timeType": "published"
@@ -381,20 +409,6 @@
       ],
       "publishedAt": "2026-07-29T23:26:27+00:00",
       "timeType": "published"
-    },
-    {
-      "id": "43d4bedb3c73",
-      "title": "US government bans new foreign-made humanoids, robot dogs, and solar inverters, citing risks to national security",
-      "summary": "The ban largely affects U.S. imports from China, which currently dominates the global market for making humanoid robots and solar inverters.",
-      "source": "TechCrunch Robotics",
-      "sourceIcon": "techcrunch",
-      "url": "https://techcrunch.com/2026/07/29/us-government-bans-new-foreign-made-humanoids-robot-dogs-and-solar-inverters-citing-risks-to-national-security/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-29T17:41:09+00:00",
-      "timeType": "published"
     }
   ],
   "categories": [
@@ -429,18 +443,18 @@
       "icon": "connection"
     }
   ],
-  "total": 28,
-  "generatedAt": "2026-07-31T16:57:16.905102+00:00",
+  "total": 29,
+  "generatedAt": "2026-07-31T19:52:56.737485+00:00",
   "freshness": {
     "windowHours": 48,
-    "sourceCount": 6,
-    "newestPublishedAt": "2026-07-31T13:29:54+00:00",
-    "oldestPublishedAt": "2026-07-29T17:41:09+00:00"
+    "sourceCount": 5,
+    "newestPublishedAt": "2026-07-31T19:20:24+00:00",
+    "oldestPublishedAt": "2026-07-29T23:26:27+00:00"
   },
   "sourceHealth": [
     {
       "name": "ROS Discourse",
-      "count": 6,
+      "count": 8,
       "status": "ok"
     },
     {
@@ -460,8 +474,8 @@
     },
     {
       "name": "TechCrunch Robotics",
-      "count": 1,
-      "status": "ok"
+      "count": 0,
+      "status": "empty"
     },
     {
       "name": "MIT Robotics",
