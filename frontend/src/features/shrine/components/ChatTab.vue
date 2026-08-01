@@ -37,6 +37,18 @@
             <div class="message-content">
               <span class="message-sender">{{ message.role === 'assistant' ? '雷电影' : '旅者' }}</span>
               <p>{{ message.content }}</p>
+              <div v-if="message.role === 'assistant' && message.sources?.length" class="response-sources">
+                <span>本轮实时检索来源</span>
+                <a
+                  v-for="(source, sourceIndex) in message.sources"
+                  :key="`${source.url}-${sourceIndex}`"
+                  :href="source.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  [{{ sourceIndex + 1 }}] {{ source.title }} · {{ source.source }}
+                </a>
+              </div>
             </div>
           </div>
 
@@ -71,8 +83,8 @@
         <div class="source-heading">
           <AppIcon icon="document" size="17" />
           <div>
-            <strong>角色设定来源</strong>
-            <span>SOURCE INDEX / 03</span>
+            <strong>角色设定与实时检索</strong>
+            <span>SOURCE INDEX / LIVE</span>
           </div>
         </div>
 
@@ -167,7 +179,12 @@ async function sendMsg() {
     }
 
     const data = await response.json()
-    messages.push({ role: 'assistant', content: data.content || '……' })
+    messages.push({
+      role: 'assistant',
+      content: data.content || '……',
+      sources: Array.isArray(data.sources) ? data.sources.filter(source => source.url) : [],
+      retrievedAt: data.retrievedAt || null,
+    })
   } catch (error) {
     connectionError.value = `连接失败：${error.message}`
     messages.push({ role: 'assistant', content: '一心净土的门扉暂未开启……稍后再试吧，旅者。' })
@@ -276,6 +293,10 @@ onMounted(initChat)
 .message-sender { display: block; margin-bottom: 4px; color: #C9A96E; font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700; }
 .message-row.user .message-sender { color: var(--accent); text-align: right; }
 .message-content p { margin: 0; color: var(--text-secondary); font-size: 0.8rem; line-height: 1.72; white-space: pre-wrap; }
+.response-sources { display: grid; gap: 4px; margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(246, 243, 233, 0.08); }
+.response-sources > span { color: var(--signal); font-family: var(--font-mono); font-size: 0.56rem; }
+.response-sources a { color: #b8aed2; font-size: 0.62rem; line-height: 1.45; text-decoration: none; }
+.response-sources a:hover { color: var(--signal); }
 
 .message-content.typing { display: flex; align-items: center; gap: 5px; min-height: 20px; }
 .typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: typing 1.2s infinite; }

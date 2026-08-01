@@ -2,7 +2,7 @@
   <section class="knowledge-library">
     <header class="module-header">
       <div>
-        <p class="module-kicker">KNOWLEDGE BASE / {{ String(items.length).padStart(2, '0') }}</p>
+        <p class="module-kicker">KNOWLEDGE BASE / {{ String(allItems.length).padStart(2, '0') }}</p>
         <h2>攻略与角色档案</h2>
         <p class="module-meta">战斗养成 · 角色考据 · 官方机制</p>
       </div>
@@ -28,6 +28,9 @@
 
     <div class="result-line">
       <span>{{ filteredItems.length }} 篇内容</span>
+      <span v-if="searching" class="live-search-state"><i></i> 正在检索 BWIKI</span>
+      <span v-else-if="query.length >= 2 && !searchError" class="live-search-state ready"><i></i> 实时检索完成</span>
+      <span v-else-if="searchError" class="search-error">{{ searchError }}</span>
       <button v-if="hasFilters" type="button" @click="resetFilters">
         <AppIcon icon="8-ui/cross" size="11" /> 重置
       </button>
@@ -35,13 +38,13 @@
 
     <div v-if="filteredItems.length" class="guide-list">
       <article
-        v-for="item in filteredItems"
+        v-for="(item, index) in filteredItems"
         :key="item.id"
         class="guide-card"
         :class="[{ expanded: expandedId === item.id }, categoryClass(item.category)]"
       >
         <button type="button" class="guide-summary" @click="toggleExpand(item.id)" :aria-expanded="expandedId === item.id">
-          <span class="guide-index">{{ String(item.id).padStart(2, '0') }}</span>
+          <span class="guide-index">{{ String(index + 1).padStart(2, '0') }}</span>
           <span class="summary-main">
             <span class="summary-top">
               <span class="category-label">{{ item.category }}</span>
@@ -87,28 +90,42 @@
 import { computed, ref } from 'vue'
 import { marked } from 'marked'
 import AppIcon from '@/shared/components/AppIcon.vue'
+import { useShrineSearch } from '@/features/shrine/composables/useShrineSearch.js'
 
 marked.setOptions({ breaks: true, gfm: true })
 
 const props = defineProps({
-  items: { type: Array, required: true }
+  items: { type: Array, required: true },
+  liveItems: { type: Array, default: () => [] }
 })
 
 const query = ref('')
 const activeCategory = ref('all')
 const expandedId = ref(null)
+const { results: remoteResults, searching, searchError } = useShrineSearch('wiki', query)
+
+const allItems = computed(() => {
+  const merged = [...props.liveItems, ...props.items, ...remoteResults.value]
+  const seen = new Set()
+  return merged.filter(item => {
+    const key = item.sourceUrl || String(item.id)
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+})
 
 const categories = computed(() => {
-  const keys = [...new Set(props.items.map(item => item.category).filter(Boolean))]
+  const keys = [...new Set(allItems.value.map(item => item.category).filter(Boolean))]
   return [
-    { key: 'all', label: '全部', count: props.items.length },
-    ...keys.map(key => ({ key, label: key, count: props.items.filter(item => item.category === key).length }))
+    { key: 'all', label: '全部', count: allItems.value.length },
+    ...keys.map(key => ({ key, label: key, count: allItems.value.filter(item => item.category === key).length }))
   ]
 })
 
 const filteredItems = computed(() => {
   const keyword = query.value.toLowerCase()
-  return props.items.filter(item => {
+  return allItems.value.filter(item => {
     const categoryMatched = activeCategory.value === 'all' || item.category === activeCategory.value
     const text = [item.title, item.summary, item.content, item.source, item.category].join(' ').toLowerCase()
     return categoryMatched && (!keyword || text.includes(keyword))
@@ -239,6 +256,8 @@ function categoryClass(category) {
 .result-line {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
   justify-content: space-between;
   min-height: 28px;
   margin-bottom: 9px;
@@ -246,6 +265,12 @@ function categoryClass(category) {
   font-family: var(--font-mono);
   font-size: 0.65rem;
 }
+.live-search-state, .search-error { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; margin-right: 8px; }
+.live-search-state { color: var(--signal); }
+.live-search-state i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 7px currentColor; animation: live-pulse 1s infinite; }
+.live-search-state.ready i { animation: none; }
+.search-error { color: #d09aaa; }
+@keyframes live-pulse { 50% { opacity: 0.3; } }
 
 .result-line button {
   display: inline-flex;

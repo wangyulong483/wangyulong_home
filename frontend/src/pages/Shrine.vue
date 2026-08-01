@@ -58,7 +58,7 @@
           </div>
           <div class="banner-status">
             <span class="status-dot"></span>
-            ARCHIVE ONLINE
+            LIVE INDEX
           </div>
         </div>
       </div>
@@ -66,6 +66,23 @@
       <!-- Hero 区 -->
       <div class="shrine-content">
         <RaidenHero :character="data.character" />
+
+        <div class="index-status" role="status">
+          <span class="index-signal"><i></i> 实时索引已连接</span>
+          <span>每 {{ data.liveSearch?.updateIntervalHours || 6 }} 小时更新</span>
+          <span v-if="data.liveSearch?.generatedAt">索引于 {{ formatGeneratedAt(data.liveSearch.generatedAt) }}</span>
+          <span>{{ dataOrigin === 'github-main' ? 'GitHub main 数据源' : 'Pages 回退数据' }}</span>
+          <div v-if="data.liveSearch?.sources?.length" class="index-sources">
+            <a
+              v-for="source in data.liveSearch.sources"
+              :key="source.url"
+              :href="source.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              :title="source.use"
+            >{{ source.name }}</a>
+          </div>
+        </div>
 
         <!-- Tab 导航 -->
         <div class="tab-bar">
@@ -87,9 +104,9 @@
 
         <!-- Tab 内容区 -->
         <div class="tab-content">
-          <GalleryTab v-if="activeTab === 'gallery'" :items="data.gallery" :related="data.related || []" />
-          <WikiTab    v-if="activeTab === 'wiki'"    :items="data.guides" />
-          <NewsTab    v-if="activeTab === 'news'"    :items="data.news" />
+          <GalleryTab v-if="activeTab === 'gallery'" :items="data.gallery" :related="data.related || []" :live-items="data.liveSearch?.gallery || []" />
+          <WikiTab    v-if="activeTab === 'wiki'"    :items="data.guides" :live-items="data.liveSearch?.wiki || []" />
+          <NewsTab    v-if="activeTab === 'news'"    :items="data.news" :live-items="data.liveSearch?.news || []" />
           <ChatTab    v-if="activeTab === 'chat'" />
         </div>
       </div>
@@ -156,7 +173,7 @@ const FALLBACK_DATA = {
     { id: 3, title: "官方技能机制与养成速查", summary: "元素战技、元素爆发、愿力机制与培养优先级的快速索引", content: "## 角色定位\n\n雷电将军兼具全队元素爆发增益、能量回复与站场爆发三种能力。\n\n## 培养优先级\n\n1. 元素爆发\n2. 元素战技\n3. 普通攻击通常无需优先升级\n\n> 具体倍率以当前游戏客户端为准。", source: "原神官方 · 拾枝杂谈", sourceUrl: "https://www.bilibili.com/video/BV1rb4y1m7My", sourceNote: "机制描述依据官方角色资料与拾枝杂谈整理；具体倍率以游戏内当前版本为准。", category: "官方资料", date: "2026-07-30" }
   ],
   news: [
-    { id: 1, title: "雷电将军 6.7版本复刻 — 「一心净土」祈愿开启", summary: "雷电将军于6.7版本下半期（7月21日18:00至8月11日）迎来复刻，同期UP专武「薙草之稻光」。", date: "2026-07-21", tag: "游戏", url: "", source: "站内版本资料整理", sourceNote: "祈愿时间与卡池信息请以游戏内公告和原神官方公告为最终依据。" },
+    { id: 1, title: "雷电将军 6.7版本复刻 — 「一心净土」祈愿开启", summary: "雷电将军于6.7版本下半期（7月21日18:00至8月11日）迎来复刻，同期UP专武「薙草之稻光」。", date: "2026-07-21", tag: "游戏", url: "", source: "原神官方公告 · 站内整理", sourceUrl: "https://www.miyoushe.com/ys/", sourceNote: "祈愿时间与卡池信息请以游戏内公告和原神官方公告为最终依据；链接指向官方公告入口。" },
     { id: 2, title: "雷电将军「一心净土Ver.」1/7手办预售中", summary: "APEX-TOYS × miHoYo 联合出品，高35.7cm，售价1499元，预售至8月27日。初回特典含「梦想一心」武器摆件。", date: "2026-05-27", tag: "周边", url: "https://www.miyoushe.com/ys/article/75539985", source: "米游社" },
     { id: 3, title: "Nendoroid 雷电将军 黏土人 出货", summary: "Good Smile Company 出品，含三种表情及配件「梦想一心」「薙草之稻光」「团子牛奶」，2025年6月出货。", date: "2025-06-01", tag: "周边", url: "https://www.goodsmile.com/en/product/21681/Nendoroid+Raiden+Shogun", source: "Good Smile Company" },
     { id: 4, title: "角色PV「噩梦」：在失去与永恒之间", summary: "官方角色PV以梦境和回忆呈现影对失去的恐惧，并补充她追求永恒的情感动机。", date: "2021-08-23", tag: "官方档案", url: "https://www.bilibili.com/video/BV1Y3411B7SX", source: "原神官方" },
@@ -172,6 +189,7 @@ const FALLBACK_DATA = {
 const data = ref(null)
 const loading = ref(true)
 const loadError = ref(null)
+const dataOrigin = ref('static')
 
 // Tab 定义
 const tabs = [
@@ -194,10 +212,29 @@ function selectTab(key) {
 
 function tabCount(key) {
   if (!data.value) return 0
-  if (key === 'gallery') return (data.value.gallery?.length || 0) + (data.value.related?.length || 0)
+  if (key === 'gallery') {
+    return uniqueItemCount([
+      ...(data.value.liveSearch?.gallery || []),
+      ...(data.value.gallery || []),
+      ...(data.value.related || []),
+    ])
+  }
   const map = { gallery: 'gallery', wiki: 'guides', news: 'news', chat: null }
   const arr = data.value[map[key]]
-  return arr ? arr.length : 0
+  const liveMap = { wiki: 'wiki', news: 'news' }
+  return uniqueItemCount([...(data.value.liveSearch?.[liveMap[key]] || []), ...(arr || [])])
+}
+
+function uniqueItemCount(items) {
+  return new Set(items.map(item => item.sourceUrl || item.url || String(item.id))).size
+}
+
+function formatGeneratedAt(value) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return '未知时间'
+  return new Intl.DateTimeFormat('zh-CN', {
+    month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
+  }).format(date)
 }
 
 // ============================================================
@@ -209,7 +246,15 @@ async function loadData() {
   loadError.value = null
 
   try {
-    const resp = await fetch('/shrine-data/index.json')
+    let resp
+    try {
+      resp = await fetch(`/api/shrine?_=${Date.now()}`, { cache: 'no-store' })
+      if (!resp.ok) throw new Error(`API ${resp.status}`)
+      dataOrigin.value = resp.headers.get('x-shrine-origin') || 'api'
+    } catch {
+      resp = await fetch(`/shrine-data/index.json?_=${Date.now()}`, { cache: 'no-store' })
+      dataOrigin.value = 'static'
+    }
 
     if (!resp.ok) {
       throw new Error(`HTTP ${resp.status}: ${resp.statusText}`)
@@ -496,6 +541,26 @@ onMounted(() => {
   min-height: 360px;
 }
 
+.index-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  margin: 0 0 18px;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: rgba(16, 16, 21, 0.72);
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.61rem;
+}
+.index-signal { display: inline-flex; align-items: center; gap: 6px; color: var(--signal); }
+.index-signal i { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px rgba(234, 255, 87, 0.65); }
+.index-sources { display: flex; flex-wrap: wrap; gap: 5px; margin-left: auto; }
+.index-sources a { padding: 3px 6px; border: 1px solid rgba(182, 156, 255, 0.2); border-radius: 2px; color: #cfc5ec; text-decoration: none; }
+.index-sources a:hover { border-color: var(--signal); color: var(--signal); }
+
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {
   .shrine-content {
@@ -559,6 +624,9 @@ onMounted(() => {
     white-space: nowrap;
     min-height: 44px;
   }
+
+  .index-status { align-items: flex-start; flex-direction: column; }
+  .index-sources { margin-left: 0; }
 
   .tab-icon {
     flex: 0 0 auto;

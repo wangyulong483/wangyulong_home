@@ -45,6 +45,9 @@
 
     <div class="result-line">
       <span>{{ visibleVideos.length }} 项结果</span>
+      <span v-if="searching" class="live-search-state"><i></i> 正在检索实时索引</span>
+      <span v-else-if="query.length >= 2 && !searchError" class="live-search-state ready"><i></i> 实时检索完成</span>
+      <span v-else-if="searchError" class="search-error">{{ searchError }}</span>
       <button v-if="hasFilters" type="button" class="reset-btn" @click="resetFilters">
         <AppIcon icon="8-ui/cross" size="11" />
         重置
@@ -69,6 +72,7 @@
             height="720"
             loading="eager"
             decoding="async"
+            referrerpolicy="no-referrer"
             @error="coverErrors[video.id] = true"
           />
           <span v-else class="cover-fallback" aria-hidden="true">
@@ -109,14 +113,15 @@
               <span title="点赞量"><AppIcon icon="9-media/like" size="13" /> {{ formatNum(video.like) }}</span>
             </div>
             <a
-              :href="biliPage(video.url)"
+              :href="video.sourceUrl || biliPage(video.url)"
               target="_blank"
               rel="noopener noreferrer"
-              class="source-link"
+              class="source-reference"
               :aria-label="`在 B 站查看 ${video.title}`"
-              title="前往 B 站"
+              :title="video.source || '前往 B 站核对来源'"
             >
-              <AppIcon icon="8-ui/arrow-up-right" size="15" />
+              <AppIcon icon="link" size="12" />
+              <span>{{ video.source || `B站 · ${video.author}` }}</span>
             </a>
           </footer>
         </div>
@@ -170,10 +175,12 @@
 <script setup>
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
 import AppIcon from '@/shared/components/AppIcon.vue'
+import { useShrineSearch } from '@/features/shrine/composables/useShrineSearch.js'
 
 const props = defineProps({
   items: { type: Array, required: true },
-  related: { type: Array, default: () => [] }
+  related: { type: Array, default: () => [] },
+  liveItems: { type: Array, default: () => [] }
 })
 
 const query = ref('')
@@ -181,6 +188,7 @@ const sortBy = ref('curated')
 const activeCategory = ref('all')
 const activeVideo = ref(null)
 const coverErrors = reactive({})
+const { results: remoteResults, searching, searchError } = useShrineSearch('gallery', query)
 
 const categoryOrder = ['官方', 'MAD', '音乐', '混剪', 'MMD', 'COS', '展示']
 
@@ -202,7 +210,19 @@ const allVideos = computed(() => {
     .filter(item => item.platform === 'bilibili')
     .map((item, index) => ({ ...item, group: '二创', order: official.length + index }))
 
-  return [...official, ...creations].map(item => ({
+  const curated = [...official, ...creations]
+  const liveByUrl = new Map(props.liveItems.map(item => [item.url, item]))
+  const merged = curated.map(item => {
+    const live = liveByUrl.get(item.url)
+    if (!live) return item
+    liveByUrl.delete(item.url)
+    return { ...item, ...live, group: item.group, order: item.order, tags: [...new Set([...(item.tags || []), ...(live.tags || [])])] }
+  })
+  for (const live of liveByUrl.values()) {
+    merged.push({ ...live, group: '实时', order: merged.length })
+  }
+
+  return merged.map(item => ({
     ...item,
     category: resolveCategory(item, item.group),
     view: Number(item.view) || 0,
@@ -225,7 +245,16 @@ const categories = computed(() => {
 
 const visibleVideos = computed(() => {
   const keyword = query.value.toLowerCase()
-  const filtered = allVideos.value.filter(video => {
+  const pool = [...allVideos.value]
+  const seen = new Set(pool.map(item => item.sourceUrl || item.url))
+  for (const item of remoteResults.value) {
+    const key = item.sourceUrl || item.url
+    if (!seen.has(key)) {
+      seen.add(key)
+      pool.push({ ...item, group: '实时', order: pool.length, category: resolveCategory(item, '实时') })
+    }
+  }
+  const filtered = pool.filter(video => {
     const categoryMatched = activeCategory.value === 'all' || video.category === activeCategory.value
     const searchText = [video.title, video.author, video.summary, ...(video.tags || [])].join(' ').toLowerCase()
     return categoryMatched && (!keyword || searchText.includes(keyword))
@@ -448,6 +477,8 @@ onUnmounted(() => {
 .result-line {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
   justify-content: space-between;
   min-height: 28px;
   margin-bottom: 9px;
@@ -455,6 +486,12 @@ onUnmounted(() => {
   font-family: var(--font-mono);
   font-size: 0.65rem;
 }
+.live-search-state, .search-error { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; margin-right: 8px; }
+.live-search-state { color: var(--signal); }
+.live-search-state i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 7px currentColor; animation: live-pulse 1s infinite; }
+.live-search-state.ready i { animation: none; }
+.search-error { color: #d09aaa; }
+@keyframes live-pulse { 50% { opacity: 0.3; } }
 
 .reset-btn {
   display: inline-flex;
@@ -704,17 +741,22 @@ onUnmounted(() => {
   gap: 4px;
 }
 
-.source-link {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
+.source-reference {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 145px;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
   border: 1px solid var(--border);
-  border-radius: 50%;
+  border-radius: 3px;
   color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-decoration: none;
 }
-
-.source-link:hover {
+.source-reference span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source-reference:hover {
   border-color: var(--signal);
   color: var(--signal);
 }

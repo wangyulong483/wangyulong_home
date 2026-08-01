@@ -2,7 +2,7 @@
   <section class="news-library">
     <header class="module-header">
       <div>
-        <p class="module-kicker">INTELLIGENCE FEED / {{ String(items.length).padStart(2, '0') }}</p>
+        <p class="module-kicker">INTELLIGENCE FEED / {{ String(allItems.length).padStart(2, '0') }}</p>
         <h2>资讯与官方档案</h2>
         <p class="module-meta">版本动态 · 周边信息 · 官方影像档案</p>
       </div>
@@ -27,6 +27,9 @@
 
     <div class="feed-status">
       <span>{{ filteredItems.length }} 条记录</span>
+      <span v-if="searching" class="live-search-state"><i></i> 正在检索中文资讯</span>
+      <span v-else-if="query.length >= 2 && !searchError" class="live-search-state ready"><i></i> 实时检索完成</span>
+      <span v-else-if="searchError" class="search-error">{{ searchError }}</span>
       <span class="source-status"><AppIcon icon="link" size="11" /> 全部标注来源</span>
     </div>
 
@@ -39,7 +42,7 @@
         </header>
 
         <h3>
-          <a v-if="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+          <a v-if="item.sourceUrl || item.url" :href="item.sourceUrl || item.url" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
           <span v-else>{{ item.title }}</span>
         </h3>
         <p class="news-summary">{{ item.summary }}</p>
@@ -51,8 +54,8 @@
             <AppIcon icon="document" size="12" /> 来源 · {{ item.source || '站内整理' }}
           </span>
           <a
-            v-if="item.url"
-            :href="item.url"
+            v-if="item.sourceUrl || item.url"
+            :href="item.sourceUrl || item.url"
             target="_blank"
             rel="noopener noreferrer"
             class="source-link"
@@ -76,25 +79,39 @@
 <script setup>
 import { computed, ref } from 'vue'
 import AppIcon from '@/shared/components/AppIcon.vue'
+import { useShrineSearch } from '@/features/shrine/composables/useShrineSearch.js'
 
 const props = defineProps({
-  items: { type: Array, required: true }
+  items: { type: Array, required: true },
+  liveItems: { type: Array, default: () => [] }
 })
 
 const query = ref('')
 const activeTag = ref('all')
+const { results: remoteResults, searching, searchError } = useShrineSearch('news', query)
+
+const allItems = computed(() => {
+  const merged = [...props.liveItems, ...props.items, ...remoteResults.value]
+  const seen = new Set()
+  return merged.filter(item => {
+    const key = item.sourceUrl || item.url || String(item.id)
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+})
 
 const tags = computed(() => {
-  const keys = [...new Set(props.items.map(item => item.tag).filter(Boolean))]
+  const keys = [...new Set(allItems.value.map(item => item.tag).filter(Boolean))]
   return [
-    { key: 'all', label: '全部', count: props.items.length },
-    ...keys.map(key => ({ key, label: key, count: props.items.filter(item => item.tag === key).length }))
+    { key: 'all', label: '全部', count: allItems.value.length },
+    ...keys.map(key => ({ key, label: key, count: allItems.value.filter(item => item.tag === key).length }))
   ]
 })
 
 const filteredItems = computed(() => {
   const keyword = query.value.toLowerCase()
-  return props.items
+  return allItems.value
     .filter(item => {
       const tagMatched = activeTag.value === 'all' || item.tag === activeTag.value
       const text = [item.title, item.summary, item.source, item.tag].join(' ').toLowerCase()
@@ -177,6 +194,8 @@ function formatDate(value) {
 .feed-status {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
   justify-content: space-between;
   min-height: 28px;
   margin-bottom: 9px;
@@ -185,6 +204,12 @@ function formatDate(value) {
   font-size: 0.65rem;
 }
 .source-status { display: inline-flex; align-items: center; gap: 5px; color: #9fb76c; }
+.live-search-state, .search-error { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; margin-right: 8px; }
+.live-search-state { color: var(--signal); }
+.live-search-state i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 7px currentColor; animation: live-pulse 1s infinite; }
+.live-search-state.ready i { animation: none; }
+.search-error { color: #d09aaa; }
+@keyframes live-pulse { 50% { opacity: 0.3; } }
 
 .news-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 

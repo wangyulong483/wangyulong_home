@@ -66,13 +66,15 @@ vue_blog/
 ├── scripts/                      # 自动化与维护脚本
 │   ├── build/copy-frontend.mjs   # 刷新根目录部署产物
 │   ├── deploy/deploy.sh          # Cloudflare Pages 部署
+│   ├── fetch_shrine.py           # 厨力研究所实时索引抓取
 │   └── fetch_topics.py           # 每日热点抓取脚本
 ├── docs/                         # 项目规范与方案记录
 │   ├── rule.md
 │   └── todo.md
 ├── .github/workflows/            # CI/CD
 │   ├── deploy.yml                # 自动部署到 Cloudflare Pages
-│   └── daily-topics.yml          # 每日抓取行业热点
+│   ├── daily-topics.yml          # 每 12 小时抓取行业热点
+│   └── shrine-search.yml         # 每 6 小时刷新厨力研究所索引
 └── package.json                  # 根命令入口（委托到 frontend/）
 ```
 
@@ -197,6 +199,23 @@ ChatTab.vue → POST /api/chat → Cloudflare Tunnel → FastAPI → DeepSeek AP
                                                     ├── system prompt (雷电将军角色)
                                                     └── 知识库检索 (角色设定/剧情)
 ```
+
+### 厨力研究所实时检索
+
+```
+GitHub Actions（每 6 小时）→ fetch_shrine.py
+  ├── Bing Web RSS → 发现 B站影像候选
+  ├── Bilibili View API → 核验作者、封面、播放量与点赞量
+  ├── 原神WIKI_BWIKI API → 攻略与角色资料
+  └── Google 新闻 RSS → 中文资讯
+      ↓
+frontend/public/shrine-data/index.json
+      ↓
+Cloudflare Worker /api/shrine/search → 画廊 / Wiki / 资讯实时检索
+                                      → 对话知识检索与逐条引用
+```
+
+动态索引中的每条内容必须包含来源名称与原文 URL，`validate_shrine.py` 会在发布前校验来源完整性。B站搜索受限时，系统仍会通过公开 View API 刷新站内精选视频的元数据；“与影对话”会在回复下方显示本轮检索所使用的具体来源。
 
 ### SPA + 静态 JSON 共存
 
