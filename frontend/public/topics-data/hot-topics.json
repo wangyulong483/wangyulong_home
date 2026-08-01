@@ -36,35 +36,18 @@
       "scope": "hefei"
     },
     {
-      "id": "f398d8b13faa",
+      "id": "8b58dab359b1",
       "title": "安徽：推广“人工智能+”供应链应用 支持企业建设数智供应链控制塔",
       "summary": "",
-      "source": "新浪财经",
+      "source": "video.sina.com.cn",
       "sourceFeed": "合肥产业动态",
       "sourceIcon": "location",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQNEtONTdocnhsVXgwd3A2MXA4eHVNOU5mRlQyeF80UkY5cmRKMS1yQ2NBd1Uzang3akVXQjNKQXY2dWs1LUtHVUdwWXZ0aTJwWDZ6UzZrcWlRRzlkX2RZTm96QmxwUS1jQlBUTThrOHJjSEplTkx1VExsdUQ2VUIxWXIwYW1oUmhOa2t1OWxyQi1jcXowM0xLVQ?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOQm9NeFhoV1BzTlpkVU5PMWY5Q3RsRmJtUk9mQXpzWTk4Vy1YeHFzNExxUndEXzZZQ25HblMwQ1pVeGwxQkhOTjEtUC1wTWtYcTZPV1A1ZE80QTJvYWdwYWQ0V2lPZkw3MkUwUTNUbGFFSjItbTMwYWpEcnlxQTBLTGRn?oc=5",
       "category": "ai",
       "tags": [
         "ai"
       ],
-      "publishedAt": "2026-07-31T03:53:49+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "hefei"
-    },
-    {
-      "id": "5be79e83e3f9",
-      "title": "机器人9N体验馆，就在合肥，正式开放！",
-      "summary": "",
-      "source": "新浪财经",
-      "sourceFeed": "合肥产业动态",
-      "sourceIcon": "location",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5FOTZZRmtIdVRHWHhqaU5yNTZFNmZpR3NhaXltcXBxcVhGT3RMbmttZlZmUGRzUVg1MTFJSXdtbXp5TTRyS1BIenJHWG5teXFUOXNSb05xWjQtVTNrYVlBNTFSMnNLY2pvbnR0U05la2I?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-30T01:06:33+00:00",
+      "publishedAt": "2026-07-31T03:43:19+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "hefei"
@@ -121,23 +104,6 @@
       "scope": "china"
     },
     {
-      "id": "9bfa4c6cfa8b",
-      "title": "对机器人进口“筑墙”，困住的恐怕是美国自己",
-      "summary": "",
-      "source": "新浪财经",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1neXktdlFnWTh5dXFxMENRQzlmRnZDVlJKUUUwUFV0bWxrOWQtTzdodUdhRGxmbzZkWE9lTjR5akxpNG54amtraVIwUXltRXFTWUFCaC1nNHhmVlI1ckNpQnBOSE85NTlnRnNHcFd2dVRjdzAwdTV6ZA?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-31T23:10:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "c9bc01a2c5be",
       "title": "旗舰版自动驾驶系统：合众思壮壁虎Outback 810如何影响精准农业",
       "summary": "",
@@ -172,6 +138,24 @@
       "scope": "china"
     },
     {
+      "id": "0c7b84fa8717",
+      "title": "机构：物理AI加速工业落地，2025年中国工业具身智能机器人市场达57.4亿元",
+      "summary": "",
+      "source": "新浪财经",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOVGxaVGxQVkttVENxdEd3eXQybDF5clZoMGw5cE1nSEVxclg5LVhOdFBRX196V1o3dEFKYVdwSTFHUFBVcGsxT3Y3TUxCbG5HWk4zdUdxRzBfTURFbmJDRGZaM2t4ZGFiV3d2eHlKNHRRcjVUMDhZeG5iS1U0Wm5ETXg0NkNPcXhVa1dWdzJLaDBPM2VMVnU4S1hwY0d2djROTGU5OWZmUQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T18:35:17+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
       "id": "8cfdb5c96da8",
       "title": "2025年中国工业具身智能机器人市场达57.4亿元，迈入综合能力竞争阶段",
       "summary": "",
@@ -185,6 +169,23 @@
         "ai"
       ],
       "publishedAt": "2026-07-31T17:22:30+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "8d5ab3a44e29",
+      "title": "社评：对待中国机器人的两种态度，照出谁在开倒车",
+      "summary": "",
+      "source": "新浪财经",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9qU29uN0MzeF9zYjg5RVUxZUszMGFxZnJxQlBHM2h1WTNpMVJwVDZHNVVfTi1Hb3dJWndKdjdYQmtKMjc3UDVhT0hHbkFtVkhxNEF0QzFxQnJkRGRlVUFQM3c0S3ZoT2llWEh1a01KOXctaE9vSUtTQQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-07-31T16:14:42+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -241,6 +242,23 @@
       "scope": "china"
     },
     {
+      "id": "2f273d575eaa",
+      "title": "激光雷达“国家德比”，在小米增程新车上演|小米汽车|雷军|速腾|小米科技|大众_手机新浪网",
+      "summary": "",
+      "source": "新浪财经",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiowRBVV95cUxNcVVzb21vTVUwR2FlVVhlVzgyWW1UZG5leVdTakF6SzdobTRscktjN1JER1VTVXNjam1UV3BGSFV3MEk1MTZtYWtXLWxTZU4yU09LVXdPR0IwbURDRUhLajNLcTlEQjM2UDRvSDdXRHBUR1JMVm5kTkc2bWZJd2hwVF9PdW9wcWxlcFJxR1ZCX2dlQWFnMjFLV0h0X2ljZENaTFRIY0JZb2VvQlYzWWlZVDdrSXBTdG1PeUlBeHViaUVkTUQxd25iWTY4MzNITUhCOHNwUnBaYUpESThKNzdjYndnbF9zYTA5cW13ZHlqMnl6V3Rya194MnQ0aVdJdklhUFhSLW1iOXFfQXRvZmFleVNtNWNxaUUwYjdHWlZtSmNJWThfSEFjN1QxUnk5amltbVBSa3puS2JJWElTRnJLUzNmcldFemd2Rk5uc1hnZTJ4RE9ISDk3bHFMQ2VhalhsMUZSVVRZd2RfcXUwWXhEb2JzSWN5TFo3WWhtTVcwVGZDZ3RuOTE4ZEkwNVZON2g4bkkwSkhDZDVFcVdNRWZiYTJXUkgweUVMa0lFVFBHTndLa244OWtHWHllVTVGckliSlJXTE1KSGhMTWpvYnpjVUVBMFhPYnhyTGdFSkhPTUxRYmFqS0luLXVNWlFQQkZMakh3cHN4QlAzX3VfSlROZnluSk1tRFJvaHVzTmVZUjlzTUY1OFJWbld2LW1JcWlBX3B3?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-07-31T13:59:54+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
       "id": "1793c530bd8d",
       "title": "中国气象局：加快推动人工智能与气象业务深度融合",
       "summary": "",
@@ -275,23 +293,6 @@
       "scope": "china"
     },
     {
-      "id": "ceded8b2fa3f",
-      "title": "L2++「五冠王」文远知行：自动驾驶版的张雪机车，专治各种不服",
-      "summary": "",
-      "source": "汽车之家",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9EUkdudGR1LUwteTZfXzU1YlZNZnZwMnowa0huR04tdzFDbDlWU2lTNjFnM1p4ZC1wUFlqekVQd1d0WmE0ZmpGS3I5ZkZCQjIxV0lZMDdLaVhzcG5FSkE?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-07-31T09:22:17+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "98a2c9126e0b",
       "title": "“人工智能+”行动深入实施 机器人企业“加速跑”",
       "summary": "",
@@ -305,6 +306,23 @@
         "ai"
       ],
       "publishedAt": "2026-07-31T08:48:09+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "d5aa578e3676",
+      "title": "截至6月底中国智能算力规模达去年同期2.8倍",
+      "summary": "",
+      "source": "chinanews.com.cn",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5IRlh5ekZ5MmV1X3gxMklndFFIbHAtaC1oYlpQNkVQdEswTFNSWHgySlhhajFqWWQxbnRDZWFUUVFLVkhMYzB3VVpJcnhpLTI3OHNLZExoMExJYkxUTzlmV0g3M3ZqWE9N?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-07-31T06:44:12+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -361,10 +379,10 @@
       "scope": "china"
     },
     {
-      "id": "f08f0fdeb99b",
+      "id": "9613739f513f",
       "title": "中国手术机器人出海，挑战美国“达芬奇”",
       "summary": "",
-      "source": "观察者",
+      "source": "guancha.cn",
       "sourceFeed": "国内机器人产业",
       "sourceIcon": "controller",
       "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBPSmVmTVJGTVFGQUtWMll1alVsUEFUeU82TDV0TDRYclplYnhZcDNEYkhuNlpmQndjWFRVRzd1NE8wc2hsVVJyVzZvd0g3WVNJY2s0ZXctSUNnNFhFVGZZeXNDOVJrNUJNNnc?oc=5",
@@ -514,6 +532,24 @@
       "scope": "china"
     },
     {
+      "id": "7ade8704a050",
+      "title": "活力中国调研行｜“浙”里如何扛起中国具身智能“半壁江山”？",
+      "summary": "",
+      "source": "中国日报网",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFA0bjJhTG4tT3kzUl9qb01Yb3F2RzFfVHlvQ3JOZmFfSjZtZFNaajg3YV9kWkliWWU5MEdtRVJfeHRnMUpPc1lBTDllVW96QVZ3d2cxM1poOFREZUl3UFFYTEJuWVl6YjVsejZ6X0VDZVhhdFN2bEFXVE5VRS0?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-07-30T06:05:01+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
       "id": "0e33cd6003a1",
       "title": "百度阿波罗Go落地伦敦开启中国Robotaxi在英首测- AI",
       "summary": "",
@@ -540,8 +576,8 @@
       "url": "https://www.therobotreport.com/fcc-robot-ruling-shines-spotlight-on-u-s-policy-how-next-gen-ai-can-help-warehousing/",
       "category": "robot",
       "tags": [
-        "camera",
-        "robot"
+        "robot",
+        "camera"
       ],
       "publishedAt": "2026-07-31T22:41:44+00:00",
       "timeType": "published",
@@ -678,9 +714,9 @@
       "url": "https://arxiv.org/abs/2607.27494",
       "category": "robot",
       "tags": [
-        "sensor",
         "robot",
-        "ai"
+        "ai",
+        "sensor"
       ],
       "publishedAt": "2026-07-31T04:00:00+00:00",
       "timeType": "published",
@@ -737,8 +773,8 @@
       "icon": "connection"
     }
   ],
-  "total": 41,
-  "generatedAt": "2026-08-01T00:47:07.076599+00:00",
+  "total": 43,
+  "generatedAt": "2026-08-01T01:17:30.561269+00:00",
   "freshness": {
     "windowHours": 48,
     "updateIntervalHours": 12,
@@ -754,22 +790,22 @@
   "sourceHealth": [
     {
       "name": "合肥产业动态",
-      "count": 8,
+      "count": 7,
       "status": "ok"
     },
     {
       "name": "国内机器人产业",
-      "count": 14,
+      "count": 13,
       "status": "ok"
     },
     {
       "name": "国内 AI 产业",
-      "count": 6,
+      "count": 7,
       "status": "ok"
     },
     {
       "name": "国内机器人技术",
-      "count": 12,
+      "count": 11,
       "status": "ok"
     },
     {
