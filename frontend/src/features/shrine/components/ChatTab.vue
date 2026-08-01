@@ -44,7 +44,10 @@
               </span>
               <p>{{ message.content }}</p>
               <div v-if="message.role === 'assistant' && message.sources?.length" class="response-sources">
-                <span>本轮实时检索来源</span>
+                <span>
+                  本轮知识与检索来源
+                  <small v-if="message.knowledgeVersion">KB {{ message.knowledgeVersion }}</small>
+                </span>
                 <a
                   v-for="(source, sourceIndex) in message.sources"
                   :key="`${source.url}-${sourceIndex}`"
@@ -53,6 +56,7 @@
                   rel="noopener noreferrer"
                 >
                   [{{ sourceIndex + 1 }}] {{ source.title }} · {{ source.source }}
+                  <em>{{ source.sourceType === 'knowledge' ? '设定' : '实时' }}</em>
                 </a>
               </div>
             </div>
@@ -281,6 +285,8 @@ async function sendMsg() {
       personaLabel: data.personaLabel || session.personaLabel,
       sources: Array.isArray(data.sources) ? data.sources.filter(source => source.url) : [],
       retrievedAt: data.retrievedAt || null,
+      knowledgeVersion: data.knowledgeVersion || null,
+      knowledgeMatches: Array.isArray(data.knowledgeMatches) ? data.knowledgeMatches : [],
     })
     saveChat()
   } catch (error) {
@@ -398,8 +404,10 @@ onMounted(restoreChat)
 .message-row.user .message-sender { color: var(--accent); text-align: right; }
 .message-content p { margin: 0; color: var(--text-secondary); font-size: 0.8rem; line-height: 1.72; white-space: pre-wrap; }
 .response-sources { display: grid; gap: 4px; margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(246, 243, 233, 0.08); }
-.response-sources > span { color: var(--signal); font-family: var(--font-mono); font-size: 0.56rem; }
+.response-sources > span { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--signal); font-family: var(--font-mono); font-size: 0.56rem; }
+.response-sources > span small { color: var(--text-tertiary); font: inherit; }
 .response-sources a { color: #b8aed2; font-size: 0.62rem; line-height: 1.45; text-decoration: none; }
+.response-sources a em { margin-left: 5px; color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.52rem; font-style: normal; }
 .response-sources a:hover { color: var(--signal); }
 
 .message-content.typing { display: flex; align-items: center; gap: 5px; min-height: 20px; }

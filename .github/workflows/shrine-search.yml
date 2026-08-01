@@ -10,6 +10,7 @@ on:
       - ".github/workflows/shrine-search.yml"
       - "scripts/fetch_shrine.py"
       - "scripts/validate_shrine.py"
+      - "frontend/public/shrine-data/knowledge-base.json"
   workflow_dispatch:
 
 concurrency:

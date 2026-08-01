@@ -53,6 +53,7 @@ vue_blog/
 │   │   ├── image/                # 图片资源
 │   │   ├── video/                # 视频资源
 │   │   ├── shrine-data/          # 雷电将军应援数据 (JSON + 图片)
+│   │   │   └── knowledge-base.json # 带来源与确定性边界的角色知识图谱
 │   │   ├── topics-data/          # 行业热点数据 (GitHub Actions 生成)
 │   │   ├── third-party-notices/  # 第三方开源许可与来源声明
 │   │   └── _redirects            # Cloudflare Pages SPA + 静态 JSON 路由
@@ -200,10 +201,12 @@ ChatTab.vue → POST /api/chat → Cloudflare Pages Worker → DeepSeek V4 Flash
                                     ├── 世界观 / 身份 / 人生观 / 价值观分层提示
                                     ├── 御前 / 闲谈 / 演武 / 静思语义状态
                                     ├── 浏览器本地关系状态与明确记忆（最多 12 条）
-                                    └── 站内角色知识 + 实时来源检索与引用
+                                    └── 结构化角色知识 + 实时来源检索与引用
 ```
 
-角色对话架构参考了 [SillyTavern](https://github.com/SillyTavern/SillyTavern) 的角色卡与 Lorebook 分层思想，以及 [RisuAI](https://github.com/kwaroran/Risuai) 的近期对话、摘要记忆分离思路。两者分别采用 AGPL-3.0 与 GPL-3.0，本项目仅借鉴架构思想，未复制其实现代码。DeepSeek 模型更新以[官方 API 文档](https://api-docs.deepseek.com/updates/)为准。
+知识库采用独立 JSON schema，每条知识包含稳定 ID、层级、别名、关联节点、优先级、确定性、角色视角与来源 ID。Worker 使用精确别名、中文二元词 BM25、意图加权和 RRF 风格排名融合，再进行一跳关联扩展、层级去重与字符预算控制；查询调试接口为 `/api/shrine/knowledge?q=关键词`。
+
+角色对话架构参考了 [SillyTavern](https://github.com/SillyTavern/SillyTavern) 的 Lorebook 激活、递归扩展与上下文预算思想，[RisuAI](https://github.com/kwaroran/Risuai) 的近期对话和相关记忆分离思路，以及 [MiniSearch](https://github.com/lucaong/minisearch) 的 BM25/BM25+ 设计。三者分别采用 AGPL-3.0、GPL-3.0 与 MIT 许可证；本项目只借鉴架构和算法思想，未复制其实现代码。DeepSeek 模型更新以[官方 API 文档](https://api-docs.deepseek.com/updates/)为准。
 
 ### 厨力研究所实时检索
 

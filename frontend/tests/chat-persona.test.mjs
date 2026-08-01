@@ -1,16 +1,24 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 
 import {
   advanceSession,
+  buildChatReferences,
   buildSystemPrompt,
   extractMemoryUpdates,
   inferPersona,
   normalizeMemories,
   relationshipFromScore,
   searchKnowledge,
+  tokenizeKnowledge,
 } from '../_worker.js'
 import worker from '../_worker.js'
+
+const knowledgeBase = JSON.parse(readFileSync(
+  new URL('../public/shrine-data/knowledge-base.json', import.meta.url),
+  'utf8',
+))
 
 test('按语义选择人物侧面，而不是按固定轮数切换', () => {
   assert.deepEqual(inferPersona('想和你切磋一下薙刀'), {
@@ -70,11 +78,54 @@ test('系统提示包含完整价值框架、当前状态和连续性记忆', ()
   assert.match(prompt, /去合肥从事机器人工作/)
 })
 
-test('知识检索按命中强度排序并限制上下文数量', () => {
-  const entries = searchKnowledge('眼狩令之后，你如何理解愿望、永恒与须臾？')
-  assert.ok(entries.length >= 2)
-  assert.ok(entries.length <= 4)
-  assert.ok(entries.some(entry => entry.category === '哲学'))
+test('中文分词与混合检索能够召回精确事实和关联知识', () => {
+  assert.ok(tokenizeKnowledge('眼狩令与神之眼').includes('眼狩'))
+  const result = searchKnowledge(knowledgeBase, '眼狩令之后，你如何理解愿望、永恒与责任？')
+  assert.ok(result.entries.length >= 3)
+  assert.ok(result.entries.length <= knowledgeBase.retrieval.maxEntries)
+  assert.equal(result.entries[0].id, 'timeline-vision-hunt')
+  assert.ok(result.entries.some(entry => entry.id === 'values-responsibility'))
+  assert.ok(result.entries.some(entry => entry.id === 'values-wishes'))
+  assert.ok(result.stats.characters <= knowledgeBase.retrieval.maxCharacters)
+})
+
+test('知识检索遵守世界树记忆边界并统一来源编号', () => {
+  const result = searchKnowledge(knowledgeBase, '影还记得国崩和流浪者吗？世界树改写后呢？')
+  assert.ok(result.entries.some(entry => entry.id === 'relationship-wanderer'))
+  assert.ok(result.entries.some(entry => entry.id === 'world-irminsul-memory'))
+
+  const references = buildChatReferences(knowledgeBase, result, [{
+    title: '实时资料',
+    source: '测试来源',
+    url: 'https://example.com/live',
+    excerpt: '实时摘要',
+  }])
+  assert.match(references.context, /角色视角/)
+  assert.match(references.context, /来源 1/)
+  assert.ok(references.sources.some(source => source.sourceType === 'knowledge'))
+  assert.ok(references.sources.some(source => source.sourceType === 'live'))
+})
+
+test('典型问题稳定命中对应知识节点', () => {
+  const cases = [
+    ['将军人偶和影是双重人格吗', 'identity-ei-and-shogun'],
+    ['眼狩令是谁的责任', 'timeline-vision-hunt'],
+    ['影还记得散兵吗', 'relationship-wanderer'],
+    ['御舆千代是天狗吗', 'relationship-chiyo'],
+    ['为什么影喜欢团子牛奶', 'daily-sweets'],
+    ['如何理解须臾和永恒', 'philosophy-transience'],
+    ['海祇岛怎么看奥罗巴斯', 'world-watatsumi-and-orobashi'],
+    ['影会做饭吗', 'daily-cooking'],
+    ['怎么和影切磋武艺', 'combat-martial-legacy'],
+    ['天理和坎瑞亚的真相是什么', 'world-khaenriah'],
+  ]
+  for (const [query, expectedTopId] of cases) {
+    const result = searchKnowledge(knowledgeBase, query)
+    assert.equal(result.entries[0]?.id, expectedTopId, query)
+  }
+
+  const uncertain = searchKnowledge(knowledgeBase, '天理和坎瑞亚的真相是什么')
+  assert.ok(!uncertain.entries.some(entry => entry.id === 'daily-poetry-and-cards'))
 })
 
 test('聊天接口使用 Flash 0731 协议并返回可持久化状态', async () => {
@@ -82,6 +133,9 @@ test('聊天接口使用 Flash 0731 协议并返回可持久化状态', async ()
   let deepSeekPayload
   globalThis.fetch = async (input, options = {}) => {
     const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) {
+      return Response.json(knowledgeBase)
+    }
     if (url.includes('shrine-data/index.json')) {
       return Response.json({
         character: { sources: [] },
@@ -115,6 +169,32 @@ test('聊天接口使用 Flash 0731 协议并返回可持久化状态', async ()
     assert.equal(data.model, 'DeepSeek-V4-Flash-0731')
     assert.equal(data.memoryUpdates[0].value, '归去来兮')
     assert.equal(data.persona, 'reflective')
+    assert.equal(data.knowledgeVersion, knowledgeBase.knowledgeVersion)
+    assert.ok(data.knowledgeMatches.some(entry => entry.id === 'values-wishes'))
+    assert.ok(data.sources.some(source => source.sourceType === 'knowledge'))
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('知识库查询接口返回版本、确定性与可核对来源', async () => {
+  const originalFetch = globalThis.fetch
+  globalThis.fetch = async input => {
+    if (String(input).includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    throw new Error(`unexpected fetch: ${input}`)
+  }
+
+  try {
+    const response = await worker.fetch(
+      new Request('https://example.com/api/shrine/knowledge?q=御舆千代是天狗吗'),
+      {},
+    )
+    const data = await response.json()
+    assert.equal(response.status, 200)
+    assert.equal(data.knowledgeVersion, knowledgeBase.knowledgeVersion)
+    assert.ok(data.entryCount >= 30)
+    assert.equal(data.results[0].id, 'relationship-chiyo')
+    assert.ok(data.results[0].sources[0].url.startsWith('https://'))
   } finally {
     globalThis.fetch = originalFetch
   }
