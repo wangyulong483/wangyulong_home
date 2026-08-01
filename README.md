@@ -1,6 +1,9 @@
 # MY_WEBSITE
 
-个人博客网站，基于 Vue 3 + Vite 构建，Cloudflare Pages 部署，FastAPI 后端提供 AI 对话服务。
+个人博客与实验应用集合，基于 Vue 3 + Vite 构建，部署于 Cloudflare Pages；FastAPI 后端提供 AI 对话服务。
+
+- 线上地址：[wangyulong-home.pages.dev](https://wangyulong-home.pages.dev/)
+- 应用入口：[wangyulong-home.pages.dev/applist](https://wangyulong-home.pages.dev/applist)
 
 ## 架构
 
@@ -38,6 +41,7 @@ vue_blog/
 │   │   ├── pages/                # 路由级页面
 │   │   ├── features/             # 按业务聚合的组件与逻辑
 │   │   │   ├── home/
+│   │   │   ├── map-zone-painter/ # PGM 解析、掩码生成与地图绘制工作区
 │   │   │   └── shrine/
 │   │   └── shared/               # 跨页面复用的基础模块
 │   │       ├── components/
@@ -49,6 +53,7 @@ vue_blog/
 │   │   ├── video/                # 视频资源
 │   │   ├── shrine-data/          # 雷电将军应援数据 (JSON + 图片)
 │   │   ├── topics-data/          # 行业热点数据 (GitHub Actions 生成)
+│   │   ├── third-party-notices/  # 第三方开源许可与来源声明
 │   │   └── _redirects            # Cloudflare Pages SPA + 静态 JSON 路由
 │   ├── _worker.js                # Cloudflare Pages 边缘 Worker
 │   ├── vite.config.js            # Vite 配置（代理 /api → FastAPI）
@@ -77,10 +82,40 @@ vue_blog/
 |------|------|------|
 | `/` | 首页 | HELLO WORLD 头部 + 图片轮播 + 格言 + 学习平台链接 |
 | `/about` | 关于 | 项目视频展示（B站嵌入），点击缩略图弹窗播放 |
-| `/applist` | 应用 | 飞机大战 / 行业热点 / 厨厨 入口 |
+| `/applist` | 应用 | 飞机大战 / 行业热点 / 地图区域绘制器 / 厨力研究所入口 |
 | `/game` | 飞机大战 | Canvas 射击游戏 "保卫安建大"，WASD 移动 J 射击 |
 | `/hot-topics` | 行业热点 | 机器人 · AI 每日动态，分类筛选 + 搜索 + 日期归档 |
-| `/shrine` | 厨厨 | 雷电将军角色应援页（画廊 / Wiki / 资讯 / AI 对话） |
+| `/map-zone-painter` | 地图区域绘制器 | 导入 PGM 地图，绘制并导出 ROS2 Nav2 禁行与限速掩码 |
+| `/shrine` | 厨力研究所 | 雷电将军主题模块（影像 / 攻略 Wiki / 资讯 / AI 对话） |
+
+## PGM 地图区域绘制器
+
+地图区域绘制器用于在 ROS2 栅格地图上制作 Nav2 Costmap Filter 掩码，支持桌面端与触摸设备操作。可以直接拖放或选择 P2/P5 格式的 `.pgm` 文件，也可以载入内置演示地图。
+
+### 主要能力
+
+- **双图层编辑**：分别维护禁行区（Keepout）与限速区（Speed），可独立切换、显示和隐藏。
+- **多种绘制方式**：多边形填充、区域擦除、可调半径画笔、画笔擦除与画布平移。
+- **精细操作**：选择及删除多边形顶点、双击闭合填充、滚轮缩放、像素网格和实时坐标。
+- **历史记录**：支持撤销与重做；清空完整图层需要二次确认，减少误操作。
+- **预览与统计**：调整掩码透明度，实时显示禁行、限速、重叠像素和多边形顶点数量。
+- **ROS2 输出**：单独导出 `keepout_mask.pgm`、`speed_mask.pgm`，或下载包含两份掩码及 `SOURCE.txt` 的 ZIP 包。
+
+### 快捷键
+
+| 按键 | 操作 |
+|------|------|
+| `B` | 在画笔与多边形模式间切换 |
+| `P` | 切换到平移模式 |
+| `K` / `G` | 选择禁行图层 / 限速图层 |
+| `Enter` | 填充当前多边形 |
+| `Delete` / `Backspace` | 删除选中的多边形顶点 |
+| `R` / `Esc` | 重置当前多边形 |
+| `C` | 擦除当前多边形区域；无可用多边形时清空当前图层 |
+| `Ctrl/Cmd + Z` | 撤销 |
+| `Ctrl/Cmd + Shift + Z` / `Ctrl/Cmd + Y` | 重做 |
+| `+` / `-` | 放大 / 缩小 |
+| 按住 `Space` 拖动 | 临时平移画布 |
 
 ## 设计系统
 
@@ -88,10 +123,13 @@ vue_blog/
 
 - **玻璃卡片 `.glass-card`**：半透明背景 + 毛玻璃模糊 + 悬停抬起
 - **液态玻璃 `.liquid-glass`**：加强版毛玻璃，含 SVG 噪声纹理 + 对角线光扫动画
+- **应用信号图标**：应用列表统一使用荧光绿色描边、暗色底与悬停辉光，保持工具入口的视觉一致性
 
 支持移动端适配（768px / 480px 断点），含安全区、触摸优化、性能降级。
 
 ## 快速开始
+
+环境要求：Node.js 22 或更高版本。
 
 ### 前端
 
@@ -163,6 +201,17 @@ ChatTab.vue → POST /api/chat → Cloudflare Tunnel → FastAPI → DeepSeek AP
 ### SPA + 静态 JSON 共存
 
 `_redirects` 配置让 Cloudflare Pages 优先匹配静态 JSON 文件，其余走 SPA 路由回退。Vue 组件内置 `Content-Type: text/html` 检测，SPA fallback 时使用内嵌兜底数据。
+
+## 第三方开源声明
+
+PGM 地图区域绘制器基于 Adil NAS 的开源项目
+[`Adilnasceng/ros2-map-zone-painter`](https://github.com/Adilnasceng/ros2-map-zone-painter)
+进行 Web 端功能迁移与交互扩展，原项目采用 MIT License。
+
+- 原作者：[Adil NAS](https://github.com/Adilnasceng)
+- 源码：[github.com/Adilnasceng/ros2-map-zone-painter](https://github.com/Adilnasceng/ros2-map-zone-painter)
+- 许可副本：[frontend/public/third-party-notices/ros2-map-zone-painter-LICENSE.txt](frontend/public/third-party-notices/ros2-map-zone-painter-LICENSE.txt)
+- 本项目导出的双掩码 ZIP 会附带 `SOURCE.txt`，保留原项目来源、作者与许可信息
 
 ## 相关文档
 
