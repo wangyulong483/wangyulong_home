@@ -8,10 +8,11 @@
 ## 架构
 
 ```
-Cloudflare Pages (前端) ─── Cloudflare Tunnel ─── FastAPI (后端) ─── DeepSeek API
-       │                                                    │
-       └─ 静态资源 (shrine-data/*, topics-data/*)             └─ 角色扮演 system prompt
-                                                              └─ 知识库检索
+Cloudflare Pages (Vue 前端) ─── Pages Worker ─── DeepSeek API
+       │                         ├─ 分层角色设定与人物状态
+       │                         ├─ 本地会话记忆摘要
+       └─ 静态索引               └─ 角色知识与实时来源检索
+          (shrine-data/*, topics-data/*)
 ```
 
 ## 技术栈
@@ -23,7 +24,7 @@ Cloudflare Pages (前端) ─── Cloudflare Tunnel ─── FastAPI (后端)
 | 路由 | Vue Router 5 (懒加载) |
 | Markdown | marked |
 | 后端 | FastAPI (Python) |
-| AI 模型 | DeepSeek V4 Flash |
+| AI 模型 | DeepSeek V4 Flash 0731 |
 | 部署 | Cloudflare Pages + Wrangler |
 | 图标 | game-icon-pack (100+ SVG 图标) |
 | 定时任务 | GitHub Actions（每 12 小时抓取行业热点） |
@@ -194,11 +195,15 @@ GitHub Actions（北京时间 08:17 / 20:17）→ fetch_topics.py → 中文聚�
 ### AI 对话
 
 ```
-ChatTab.vue → POST /api/chat → Cloudflare Tunnel → FastAPI → DeepSeek API
-                                                    │
-                                                    ├── system prompt (雷电将军角色)
-                                                    └── 知识库检索 (角色设定/剧情)
+ChatTab.vue → POST /api/chat → Cloudflare Pages Worker → DeepSeek V4 Flash 0731
+                                    │
+                                    ├── 世界观 / 身份 / 人生观 / 价值观分层提示
+                                    ├── 御前 / 闲谈 / 演武 / 静思语义状态
+                                    ├── 浏览器本地关系状态与明确记忆（最多 12 条）
+                                    └── 站内角色知识 + 实时来源检索与引用
 ```
+
+角色对话架构参考了 [SillyTavern](https://github.com/SillyTavern/SillyTavern) 的角色卡与 Lorebook 分层思想，以及 [RisuAI](https://github.com/kwaroran/Risuai) 的近期对话、摘要记忆分离思路。两者分别采用 AGPL-3.0 与 GPL-3.0，本项目仅借鉴架构思想，未复制其实现代码。DeepSeek 模型更新以[官方 API 文档](https://api-docs.deepseek.com/updates/)为准。
 
 ### 厨力研究所实时检索
 

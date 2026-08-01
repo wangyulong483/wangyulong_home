@@ -4,7 +4,7 @@
       <div>
         <p class="module-kicker">PLANE OF EUTHYMIA / LIVE</p>
         <h2>一心净土通讯</h2>
-        <p class="module-meta">雷电影角色设定对话 · DeepSeek 生成</p>
+        <p class="module-meta">雷电影角色设定对话 · DeepSeek V4 Flash 0731</p>
       </div>
       <span class="status-badge"><i></i> SYSTEM ONLINE</span>
     </header>
@@ -12,7 +12,11 @@
     <div class="chat-shell">
       <div class="conversation-panel">
         <div class="chat-toolbar">
-          <span><AppIcon icon="message" size="14" /> 对话记录 · {{ Math.max(0, messages.length - 1) }}</span>
+          <div class="chat-state">
+            <span><AppIcon icon="message" size="14" /> 对话 · {{ userMessageCount }}</span>
+            <span>心境 · {{ session.personaLabel }}</span>
+            <span>缘分 · {{ session.relationshipLabel }}</span>
+          </div>
           <button v-if="messages.length > 1" type="button" class="clear-btn" @click="clearChat">
             <AppIcon icon="8-ui/cross" size="12" /> 清空
           </button>
@@ -35,7 +39,9 @@
               <AppIcon :icon="message.role === 'assistant' ? 'lightning' : 'user'" size="16" />
             </span>
             <div class="message-content">
-              <span class="message-sender">{{ message.role === 'assistant' ? '雷电影' : '旅者' }}</span>
+              <span class="message-sender">
+                {{ message.role === 'assistant' ? `雷电影 · ${message.personaLabel || session.personaLabel}` : '旅者' }}
+              </span>
               <p>{{ message.content }}</p>
               <div v-if="message.role === 'assistant' && message.sources?.length" class="response-sources">
                 <span>本轮实时检索来源</span>
@@ -111,7 +117,7 @@
 
         <div class="generation-note">
           <strong>生成说明</strong>
-          <p>回复由 DeepSeek 根据站内角色知识库生成，仅供角色扮演与娱乐，不代表原神官方观点。</p>
+          <p>回复由 DeepSeek V4 Flash 0731 根据角色档案、站内知识与本轮检索生成，仅供角色扮演与娱乐，不代表原神官方观点。</p>
         </div>
       </aside>
     </div>
@@ -119,16 +125,28 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, reactive, ref } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref } from 'vue'
 import AppIcon from '@/shared/components/AppIcon.vue'
 
 const API_BASE = '/api'
+const STORAGE_KEY = 'shrine-ei-dialogue-v2'
 
 const messages = reactive([])
+const session = reactive({
+  persona: 'shogun',
+  personaLabel: '御前',
+  emotion: 'composed',
+  relationship: 'stranger',
+  relationshipLabel: '初识',
+  trustScore: 0,
+  turnCount: 0,
+  memory: []
+})
 const loading = ref(false)
 const input = ref('')
 const chatArea = ref(null)
 const connectionError = ref('')
+const userMessageCount = computed(() => messages.filter(message => message.role === 'user').length)
 
 const prompts = [
   { label: '永恒与须臾', text: '经历稻妻的改变后，你现在如何理解永恒与须臾？' },
@@ -137,9 +155,68 @@ const prompts = [
   { label: '武艺切磋', text: '如果要与你切磋武艺，我应该先准备什么？' }
 ]
 
+function resetSession() {
+  Object.assign(session, {
+    persona: 'shogun',
+    personaLabel: '御前',
+    emotion: 'composed',
+    relationship: 'stranger',
+    relationshipLabel: '初识',
+    trustScore: 0,
+    turnCount: 0,
+    memory: []
+  })
+}
+
 function initChat() {
   messages.length = 0
-  messages.push({ role: 'assistant', content: '此身即为永恒。旅者，汝踏入一心净土，所为何事？' })
+  messages.push({
+    role: 'assistant',
+    content: '雷光已静。旅者，既然来到一心净土，便说说你此刻所想吧。',
+    personaLabel: '御前'
+  })
+}
+
+function restoreChat() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null')
+    if (!saved || !Array.isArray(saved.messages)) throw new Error('empty')
+    const restored = saved.messages
+      .filter(message => message?.role === 'user' || message?.role === 'assistant')
+      .filter(message => typeof message.content === 'string' && message.content.trim())
+      .slice(-20)
+    if (!restored.length) throw new Error('empty')
+    messages.push(...restored)
+    if (saved.session && typeof saved.session === 'object') {
+      Object.assign(session, saved.session, {
+        memory: Array.isArray(saved.session.memory) ? saved.session.memory.slice(-12) : []
+      })
+    }
+  } catch {
+    resetSession()
+    initChat()
+  }
+}
+
+function saveChat() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      messages: messages.slice(-20),
+      session: { ...session, memory: session.memory.slice(-12) }
+    }))
+  } catch {
+    // 对话仍可继续；存储不可用时仅失去跨刷新记忆。
+  }
+}
+
+function mergeMemoryUpdates(updates) {
+  if (!Array.isArray(updates)) return
+  const merged = new Map(session.memory.map(item => [item.key, item]))
+  for (const item of updates) {
+    if (!item?.key || !item?.value) continue
+    merged.set(item.key, { kind: item.kind, key: item.key, value: item.value })
+  }
+  session.memory = [...merged.values()].slice(-12)
 }
 
 async function scrollToBottom() {
@@ -158,6 +235,7 @@ async function sendMsg() {
 
   input.value = ''
   messages.push({ role: 'user', content: text })
+  saveChat()
   await scrollToBottom()
   loading.value = true
   connectionError.value = ''
@@ -169,7 +247,15 @@ async function sendMsg() {
       body: JSON.stringify({
         messages: messages
           .filter(message => message.role === 'user' || message.role === 'assistant')
-          .map(message => ({ role: message.role, content: message.content }))
+          .slice(-20)
+          .map(message => ({ role: message.role, content: message.content })),
+        session: {
+          persona: session.persona,
+          relationship: session.relationship,
+          trustScore: session.trustScore,
+          turnCount: session.turnCount,
+          memory: session.memory
+        }
       })
     })
 
@@ -179,15 +265,28 @@ async function sendMsg() {
     }
 
     const data = await response.json()
+    mergeMemoryUpdates(data.memoryUpdates)
+    Object.assign(session, {
+      persona: data.persona || session.persona,
+      personaLabel: data.personaLabel || session.personaLabel,
+      emotion: data.emotion || session.emotion,
+      relationship: data.relationship || session.relationship,
+      relationshipLabel: data.relationshipLabel || session.relationshipLabel,
+      trustScore: Number.isFinite(data.trustScore) ? data.trustScore : session.trustScore,
+      turnCount: Number.isFinite(data.turnCount) ? data.turnCount : session.turnCount
+    })
     messages.push({
       role: 'assistant',
       content: data.content || '……',
+      personaLabel: data.personaLabel || session.personaLabel,
       sources: Array.isArray(data.sources) ? data.sources.filter(source => source.url) : [],
       retrievedAt: data.retrievedAt || null,
     })
+    saveChat()
   } catch (error) {
     connectionError.value = `连接失败：${error.message}`
     messages.push({ role: 'assistant', content: '一心净土的门扉暂未开启……稍后再试吧，旅者。' })
+    saveChat()
   } finally {
     loading.value = false
     await scrollToBottom()
@@ -195,11 +294,13 @@ async function sendMsg() {
 }
 
 function clearChat() {
+  localStorage.removeItem(STORAGE_KEY)
+  resetSession()
   initChat()
   connectionError.value = ''
 }
 
-onMounted(initChat)
+onMounted(restoreChat)
 </script>
 
 <style scoped>
@@ -259,7 +360,10 @@ onMounted(initChat)
   font-family: var(--font-mono);
   font-size: 0.64rem;
 }
-.chat-toolbar > span, .clear-btn { display: inline-flex; align-items: center; gap: 6px; }
+.chat-state { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.chat-state span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.chat-state span + span { padding-left: 10px; border-left: 1px solid var(--border); color: #b8aed2; }
+.clear-btn { display: inline-flex; align-items: center; gap: 6px; }
 .clear-btn { padding: 5px 8px; border: 1px solid var(--border); border-radius: 3px; background: transparent; color: var(--text-tertiary); cursor: pointer; font: inherit; }
 .clear-btn:hover { border-color: var(--signal); color: var(--signal); }
 
@@ -342,6 +446,9 @@ onMounted(initChat)
 }
 
 @media (max-width: 560px) {
+  .chat-toolbar { align-items: flex-start; padding: 9px 10px; }
+  .chat-state { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .chat-state span + span { padding-left: 0; border-left: 0; }
   .chat-area { height: 390px; padding: 12px; }
   .prompt-list { grid-template-columns: 1fr; }
   .message-content { max-width: 86%; }
