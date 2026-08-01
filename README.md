@@ -26,7 +26,7 @@ Cloudflare Pages (前端) ─── Cloudflare Tunnel ─── FastAPI (后端)
 | AI 模型 | DeepSeek V4 Flash |
 | 部署 | Cloudflare Pages + Wrangler |
 | 图标 | game-icon-pack (100+ SVG 图标) |
-| 定时任务 | GitHub Actions (每日热点抓取) |
+| 定时任务 | GitHub Actions（每 12 小时抓取行业热点） |
 
 ## 项目结构
 
@@ -84,7 +84,7 @@ vue_blog/
 | `/about` | 关于 | 项目视频展示（B站嵌入），点击缩略图弹窗播放 |
 | `/applist` | 应用 | 飞机大战 / 行业热点 / 地图区域绘制器 / 厨力研究所入口 |
 | `/game` | 飞机大战 | Canvas 射击游戏 "保卫安建大"，WASD 移动 J 射击 |
-| `/hot-topics` | 行业热点 | 机器人 · AI 每日动态，分类筛选 + 搜索 + 日期归档 |
+| `/hot-topics` | 行业热点 | 合肥与国内机器人 · AI 动态，地区/分类筛选 + 搜索 + 日期归档 |
 | `/map-zone-painter` | 地图区域绘制器 | 导入 PGM 地图，绘制并导出 ROS2 Nav2 禁行与限速掩码 |
 | `/shrine` | 厨力研究所 | 雷电将军主题模块（影像 / 攻略 Wiki / 资讯 / AI 对话） |
 
@@ -182,12 +182,12 @@ npm run build && npx wrangler pages deploy frontend/dist --branch=main
 ### 行业热点
 
 ```
-GitHub Actions (daily 定时) → fetch_topics.py → RSS/API 抓取
+GitHub Actions（北京时间 08:17 / 20:17）→ fetch_topics.py → 中文聚合 RSS + 国际一手 RSS
   → frontend/public/topics-data/hot-topics.json
   → Cloudflare Pages 静态托管
 ```
 
-支持日期归档浏览，`/topics-data/archive/YYYY-MM-DD.json`。
+热点优先展示合肥/安徽和国内中文内容，并保留少量国际机器人、ROS2 与 AI 一手信息。支持地区、分类、关键词和日期归档筛选，归档路径为 `/topics-data/archive/YYYY-MM-DD.json`。
 
 ### AI 对话
 

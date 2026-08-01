@@ -1,17 +1,8 @@
 """
-行业热点抓取脚本 —— 每日自动搜集机器人、ROS2、传感器、AI 行业动态
+行业热点抓取脚本 —— 每 12 小时搜集合肥、国内及国际机器人与 AI 行业动态
 
-数据源（10 个，国际源 + 国内源）：
-  1. ROS Discourse — ROS 2 社区讨论
-  2. IEEE Spectrum Robotics — 机器人综合资讯
-  3. The Robot Report — 机器人产业新闻
-  4. arXiv CS.RO — 机器人学最新论文
-  5. TechCrunch Robotics — 机器人创业与产品动态
-  6. MIT Robotics — 机器人科研动态
-  7. ScienceDaily Robotics — 机器人科研动态
-  8. Google DeepMind — AI 研究动态
-  9. 机器之心 — 中国 AI/机器人媒体
- 10. 量子位 — AI 科技前沿
+来源按用户求职地域排序：合肥/安徽产业、国内中文技术资讯、国际一手技术源。
+中文聚合查询会保留实际发布媒体名称，国际英文内容只作为补充。
 
 用法：
   python scripts/fetch_topics.py                     # 生成今天的热点
@@ -59,6 +50,18 @@ MAX_ITEM_AGE_HOURS = 48
 # 控制单次输出规模，确保页面保持可扫描性
 MAX_ITEMS = 60
 
+# 国内中文内容优先，英文国际内容最多占六分之一。
+MAX_GLOBAL_ITEMS = 10
+MAX_ITEMS_PER_SOURCE = 5
+
+BLOCKED_TITLE_PATTERNS = [
+    re.compile(pattern, re.IGNORECASE)
+    for pattern in [
+        r"官方网站", r"live\s*直播", r">>>", r"首页\s*>\s*-", r"博彩|下注|送彩金",
+        r"怎么选", r"有哪些", r"FAQ", r"赢麻了", r"这波太狠", r"购车|选购|优惠价",
+    ]
+]
+
 SHANGHAI_TZ = ZoneInfo("Asia/Shanghai")
 
 # ============================================================
@@ -66,6 +69,75 @@ SHANGHAI_TZ = ZoneInfo("Asia/Shanghai")
 # ============================================================
 
 RSS_SOURCES = [
+    # ----- 中文聚合源（适合 GitHub Actions，保留原始媒体名称）-----
+    {
+        "name": "合肥产业动态",
+        "url": "https://news.google.com/rss/search",
+        "params": {
+            "q": "(合肥 OR 安徽) (机器人 OR 人工智能 OR 传感器 OR 自动驾驶 OR 低空经济) when:2d",
+            "hl": "zh-CN",
+            "gl": "CN",
+            "ceid": "CN:zh-Hans",
+        },
+        "category": "robot",
+        "icon": "location",
+        "lang": "zh",
+        "scope": "hefei",
+        "aggregator": True,
+        "require_keywords": True,
+        "require_terms": [
+            "合肥", "安徽", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵",
+            "安庆", "黄山", "滁州", "阜阳", "宿州", "六安", "亳州", "池州", "宣城",
+        ],
+    },
+    {
+        "name": "国内机器人产业",
+        "url": "https://news.google.com/rss/search",
+        "params": {
+            "q": "中国 (机器人 OR 具身智能 OR 人形机器人 OR 工业机器人) when:2d",
+            "hl": "zh-CN",
+            "gl": "CN",
+            "ceid": "CN:zh-Hans",
+        },
+        "category": "robot",
+        "icon": "controller",
+        "lang": "zh",
+        "scope": "china",
+        "aggregator": True,
+        "require_keywords": True,
+    },
+    {
+        "name": "国内 AI 产业",
+        "url": "https://news.google.com/rss/search",
+        "params": {
+            "q": "中国 (人工智能 OR 大模型 OR 算力 OR 智能制造) when:2d",
+            "hl": "zh-CN",
+            "gl": "CN",
+            "ceid": "CN:zh-Hans",
+        },
+        "category": "ai",
+        "icon": "microchip",
+        "lang": "zh",
+        "scope": "china",
+        "aggregator": True,
+        "require_keywords": True,
+    },
+    {
+        "name": "国内机器人技术",
+        "url": "https://news.google.com/rss/search",
+        "params": {
+            "q": "中国 (ROS2 OR 激光雷达 OR SLAM OR 传感器融合 OR 自动驾驶) when:2d",
+            "hl": "zh-CN",
+            "gl": "CN",
+            "ceid": "CN:zh-Hans",
+        },
+        "category": "sensor",
+        "icon": "settings",
+        "lang": "zh",
+        "scope": "china",
+        "aggregator": True,
+        "require_keywords": True,
+    },
     # ----- 国际源（GitHub Actions 海外 runner 可直接访问）-----
     {
         "name": "ROS Discourse",
@@ -73,6 +145,7 @@ RSS_SOURCES = [
         "category": "ros2",
         "icon": "ros",
         "lang": "en",
+        "scope": "global",
     },
     {
         "name": "IEEE Spectrum Robotics",
@@ -80,6 +153,7 @@ RSS_SOURCES = [
         "category": "robot",
         "icon": "ieee",
         "lang": "en",
+        "scope": "global",
     },
     {
         "name": "The Robot Report",
@@ -87,6 +161,7 @@ RSS_SOURCES = [
         "category": "robot",
         "icon": "robot-report",
         "lang": "en",
+        "scope": "global",
     },
     {
         "name": "arXiv CS.RO",
@@ -94,6 +169,7 @@ RSS_SOURCES = [
         "category": "ai",
         "icon": "arxiv",
         "lang": "en",
+        "scope": "global",
     },
     {
         "name": "TechCrunch Robotics",
@@ -101,6 +177,7 @@ RSS_SOURCES = [
         "category": "robot",
         "icon": "techcrunch",
         "lang": "en",
+        "scope": "global",
     },
     {
         "name": "MIT Robotics",
@@ -108,6 +185,7 @@ RSS_SOURCES = [
         "category": "robot",
         "icon": "mit",
         "lang": "en",
+        "scope": "global",
     },
     {
         "name": "ScienceDaily Robotics",
@@ -115,6 +193,7 @@ RSS_SOURCES = [
         "category": "robot",
         "icon": "science",
         "lang": "en",
+        "scope": "global",
     },
     {
         "name": "Google DeepMind",
@@ -122,6 +201,7 @@ RSS_SOURCES = [
         "category": "ai",
         "icon": "deepmind",
         "lang": "en",
+        "scope": "global",
         "require_keywords": True,
     },
     # ----- 国内源 -----
@@ -131,6 +211,7 @@ RSS_SOURCES = [
         "category": "ai",
         "icon": "jiqizhixin",
         "lang": "zh",
+        "scope": "china",
         "require_keywords": True,
     },
     {
@@ -139,6 +220,7 @@ RSS_SOURCES = [
         "category": "ai",
         "icon": "qbitai",
         "lang": "zh",
+        "scope": "china",
         "require_keywords": True,
     },
 ]
@@ -158,6 +240,8 @@ CATEGORIES = [
 # ============================================================
 
 KEYWORD_TAG_MAP = {
+    "robot": ["robot", "robotics", "机器人", "机器狗", "机械臂", "具身智能", "人形机器人",
+              "工业机器人", "移动机器人", "无人机", "自动驾驶", "智能驾驶", "低空经济"],
     "ros2": ["ros2", "ros 2", "ros humble", "ros jazzy", "ros iron", "nav2", "moveit", "gazebo", "rviz",
              "ros2_control", "micro-ros", "rmw", "dds", "colcon", "ament"],
     "lidar": ["lidar", "激光雷达", "point cloud", "点云", "lidar slam", "lio-sam", "velodyne",
@@ -166,10 +250,26 @@ KEYWORD_TAG_MAP = {
                "orbbec", "zed", "tof", "结构光", "intel realsense", "kinect"],
     "sensor": ["imu", "tof", "sensor fusion", "传感器融合", "ultrasonic", "超声波", "红外",
                "mems", "encoder", "torque sensor", "力矩传感器", "六维力", "tactile", "触觉"],
-    "ai": ["yolo", "detection", "目标检测", "segmentation", "分割", "transformer", "llm", "大模型",
+    "ai": ["artificial intelligence", "人工智能", "生成式人工智能", "机器学习", "深度学习", "算力",
+           "yolo", "detection", "目标检测", "segmentation", "分割", "transformer", "llm", "大模型",
            "reinforcement learning", "强化学习", "sim-to-real", "sim2real", "nerf", "gaussian splatting",
            "embodied ai", "具身智能", "imitation learning", "模仿学习", "slam", "pytorch", "tensorflow"],
 }
+
+CATEGORY_PRIORITY = ["ros2", "robot", "lidar", "camera", "sensor", "ai"]
+
+
+def clean_google_news_title(title: str, publisher: str) -> str:
+    """Google 新闻标题通常带有“ - 媒体名”后缀，页面上单独展示来源即可。"""
+    suffix = f" - {publisher}" if publisher else ""
+    return title[:-len(suffix)].strip() if suffix and title.endswith(suffix) else title
+
+
+def resolve_category(default_category: str, tags: list[str]) -> str:
+    for category in CATEGORY_PRIORITY:
+        if category in tags:
+            return category
+    return default_category
 
 
 def title_similarity(a: str, b: str) -> float:
@@ -201,15 +301,25 @@ def fetch_rss(
     reference_time = reference_time or datetime.now(timezone.utc)
     cutoff_time = reference_time - timedelta(hours=MAX_ITEM_AGE_HOURS)
     try:
-        resp = requests.get(url, timeout=TIMEOUT, headers={
-            "User-Agent": "Mozilla/5.0 (compatible; HotTopicsBot/1.0; +https://github.com/wangyulong483)"
-        })
+        resp = requests.get(
+            url,
+            params=source.get("params"),
+            timeout=TIMEOUT,
+            headers={
+                "User-Agent": "Mozilla/5.0 (compatible; HotTopicsBot/1.0; +https://github.com/wangyulong483)"
+            },
+        )
         resp.raise_for_status()
         feed = feedparser.parse(resp.content)
 
         for entry in feed.entries[:15]:  # 每个源最多取 15 条
-            title = entry.get("title", "").strip()
+            publisher = ""
+            if source.get("aggregator"):
+                publisher = (entry.get("source") or {}).get("title", "").strip()
+            title = clean_google_news_title(entry.get("title", "").strip(), publisher)
             if not title:
+                continue
+            if any(pattern.search(title) for pattern in BLOCKED_TITLE_PATTERNS):
                 continue
 
             # 提取摘要
@@ -220,6 +330,9 @@ def fetch_rss(
             elif hasattr(entry, "description"):
                 soup = BeautifulSoup(entry.description, "lxml")
                 summary = soup.get_text(" ", strip=True)[:300]
+
+            if source.get("aggregator") and (summary == title or title in summary):
+                summary = ""
 
             # 提取发布时间
             published_dt = None
@@ -244,27 +357,36 @@ def fetch_rss(
             auto_tags = classify_by_keywords(title, summary)
             if source.get("require_keywords") and not auto_tags:
                 continue
+            required_terms = source.get("require_terms") or []
+            if required_terms and not any(term in f"{title} {summary}" for term in required_terms):
+                continue
 
             # 合并源默认分类和自动标签
             all_tags = list(set(auto_tags))
-            if source["category"] not in all_tags:
-                all_tags.insert(0, source["category"])
+            category = resolve_category(source["category"], auto_tags)
+            if category not in all_tags:
+                all_tags.insert(0, category)
+
+            item_source = publisher or source["name"]
 
             # 生成唯一 ID
-            raw_id = f"{source['name']}:{title}:{url}"
+            raw_id = f"{item_source}:{title}:{url}"
             item_id = hashlib.md5(raw_id.encode()).hexdigest()[:12]
 
             items.append({
                 "id": item_id,
                 "title": title,
                 "summary": summary,
-                "source": source["name"],
+                "source": item_source,
+                "sourceFeed": source["name"],
                 "sourceIcon": source["icon"],
                 "url": url,
-                "category": source["category"],
+                "category": category,
                 "tags": all_tags[:5],  # 最多 5 个标签
                 "publishedAt": published_dt.isoformat(),
                 "timeType": time_type,
+                "language": source.get("lang", "en"),
+                "scope": source.get("scope", "global"),
             })
 
     except requests.RequestException as e:
@@ -299,6 +421,19 @@ def deduplicate(items: list[dict]) -> list[dict]:
         if not is_dup:
             result.append(item)
 
+    return result
+
+
+def limit_items_per_source(items: list[dict], limit: int) -> list[dict]:
+    """限制单一媒体占比，避免聚合结果被高频发布站点垄断。"""
+    source_counts = {}
+    result = []
+    for item in items:
+        source = item["source"]
+        if source_counts.get(source, 0) >= limit:
+            continue
+        source_counts[source] = source_counts.get(source, 0) + 1
+        result.append(item)
     return result
 
 
@@ -351,10 +486,20 @@ def main():
     print(f"[DEDUP] 去重后: {len(all_items)} 条")
 
     # ============================================================
-    # 3. 按发布时间排序并限制输出规模（最新在前）
+    # 3. 合肥/国内中文优先，国际英文只保留少量高价值补充。
     # ============================================================
-    all_items.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
-    all_items = all_items[:MAX_ITEMS]
+    scope_priority = {"hefei": 2, "china": 1, "global": 0}
+    all_items.sort(
+        key=lambda x: (scope_priority.get(x.get("scope"), 0), x.get("publishedAt", "")),
+        reverse=True,
+    )
+    all_items = limit_items_per_source(all_items, MAX_ITEMS_PER_SOURCE)
+    domestic_items = [item for item in all_items if item.get("scope") != "global"]
+    global_items = [item for item in all_items if item.get("scope") == "global"]
+    domestic_limit = MAX_ITEMS - MAX_GLOBAL_ITEMS
+    selected_items = domestic_items[:domestic_limit]
+    selected_items.extend(global_items[:MAX_GLOBAL_ITEMS])
+    all_items = selected_items[:MAX_ITEMS]
 
     # ============================================================
     # 4. 构建输出 JSON
@@ -368,9 +513,15 @@ def main():
         "generatedAt": now_utc.isoformat(),
         "freshness": {
             "windowHours": MAX_ITEM_AGE_HOURS,
+            "updateIntervalHours": 12,
             "sourceCount": source_count,
             "newestPublishedAt": all_items[0]["publishedAt"] if all_items else None,
             "oldestPublishedAt": all_items[-1]["publishedAt"] if all_items else None,
+        },
+        "audience": {
+            "city": "合肥",
+            "country": "中国",
+            "language": "zh-CN",
         },
         "sourceHealth": source_health,
     }

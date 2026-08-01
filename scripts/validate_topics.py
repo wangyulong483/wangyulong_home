@@ -17,7 +17,10 @@ MIN_ITEMS = 12
 MIN_SOURCES = 4
 MAX_ITEM_AGE_HOURS = 50
 MAX_NEWEST_AGE_HOURS = 24
-MAX_GENERATION_AGE_HOURS = 3
+MAX_GENERATION_AGE_HOURS = 13
+MIN_CHINESE_ITEMS = 12
+MIN_DOMESTIC_SOURCES = 2
+MIN_CHINESE_SHARE = 0.7
 
 
 def parse_datetime(value: str, field: str) -> datetime:
@@ -67,12 +70,16 @@ def validate(payload: dict, expected_generated_at: str | None = None) -> list[st
     urls = set()
     sources = set()
     published_dates = []
+    chinese_items = 0
+    domestic_sources = set()
 
     for index, item in enumerate(items):
         prefix = f"items[{index}]"
         item_id = item.get("id")
         url = item.get("url")
         source = item.get("source")
+        language = item.get("language")
+        scope = item.get("scope")
 
         if not item.get("title"):
             errors.append(f"{prefix}.title is empty")
@@ -91,6 +98,11 @@ def validate(payload: dict, expected_generated_at: str | None = None) -> list[st
         else:
             sources.add(source)
 
+        if language == "zh":
+            chinese_items += 1
+        if scope in {"hefei", "china"} and source:
+            domestic_sources.add(source)
+
         try:
             published_at = parse_datetime(item.get("publishedAt"), f"{prefix}.publishedAt")
             published_dates.append(published_at)
@@ -104,6 +116,16 @@ def validate(payload: dict, expected_generated_at: str | None = None) -> list[st
 
     if len(sources) < MIN_SOURCES:
         errors.append(f"only {len(sources)} sources; expected at least {MIN_SOURCES}")
+    if chinese_items < MIN_CHINESE_ITEMS:
+        errors.append(f"only {chinese_items} Chinese items; expected at least {MIN_CHINESE_ITEMS}")
+    if items and chinese_items / len(items) < MIN_CHINESE_SHARE:
+        errors.append(
+            f"Chinese share is {chinese_items / len(items):.0%}; expected at least {MIN_CHINESE_SHARE:.0%}"
+        )
+    if len(domestic_sources) < MIN_DOMESTIC_SOURCES:
+        errors.append(
+            f"only {len(domestic_sources)} domestic sources; expected at least {MIN_DOMESTIC_SOURCES}"
+        )
     if published_dates and now - max(published_dates) > timedelta(hours=MAX_NEWEST_AGE_HOURS):
         errors.append("the newest item is more than 24 hours old")
 

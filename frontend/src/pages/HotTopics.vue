@@ -4,7 +4,7 @@
     <!-- 头部 -->
     <div class="header">
       <h1><AppIcon icon="microchip" size="26" /> 行业热点</h1>
-      <p class="subtitle">机器人 · 传感器 · AI 每日动态</p>
+      <p class="subtitle">合肥 · 国内机器人 · AI 产业动态，每 12 小时更新</p>
       <div v-if="data" class="freshness-line" :class="`is-${freshnessState}`">
         <span class="freshness-dot"></span>
         <span>{{ freshnessLabel }}</span>
@@ -43,6 +43,19 @@
           </button>
         </div>
 
+        <div class="scope-filter" aria-label="地区范围">
+          <span class="scope-label">关注范围</span>
+          <button
+            v-for="scope in scopeList"
+            :key="scope.key"
+            :class="['scope-btn', { active: activeScope === scope.key }]"
+            type="button"
+            @click="activeScope = scope.key"
+          >
+            {{ scope.label }}
+          </button>
+        </div>
+
         <!-- 搜索框 -->
         <div class="search-box">
           <AppIcon icon="search" size="15" class="search-icon" />
@@ -75,6 +88,7 @@
         <span>共 <strong>{{ filteredItems.length }}</strong> 条热点</span>
         <span v-if="searchQuery" class="stats-filtered">（已筛选）</span>
         <span class="stats-source">来源：{{ sourceCount }} 个信息源</span>
+        <span class="stats-chinese">中文：{{ chineseItemCount }} 条</span>
         <span v-if="data?.freshness?.windowHours" class="stats-window">
           时间窗：{{ data.freshness.windowHours }} 小时
         </span>
@@ -84,10 +98,15 @@
       <div v-if="filteredItems.length > 0" class="topic-list">
         <article v-for="item in filteredItems" :key="item.id" class="topic-card card">
           <div class="topic-header">
-            <span class="source-badge">
-              <AppIcon :icon="sourceIcon(item.source)" size="13" />
-              {{ item.source }}
-            </span>
+            <div class="topic-source-line">
+              <span class="source-badge" :title="item.sourceFeed || item.source">
+                <AppIcon :icon="sourceIcon(item.source)" size="13" />
+                {{ item.source }}
+              </span>
+              <span v-if="item.scope" :class="['scope-badge', `scope-${item.scope}`]">
+                {{ scopeLabel(item.scope) }}
+              </span>
+            </div>
             <span class="topic-date">
               <AppIcon icon="clock" size="11" /> {{ formatDate(item.publishedAt) }}
             </span>
@@ -150,6 +169,14 @@ const targetDate = ref(null)
 const archiveDates = ref([])
 const activeCategory = ref('')
 const searchQuery = ref('')
+const activeScope = ref('')
+
+const scopeList = [
+  { key: '', label: '全部' },
+  { key: 'hefei', label: '合肥 / 安徽' },
+  { key: 'china', label: '国内' },
+  { key: 'global', label: '国际' },
+]
 
 const categoryList = computed(() => {
   const cats = data.value?.categories || []
@@ -178,6 +205,7 @@ const hasNextDay = computed(() => {
 const filteredItems = computed(() => {
   const items = data.value?.items || []
   return items.filter(item => {
+    if (activeScope.value && item.scope !== activeScope.value) return false
     if (activeCategory.value && item.category !== activeCategory.value) return false
     if (searchQuery.value.trim()) {
       const q = searchQuery.value.trim().toLowerCase()
@@ -193,6 +221,10 @@ const sourceCount = computed(() => {
   return sources.size
 })
 
+const chineseItemCount = computed(() => (
+  (data.value?.items || []).filter(item => item.language === 'zh').length
+))
+
 const freshnessAgeHours = computed(() => {
   if (!data.value?.generatedAt) return Infinity
   const generatedAt = new Date(data.value.generatedAt).getTime()
@@ -202,8 +234,8 @@ const freshnessAgeHours = computed(() => {
 
 const freshnessState = computed(() => {
   if (!isToday.value) return 'archive'
-  if (freshnessAgeHours.value <= 6) return 'fresh'
-  if (freshnessAgeHours.value <= 24) return 'delayed'
+  if (freshnessAgeHours.value <= 13) return 'fresh'
+  if (freshnessAgeHours.value <= 26) return 'delayed'
   return 'stale'
 })
 
@@ -250,6 +282,9 @@ const TAG_LABELS = {
 }
 
 function tagLabel(tag) { return TAG_LABELS[tag] || tag }
+
+const SCOPE_LABELS = { hefei: '合肥/安徽', china: '国内', global: '国际' }
+function scopeLabel(scope) { return SCOPE_LABELS[scope] || scope }
 
 const SOURCE_ICONS = {
   'ROS Discourse': 'settings', 'IEEE Spectrum': 'document', 'IEEE Spectrum Robotics': 'document',
@@ -392,6 +427,11 @@ onMounted(() => fetchTopics(null))
 }
 .cat-btn:hover { border-color: var(--border-hover); color: var(--accent); background: var(--accent-muted); }
 .cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.scope-filter { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: -2px 0 14px; }
+.scope-label { margin-right: 3px; color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.68rem; }
+.scope-btn { min-height: 30px; padding: 4px 12px; border: 1px solid var(--border); border-radius: 3px; background: var(--bg-input); color: var(--text-secondary); font-family: inherit; font-size: 0.76rem; cursor: pointer; transition: 0.2s ease; }
+.scope-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.scope-btn.active { border-color: rgba(234, 255, 87, 0.5); background: var(--signal-muted); color: var(--signal); }
 
 /* 搜索框 */
 .search-box { position: relative; margin-bottom: 14px; }
@@ -417,6 +457,7 @@ onMounted(() => fetchTopics(null))
 .stats-bar { margin-bottom: 14px; padding: 0 4px; font-size: 0.82rem; color: var(--text-tertiary); }
 .stats-filtered { margin-left: 4px; }
 .stats-source { margin-left: 12px; opacity: 0.7; }
+.stats-chinese { margin-left: 12px; color: var(--signal); opacity: 0.85; }
 .stats-window { margin-left: 12px; opacity: 0.7; }
 
 /* -------- 热点列表 -------- */
@@ -424,7 +465,11 @@ onMounted(() => fetchTopics(null))
 .topic-card { padding: 18px 22px; }
 
 .topic-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.topic-source-line { display: flex; align-items: center; min-width: 0; gap: 6px; }
 .source-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; background: var(--accent-muted); color: var(--accent); border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.scope-badge { padding: 2px 7px; border: 1px solid var(--border); border-radius: 3px; color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.62rem; }
+.scope-hefei { border-color: rgba(234, 255, 87, 0.35); color: var(--signal); }
+.scope-china { border-color: rgba(102, 217, 255, 0.35); color: #87e3ff; }
 .topic-date { display: inline-flex; align-items: center; gap: 3px; font-size: 0.78rem; color: var(--text-tertiary); }
 
 .topic-title { margin: 0 0 8px 0; font-size: 1.02rem; line-height: 1.45; }
@@ -461,6 +506,9 @@ onMounted(() => fetchTopics(null))
   .category-tabs { gap: 6px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
   .category-tabs::-webkit-scrollbar { display: none; }
   .cat-btn { padding: 8px 14px; font-size: 0.8rem; white-space: nowrap; flex-shrink: 0; min-height: 40px; }
+  .scope-filter { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 3px; scrollbar-width: none; }
+  .scope-filter::-webkit-scrollbar { display: none; }
+  .scope-label, .scope-btn { flex-shrink: 0; }
 
   .topic-card { padding: 14px 16px; }
   .topic-title { font-size: 0.93rem; }
@@ -473,6 +521,8 @@ onMounted(() => fetchTopics(null))
   .header h1 { font-size: 1.3rem; }
   .topic-card { padding: 12px 14px; }
   .topic-title { font-size: 0.88rem; }
+  .topic-header { align-items: flex-start; gap: 8px; }
+  .source-badge { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .date-picker { gap: 6px; }
   .search-input { padding: 10px 14px 10px 36px; font-size: 0.85rem; }
 }
