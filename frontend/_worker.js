@@ -122,13 +122,25 @@ function shrineCollections(payload, type) {
 }
 
 function uniqueShrineItems(items) {
-  const seen = new Set()
-  return items.filter(item => {
+  const positions = new Map()
+  const result = []
+  for (const item of items) {
     const key = item.sourceUrl || item.url || String(item.id)
-    if (!key || seen.has(key)) return false
-    seen.add(key)
-    return true
-  })
+    if (!key) continue
+    if (!positions.has(key)) {
+      positions.set(key, result.length)
+      result.push(item)
+      continue
+    }
+    const index = positions.get(key)
+    const current = result[index]
+    result[index] = {
+      ...item,
+      ...current,
+      tags: [...new Set([...(current.tags || []), ...(item.tags || [])])],
+    }
+  }
+  return result
 }
 
 function searchShrineItems(items, query) {
