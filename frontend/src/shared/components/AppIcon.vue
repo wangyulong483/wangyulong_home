@@ -110,6 +110,8 @@ const iconMap = {
   grid: '/game-icon-pack-main/svg/no-padding/8-ui/grid.svg',
   'zoom-in': '/game-icon-pack-main/svg/no-padding/8-ui/zoom-in.svg',
   'zoom-out': '/game-icon-pack-main/svg/no-padding/8-ui/zoom-out.svg',
+  visible: '/game-icon-pack-main/svg/no-padding/8-ui/visible.svg',
+  invisible: '/game-icon-pack-main/svg/no-padding/8-ui/invisible.svg',
   plus: '/game-icon-pack-main/svg/no-padding/11-symbols/plus.svg',
   minus: '/game-icon-pack-main/svg/no-padding/11-symbols/minus.svg',
 }

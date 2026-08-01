@@ -24,7 +24,7 @@
       </router-link>
 
       <router-link to="/map-zone-painter" class="app-card card card-interactive">
-        <span class="app-icon-wrap map-tool-icon">
+        <span class="app-icon-wrap">
           <AppIcon icon="map" size="28" />
         </span>
         <span class="app-name">地图区域绘制器</span>
@@ -98,22 +98,17 @@ import AppIcon from '@/shared/components/AppIcon.vue'
   width: 56px;
   height: 56px;
   border-radius: var(--radius);
-  background: var(--accent-muted);
-  border: 1px solid rgba(108, 92, 231, 0.15);
+  color: var(--signal);
+  background: var(--signal-muted);
+  border: 1px solid rgba(234, 255, 87, 0.24);
   margin-bottom: 4px;
   transition: all 0.3s var(--ease-out);
 }
 
 .app-card:hover .app-icon-wrap {
-  background: rgba(108, 92, 231, 0.18);
-  border-color: var(--border-hover);
-  box-shadow: 0 0 16px var(--accent-glow);
-}
-
-.map-tool-icon {
-  color: var(--signal);
-  background: var(--signal-muted);
-  border-color: rgba(234, 255, 87, 0.24);
+  background: rgba(234, 255, 87, 0.18);
+  border-color: rgba(234, 255, 87, 0.58);
+  box-shadow: 0 0 18px rgba(234, 255, 87, 0.18);
 }
 
 .app-name {

@@ -19,22 +19,63 @@
         <button :class="{ active: mode === 'brush' }" type="button" @click="setMode('brush')">
           <AppIcon icon="brush" size="15" /> 画笔
         </button>
+        <button :class="{ active: mode === 'pan' }" type="button" @click="setMode('pan')">
+          <AppIcon icon="cursor-move" size="15" /> 平移
+        </button>
       </div>
 
       <div class="segmented layer-switch" aria-label="掩码图层">
-        <button :class="{ active: activeLayer === 'keepout' }" type="button" @click="activeLayer = 'keepout'">
+        <button :class="{ active: activeLayer === 'keepout' }" type="button" @click="selectLayer('keepout')">
           <i class="swatch keepout"></i> 禁行
         </button>
-        <button :class="{ active: activeLayer === 'speed' }" type="button" @click="activeLayer = 'speed'">
+        <button :class="{ active: activeLayer === 'speed' }" type="button" @click="selectLayer('speed')">
           <i class="swatch speed"></i> 限速
         </button>
       </div>
 
-      <label v-if="mode === 'brush'" class="brush-control">
-        <span>笔刷</span>
-        <input v-model.number="brushSize" type="range" min="1" max="50" step="1" />
-        <output>{{ brushSize }} px</output>
-      </label>
+      <div v-if="mode === 'brush'" class="brush-tools">
+        <div class="segmented brush-action" aria-label="画笔操作">
+          <button :class="{ active: brushAction === 'paint' }" type="button" @click="setBrushAction('paint')">
+            <AppIcon icon="brush" size="14" /> 绘制
+          </button>
+          <button :class="{ active: brushAction === 'erase' }" type="button" @click="setBrushAction('erase')">
+            <AppIcon icon="eraser" size="14" /> 擦除
+          </button>
+        </div>
+        <label class="brush-control">
+          <span>笔刷</span>
+          <input v-model.number="brushSize" type="range" min="1" max="50" step="1" @input="scheduleRender" />
+          <output>{{ brushSize }} px</output>
+        </label>
+      </div>
+
+      <div class="preview-tools tool-group" aria-label="图层预览">
+        <button
+          class="icon-command layer-eye"
+          :class="{ muted: !layerVisibility.keepout }"
+          type="button"
+          :title="layerVisibility.keepout ? '隐藏禁行图层' : '显示禁行图层'"
+          @click="toggleLayerVisibility('keepout')"
+        >
+          <i class="swatch keepout"></i>
+          <AppIcon :icon="layerVisibility.keepout ? 'visible' : 'invisible'" size="15" />
+        </button>
+        <button
+          class="icon-command layer-eye"
+          :class="{ muted: !layerVisibility.speed }"
+          type="button"
+          :title="layerVisibility.speed ? '隐藏限速图层' : '显示限速图层'"
+          @click="toggleLayerVisibility('speed')"
+        >
+          <i class="swatch speed"></i>
+          <AppIcon :icon="layerVisibility.speed ? 'visible' : 'invisible'" size="15" />
+        </button>
+        <label class="opacity-control" title="掩码预览透明度">
+          <AppIcon icon="palette" size="14" />
+          <input v-model.number="maskOpacity" type="range" min="20" max="100" step="5" @input="invalidatePreview" />
+          <output>{{ maskOpacity }}%</output>
+        </label>
+      </div>
 
       <div class="history-tools tool-group">
         <button class="icon-command" type="button" title="撤销" :disabled="!canUndo" @click="undo">
@@ -53,7 +94,33 @@
         >
           <AppIcon icon="fill" size="17" />
         </button>
-        <button class="icon-command danger-command" type="button" title="清除当前图层" @click="clearActiveLayer">
+        <button
+          v-if="mode === 'polygon'"
+          class="icon-command"
+          type="button"
+          title="擦除当前多边形区域"
+          :disabled="points.length < 3"
+          @click="clearPolygonArea"
+        >
+          <AppIcon icon="eraser" size="17" />
+        </button>
+        <button
+          v-if="mode === 'polygon'"
+          class="icon-command"
+          type="button"
+          title="删除选中顶点"
+          :disabled="selectedPoint < 0"
+          @click="removeSelectedPoint"
+        >
+          <AppIcon icon="minus" size="17" />
+        </button>
+        <button
+          class="icon-command danger-command"
+          :class="{ armed: clearArmed }"
+          type="button"
+          :title="clearArmed ? '再次点击确认清空图层' : '清除当前图层'"
+          @click="requestClearActiveLayer"
+        >
           <AppIcon icon="trash" size="17" />
         </button>
       </div>
@@ -83,7 +150,12 @@
     <div
       ref="stage"
       class="map-stage"
-      :class="[`mode-${mode}`, `layer-${activeLayer}`, { 'is-panning': pointer.action === 'pan' }]"
+      :class="[
+        `mode-${mode}`,
+        `layer-${activeLayer}`,
+        `brush-${brushAction}`,
+        { 'is-panning': pointer.action === 'pan' },
+      ]"
       @dragover.prevent
       @drop.prevent="onDrop"
     >
@@ -103,7 +175,7 @@
 
       <div class="stage-status top-status" aria-hidden="true">
         <span><i :class="activeLayer"></i>{{ activeLayer === 'keepout' ? 'KEEPOUT' : 'SPEED' }}</span>
-        <span>{{ mode.toUpperCase() }}</span>
+        <span>{{ modeLabel }}</span>
         <span>{{ mapInfo.width }} × {{ mapInfo.height }}</span>
       </div>
       <div class="stage-status coordinate-status" aria-hidden="true">
@@ -135,6 +207,11 @@
         <strong>双掩码输出</strong>
       </div>
       <div class="export-actions">
+        <button class="export-button all-export" type="button" @click="exportBothMasks">
+          <AppIcon icon="save" size="17" />
+          <span>下载双掩码</span>
+          <small>KEEP + SPEED</small>
+        </button>
         <button class="export-button keepout-export" type="button" @click="exportMask('keepout')">
           <AppIcon icon="download" size="17" />
           <span>keepout_mask.pgm</span>
@@ -157,6 +234,7 @@ import {
   buildMaskOutputs,
   createDemoMap,
   encodePgm,
+  encodeZip,
   fillPolygon,
   paintCircle,
   paintLine,
@@ -172,10 +250,14 @@ const speedMask = shallowRef(new Uint8Array(mapInfo.value.width * mapInfo.value.
 const fileName = ref('demo_warehouse.pgm')
 const mode = ref('polygon')
 const activeLayer = ref('keepout')
+const brushAction = ref('paint')
 const brushSize = ref(8)
+const maskOpacity = ref(82)
+const layerVisibility = reactive({ keepout: true, speed: true })
 const points = reactive([])
 const selectedPoint = ref(-1)
 const showGrid = ref(false)
+const clearArmed = ref(false)
 const cursorWorld = ref(null)
 const notice = ref(null)
 const isDraggingFile = ref(false)
@@ -188,6 +270,7 @@ const pointer = reactive({ action: '', id: null, lastScreen: null, lastWorld: nu
 const canUndo = computed(() => points.length > 0 || history.length > 0)
 const canRedo = computed(() => future.length > 0)
 const activeMask = computed(() => activeLayer.value === 'keepout' ? keepMask.value : speedMask.value)
+const modeLabel = computed(() => ({ polygon: 'POLYGON', brush: brushAction.value.toUpperCase(), pan: 'PAN' })[mode.value])
 const maskStats = computed(() => {
   revision.value
   let keepout = 0
@@ -207,6 +290,7 @@ let previewCanvas
 let previewRevision = -1
 let renderFrame = 0
 let noticeTimer = 0
+let clearTimer = 0
 let spacePressed = false
 
 function formatNumber(value) {
@@ -270,19 +354,57 @@ function setMode(nextMode) {
   mode.value = nextMode
   pointer.action = ''
   selectedPoint.value = -1
+  clearArmed.value = false
   scheduleRender()
+}
+
+function setBrushAction(action) {
+  brushAction.value = action
+  scheduleRender()
+}
+
+function selectLayer(layer) {
+  activeLayer.value = layer
+  layerVisibility[layer] = true
+  clearArmed.value = false
+  invalidatePreview()
+}
+
+function toggleLayerVisibility(layer) {
+  layerVisibility[layer] = !layerVisibility[layer]
+  invalidatePreview()
+}
+
+function invalidatePreview() {
+  previewRevision = -1
+  scheduleRender()
+}
+
+function requestClearActiveLayer() {
+  const mask = activeMask.value
+  if (!mask.some(Boolean)) {
+    resetPolygon()
+    showNotice(`${activeLayer.value === 'keepout' ? '禁行' : '限速'}图层当前为空`)
+    return
+  }
+  if (!clearArmed.value) {
+    clearArmed.value = true
+    window.clearTimeout(clearTimer)
+    clearTimer = window.setTimeout(() => { clearArmed.value = false }, 3000)
+    showNotice('再次点击清空按钮以确认操作')
+    return
+  }
+  clearActiveLayer()
 }
 
 function clearActiveLayer() {
   const mask = activeMask.value
-  if (!mask.some(Boolean)) {
-    resetPolygon()
-    return
-  }
   const before = createSnapshot()
   mask.fill(0)
   resetPolygon()
   commitSnapshot(before)
+  clearArmed.value = false
+  window.clearTimeout(clearTimer)
   showNotice(`${activeLayer.value === 'keepout' ? '禁行' : '限速'}图层已清空`)
 }
 
@@ -297,6 +419,13 @@ function fillCurrentPolygon(value = 1) {
 function clearPolygonArea() {
   if (points.length < 3) return
   fillCurrentPolygon(0)
+}
+
+function removeSelectedPoint() {
+  if (selectedPoint.value < 0 || selectedPoint.value >= points.length) return
+  points.splice(selectedPoint.value, 1)
+  selectedPoint.value = Math.min(selectedPoint.value, points.length - 1)
+  scheduleRender()
 }
 
 function buildBaseCanvas() {
@@ -325,17 +454,18 @@ function refreshPreview() {
   const context = previewCanvas.getContext('2d')
   context.drawImage(baseCanvas, 0, 0)
   const image = context.getImageData(0, 0, mapInfo.value.width, mapInfo.value.height)
+  const alpha = maskOpacity.value / 100
   for (let index = 0; index < mapInfo.value.pixels.length; index += 1) {
     const offset = index * 4
-    if (speedMask.value[index]) {
-      image.data[offset] = 48
-      image.data[offset + 1] = 174
-      image.data[offset + 2] = 222
+    if (speedMask.value[index] && layerVisibility.speed) {
+      image.data[offset] = Math.round(image.data[offset] * (1 - alpha) + 48 * alpha)
+      image.data[offset + 1] = Math.round(image.data[offset + 1] * (1 - alpha) + 174 * alpha)
+      image.data[offset + 2] = Math.round(image.data[offset + 2] * (1 - alpha) + 222 * alpha)
     }
-    if (keepMask.value[index]) {
-      image.data[offset] = 230
-      image.data[offset + 1] = 71
-      image.data[offset + 2] = 93
+    if (keepMask.value[index] && layerVisibility.keepout) {
+      image.data[offset] = Math.round(image.data[offset] * (1 - alpha) + 230 * alpha)
+      image.data[offset + 1] = Math.round(image.data[offset + 1] * (1 - alpha) + 71 * alpha)
+      image.data[offset + 2] = Math.round(image.data[offset + 2] * (1 - alpha) + 93 * alpha)
     }
   }
   context.putImageData(image, 0, 0)
@@ -382,6 +512,24 @@ function drawCanvas() {
   context.restore()
 
   if (mode.value === 'polygon' && points.length) drawPolygon(context)
+  if (mode.value === 'brush' && cursorWorld.value) drawBrushCursor(context)
+}
+
+function drawBrushCursor(context) {
+  const screen = worldToScreen(cursorWorld.value)
+  const color = brushAction.value === 'erase'
+    ? '#eaff57'
+    : activeLayer.value === 'keepout' ? '#ff6b7d' : '#66d9ff'
+  context.save()
+  context.beginPath()
+  context.arc(screen.x, screen.y, Math.max(3, brushSize.value * view.scale), 0, Math.PI * 2)
+  context.fillStyle = brushAction.value === 'erase' ? 'rgba(234, 255, 87, 0.08)' : 'rgba(255, 255, 255, 0.04)'
+  context.fill()
+  context.setLineDash([4, 3])
+  context.lineWidth = 1.5
+  context.strokeStyle = color
+  context.stroke()
+  context.restore()
 }
 
 function drawPolygon(context) {
@@ -492,14 +640,21 @@ function onPointerDown(event) {
   if (!canvas.value) return
   event.preventDefault()
   canvas.value.focus({ preventScroll: true })
-  canvas.value.setPointerCapture(event.pointerId)
   const screen = screenFromEvent(event)
   const world = screenToWorld(screen)
+
+  if (mode.value === 'polygon' && event.button === 0 && event.detail > 1) {
+    if (points.length >= 3) fillCurrentPolygon(1)
+    return
+  }
+
+  canvas.value.setPointerCapture(event.pointerId)
   pointer.id = event.pointerId
   pointer.lastScreen = screen
   pointer.lastWorld = world
 
-  const wantsPan = event.button === 1 || (spacePressed && event.button === 0)
+  const wantsPan = (mode.value === 'pan' && event.button === 0)
+    || event.button === 1 || (spacePressed && event.button === 0)
     || (mode.value === 'polygon' && event.button === 2)
   if (wantsPan) {
     pointer.action = 'pan'
@@ -508,7 +663,7 @@ function onPointerDown(event) {
 
   if (mode.value === 'brush' && (event.button === 0 || event.button === 2)) {
     if (!isInsideMap(world)) return
-    pointer.action = event.button === 2 ? 'erase' : 'paint'
+    pointer.action = event.button === 2 ? 'erase' : brushAction.value
     pointer.before = createSnapshot()
     paintCircle(
       activeMask.value,
@@ -517,7 +672,7 @@ function onPointerDown(event) {
       world.x,
       world.y,
       brushSize.value,
-      event.button === 2 ? 0 : 1,
+      pointer.action === 'erase' ? 0 : 1,
     )
     previewRevision = -1
     scheduleRender()
@@ -582,6 +737,7 @@ function onPointerUp(event) {
 
 function onPointerLeave() {
   cursorWorld.value = null
+  scheduleRender()
 }
 
 function onWheel(event) {
@@ -596,6 +752,9 @@ async function loadMap(nextMap, nextName) {
   speedMask.value = new Uint8Array(nextMap.width * nextMap.height)
   history.splice(0)
   future.splice(0)
+  layerVisibility.keepout = true
+  layerVisibility.speed = true
+  clearArmed.value = false
   resetPolygon()
   revision.value += 1
   await nextTick()
@@ -629,14 +788,14 @@ function loadDemoMap() {
   showNotice('演示地图已重置')
 }
 
-function downloadBytes(bytes, outputName) {
-  const blob = new Blob([bytes], { type: 'image/x-portable-graymap' })
+function downloadBytes(bytes, outputName, type = 'image/x-portable-graymap') {
+  const blob = new Blob([bytes], { type })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
   anchor.href = url
   anchor.download = outputName
   anchor.click()
-  URL.revokeObjectURL(url)
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
 function exportMask(type) {
@@ -654,6 +813,37 @@ function exportMask(type) {
     outputName,
   )
   showNotice(`${outputName} 已生成`)
+}
+
+function exportBothMasks() {
+  const output = buildMaskOutputs(mapInfo.value.pixels, keepMask.value, speedMask.value)
+  const baseName = fileName.value.replace(/\.pgm$/i, '').replace(/[^\w.-]+/g, '_') || 'map'
+  const comment = 'Adapted from Adilnasceng/ros2-map-zone-painter (MIT)'
+  const sourceNotice = new TextEncoder().encode([
+    'ROS2 Map Zone Painter Web export',
+    '',
+    'Original project: https://github.com/Adilnasceng/ros2-map-zone-painter',
+    'Author: Adil NAS',
+    'License: MIT',
+    '',
+    `Map size: ${mapInfo.value.width} x ${mapInfo.value.height}`,
+    `Keepout pixels: ${output.stats.keepoutPixels}`,
+    `Speed pixels: ${output.stats.speedPixels}`,
+    `Resolved overlaps: ${output.stats.overlapPixels}`,
+  ].join('\n'))
+  const archive = encodeZip([
+    {
+      name: `${baseName}_keepout_mask.pgm`,
+      data: encodePgm(mapInfo.value.width, mapInfo.value.height, output.keepout, comment),
+    },
+    {
+      name: `${baseName}_speed_mask.pgm`,
+      data: encodePgm(mapInfo.value.width, mapInfo.value.height, output.speed, comment),
+    },
+    { name: 'SOURCE.txt', data: sourceNotice },
+  ])
+  downloadBytes(archive, `${baseName}_nav2_masks.zip`, 'application/zip')
+  showNotice(`${baseName}_nav2_masks.zip 已生成`)
 }
 
 function onKeyDown(event) {
@@ -677,11 +867,13 @@ function onKeyDown(event) {
 
   const key = event.key.toLowerCase()
   if (key === 'b') setMode(mode.value === 'brush' ? 'polygon' : 'brush')
-  else if (key === 'k') activeLayer.value = 'keepout'
-  else if (key === 'g') activeLayer.value = 'speed'
+  else if (key === 'p') setMode('pan')
+  else if (key === 'k') selectLayer('keepout')
+  else if (key === 'g') selectLayer('speed')
   else if (key === 'u') undo()
   else if (key === 'c') mode.value === 'polygon' && points.length >= 3 ? clearPolygonArea() : clearActiveLayer()
   else if (key === 'r' || key === 'escape') resetPolygon()
+  else if (event.key === 'Delete' || event.key === 'Backspace') removeSelectedPoint()
   else if (event.key === 'Enter') fillCurrentPolygon(1)
   else if (['+', '=', ']'].includes(event.key)) zoomAtCenter(1.25)
   else if (['-', '_', '['].includes(event.key)) zoomAtCenter(1 / 1.25)
@@ -720,6 +912,7 @@ onUnmounted(() => {
   window.removeEventListener('keydown', onKeyDown)
   window.removeEventListener('keyup', onKeyUp)
   window.clearTimeout(noticeTimer)
+  window.clearTimeout(clearTimer)
   if (renderFrame) window.cancelAnimationFrame(renderFrame)
 })
 </script>
@@ -741,6 +934,7 @@ onUnmounted(() => {
   min-height: 68px;
   padding: 12px 14px;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   border-bottom: 1px solid var(--border);
   background: #121217;
@@ -755,6 +949,7 @@ onUnmounted(() => {
 
 .file-tools,
 .history-tools,
+.preview-tools,
 .view-tools {
   padding-right: 10px;
   border-right: 1px solid var(--border);
@@ -806,6 +1001,8 @@ onUnmounted(() => {
 .primary-command:hover { background: #f1ff8c; color: #0b0b0e; }
 .primary-command input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .danger-command:hover { border-color: rgba(255, 107, 125, 0.62); color: #ff6b7d; }
+.danger-command.armed { border-color: #ff6b7d; background: rgba(255, 107, 125, 0.16); color: #ff8a99; animation: danger-pulse 0.8s ease-in-out infinite alternate; }
+@keyframes danger-pulse { to { box-shadow: 0 0 14px rgba(255, 107, 125, 0.3); } }
 
 .segmented { padding: 3px; border: 1px solid var(--border); border-radius: 4px; background: #0d0d11; }
 .segmented button { min-height: 32px; border-color: transparent; background: transparent; }
@@ -816,6 +1013,16 @@ onUnmounted(() => {
 .swatch { display: inline-block; width: 8px; height: 8px; border-radius: 1px; }
 .swatch.keepout { background: #e6475d; box-shadow: 0 0 8px rgba(230, 71, 93, 0.45); }
 .swatch.speed { background: #30aede; box-shadow: 0 0 8px rgba(48, 174, 222, 0.45); }
+
+.brush-tools {
+  display: flex;
+  min-width: 320px;
+  align-items: center;
+  gap: 8px;
+}
+.brush-action { flex-shrink: 0; }
+.brush-action button.active:first-child { border-color: rgba(234, 255, 87, 0.36); color: var(--signal); }
+.brush-action button.active:last-child { border-color: rgba(255, 107, 125, 0.46); color: #ff8a99; }
 
 .brush-control {
   display: grid;
@@ -829,6 +1036,27 @@ onUnmounted(() => {
 }
 .brush-control input { width: 100%; accent-color: var(--signal); }
 .brush-control output { width: 34px; color: var(--text-secondary); }
+.preview-tools { gap: 5px; }
+.layer-eye { position: relative; min-width: 44px; padding-inline: 7px; }
+.layer-eye .swatch { position: absolute; top: 5px; left: 5px; width: 5px; height: 5px; }
+.layer-eye.muted { opacity: 0.42; }
+.opacity-control {
+  display: grid;
+  min-width: 132px;
+  min-height: 38px;
+  padding: 0 8px;
+  grid-template-columns: 16px 1fr 28px;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: #19191f;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+.opacity-control input { width: 100%; accent-color: var(--signal); }
+.opacity-control output { text-align: right; }
 .view-tools { margin-left: auto; padding-right: 0; border-right: 0; }
 .zoom-readout { min-width: 54px; color: var(--signal); }
 
@@ -859,6 +1087,8 @@ onUnmounted(() => {
 }
 .map-canvas { display: block; width: 100%; height: clamp(460px, 62vh, 720px); outline: none; touch-action: none; cursor: crosshair; }
 .mode-brush .map-canvas { cursor: url('/game-icon-pack-main/svg/no-padding/10-editing/brush.svg') 4 28, crosshair; }
+.mode-brush.brush-erase .map-canvas { cursor: url('/game-icon-pack-main/svg/no-padding/10-editing/eraser.svg') 4 28, crosshair; }
+.mode-pan .map-canvas { cursor: grab; }
 .map-stage.is-panning .map-canvas { cursor: grabbing; }
 .map-canvas:focus-visible { box-shadow: inset 0 0 0 2px rgba(234, 255, 87, 0.45); }
 
@@ -906,9 +1136,10 @@ onUnmounted(() => {
 .export-button small { color: var(--text-tertiary); font-family: var(--font-mono); font-size: 8px; }
 .keepout-export:hover { border-color: rgba(255, 107, 125, 0.6); color: #ff8a99; }
 .speed-export:hover { border-color: rgba(102, 217, 255, 0.6); color: #87e3ff; }
+.all-export { border-color: rgba(234, 255, 87, 0.28); color: var(--signal); }
+.all-export:hover { border-color: rgba(234, 255, 87, 0.7); background: var(--signal-muted); }
 
 @media (max-width: 1100px) {
-  .tool-rail { flex-wrap: wrap; }
   .view-tools { margin-left: 0; }
   .map-canvas { height: clamp(440px, 58vh, 620px); }
 }
@@ -920,12 +1151,16 @@ onUnmounted(() => {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 7px;
   }
-  .file-tools, .history-tools, .view-tools { padding-right: 0; border-right: 0; }
-  .file-tools, .brush-control, .history-tools, .view-tools { grid-column: 1 / -1; }
+  .file-tools, .history-tools, .preview-tools, .view-tools { padding-right: 0; border-right: 0; }
+  .file-tools, .brush-tools, .preview-tools, .history-tools, .view-tools { grid-column: 1 / -1; }
   .file-tools { display: grid; width: 100%; grid-template-columns: 1fr 40px; }
   .primary-command { flex: 1; }
-  .segmented { width: 100%; min-width: 0; }
+  .tool-rail > .segmented { width: 100%; min-width: 0; grid-column: 1 / -1; }
   .segmented button { flex: 1; padding-inline: 7px; }
+  .brush-tools { display: grid; width: 100%; min-width: 0; grid-template-columns: auto minmax(0, 1fr); }
+  .brush-control { min-width: 0; }
+  .preview-tools { width: 100%; }
+  .opacity-control { flex: 1; min-width: 0; }
   .history-tools, .view-tools { width: 100%; justify-content: flex-start; }
   .history-tools .danger-command { margin-left: auto; }
   .view-tools .icon-command:last-child { margin-left: auto; }
