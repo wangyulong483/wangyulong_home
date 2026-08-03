@@ -86,11 +86,13 @@ vue_blog/
 |------|------|------|
 | `/` | 首页 | HELLO WORLD 头部 + 图片轮播 + 格言 + 学习平台链接 |
 | `/about` | 关于 | 项目视频展示（B站嵌入），点击缩略图弹窗播放 |
-| `/applist` | 应用 | 飞机大战 / 行业热点 / 地图区域绘制器 / 厨力研究所入口 |
+| `/applist` | 应用 | 飞机大战 / 行业热点 / 地图区域绘制器 / 厨力研究所 / 家教备课台入口 |
 | `/game` | 飞机大战 | Canvas 射击游戏 "保卫安建大"，WASD 移动 J 射击 |
 | `/hot-topics` | 行业热点 | 合肥与国内机器人 · AI 动态，地区/分类筛选 + 搜索 + 日期归档 |
 | `/map-zone-painter` | 地图区域绘制器 | 导入 PGM 地图，绘制并导出 ROS2 Nav2 禁行与限速掩码 |
 | `/shrine` | 厨力研究所 | 雷电将军主题模块（影像 / 攻略 Wiki / 资讯 / AI 对话） |
+| `/tutoring` | 家教备课台 | 课程与章节入口，首个子模块为人教版初一上册数学 |
+| `/tutoring/math-7-1/chapter-2` | 有理数的运算 | 30 分钟章节讲义：基础概念、动态数轴、符号规律、乘方辨析与分步例题 |
 
 ## PGM 地图区域绘制器
 
@@ -204,9 +206,11 @@ ChatTab.vue → POST /api/chat → Cloudflare Pages Worker → DeepSeek V4 Flash
                                     └── 结构化角色知识 + 实时来源检索与引用
 ```
 
-知识库采用独立 JSON schema，每条知识包含稳定 ID、层级、别名、关联节点、优先级、确定性、角色视角与来源 ID。Worker 使用精确别名、中文二元词 BM25、意图加权和 RRF 风格排名融合，再进行一跳关联扩展、层级去重与字符预算控制；查询调试接口为 `/api/shrine/knowledge?q=关键词`。
+知识库采用独立 JSON schema，当前包含 61 个知识节点、14 个可核对来源，覆盖身份、经历、人生观、价值观、治理、关系、日常、武艺与世界观。每条知识包含稳定 ID、层级、别名、关联节点、优先级、确定性、角色视角与来源 ID。Worker 使用精确别名、中文二元词 BM25、意图加权和 RRF 风格排名融合，再进行一跳关联扩展、层级去重与字符预算控制；查询调试接口为 `/api/shrine/knowledge?q=关键词`。
 
 角色对话架构参考了 [SillyTavern](https://github.com/SillyTavern/SillyTavern) 的 Lorebook 激活、递归扩展与上下文预算思想，[RisuAI](https://github.com/kwaroran/Risuai) 的近期对话和相关记忆分离思路，以及 [MiniSearch](https://github.com/lucaong/minisearch) 的 BM25/BM25+ 设计。三者分别采用 AGPL-3.0、GPL-3.0 与 MIT 许可证；本项目只借鉴架构和算法思想，未复制其实现代码。DeepSeek 模型更新以[官方 API 文档](https://api-docs.deepseek.com/updates/)为准。
+
+事实扩展通过 GitHub MCP 核对 [genshin-db](https://github.com/theBowja/genshin-db)、[Genshin_Database](https://github.com/Nanako660/Genshin_Database) 与 [Chat-Haruhi-Suzumiya](https://github.com/LC1332/Chat-Haruhi-Suzumiya)。`genshin-db` 采用 MIT；ChatHaruhi 代码采用 Apache-2.0、数据采用 CC BY-NC 4.0；`Genshin_Database` 未声明许可证，因此仅用于事实核对与外链溯源，不复制其长段文本。完整作者与授权信息保存在 `frontend/public/shrine-data/knowledge-base.json` 的 `sources` 中。
 
 ### 厨力研究所实时检索
 

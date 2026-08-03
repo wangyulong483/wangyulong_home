@@ -118,11 +118,21 @@ test('典型问题稳定命中对应知识节点', () => {
     ['影会做饭吗', 'daily-cooking'],
     ['怎么和影切磋武艺', 'combat-martial-legacy'],
     ['天理和坎瑞亚的真相是什么', 'world-khaenriah'],
+    ['团子牛奶为什么能改变影', 'daily-sweets'],
+    ['神樱是谁种下的', 'world-sacred-sakura-loop'],
+    ['影认识伊斯塔露吗', 'world-istaroth-boundary'],
+    ['荒泷一斗是谁', 'relationship-itto'],
+    ['将军人偶有自己的意志吗', 'identity-shogun-independent-will'],
+    ['诸愿百眼之轮的愿力怎么积攒', 'combat-resolve-chakra'],
+    ['梦想一心和无想的一刀有什么区别', 'combat-musou'],
   ]
   for (const [query, expectedTopId] of cases) {
     const result = searchKnowledge(knowledgeBase, query)
     assert.equal(result.entries[0]?.id, expectedTopId, query)
   }
+
+  const dangoInsight = searchKnowledge(knowledgeBase, '团子牛奶为什么能改变影')
+  assert.ok(dangoInsight.entries.some(entry => entry.id === 'timeline-city-walk'))
 
   const uncertain = searchKnowledge(knowledgeBase, '天理和坎瑞亚的真相是什么')
   assert.ok(!uncertain.entries.some(entry => entry.id === 'daily-poetry-and-cards'))

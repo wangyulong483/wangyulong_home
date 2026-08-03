@@ -79,8 +79,8 @@ def main() -> int:
         datetime.fromisoformat(knowledge.get("updatedAt", "").replace("Z", "+00:00"))
     except ValueError:
         errors.append("knowledge.updatedAt is invalid")
-    if len(entries) < 30:
-        errors.append("knowledge.entries has fewer than 30 items")
+    if len(entries) < 60:
+        errors.append("knowledge.entries has fewer than 60 items")
     if len(set(source_ids)) != len(source_ids):
         errors.append("knowledge.sources contains duplicate ids")
     if len(set(entry_ids)) != len(entry_ids):
@@ -94,6 +94,9 @@ def main() -> int:
             errors.append(f"{prefix} is missing id/title/publisher")
         if not valid_url(source.get("url", "")):
             errors.append(f"{prefix}.url is invalid")
+        if str(source.get("tier", "")).startswith("github-"):
+            if not source.get("license") or not source.get("attribution"):
+                errors.append(f"{prefix} GitHub source needs license and attribution")
 
     for index, entry in enumerate(entries):
         prefix = f"knowledge.entries[{index}]"
