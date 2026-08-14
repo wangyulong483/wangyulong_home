@@ -39,13 +39,6 @@
         <span class="app-desc">雷电将军 · 影像 / 攻略 / 对话</span>
       </router-link>
 
-      <router-link to="/tutoring" class="app-card card card-interactive">
-        <span class="app-icon-wrap">
-          <AppIcon icon="book" size="28" />
-        </span>
-        <span class="app-name">家教备课台</span>
-        <span class="app-desc">初中数学 · 互动讲解 / 随堂检测</span>
-      </router-link>
     </div>
   </div>
 </template>
