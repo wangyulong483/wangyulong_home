@@ -3,6 +3,7 @@ import { buildPaper, isAnswerCorrect, scorePaper } from '../lib/scoring.js'
 import { QUIZ_UI } from '../config/ui.js'
 
 const STORAGE_KEY = 'ai-quiz-progress-v1'
+const DATA_BASE = '/ai-quiz-data'
 
 export function useQuiz() {
   const data = ref(null)
@@ -35,21 +36,22 @@ export function useQuiz() {
     loading.value = true
     error.value = ''
     try {
-      const response = await fetch('/ai-quiz-data/questions.json')
-      if (!response.ok) throw new Error(`题库加载失败：${response.status}`)
+      const response = await fetch(`${DATA_BASE}/manifest.json`)
+      if (!response.ok) throw new Error(`题库索引加载失败：${response.status}`)
       data.value = await response.json()
     } catch (err) {
-      error.value = err instanceof Error ? err.message : '题库加载失败'
+      error.value = err instanceof Error ? err.message : '题库索引加载失败'
     } finally {
       loading.value = false
     }
   }
 
-  function startQuiz(options) {
+  async function startQuiz(options) {
+    if (!data.value) return
     const seed = options.seed || Number(new URLSearchParams(window.location.search).get('seed')) || Date.now()
     const count = options.mode === 'deep' ? QUIZ_UI.deepCount : QUIZ_UI.standardCount
-    const nextPaper = buildPaper({
-      questions: data.value?.questions || [],
+    const metaPaper = buildPaper({
+      questions: data.value.questions || [],
       dimensions: dimensions.value,
       audience: options.audience,
       mode: options.mode,
@@ -67,22 +69,64 @@ export function useQuiz() {
       quizVersion: data.value?.quizVersion,
       startedAt: new Date().toISOString(),
     }
-    paper.value = nextPaper
+
+    loading.value = true
+    error.value = ''
+    try {
+      paper.value = await hydratePaper(metaPaper)
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : '题目加载失败'
+      loading.value = false
+      return
+    }
     answers.value = []
     currentIndex.value = 0
     view.value = 'running'
+    loading.value = false
     persist()
   }
 
-  function resumeQuiz() {
+  async function resumeQuiz() {
     if (!savedState.value || !data.value) return
-    session.value = savedState.value.session
-    paper.value = (savedState.value.paperIds || [])
+    const metaQuestions = (savedState.value.paperIds || [])
       .map(id => data.value.questions.find(question => question.id === id))
       .filter(Boolean)
+    if (!metaQuestions.length) return
+
+    session.value = savedState.value.session
+    loading.value = true
+    error.value = ''
+    try {
+      paper.value = await hydratePaper(metaQuestions)
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : '题目加载失败'
+      loading.value = false
+      return
+    }
     answers.value = savedState.value.answers || []
     currentIndex.value = Math.min(savedState.value.currentIndex || 0, Math.max(paper.value.length - 1, 0))
     view.value = savedState.value.view || 'running'
+    loading.value = false
+  }
+
+  async function hydratePaper(metaQuestions) {
+    const files = [...new Set(metaQuestions.map(question => question.file).filter(Boolean))]
+    const contentById = new Map()
+    await Promise.all(files.map(async file => {
+      const chunk = await fetchChunk(file)
+      for (const content of chunk.questions || []) contentById.set(content.id, content)
+    }))
+    return metaQuestions.map(meta => {
+      const content = contentById.get(meta.id)
+      if (!content) throw new Error(`题目 ${meta.id} 正文缺失`)
+      return { ...meta, ...content }
+    })
+  }
+
+  async function fetchChunk(file) {
+    const response = await fetch(`${DATA_BASE}/${file}`)
+    if (!response.ok) throw new Error(`题库分片加载失败：${response.status}`)
+    return response.json()
   }
 
   function selectAnswer(selected) {

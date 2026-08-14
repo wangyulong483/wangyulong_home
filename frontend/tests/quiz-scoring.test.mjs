@@ -8,10 +8,23 @@ import {
   scorePaper,
 } from '../src/features/ai-quiz/lib/scoring.js'
 
-const quizData = JSON.parse(readFileSync(
-  new URL('../public/ai-quiz-data/questions.json', import.meta.url),
-  'utf8',
-))
+const DATA_DIR = new URL('../public/ai-quiz-data/', import.meta.url)
+
+function loadQuizData() {
+  const manifest = JSON.parse(readFileSync(new URL('manifest.json', DATA_DIR), 'utf8'))
+  const files = [...new Set(manifest.questions.map(question => question.file))]
+  const contentById = new Map()
+  for (const file of files) {
+    const chunk = JSON.parse(readFileSync(new URL(file, DATA_DIR), 'utf8'))
+    for (const content of chunk.questions) contentById.set(content.id, content)
+  }
+  return {
+    ...manifest,
+    questions: manifest.questions.map(meta => ({ ...meta, ...contentById.get(meta.id) })),
+  }
+}
+
+const quizData = loadQuizData()
 
 test('标准卷按 seed 稳定组卷，并覆盖全部维度', () => {
   const first = buildPaper({
@@ -94,4 +107,13 @@ test('结果包含总分、维度分和错题', () => {
   assert.ok(result.score >= 0 && result.score <= 100)
   assert.ok(result.wrongAnswers.length > 0)
   assert.ok(result.level.name)
+})
+
+test('manifest 索引能解析出完整题目正文', () => {
+  assert.ok(quizData.questions.length > 0)
+  for (const question of quizData.questions) {
+    assert.ok(question.prompt, `${question.id} 缺少题干`)
+    assert.ok(Array.isArray(question.options) && question.options.length >= 2, `${question.id} 缺少选项`)
+    assert.ok(question.answer !== undefined && question.answer !== null, `${question.id} 缺少答案`)
+  }
 })

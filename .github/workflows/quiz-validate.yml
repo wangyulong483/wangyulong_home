@@ -1,0 +1,33 @@
+name: AI 测评题库校验
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/quiz-validate.yml"
+      - "scripts/validate_quiz.py"
+      - "frontend/public/ai-quiz-data/**"
+  pull_request:
+    paths:
+      - "scripts/validate_quiz.py"
+      - "frontend/public/ai-quiz-data/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 校验题库
+        run: python scripts/validate_quiz.py

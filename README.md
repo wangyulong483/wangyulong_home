@@ -43,7 +43,7 @@
 | `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人/AI 动态，支持搜索、分类和日期归档 | `frontend/src/pages/HotTopics.vue`、`frontend/public/topics-data/` |
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区与限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |
 | `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略/Wiki、资讯和“与影对话” | `frontend/src/pages/Shrine.vue`、`frontend/src/features/shrine/`、`frontend/public/shrine-data/` |
-| `/ai-quiz` | AI 应用能力测评 | 纯静态场景判断测评，本地组卷、判分、雷达画像、错题复盘和学习建议 | `frontend/src/pages/AiQuiz.vue`、`frontend/src/features/ai-quiz/`、`frontend/public/ai-quiz-data/questions.json` |
+| `/ai-quiz` | AI 应用能力测评 | 纯静态场景判断测评，本地组卷、判分、雷达画像、错题复盘和学习建议 | `frontend/src/pages/AiQuiz.vue`、`frontend/src/features/ai-quiz/`、`frontend/public/ai-quiz-data/`（manifest + questions/ 分片） |
 
 ## 系统架构
 
@@ -98,7 +98,7 @@ vue_blog/
 |   |   |   `-- shrine/                  # 画廊、Wiki、资讯、对话与检索
 |   |   `-- shared/                      # 图标、布局、通用组件
 |   |-- public/
-|   |   |-- ai-quiz-data/                # AI 测评题库 JSON
+|   |   |-- ai-quiz-data/                # AI 测评题库：manifest 索引 + questions/ 分片
 |   |   |-- shrine-data/                 # 角色内容、知识库、封面与图片
 |   |   |-- topics-data/                 # 热点当前数据与日期归档
 |   |   |-- third-party-notices/         # 第三方许可证和来源声明
@@ -115,7 +115,8 @@ vue_blog/
 |   |-- fetch_topics.py                   # 行业热点聚合
 |   |-- fetch_shrine.py                   # 厨厨实时索引聚合
 |   |-- validate_topics.py
-|   `-- validate_shrine.py
+|   |-- validate_shrine.py
+|   `-- validate_quiz.py                  # AI 测评题库校验（manifest + 分片）
 |-- .github/workflows/
 |   |-- deploy.yml                        # main 分支生产部署
 |   |-- daily-topics.yml                  # 热点抓取、校验和部署
@@ -176,7 +177,8 @@ uvicorn main:app --reload
 - 组件：`frontend/src/features/ai-quiz/components/`
 - 状态：`frontend/src/features/ai-quiz/composables/useQuiz.js`
 - 组卷与判分：`frontend/src/features/ai-quiz/lib/scoring.js`
-- 题库：`frontend/public/ai-quiz-data/questions.json`
+- 题库索引：`frontend/public/ai-quiz-data/manifest.json`
+- 题目正文分片：`frontend/public/ai-quiz-data/questions/{general,professional,shared}/`
 - 测试：`frontend/tests/quiz-scoring.test.mjs`
 
 当前题型：
@@ -189,15 +191,21 @@ uvicorn main:app --reload
 
 - `dimension` 六选一：`model-basics`、`prompt-context`、`rag`、`agent`、`tools-skills-mcp`、`eval-safety`
 - `audience` 可为 `["general"]`、`["professional"]` 或 `["general", "professional"]`
-- `sourceIds` 必须引用同文件顶部 `sources[]` 中已有的 `id`
+- `sourceIds` 必须引用 `manifest.json` 顶部 `sources[]` 中已有的 `id`
 - 新题优先写成场景判断题，不要写纯定义题
+
+题库分片结构（`manifest.json` 只存索引元数据，正文按受众分片）：
+
+- `manifest.json`：`dimensions`、`sources` + `questions[]` 元数据（`id`/`dimension`/`audience`/`difficulty`/`cognitiveLevel`/`volatility`/`tags`/`sourceIds`/`file`），不含题干正文
+- `questions/{general,professional,shared}/*.json`：题目正文（`type`/`prompt`/`options`/`answer`/`explanation`/`evidence`），每片 ≤100 题
+- 前端组卷只在索引元数据上做，选中后再按 `file` 懒加载正文分片
 
 扩展题库推荐流程：
 
 1. 把新题或素材放到 `docs/data.md`。
-2. 合入 `frontend/public/ai-quiz-data/questions.json`。
+2. 按 `audience` 写入对应分片 `questions/{general,professional,shared}/NNN.json`（正文），并在 `manifest.json` 的 `questions` 里登记元数据与 `file` 指针。
 3. 检查 `id` 唯一、`sourceIds` 有效、答案下标正确。
-4. 运行 `npm.cmd --prefix frontend test` 和 `npm.cmd run build`。
+4. 运行 `python scripts/validate_quiz.py`、`npm.cmd --prefix frontend test` 和 `npm.cmd run build`。
 
 ## 实时数据与 API
 

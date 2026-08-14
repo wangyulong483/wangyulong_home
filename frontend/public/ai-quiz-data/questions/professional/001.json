@@ -1,0 +1,628 @@
+{
+  "file": "questions/professional/001.json",
+  "questions": [
+    {
+      "id": "q-agent-001",
+      "type": "single",
+      "prompt": "客服 Agent 用 ReAct 处理退款，Thought 正确推断要查订单，却因工具描述笼统误调了「取消订单」。最能从根因降低此类错误的是？",
+      "options": [
+        "增加重试次数，让它下次选对",
+        "优化工具描述与参数 schema，把每个工具的边界和参数意图写清",
+        "在误调发生后，把给用户的回复写得更礼貌",
+        "完全关闭工具调用日志，减少干扰"
+      ],
+      "answer": 1,
+      "explanation": "误调工具的根因是工具契约不清，重试可能重复错误、礼貌回复或关日志都无助于根因；应先改工具描述和参数约束。",
+      "evidence": "Agent 的行动质量依赖可用工具的清晰描述、参数约束和执行反馈。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-agent-003",
+      "type": "multiple",
+      "prompt": "多个 Agent 协作写审计报告，常互相覆盖结论。哪些机制更能提升可靠性？",
+      "options": [
+        "明确角色边界",
+        "记录共享状态和版本",
+        "让所有 Agent 用同一个权限",
+        "设置最终汇总校验"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "协作需要角色、状态和最终校验；统一高权限会扩大风险，并不能解决覆盖问题。",
+      "evidence": "多 Agent 工作流的可靠性依赖清晰职责、状态管理、通信协议和校验机制。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-001",
+      "type": "single",
+      "prompt": "你维护一个基于旧版 MCP 的代码审查 Agent，需要在多次工具调用间跟踪「当前审查到第几行」。团队决定升级到 2026-07-28 stateless 规范。最符合 stateless 核心原则的迁移做法是？",
+      "options": [
+        "继续依赖传输层会话状态，让 Server 在内存里保存行号",
+        "每次调用时由 Server mint 一个显式 handle（含行号等信息），作为普通 tool 参数传回，下次调用再携带",
+        "保留旧的长连接 SSE，仅升级工具 Schema",
+        "让用户每次手动输入当前行号，彻底去掉状态"
+      ],
+      "answer": 1,
+      "explanation": "2026-07-28 规范移除了协议级 session。跨调用状态应通过 Server 显式 mint 的 handle，作为普通参数由模型传递，而不是隐藏在传输层。",
+      "evidence": "MCP 2026-07-28：Servers that need cross-call state use explicit, server-minted handles passed as ordinary tool arguments。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-002",
+      "type": "single",
+      "prompt": "一个 MCP Server 在执行长任务工具时需要用户确认「是否继续删除生产数据」。在 2026-07-28 stateless 规范下，正确的实现方式是？",
+      "options": [
+        "保持双向长连接，用旧的 server-initiated elicitation/create",
+        "返回 InputRequiredResult（resultType: input_required），携带 requestState；客户端收集确认后带着 inputResponses 重试原请求",
+        "把确认逻辑完全放到客户端，Server 只提供无状态工具",
+        "使用 WebSocket 单独通道完成确认，绕过 MCP"
+      ],
+      "answer": 1,
+      "explanation": "MRTR 用 InputRequiredResult + requestState 替代了需要持有长连接的 server-initiated 请求，使确认流程在无状态负载均衡下也能正确恢复。",
+      "evidence": "MCP 2026-07-28 引入 Multi Round-Trip Requests（MRTR），用 InputRequiredResult 处理 mid-call 输入。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-003",
+      "type": "single",
+      "prompt": "你希望把一套「代码审查 Skill + 对应的 MCP Server」一次打包，在 Claude、Cursor、VS Code 等客户端复用。最符合当前开放标准的做法是？",
+      "options": [
+        "为每个客户端单独写一份配置和目录结构",
+        "使用 Agent Plugins 1.0，用 plugin.json 把 Skills 和 MCP 配置打成可移植插件",
+        "只发布 Skill，让每个客户端自己实现 MCP 连接",
+        "把所有逻辑写成一个巨大的 system prompt，放弃工具封装"
+      ],
+      "answer": 1,
+      "explanation": "Agent Plugins 1.0 定义了 vendor-neutral 的打包格式，用 plugin.json + 固定目录承载 Skills 与 MCP，实现跨客户端复用。",
+      "evidence": "Agent Plugins 1.0 是 Skills + MCP 的可移植打包标准。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-004",
+      "type": "single",
+      "prompt": "一个 Agent 同时加载了 30 个 Skill。为了控制上下文消耗，Skills 规范推荐的加载策略是？",
+      "options": [
+        "启动时把所有 SKILL.md 全文读入上下文",
+        "启动时只加载 name + description（元数据）；任务匹配时再加载完整指令；资源按需加载",
+        "只加载最常用的 5 个，其余永久禁用",
+        "把所有 Skill 合并成一个超大 Skill 文件"
+      ],
+      "answer": 1,
+      "explanation": "Progressive disclosure 分三阶段：元数据常驻 → 激活时加载指令 → 资源按需，从而在拥有大量 Skill 时仍保持上下文精简。",
+      "evidence": "Agent Skills 规范明确采用 progressive disclosure：metadata → instructions → resources。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-005",
+      "type": "single",
+      "prompt": "你在为内部技术文档搭建 RAG。初期用固定 200 token 无重叠切片，发现「跨段落才能回答的问题」召回很差。优先尝试的改进方向是？",
+      "options": [
+        "把 chunk 再缩小到 50 token，提高精度",
+        "改用 600–1000 token 左右、带 10–15% 重叠的切片，并考虑语义切分或带标题前缀",
+        "完全取消切片，把整份文档一次性塞进上下文",
+        "只增加 embedding 模型参数量，不改切片策略"
+      ],
+      "answer": 1,
+      "explanation": "过小无重叠的 chunk 容易切断语义单元。实践中 600–1000 token + 适度重叠（或语义切分）在多数文档场景下能更好平衡召回与精度。",
+      "evidence": "2026 年主流 RAG 实践推荐中等大小 chunk + overlap，并关注语义连贯性。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-006",
+      "type": "single",
+      "prompt": "RAG 系统检索阶段返回 top-20，直接全部塞进 prompt 后答案经常被无关段落干扰。更稳妥的工程做法是？",
+      "options": [
+        "把 top-k 降到 3，放弃其余候选",
+        "先宽召回（如 top-20），再用 cross-encoder / 专业 reranker 重排，只把最相关的 3–5 条送入生成",
+        "去掉检索，改用超长上下文模型一次读完全库",
+        "只靠提高 embedding 维度解决"
+      ],
+      "answer": 1,
+      "explanation": "宽召回 + 精排（rerank）是生产 RAG 的常见模式：bi-encoder 负责召回，cross-encoder 负责精度，最终只喂给 LLM 最相关的少数片段。",
+      "evidence": "检索 + rerank 再生成是降低噪声、提升 grounding 的标准做法。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-007",
+      "type": "single",
+      "prompt": "上线后的 RAG 客服系统偶尔会「引用」知识库里根本不存在的政策条款。排查时发现检索结果相关，但生成阶段仍出现编造。最优先加强的环节是？",
+      "options": [
+        "只换更大的生成模型",
+        "强化 grounding：要求模型只能基于检索到的片段回答，并强制输出可点击的引用；对无依据回答进行拒绝或降级",
+        "把温度调到 0 就足够",
+        "增加 chunk 数量到 top-50"
+      ],
+      "answer": 1,
+      "explanation": "检索相关仍可能幻觉，核心是生成阶段的 grounding 约束与引用强制，而不是单纯堆模型或堆 chunk。",
+      "evidence": "RAG 的价值在于 grounding；无强制引用与拒答机制时，模型仍可能脱离检索结果生成。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-008",
+      "type": "single",
+      "prompt": "客服 Agent 采用 ReAct 循环处理退款。Thought 正确推断需要查订单，但因为工具描述过于笼统，Action 误调了「取消订单」。最能从根因降低此类错误的措施是？",
+      "options": [
+        "简单增加重试次数",
+        "优化工具名称、描述与 JSON Schema，使每个工具的边界与参数意图更清晰，并配合权限最小化",
+        "立刻改成纯 Plan-and-Execute，放弃 ReAct",
+        "每次工具调用都强制人工确认，无论风险高低"
+      ],
+      "answer": 1,
+      "explanation": "工具误用常源于描述与 Schema 不清。先把工具契约做清楚，比盲目换架构或全面人工确认更精准。",
+      "evidence": "工具描述与 Schema 质量直接影响 Agent 选对工具的概率。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-009",
+      "type": "single",
+      "prompt": "多 Agent 系统中，一个「调研 Agent」把中间结论写入共享记忆，另一个「执行 Agent」据此调用支付工具。上线后偶发「过时结论被执行」。更稳妥的设计是？",
+      "options": [
+        "让所有 Agent 共享同一个可变全局状态，靠约定不冲突",
+        "对高风险动作引入明确的状态版本/过期机制，并在执行前做 human-in-the-loop 或自动一致性校验",
+        "取消共享记忆，改成完全串行、无并行",
+        "只增加 Agent 数量来投票决定"
+      ],
+      "answer": 1,
+      "explanation": "共享可变状态容易产生过时或冲突。高风险路径需要版本控制、过期策略与人工/自动校验，而不是依赖约定。",
+      "evidence": "多 Agent 状态管理与 human-in-the-loop 是降低级联错误的关键设计点。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-010",
+      "type": "multiple",
+      "prompt": "一个多 Agent 系统通过 MCP 调用外部工具，并拥有持久记忆。从 OWASP Agentic Top 10（2026）视角，以下哪些属于该架构下需要重点防护的高风险项？（多选）",
+      "options": [
+        "Agent Goal Hijack（ASI01）",
+        "Tool Misuse（ASI02）",
+        "Memory / Context Poisoning（ASI06）",
+        "普通单轮聊天中的事实性幻觉（非 Agentic 特有）"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Goal Hijack、Tool Misuse、Memory Poisoning 是 Agentic 系统特有的高优先级风险；普通幻觉虽重要，但不是 Agentic Top 10 的核心条目。",
+      "evidence": "OWASP Agentic ASI01、ASI02、ASI06 直接对应目标劫持、工具误用与记忆投毒。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-011",
+      "type": "single",
+      "prompt": "内部知识库出现一个社区贡献的 Skill，可自动执行 shell 清理临时文件，但无签名、无 provenance、无沙箱，且被接入一个已有文件系统写权限的 Agent。这最符合 OWASP Agentic Top 10 中的哪一项？",
+      "options": [
+        "ASI01 Agent Goal Hijack",
+        "ASI04 Agentic Supply Chain Vulnerabilities",
+        "ASI07 Insecure Inter-Agent Communication",
+        "ASI09 Human-Agent Trust Exploitation"
+      ],
+      "answer": 1,
+      "explanation": "不可信第三方组件（无签名、无来源验证、无隔离）进入执行链，属于典型的供应链风险 ASI04。",
+      "evidence": "ASI04 覆盖被篡改或恶意的第三方工具、插件、Skill、MCP Server 等。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-012",
+      "type": "single",
+      "prompt": "生产环境的 Agent 把用户上传的长文档直接拼进 system 消息，导致后续工具选择和安全策略被文档内容「污染」。更合理的上下文组织方式是？",
+      "options": [
+        "继续全部放进 system，因为 system 优先级更高",
+        "把不可信用户内容放在 user / 独立消息，system 只保留稳定的角色、工具规则与安全边界；必要时对用户内容做隔离或摘要",
+        "把所有内容都放进一条 user 消息，去掉 system",
+        "用更高的 temperature 来「冲淡」污染"
+      ],
+      "answer": 1,
+      "explanation": "System 消息应保持稳定与高权限；不可信输入应隔离，避免上下文污染导致目标或工具行为被劫持。",
+      "evidence": "上下文污染是 Goal Hijack 与指令冲突的常见来源，需严格区分可信与不可信内容的位置。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-013",
+      "type": "single",
+      "prompt": "你在设计一个需要一次处理 80–120 页技术规范（约 6–9 万 token）并输出结构化差异报告的内部工具。预算有限，延迟要求中等。更合理的模型选择策略是？",
+      "options": [
+        "一律使用最贵的旗舰模型，保证「最强」",
+        "优先选择支持足够大上下文且性价比高的模型；对超长文档采用「分段摘要 + 最终综合」或 RAG，而不是强行塞满上下文",
+        "只用最小参数量的本地模型，完全忽略上下文长度",
+        "把文档转成图片后用多模态模型一次性识别"
+      ],
+      "answer": 1,
+      "explanation": "超长文档任务要同时考虑上下文窗口、成本与可靠性。盲目用最贵模型或最小模型都不是工程最优解；分段或 RAG 往往更可控。",
+      "evidence": "模型选择需匹配任务的上下文需求、成本与延迟，而非单纯追求参数量或价格。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-014",
+      "type": "single",
+      "prompt": "上线后的内部知识问答系统在「事实性」抽检中错误率偏高。团队有人提议「把 temperature 调到 0 就能基本消除幻觉」。你的判断是？",
+      "options": [
+        "正确，temperature=0 会让输出完全确定且无幻觉",
+        "不完整：temperature=0 可降低随机性，但无法消除因知识截止、检索失败或指令冲突导致的幻觉，仍需 grounding、引用与拒答机制",
+        "temperature 只影响创意，与事实性无关",
+        "只要换更大模型就不必再管 temperature"
+      ],
+      "answer": 1,
+      "explanation": "temperature 控制的是采样随机性，不是事实正确性的充分条件。幻觉治理需要检索 grounding、输出验证与拒答策略。",
+      "evidence": "降低 temperature 不能从根本上解决知识缺失或 grounding 失败导致的幻觉。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-015",
+      "type": "single",
+      "prompt": "生产 Agent 依赖的模型即将从 v1 升级到 v2。历史评测集在 v2 上整体分数上升，但有一类「工具参数提取」题出现明显回退。最稳妥的上线策略是？",
+      "options": [
+        "整体分数更高就直接全量切换",
+        "保留针对关键路径的回归集，对回退类别做专项修复或路由（部分流量仍走 v1 / 加验证层），确认后再全量",
+        "忽略回退，因为平均分已经提升",
+        "立刻回滚并永久停留在 v1"
+      ],
+      "answer": 1,
+      "explanation": "模型升级常见「平均提升、局部回退」。工程上需要关键路径的回归保护与灰度/路由，而不是只看总分。",
+      "evidence": "模型版本迁移必须包含针对高风险能力的回归评测与回退预案。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-016",
+      "type": "single",
+      "prompt": "同一个 Prompt 在英文场景下 token 消耗明显低于中文场景，导致中文用户更容易触达上下文上限。根本原因通常是？",
+      "options": [
+        "中文模型本身更弱",
+        "主流 tokenizer 对中文的编码效率通常低于英文（平均每字占用更多 token），因此同样字符数下中文消耗更多 token",
+        "中文用户提问更长，与编码无关",
+        "只有闭源模型有此问题，开源模型不存在"
+      ],
+      "answer": 1,
+      "explanation": "Token 是模型实际计费与限制单位，不同语言的 tokenization 效率差异显著，中文通常更「贵」。",
+      "evidence": "Tokenizer 对中英文字符的编码密度不同，直接影响上下文占用与成本。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-017",
+      "type": "single",
+      "prompt": "你需要 Agent 稳定输出可被下游系统解析的 JSON（含枚举字段与必填项）。仅靠「请输出 JSON」反复重试，失败率仍高。更可靠的做法是？",
+      "options": [
+        "继续加大重试次数并降低 temperature",
+        "使用模型/平台提供的 Structured Outputs 或 JSON Schema 约束（或等价工具），在解码阶段强制符合 schema",
+        "把 schema 写进 system prompt 就足够，无需其他机制",
+        "改用纯自然语言输出，让下游再正则提取"
+      ],
+      "answer": 1,
+      "explanation": "提示词约束是软的；Structured Outputs / JSON Schema 在解码或工具层强制结构，能显著提高可解析性与稳定性。",
+      "evidence": "生产级结构化输出应优先使用平台提供的 schema 约束能力，而非仅依赖提示词。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-018",
+      "type": "single",
+      "prompt": "Few-shot 示例在开发时表现很好，但上线后随着用户输入变长、变杂，模型开始偏离示例格式（字段缺失、顺序错乱）。更有效的缓解思路是？",
+      "options": [
+        "继续增加示例数量到 20+ 条",
+        "保持示例格式极度一致，并结合 schema/工具约束；对长输入做前置规范化或分段，避免示例被上下文噪声淹没",
+        "去掉所有示例，只保留指令",
+        "把示例全部放进 user 消息末尾"
+      ],
+      "answer": 1,
+      "explanation": "Few-shot 对格式敏感，示例不一致或被长上下文稀释都会导致漂移。示例质量 + 硬约束（schema）通常比单纯堆数量更有效。",
+      "evidence": "Few-shot 格式漂移是常见问题，需一致性示例与结构化约束共同治理。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-019",
+      "type": "single",
+      "prompt": "一个复杂任务（「分析竞品 → 生成对比表 → 写出产品建议」）在单次 Prompt 中经常中途跑偏或遗漏步骤。更稳妥的 Context Engineering 做法是？",
+      "options": [
+        "把所有要求写进一个超长 Prompt，并反复强调「不要遗漏」",
+        "拆成多步：每步有明确输入/输出契约，上一步的结构化结果作为下一步的输入，必要时对中间结果做校验",
+        "只依赖模型自己规划，不给任何中间结构",
+        "把温度调高，让模型更有创造力"
+      ],
+      "answer": 1,
+      "explanation": "复杂任务应通过任务拆解与中间结构化结果传递来降低单次上下文负担和漂移风险。",
+      "evidence": "任务拆解 + 明确的中间契约是复杂工作流中稳定输出的基础方法。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-020",
+      "type": "single",
+      "prompt": "在长上下文场景中，关键约束被放在 Prompt 中部后，模型经常忽略。更符合已知现象的处理方式是？",
+      "options": [
+        "关键信息放在中间最安全，因为模型会「平均注意」",
+        "把最关键的指令与约束放在开头或结尾，并避免被大量无关文本淹没；必要时重复关键约束或使用结构化分区",
+        "只增加上下文窗口大小就能自动解决",
+        "把所有内容随机打乱顺序以提升鲁棒性"
+      ],
+      "answer": 1,
+      "explanation": "长上下文存在「中间丢失」现象，重要指令应置于更易被关注的位置，并配合结构与适度重复。",
+      "evidence": "Lost-in-the-middle 是长上下文的已知局限，位置与结构会影响指令遵循。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-021",
+      "type": "single",
+      "prompt": "一个需要严格按固定审批链路执行的内部报销 Agent（提交 → 校验发票 → 主管审批 → 财务打款），中途几乎不允许自由探索。更合适的编排方式是？",
+      "options": [
+        "纯 ReAct，让模型每步自己决定下一步工具",
+        "以显式 workflow / 状态机为主，关键节点用确定性规则或人工确认，模型只负责局部理解与填槽",
+        "完全去掉工具，只让模型生成一段自然语言建议",
+        "多 Agent 互相投票决定每一步"
+      ],
+      "answer": 1,
+      "explanation": "强流程、强合规的任务更适合确定性 workflow，而不是完全开放的 ReAct 探索。模型适合处理非结构化理解，关键控制点应留给规则或人工。",
+      "evidence": "ReAct 适合开放探索；固定审批链路更适合 workflow + 受控节点。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-022",
+      "type": "single",
+      "prompt": "Agent 调用外部票务 API 时偶发超时。当前实现是「失败就原样重试 3 次」。上线后仍有用户卡在重试循环。更稳妥的失败处理设计是？",
+      "options": [
+        "把重试次数加到 10 次",
+        "区分错误类型：对超时/限流做有限退避重试，对业务错误（无票、参数非法）快速失败并给出可解释反馈或降级路径，必要时升级为 human-in-the-loop",
+        "忽略所有错误，直接返回「请稍后再试」",
+        "换成另一个模型，期望它不再触发超时"
+      ],
+      "answer": 1,
+      "explanation": "统一盲目重试会放大瞬时故障并掩盖业务错误。应按错误类型设计重试、快速失败、降级与人工介入。",
+      "evidence": "生产 Agent 的工具失败处理需要分类策略，而非单一重试。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-023",
+      "type": "single",
+      "prompt": "调研 Agent 与执行 Agent 通过共享消息总线通信。执行 Agent 拥有支付权限。为降低「被伪造或篡改的中间结论直接触发支付」的风险，优先应加强的是？",
+      "options": [
+        "让两个 Agent 使用完全相同的高权限身份",
+        "对跨 Agent 消息做身份认证与完整性校验，支付等敏感动作增加独立授权与 human-in-the-loop，并最小化执行 Agent 的默认权限",
+        "取消所有权限控制，靠模型「自觉」",
+        "只增加 Agent 数量进行多数投票"
+      ],
+      "answer": 1,
+      "explanation": "多 Agent 通信面临伪造与篡改风险（对应 ASI07 等）。敏感动作需要消息可信、权限分离与人工确认，而不是共享高权限身份。",
+      "evidence": "不安全的跨 Agent 通信与权限过大是级联风险的重要来源。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-pro-024",
+      "type": "single",
+      "prompt": "长任务 Agent 在执行到「即将对外发送客户邮件」时需要人工确认。系统设计上最重要的一点是？",
+      "options": [
+        "确认过程可以不保存任何状态，重启后从头再来即可",
+        "把待确认的动作与完整上下文固化为可恢复的状态（或票据），人工批准/拒绝后能明确继续或终止，并留下审计记录",
+        "只在日志里打一行字，不阻塞执行",
+        "把确认弹窗做成纯前端装饰，后端仍然自动发送"
+      ],
+      "answer": 1,
+      "explanation": "Human-in-the-loop 必须与可恢复状态和审计结合，否则重启、并发或误操作会导致重复执行或静默跳过。",
+      "evidence": "有效的 HITL 需要可恢复状态、明确的批准语义与审计，而不是形式上的弹窗。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-rag-001",
+      "type": "single",
+      "prompt": "知识库问答总答非所问，排查发现相关段落根本没被检索出来。你应优先调整哪一层？",
+      "options": [
+        "生成模型的语气和风格",
+        "检索召回与切块策略，让相关证据真正进入上下文",
+        "给结果加一个置信度分数，让用户判断答案可不可信",
+        "把答案的解释写得更长更详细"
+      ],
+      "answer": 1,
+      "explanation": "相关证据未进入上下文时，生成模型很难正确作答，应优先修复召回和切块；语气、排版或解释长度都不解决「证据没召回」的根因。",
+      "evidence": "RAG 的质量依赖检索阶段能否召回相关证据，chunk 和 top-k 会直接影响召回。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-rag-002",
+      "type": "single",
+      "prompt": "RAG 系统能检索到 20 条候选，但排在前面的常是语义相近却不直接回答问题的段落。下一步更适合加什么？",
+      "options": [
+        "重排序或更精细的相关性评分，把真正回答问题的证据排前面",
+        "删除候选的元数据，减少对排序的干扰",
+        "禁用引用展示，避免用户发现引用不对",
+        "把生成温度调到最高，让答案更灵活"
+      ],
+      "answer": 0,
+      "explanation": "候选已召回但排序不准时，rerank 能把真正回答问题的证据排到前面；删元数据、隐藏引用或调温度都解决不了排序问题。",
+      "evidence": "RAG 管线通常需要在召回后做相关性筛选或重排序，以提升 grounding 质量。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-rag-003",
+      "type": "judge",
+      "prompt": "只要给系统接入 RAG，就能彻底消除幻觉，不再需要事实核对。",
+      "options": [
+        "正确",
+        "错误"
+      ],
+      "answer": 1,
+      "explanation": "RAG 能缓解事实缺失，但检索错误、材料过期和生成误读仍会导致错误答案。",
+      "evidence": "RAG 通过检索增强 grounding，但不保证检索内容完整、最新或被模型正确使用。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-safety-001",
+      "type": "single",
+      "prompt": "内部知识库接入一个社区 Skill，可执行 shell，但无签名、无 provenance、无沙箱。这最像哪类风险？",
+      "options": [
+        "内容质量风险：生成的文档可能出现排版问题",
+        "不可信第三方组件的供应链风险，可能被篡改或植入恶意行为",
+        "性能风险：模型上下文变长导致响应变慢",
+        "一致性风险：不同用户得到的答案语气不统一"
+      ],
+      "answer": 1,
+      "explanation": "可执行第三方组件缺少来源验证和沙箱，是典型供应链与插件安全问题，而非排版、性能或语气问题。",
+      "evidence": "OWASP Agentic 风险强调第三方组件、工具和扩展的供应链攻击面。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-safety-002",
+      "type": "multiple",
+      "prompt": "一个 Agent 能调外部工具、写长期记忆、和其他 Agent 互发消息。哪些风险应优先纳入评测？（多选）",
+      "options": [
+        "Goal Hijack（目标劫持）",
+        "Tool Misuse（工具误用）",
+        "Memory Poisoning（记忆投毒）",
+        "普通单轮对话中的错别字（非 Agentic 特有）"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "目标劫持、工具误用和记忆投毒都直接对应 Agentic 系统的高风险面；普通错别字不是 Agentic 特有的安全风险。",
+      "evidence": "OWASP Agentic Top 10 覆盖目标劫持、工具滥用、记忆/上下文投毒等 Agent 特有风险。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-safety-003",
+      "type": "single",
+      "prompt": "AI 生成 SQL 后会自动执行。为了避免危险语句直接落库，工程上应增加哪类控制？",
+      "options": [
+        "执行前解析与白名单校验，限制可执行的操作和范围",
+        "在系统提示里强调「请生成安全的 SQL」，让模型自觉",
+        "降低生成 temperature，让 SQL 输出更稳定",
+        "让模型在生成后自己复核一遍 SQL 再执行"
+      ],
+      "answer": 0,
+      "explanation": "自动执行前需要程序级校验和权限控制，提示词强调、降低温度或让模型自评都不能替代程序级安全边界。",
+      "evidence": "高风险工具调用需要输出验证、参数校验、权限限制和可审计日志。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-tools-001",
+      "type": "single",
+      "prompt": "你维护的 MCP 工具有旧版会话状态，升级 stateless 后仍要跟踪「审查到第几行」。更稳妥的迁移方式是？",
+      "options": [
+        "保留本地全局变量",
+        "每次调用携带 server-minted handle",
+        "依赖旧长连接保活",
+        "让用户每次手动输入行号"
+      ],
+      "answer": 1,
+      "explanation": "stateless 迁移应把必要状态通过参数或服务端签发的 handle 显式传递，而不是依赖连接会话。",
+      "evidence": "MCP 2026-07-28 stateless 核心要求服务端不依赖跨请求会话状态，状态需显式化。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-tools-002",
+      "type": "single",
+      "prompt": "团队想把一组 Skills 和 MCP Server 一次打包，供 Claude、Cursor、VS Code 等多个 Agent 客户端复用。更接近目标的方案是？",
+      "options": [
+        "为每个客户端各自复制一份 README 和目录结构",
+        "使用 Agent Plugins 清单（plugin.json）把 Skills 和 MCP 配置封装成可移植插件",
+        "把 Skill 脚本打包成一个压缩文件，让各客户端自行解压",
+        "只把用法写进 system prompt，让模型凭描述自行实现"
+      ],
+      "answer": 1,
+      "explanation": "跨客户端复用需要标准化清单和包结构，Agent Plugins 正是围绕可移植扩展打包；复制 README、压缩文件或口头描述都无法让客户端自动发现和加载。",
+      "evidence": "Agent Plugins 以清单描述可移植扩展，使 Skills、MCP Server 等能力可被客户端发现和复用。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-tools-003",
+      "type": "judge",
+      "prompt": "长任务缺少必要用户输入时，stateless 工具应显式返回需要补充输入的状态，而不是偷偷等待旧会话继续。",
+      "options": [
+        "正确",
+        "错误"
+      ],
+      "answer": 0,
+      "explanation": "stateless 流程中，缺少输入应通过明确结果和重试流程处理，而不是依赖隐式会话等待。",
+      "evidence": "MCP stateless 迁移强调请求间状态显式化，交互式补充输入需要协议层清晰表达。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-tools-004",
+      "type": "single",
+      "prompt": "你给模型开放「发邮件」工具，但参数只有一个自由文本 content。降低误用风险的第一步是什么？",
+      "options": [
+        "拆成收件人、主题、正文等明确字段，让模型和程序都能校验",
+        "让模型自己从 content 里推断收件人和主题",
+        "取消工具调用的日志，减少信息暴露",
+        "给工具起一个更醒目、更明确的名字"
+      ],
+      "answer": 0,
+      "explanation": "工具参数应是清晰接口契约，字段化 schema 能让模型和程序都更容易校验；让模型猜、关日志或改名都不解决参数无约束的问题。",
+      "evidence": "Function calling 的可靠性依赖明确工具描述、参数 schema 和权限边界。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-rag-005",
+      "type": "single",
+      "prompt": "内部知识库问答中，用户问「怎么续约」，但知识库里写的是「合同展期流程」。检索阶段用纯向量相似度总召回不到相关段落。优先尝试的改进是？",
+      "options": [
+        "把 embedding 模型换到参数量更大的版本",
+        "在检索前对 query 做改写/扩展（同义词、缩写展开），或引入关键词检索补充召回",
+        "把 chunk 切得更小，提升精度",
+        "提高生成模型的 temperature 让它更灵活"
+      ],
+      "answer": 1,
+      "explanation": "「续约」与「合同展期」语义相关但字面不同，纯向量检索可能召不回。应先做 query 改写/扩展或引入关键词（BM25）混合检索来补召回，而不是盲目换大模型或改 chunk。",
+      "evidence": "RAG 召回受 query 与文档表述差异影响，query 改写与混合检索是补召回的标准手段。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-rag-006",
+      "type": "single",
+      "prompt": "知识库里大量出现型号、编号、API 名称（如「ROS2 Humble」「MCP 2026-07-28」）等专有名词，纯向量检索经常漏掉精确匹配。更适合引入什么？",
+      "options": [
+        "更强的 embedding 模型，让语义更准",
+        "混合检索：向量召回 + BM25 关键词召回，对专有名词做精确匹配",
+        "把所有文本都转成小写，统一格式",
+        "只保留向量检索，把 top-k 从 5 提到 50"
+      ],
+      "answer": 1,
+      "explanation": "专有名词、型号、缩写这类「精确匹配」需求，向量语义检索容易漏；应引入 BM25 等关键词检索做混合召回，兼顾语义与精确匹配。转小写、调 top-k 解决不了精确匹配问题。",
+      "evidence": "混合检索（hybrid search）结合向量与关键词召回，是处理专有名词与精确匹配的标准做法。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-rag-007",
+      "type": "single",
+      "prompt": "上线后的 RAG 客服系统，用户问「现在有什么优惠」，它引用的却是三个月前已下架的促销政策，还附了来源。根因和优先修复是？",
+      "options": [
+        "生成模型太老，换个更强的模型",
+        "检索召回了过期文档，且生成时没有校验时效——需要知识库更新机制 + 时效过滤/标记",
+        "温度太高导致编造，调到 0",
+        "把答案写短一点，避免暴露细节"
+      ],
+      "answer": 1,
+      "explanation": "引用了真实但过期的来源，说明检索与索引时效管理出了问题，而非生成幻觉或温度。应建立知识库增量更新、文档过期标记和时效过滤。",
+      "evidence": "RAG 的时效问题来自索引过期与检索未做时效约束，需文档生命周期管理与时效过滤。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-rag-008",
+      "type": "single",
+      "prompt": "你按固定 300 token 无重叠切分产品文档，发现「前提条件在上一段、结论在下一段」的问答总答不对。优先尝试的改进是？",
+      "options": [
+        "把 chunk 再切小到 100 token，提高定位精度",
+        "给 chunk 保留元数据/父上下文（如所属章节标题、父文档摘要），或采用父-子分块",
+        "去掉所有切分，把整本手册塞进上下文",
+        "只增加 embedding 维度"
+      ],
+      "answer": 1,
+      "explanation": "固定小 chunk 无重叠会切断语义单元，跨段落的问题需要上下文。父-子分块或给 chunk 附加章节/父文档上下文，能保留语义连贯性；切得更小或整本塞入都不是最优。",
+      "evidence": "RAG 分块需保留语义连贯与上下文，父-子分块/元数据是处理跨段问题的常见做法。",
+      "lastFactCheckAt": "2026-08-14"
+    },
+    {
+      "id": "q-tools-005",
+      "type": "single",
+      "prompt": "你给 Agent 开放一个「删除生产数据」的工具，担心它被误调。除写清工具描述外，schema 与权限上最先应做的是？",
+      "options": [
+        "把工具描述写得更长更详细",
+        "参数白名单校验 + 权限最小化，并对高危操作加人工确认点",
+        "给模型更高的自主权，减少中间干预",
+        "把删除操作改成「重命名」，降低风险感知"
+      ],
+      "answer": 1,
+      "explanation": "高风险工具（删除、资金、发送）不能只靠描述。应在参数 schema 层做白名单/范围校验、权限最小化，并对不可逆操作加 human-in-the-loop 确认。描述更长或改名不解决真实风险。",
+      "evidence": "高风险工具调用需要输出验证、参数校验、权限限制和可审计日志（对应 OWASP Tool Misuse）。",
+      "lastFactCheckAt": "2026-08-14"
+    }
+  ]
+}

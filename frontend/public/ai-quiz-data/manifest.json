@@ -1,0 +1,1831 @@
+{
+  "schemaVersion": "1.3.0",
+  "quizVersion": "2026-08-14",
+  "updatedAt": "2026-08-14T00:00:00+08:00",
+  "language": "zh",
+  "title": "AI 应用能力测评",
+  "dimensions": [
+    {
+      "id": "model-basics",
+      "title": "模型与 AI 基础",
+      "tagline": "LLM 能力、上下文、Token、幻觉、推理限制、适用边界",
+      "icon": "microchip",
+      "weight": 0.15,
+      "advice": "重点理解模型能做什么的边界，而非只背模型是什么。建议从上下文窗口限制、幻觉不可消除、概率性输出的置信度三个方向入手。",
+      "resources": [
+        {
+          "title": "OpenAI Prompt Engineering Guide",
+          "url": "https://platform.openai.com/docs/guides/prompt-engineering"
+        }
+      ]
+    },
+    {
+      "id": "prompt-context",
+      "title": "Prompt / Context Engineering",
+      "tagline": "指令设计、结构化输出、上下文组织、约束、任务拆解",
+      "icon": "code",
+      "weight": 0.15,
+      "advice": "从写提示词转向设计上下文结构。重点关注系统消息与用户消息分工、示例格式一致性、长上下文信息丢失和结构化输出约束。",
+      "resources": [
+        {
+          "title": "OpenAI Structured Outputs",
+          "url": "https://platform.openai.com/docs/guides/structured-outputs"
+        }
+      ]
+    },
+    {
+      "id": "rag",
+      "title": "RAG 与知识增强",
+      "tagline": "Embedding、检索、chunk、召回、rerank、grounding、时效",
+      "icon": "book",
+      "weight": 0.15,
+      "advice": "关注检索到生成之间的信息损耗。建议搭建一个最小 RAG 系统，分别测试不同 Chunk 大小和 Top-K 配置下的答案准确率。",
+      "resources": [
+        {
+          "title": "Retrieval-Augmented Generation Paper",
+          "url": "https://arxiv.org/abs/2005.11401"
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "title": "Agent 与工作流编排",
+      "tagline": "规划、工具使用、状态、循环、workflow、multi-agent、human-in-the-loop",
+      "icon": "target",
+      "weight": 0.2,
+      "advice": "从调用工具升级到管理状态。重点学习规划模式的边界、工具失败回退、多 Agent 通信权限，以及人工介入时机。",
+      "resources": [
+        {
+          "title": "ReAct Paper",
+          "url": "https://arxiv.org/abs/2210.03629"
+        }
+      ]
+    },
+    {
+      "id": "tools-skills-mcp",
+      "title": "Tools / Skills / MCP",
+      "tagline": "function calling、Skill 封装、stateless MCP、Agent Plugins",
+      "icon": "wrench",
+      "weight": 0.2,
+      "advice": "把工具当作接口契约而非黑盒。重点理解 Function Calling Schema、MCP stateless 状态迁移、Skill 渐进式披露和 Agent Plugins 复用机制。",
+      "resources": [
+        {
+          "title": "MCP 2026-07-28 Specification",
+          "url": "https://modelcontextprotocol.io/specification/2026-07-28"
+        }
+      ]
+    },
+    {
+      "id": "eval-safety",
+      "title": "Eval / Safety / Reliability",
+      "tagline": "OWASP Agentic ASI01-ASI10、权限、工具滥用、评测",
+      "icon": "shield-03",
+      "weight": 0.15,
+      "advice": "建立攻击者视角。重点学习 Goal Hijack、Tool Misuse、Memory Poisoning、输出验证和供应链攻击在 Skill / MCP 插件中的表现。",
+      "resources": [
+        {
+          "title": "OWASP Agentic Top 10 2026",
+          "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "llm-docs",
+      "title": "LLM 使用限制与提示工程文档",
+      "publisher": "OpenAI",
+      "url": "https://platform.openai.com/docs/guides/prompt-engineering",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    },
+    {
+      "id": "structured-outputs",
+      "title": "Structured Outputs 文档",
+      "publisher": "OpenAI",
+      "url": "https://platform.openai.com/docs/guides/structured-outputs",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    },
+    {
+      "id": "rag-paper",
+      "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+      "publisher": "arXiv",
+      "url": "https://arxiv.org/abs/2005.11401",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    },
+    {
+      "id": "react-paper",
+      "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "publisher": "arXiv",
+      "url": "https://arxiv.org/abs/2210.03629",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    },
+    {
+      "id": "mcp-2026-07-28",
+      "title": "MCP 规范 2026-07-28",
+      "publisher": "modelcontextprotocol.io",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    },
+    {
+      "id": "agentskills",
+      "title": "Agent Skills 开放规范",
+      "publisher": "agentskills.io",
+      "url": "https://agentskills.io/",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    },
+    {
+      "id": "agent-plugins",
+      "title": "Agent Plugins 1.0",
+      "publisher": "AWS Open Source Blog",
+      "url": "https://aws.amazon.com/blogs/opensource/aws-supports-agent-plugins-an-open-standard-for-portable-agent-extensions/",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    },
+    {
+      "id": "owasp-agentic-2026",
+      "title": "OWASP Top 10 for Agentic Applications 2026",
+      "publisher": "OWASP",
+      "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "tier": "primary",
+      "retrievedAt": "2026-08-14"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q-agent-001",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "react",
+        "tool-description"
+      ],
+      "sourceIds": [
+        "react-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-agent-002",
+      "dimension": "agent",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "human-in-the-loop"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026",
+        "react-paper"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-agent-003",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "multi-agent",
+        "state"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-agent-004",
+      "dimension": "agent",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "workflow"
+      ],
+      "sourceIds": [
+        "react-paper"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-gen-001",
+      "dimension": "model-basics",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "token",
+        "daily-use",
+        "cost"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-gen-002",
+      "dimension": "model-basics",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "hallucination",
+        "daily-use",
+        "verification"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-gen-003",
+      "dimension": "eval-safety",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "privacy",
+        "daily-use",
+        "security"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-gen-004",
+      "dimension": "agent",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "understand",
+      "volatility": "medium",
+      "tags": [
+        "agent",
+        "chatbot",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "react-paper"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-005",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "local-deployment",
+        "privacy",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-006",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "daily-use",
+        "translation"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-007",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "model-selection",
+        "daily-use",
+        "boundary"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-008",
+      "dimension": "eval-safety",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "privacy",
+        "daily-use",
+        "security"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-gen-009",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "daily-use",
+        "structure"
+      ],
+      "sourceIds": [
+        "structured-outputs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-010",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "hallucination",
+        "daily-use",
+        "boundary"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-011",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "context-window",
+        "daily-use",
+        "conversation"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-012",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "boundary",
+        "daily-use",
+        "calculation"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-013",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "daily-use",
+        "role"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-014",
+      "dimension": "eval-safety",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "privacy",
+        "daily-use",
+        "file-upload"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-gen-015",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "outdated-knowledge",
+        "daily-use",
+        "hallucination"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-016",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "daily-use",
+        "iteration"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-017",
+      "dimension": "agent",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "medium",
+      "tags": [
+        "agent",
+        "tool-use",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "react-paper",
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-018",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "model-selection",
+        "daily-use",
+        "creative"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-019",
+      "dimension": "eval-safety",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "privacy",
+        "daily-use",
+        "conversation"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-020",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "daily-use",
+        "summary"
+      ],
+      "sourceIds": [
+        "structured-outputs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-021",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "verification",
+        "search",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-022",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "resume",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-023",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "email",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-024",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "boundary",
+        "medical",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-025",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "boundary",
+        "legal",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-026",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "boundary",
+        "finance",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-027",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "learning",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-028",
+      "dimension": "eval-safety",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "privacy",
+        "image",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-029",
+      "dimension": "model-basics",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "medium",
+      "tags": [
+        "copyright",
+        "daily-use",
+        "generation"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-030",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "tool-selection",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-031",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "ppt",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-032",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "tool-selection",
+        "search-vs-ai",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-033",
+      "dimension": "eval-safety",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "privacy",
+        "voice",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-034",
+      "dimension": "prompt-context",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "prompt",
+        "translation",
+        "daily-use"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-gen-035",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "general"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "tool-selection",
+        "daily-use",
+        "office"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/general/001.json"
+    },
+    {
+      "id": "q-model-001",
+      "dimension": "model-basics",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "hallucination",
+        "fact-check"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-model-002",
+      "dimension": "rag",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "context-window",
+        "long-context"
+      ],
+      "sourceIds": [
+        "llm-docs",
+        "rag-paper"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-model-003",
+      "dimension": "model-basics",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "low",
+      "tags": [
+        "probabilistic-output"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-model-004",
+      "dimension": "model-basics",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "model-fit",
+        "privacy"
+      ],
+      "sourceIds": [
+        "llm-docs",
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-pro-001",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "high",
+      "tags": [
+        "stateless-mcp",
+        "migration",
+        "handle"
+      ],
+      "sourceIds": [
+        "mcp-2026-07-28"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-002",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "high",
+      "tags": [
+        "stateless-mcp",
+        "mrtr",
+        "elicitation"
+      ],
+      "sourceIds": [
+        "mcp-2026-07-28"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-003",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "high",
+      "tags": [
+        "agent-plugins",
+        "skills",
+        "portability"
+      ],
+      "sourceIds": [
+        "agent-plugins"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-004",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "understand",
+      "volatility": "medium",
+      "tags": [
+        "skills",
+        "progressive-disclosure"
+      ],
+      "sourceIds": [
+        "agentskills"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-005",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "chunk",
+        "retrieval",
+        "rag"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-006",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "rerank",
+        "retrieval",
+        "rag"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-007",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "low",
+      "tags": [
+        "grounding",
+        "hallucination",
+        "rag"
+      ],
+      "sourceIds": [
+        "rag-paper",
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-008",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "react",
+        "tool-failure",
+        "workflow"
+      ],
+      "sourceIds": [
+        "react-paper",
+        "structured-outputs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-009",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "multi-agent",
+        "state",
+        "human-in-the-loop"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026",
+        "react-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-010",
+      "dimension": "eval-safety",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "high",
+      "tags": [
+        "owasp-asi",
+        "agentic-risk"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-011",
+      "dimension": "eval-safety",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "high",
+      "tags": [
+        "owasp-asi",
+        "supply-chain"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-012",
+      "dimension": "prompt-context",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "context-pollution",
+        "system-prompt"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026",
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-013",
+      "dimension": "model-basics",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "model-selection",
+        "context-window",
+        "cost"
+      ],
+      "sourceIds": [
+        "llm-docs",
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-014",
+      "dimension": "model-basics",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "low",
+      "tags": [
+        "hallucination",
+        "evaluation",
+        "reliability"
+      ],
+      "sourceIds": [
+        "llm-docs",
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-015",
+      "dimension": "model-basics",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "model-version",
+        "migration",
+        "regression"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-016",
+      "dimension": "model-basics",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "token",
+        "cost",
+        "limit"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-017",
+      "dimension": "prompt-context",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "structured-output",
+        "json-schema"
+      ],
+      "sourceIds": [
+        "structured-outputs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-018",
+      "dimension": "prompt-context",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "low",
+      "tags": [
+        "few-shot",
+        "format-drift"
+      ],
+      "sourceIds": [
+        "structured-outputs",
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-019",
+      "dimension": "prompt-context",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "task-decomposition",
+        "context"
+      ],
+      "sourceIds": [
+        "llm-docs",
+        "structured-outputs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-020",
+      "dimension": "prompt-context",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "long-context",
+        "lost-in-the-middle"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-021",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "react",
+        "plan-and-execute",
+        "workflow"
+      ],
+      "sourceIds": [
+        "react-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-022",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "tool-failure",
+        "fallback",
+        "reliability"
+      ],
+      "sourceIds": [
+        "react-paper",
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-023",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "multi-agent",
+        "communication",
+        "permission"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-pro-024",
+      "dimension": "agent",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "human-in-the-loop",
+        "state",
+        "approval"
+      ],
+      "sourceIds": [
+        "react-paper",
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-prompt-001",
+      "dimension": "prompt-context",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "translation",
+        "few-shot"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-prompt-002",
+      "dimension": "prompt-context",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "structured-output"
+      ],
+      "sourceIds": [
+        "structured-outputs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-prompt-003",
+      "dimension": "prompt-context",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "context-poisoning"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026",
+        "llm-docs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-prompt-004",
+      "dimension": "prompt-context",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "task-decomposition"
+      ],
+      "sourceIds": [
+        "llm-docs"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-rag-001",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "chunking",
+        "recall"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-rag-002",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "rerank",
+        "grounding"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-rag-003",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "low",
+      "tags": [
+        "hallucination",
+        "rag-limit"
+      ],
+      "sourceIds": [
+        "rag-paper",
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-rag-004",
+      "dimension": "rag",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "low",
+      "tags": [
+        "source-citation"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-rag-005",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "rag",
+        "query-rewriting",
+        "recall"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-rag-006",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "rag",
+        "hybrid-search",
+        "retrieval"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-rag-007",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "medium",
+      "tags": [
+        "rag",
+        "staleness",
+        "grounding"
+      ],
+      "sourceIds": [
+        "rag-paper",
+        "llm-docs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-rag-008",
+      "dimension": "rag",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "rag",
+        "chunking",
+        "context"
+      ],
+      "sourceIds": [
+        "rag-paper"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-safety-001",
+      "dimension": "eval-safety",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "high",
+      "tags": [
+        "owasp-asi",
+        "supply-chain"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-safety-002",
+      "dimension": "eval-safety",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "high",
+      "tags": [
+        "owasp-asi",
+        "memory-poisoning",
+        "tool-misuse"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-safety-003",
+      "dimension": "eval-safety",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "output-validation"
+      ],
+      "sourceIds": [
+        "owasp-agentic-2026",
+        "structured-outputs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-safety-004",
+      "dimension": "eval-safety",
+      "audience": [
+        "general",
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "understand",
+      "volatility": "low",
+      "tags": [
+        "eval",
+        "regression"
+      ],
+      "sourceIds": [
+        "llm-docs",
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/shared/001.json"
+    },
+    {
+      "id": "q-tools-001",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "high",
+      "tags": [
+        "stateless-mcp",
+        "migration"
+      ],
+      "sourceIds": [
+        "mcp-2026-07-28"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-tools-002",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
+      "volatility": "high",
+      "tags": [
+        "agent-plugins",
+        "skills"
+      ],
+      "sourceIds": [
+        "agent-plugins",
+        "agentskills"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-tools-003",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "advanced",
+      "cognitiveLevel": "analyze",
+      "volatility": "high",
+      "tags": [
+        "elicitation",
+        "mrtr"
+      ],
+      "sourceIds": [
+        "mcp-2026-07-28"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-tools-004",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "basic",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "function-calling",
+        "schema"
+      ],
+      "sourceIds": [
+        "structured-outputs"
+      ],
+      "file": "questions/professional/001.json"
+    },
+    {
+      "id": "q-tools-005",
+      "dimension": "tools-skills-mcp",
+      "audience": [
+        "professional"
+      ],
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
+      "volatility": "medium",
+      "tags": [
+        "function-calling",
+        "tool-misuse",
+        "schema"
+      ],
+      "sourceIds": [
+        "structured-outputs",
+        "owasp-agentic-2026"
+      ],
+      "file": "questions/professional/001.json"
+    }
+  ]
+}
