@@ -1,248 +1,234 @@
 # MY_WEBSITE
 
-个人博客与实验应用集合，基于 Vue 3 + Vite 构建，部署于 Cloudflare Pages；FastAPI 后端提供 AI 对话服务。
+个人主页、机器人实践记录与交互应用集合。前端使用 Vue 3 + Vite，部署在 Cloudflare Pages；生产 API 由 Pages Worker 提供，角色对话接入 DeepSeek。
 
-- 线上地址：[wangyulong-home.pages.dev](https://wangyulong-home.pages.dev/)
+- 线上站点：[wangyulong-home.pages.dev](https://wangyulong-home.pages.dev/)
 - 应用入口：[wangyulong-home.pages.dev/applist](https://wangyulong-home.pages.dev/applist)
+- 源码仓库：[wangyulong483/wangyulong_home](https://github.com/wangyulong483/wangyulong_home)
 
-## 架构
+## 主要模块
 
+| 路径 | 模块 | 主要能力 |
+|------|------|----------|
+| `/` | 首页 | 视频开场、滚动过渡、个人世界索引与项目入口 |
+| `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 |
+| `/applist` | 应用列表 | 统一管理游戏、热点、地图工具与兴趣模块 |
+| `/game` | 飞机大战 | Canvas 射击游戏，支持键盘和移动端触控 |
+| `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人/AI 动态，支持搜索、分类和日期归档 |
+| `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区与限速区掩码 |
+| `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略/Wiki、资讯和“与影对话” |
+
+## 系统架构
+
+```text
+浏览器
+  |
+  +-- Vue 3 SPA
+  |     +-- 路由页面与按需加载模块
+  |     +-- public/ 静态图片、视频与 JSON 数据
+  |     `-- localStorage 会话状态
+  |
+  `-- /api/*
+        `-- Cloudflare Pages Worker
+              +-- /api/topics              行业热点与归档
+              +-- /api/shrine/*            厨厨索引与知识检索
+              `-- /api/chat                DeepSeek 角色对话
+
+GitHub Actions
+  +-- 定时刷新 topics-data/
+  +-- 定时刷新 shrine-data/index.json
+  `-- 构建并直传 Cloudflare Pages
 ```
-Cloudflare Pages (Vue 前端) ─── Pages Worker ─── DeepSeek API
-       │                         ├─ 分层角色设定与人物状态
-       │                         ├─ 本地会话记忆摘要
-       └─ 静态索引               └─ 角色知识与实时来源检索
-          (shrine-data/*, topics-data/*)
-```
+
+Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不可用时回退到 Pages 静态资源。`DEEPSEEK_API_KEY` 仅保存在 Cloudflare Secret 中，不写入前端代码或仓库。
 
 ## 技术栈
 
-| 层 | 技术 |
-|----|------|
-| 前端框架 | Vue 3.5 (Composition API + `<script setup>`) |
-| 构建工具 | Vite 8 |
-| 路由 | Vue Router 5 (懒加载) |
-| Markdown | marked |
-| 后端 | FastAPI (Python) |
-| AI 模型 | DeepSeek V4 Flash 0731 |
-| 部署 | Cloudflare Pages + Wrangler |
-| 图标 | game-icon-pack (100+ SVG 图标) |
-| 定时任务 | GitHub Actions（每 12 小时抓取行业热点） |
+| 范围 | 技术 |
+|------|------|
+| 前端 | Vue 3.5、Composition API、`<script setup>` |
+| 路由 | Vue Router 5、路由级懒加载 |
+| 动效与内容 | GSAP、marked、Canvas |
+| 构建 | Vite 8、Node.js 22+ |
+| 生产 API | Cloudflare Pages Worker |
+| AI | DeepSeek V4 Flash 0731（API 模型标识 `deepseek-v4-flash`） |
+| 本地示例 API | FastAPI、Uvicorn |
+| 自动化 | GitHub Actions、Python 3.12 |
+| 部署 | Cloudflare Pages、Wrangler 4 |
 
 ## 项目结构
 
-```
+```text
 vue_blog/
-├── frontend/                     # 前端项目
-│   ├── src/
-│   │   ├── main.js               # 入口：创建 Vue 应用 → 路由 → 挂载
-│   │   ├── app/                  # 应用壳与路由
-│   │   │   ├── App.vue
-│   │   │   └── router.js
-│   │   ├── pages/                # 路由级页面
-│   │   ├── features/             # 按业务聚合的组件与逻辑
-│   │   │   ├── home/
-│   │   │   ├── map-zone-painter/ # PGM 解析、掩码生成与地图绘制工作区
-│   │   │   └── shrine/
-│   │   └── shared/               # 跨页面复用的基础模块
-│   │       ├── components/
-│   │       ├── effects/
-│   │       └── layout/
-│   ├── public/
-│   │   ├── game-icon-pack-main/  # SVG 图标库
-│   │   ├── image/                # 图片资源
-│   │   ├── video/                # 视频资源
-│   │   ├── shrine-data/          # 雷电将军应援数据 (JSON + 图片)
-│   │   │   └── knowledge-base.json # 带来源与确定性边界的角色知识图谱
-│   │   ├── topics-data/          # 行业热点数据 (GitHub Actions 生成)
-│   │   ├── third-party-notices/  # 第三方开源许可与来源声明
-│   │   └── _redirects            # Cloudflare Pages SPA + 静态 JSON 路由
-│   ├── _worker.js                # Cloudflare Pages 边缘 Worker
-│   ├── vite.config.js            # Vite 配置（代理 /api → FastAPI）
-│   └── package.json
-├── backend/                      # 后端项目
-│   ├── main.py                   # FastAPI 入口 + CORS + 路由
-│   └── requirements.txt
-├── data/                         # 不参与构建的原始素材与模型数据
-│   └── shrine/
-├── scripts/                      # 自动化与维护脚本
-│   ├── build/copy-frontend.mjs   # 刷新根目录部署产物
-│   ├── deploy/deploy.sh          # Cloudflare Pages 部署
-│   ├── fetch_shrine.py           # 厨力研究所实时索引抓取
-│   └── fetch_topics.py           # 每日热点抓取脚本
-├── docs/                         # 项目规范与方案记录
-│   ├── rule.md
-│   └── todo.md
-├── .github/workflows/            # CI/CD
-│   ├── deploy.yml                # 自动部署到 Cloudflare Pages
-│   ├── daily-topics.yml          # 每 12 小时抓取行业热点
-│   └── shrine-search.yml         # 每 6 小时刷新厨力研究所索引
-└── package.json                  # 根命令入口（委托到 frontend/）
+|-- frontend/
+|   |-- src/
+|   |   |-- app/                         # 应用壳、全局样式与路由
+|   |   |-- pages/                       # 路由级页面
+|   |   |-- features/
+|   |   |   |-- home/                    # 首页视频与滚动过渡
+|   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
+|   |   |   `-- shrine/                  # 画廊、Wiki、资讯、对话与检索
+|   |   `-- shared/                      # 图标、布局和通用组件
+|   |-- public/
+|   |   |-- shrine-data/                 # 角色内容、知识库、封面与图片
+|   |   |-- topics-data/                 # 热点当前数据与日期归档
+|   |   |-- third-party-notices/         # 第三方许可证和来源声明
+|   |   |-- image/ video/ video-covers/  # 站点媒体资源
+|   |   `-- _redirects                   # 静态数据优先 + SPA 回退
+|   |-- tests/                           # Worker 与角色检索测试
+|   |-- _worker.js                       # 生产 API、知识检索与 AI 代理
+|   |-- vite.config.js
+|   `-- package.json
+|-- backend/                              # FastAPI 本地示例服务
+|-- scripts/
+|   |-- build/copy-frontend.mjs           # 复制 frontend/dist 到根 dist
+|   |-- deploy/deploy.sh                  # 构建、提交、推送和部署
+|   |-- fetch_topics.py                   # 行业热点聚合
+|   |-- fetch_shrine.py                   # 厨厨实时索引聚合
+|   |-- validate_topics.py
+|   `-- validate_shrine.py
+|-- .github/workflows/
+|   |-- deploy.yml                        # main 分支生产部署
+|   |-- daily-topics.yml                  # 热点抓取、校验和部署
+|   `-- shrine-search.yml                 # 厨厨索引抓取与校验
+|-- docs/                                 # 工作规范与方案记录
+|-- package.json                          # 根目录命令入口
+`-- README.md
 ```
 
-## 页面路由
+## 本地开发
 
-| 路径 | 页面 | 说明 |
-|------|------|------|
-| `/` | 首页 | HELLO WORLD 头部 + 图片轮播 + 格言 + 学习平台链接 |
-| `/about` | 关于 | 项目视频展示（B站嵌入），点击缩略图弹窗播放 |
-| `/applist` | 应用 | 飞机大战 / 行业热点 / 地图区域绘制器 / 厨力研究所入口 |
-| `/game` | 飞机大战 | Canvas 射击游戏 "保卫安建大"，WASD 移动 J 射击 |
-| `/hot-topics` | 行业热点 | 合肥与国内机器人 · AI 动态，地区/分类筛选 + 搜索 + 日期归档 |
-| `/map-zone-painter` | 地图区域绘制器 | 导入 PGM 地图，绘制并导出 ROS2 Nav2 禁行与限速掩码 |
-| `/shrine` | 厨力研究所 | 雷电将军主题模块（影像 / 攻略 Wiki / 资讯 / AI 对话） |
+### 环境要求
 
-## PGM 地图区域绘制器
-
-地图区域绘制器用于在 ROS2 栅格地图上制作 Nav2 Costmap Filter 掩码，支持桌面端与触摸设备操作。可以直接拖放或选择 P2/P5 格式的 `.pgm` 文件，也可以载入内置演示地图。
-
-### 主要能力
-
-- **双图层编辑**：分别维护禁行区（Keepout）与限速区（Speed），可独立切换、显示和隐藏。
-- **多种绘制方式**：多边形填充、区域擦除、可调半径画笔、画笔擦除与画布平移。
-- **精细操作**：选择及删除多边形顶点、双击闭合填充、滚轮缩放、像素网格和实时坐标。
-- **历史记录**：支持撤销与重做；清空完整图层需要二次确认，减少误操作。
-- **预览与统计**：调整掩码透明度，实时显示禁行、限速、重叠像素和多边形顶点数量。
-- **ROS2 输出**：单独导出 `keepout_mask.pgm`、`speed_mask.pgm`，或下载包含两份掩码及 `SOURCE.txt` 的 ZIP 包。
-
-### 快捷键
-
-| 按键 | 操作 |
-|------|------|
-| `B` | 在画笔与多边形模式间切换 |
-| `P` | 切换到平移模式 |
-| `K` / `G` | 选择禁行图层 / 限速图层 |
-| `Enter` | 填充当前多边形 |
-| `Delete` / `Backspace` | 删除选中的多边形顶点 |
-| `R` / `Esc` | 重置当前多边形 |
-| `C` | 擦除当前多边形区域；无可用多边形时清空当前图层 |
-| `Ctrl/Cmd + Z` | 撤销 |
-| `Ctrl/Cmd + Shift + Z` / `Ctrl/Cmd + Y` | 重做 |
-| `+` / `-` | 放大 / 缩小 |
-| 按住 `Space` 拖动 | 临时平移画布 |
-
-## 设计系统
-
-全局 CSS 变量定义在 `App.vue` 中，两种玻璃容器：
-
-- **玻璃卡片 `.glass-card`**：半透明背景 + 毛玻璃模糊 + 悬停抬起
-- **液态玻璃 `.liquid-glass`**：加强版毛玻璃，含 SVG 噪声纹理 + 对角线光扫动画
-- **应用信号图标**：应用列表统一使用荧光绿色描边、暗色底与悬停辉光，保持工具入口的视觉一致性
-
-支持移动端适配（768px / 480px 断点），含安全区、触摸优化、性能降级。
-
-## 快速开始
-
-环境要求：Node.js 22 或更高版本。
+- Node.js `>= 22`
+- npm
+- Python 3.12（仅 FastAPI 或数据抓取脚本需要）
 
 ### 前端
 
 ```bash
-npm --prefix frontend install
-npm run dev        # 启动开发服务器 → http://localhost:5173
+npm --prefix frontend ci
+npm run dev
 ```
 
-### 后端 (可选，用于 AI 对话功能)
+开发地址默认为 `http://localhost:5173`。
+
+### 测试与构建
+
+```bash
+# Worker、人物状态与知识检索测试
+npm --prefix frontend test
+
+# 生产构建；同时将 frontend/dist 复制到根目录 dist/
+npm run build
+
+# 本地预览
+npm run preview
+```
+
+### FastAPI 示例服务
+
+`backend/` 当前只提供 `/api/hello` 示例接口；生产环境的热点、厨厨检索和 AI 对话均由 `frontend/_worker.js` 处理。
 
 ```bash
 cd backend
 pip install -r requirements.txt
-uvicorn main:app --reload   # 启动 API 服务 → http://localhost:8000
+uvicorn main:app --reload
 ```
 
-开发时 Vite 自动将 `/api` 请求代理到 `http://localhost:8000`。
+Vite 会把开发环境中的 `/api` 请求代理到 `http://127.0.0.1:8000`。
 
-### 构建
+## PGM 地图区域绘制器
 
-```bash
-# 仅构建前端（依赖已安装）
-npm --prefix frontend run build
+地图编辑器用于制作 ROS2 Nav2 Costmap Filter 掩码，支持桌面端和触摸设备。
 
-# 从根目录构建（供 Cloudflare Pages 使用）
-npm run build
-```
+- 导入或拖放 P2/P5 `.pgm`，也可载入演示地图
+- 禁行区（Keepout）与限速区（Speed）双图层独立编辑
+- 多边形、画笔、擦除、平移、缩放和像素网格
+- 顶点选择与删除、撤销/重做、透明度和实时统计
+- 单独导出两类 PGM 掩码，或打包下载双掩码 ZIP
+- ZIP 内附 `SOURCE.txt`，保留上游项目作者与许可证信息
+
+常用快捷键：
+
+| 按键 | 操作 |
+|------|------|
+| `B` | 切换画笔/多边形模式 |
+| `P` | 平移模式 |
+| `K` / `G` | 禁行图层 / 限速图层 |
+| `Enter` | 填充当前多边形 |
+| `Delete` / `Backspace` | 删除选中顶点 |
+| `R` / `Esc` | 重置当前多边形 |
+| `Ctrl/Cmd + Z` | 撤销 |
+| `Ctrl/Cmd + Shift + Z` / `Ctrl/Cmd + Y` | 重做 |
+| `+` / `-` | 缩放 |
+| 按住 `Space` 拖动 | 临时平移 |
+
+## 实时数据与 API
+
+### 自动更新
+
+| 数据 | 北京时间 | 生成文件 | 主要来源 |
+|------|----------|----------|----------|
+| 行业热点 | 每天 08:17、20:17 | `topics-data/hot-topics.json` 与日期归档 | 中文聚合 RSS、国内科技媒体、国际机器人/AI 一手 RSS |
+| 厨厨索引 | 每天 02:37、08:37、14:37、20:37 | `shrine-data/index.json` | Bing Web RSS、Bilibili View API、原神 WIKI_BWIKI、Google 新闻 RSS |
+
+热点排序优先考虑合肥、安徽与国内中文信息，同时保留 ROS2、机器人和 AI 的国际一手来源。两类任务都会先运行校验脚本，来源缺失或数据结构无效时不会发布。
+
+### Worker 接口
+
+| 接口 | 说明 |
+|------|------|
+| `GET /api/topics` | 当前行业热点 |
+| `GET /api/topics/archive-index` | 热点归档索引 |
+| `GET /api/shrine` | 完整厨厨实时索引 |
+| `GET /api/shrine/search?type=gallery&q=关键词` | 按类型检索画廊、Wiki 或资讯 |
+| `GET /api/shrine/knowledge?q=关键词` | 调试角色知识检索结果 |
+| `POST /api/chat` | 带人物状态、知识召回、实时来源和引用的角色对话 |
+
+“与影对话”使用分层世界观、身份、人生观和价值观提示，结合语义人物状态、有限的浏览器本地记忆、结构化知识库与实时资料。回答中的事实来源会以编号引用展示；资料不足或存在冲突时，角色被要求明确说明不确定性。
+
+知识检索借鉴以下开源项目的公开设计思想，但未复制其实现代码：
+
+- [SillyTavern](https://github.com/SillyTavern/SillyTavern)：Lorebook 激活、递归扩展和上下文预算
+- [RisuAI](https://github.com/kwaroran/Risuai)：近期对话与相关记忆分离
+- [MiniSearch](https://github.com/lucaong/minisearch)：BM25/BM25+ 检索思路
+- [Chat-Haruhi-Suzumiya](https://github.com/LC1332/Chat-Haruhi-Suzumiya)：角色知识与对话架构参考
+
+具体来源、许可证和事实边界记录在 `frontend/public/shrine-data/knowledge-base.json` 的 `sources` 字段中。
 
 ## 部署
 
-项目通过双通道部署到 Cloudflare Pages：
-
-| 通道 | 触发方式 | 说明 |
-|------|---------|------|
-| Git 集成 | push → main | Cloudflare 自动拉取、构建、部署 |
-| Wrangler 直传 | GitHub Actions | `wrangler pages deploy frontend/dist --branch=main` |
-
-### 本地部署
+部署细则以 [docs/rule.md](docs/rule.md) 为准。Wrangler 命令必须从仓库根目录执行，并显式指定生产分支。
 
 ```bash
-# 方式1：使用部署脚本（含 git 提交）
+npm run build
+npx wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main
+```
+
+包含 Git 提交和推送的完整脚本：
+
+```bash
 npm run deploy -- "提交信息"
-
-# 方式2：跳过 git，直接部署
-npm run build && npx wrangler pages deploy frontend/dist --branch=main
 ```
 
-## 数据流
+该脚本会执行 `git add -A`、提交、推送和 Wrangler 直传，应在确认工作区内容后使用。`.github/workflows/deploy.yml` 也会在 `main` 更新后构建并发布生产版本。
 
-### 行业热点
+首次配置 AI Secret：
 
+```bash
+npx wrangler pages secret put DEEPSEEK_API_KEY --project-name=wangyulong-home
 ```
-GitHub Actions（北京时间 08:17 / 20:17）→ fetch_topics.py → 中文聚合 RSS + 国际一手 RSS
-  → frontend/public/topics-data/hot-topics.json
-  → Cloudflare Pages 静态托管
-```
-
-热点优先展示合肥/安徽和国内中文内容，并保留少量国际机器人、ROS2 与 AI 一手信息。支持地区、分类、关键词和日期归档筛选，归档路径为 `/topics-data/archive/YYYY-MM-DD.json`。
-
-### AI 对话
-
-```
-ChatTab.vue → POST /api/chat → Cloudflare Pages Worker → DeepSeek V4 Flash 0731
-                                    │
-                                    ├── 世界观 / 身份 / 人生观 / 价值观分层提示
-                                    ├── 御前 / 闲谈 / 演武 / 静思语义状态
-                                    ├── 浏览器本地关系状态与明确记忆（最多 12 条）
-                                    └── 结构化角色知识 + 实时来源检索与引用
-```
-
-知识库采用独立 JSON schema，当前包含 61 个知识节点、14 个可核对来源，覆盖身份、经历、人生观、价值观、治理、关系、日常、武艺与世界观。每条知识包含稳定 ID、层级、别名、关联节点、优先级、确定性、角色视角与来源 ID。Worker 使用精确别名、中文二元词 BM25、意图加权和 RRF 风格排名融合，再进行一跳关联扩展、层级去重与字符预算控制；查询调试接口为 `/api/shrine/knowledge?q=关键词`。
-
-角色对话架构参考了 [SillyTavern](https://github.com/SillyTavern/SillyTavern) 的 Lorebook 激活、递归扩展与上下文预算思想，[RisuAI](https://github.com/kwaroran/Risuai) 的近期对话和相关记忆分离思路，以及 [MiniSearch](https://github.com/lucaong/minisearch) 的 BM25/BM25+ 设计。三者分别采用 AGPL-3.0、GPL-3.0 与 MIT 许可证；本项目只借鉴架构和算法思想，未复制其实现代码。DeepSeek 模型更新以[官方 API 文档](https://api-docs.deepseek.com/updates/)为准。
-
-事实扩展通过 GitHub MCP 核对 [genshin-db](https://github.com/theBowja/genshin-db)、[Genshin_Database](https://github.com/Nanako660/Genshin_Database) 与 [Chat-Haruhi-Suzumiya](https://github.com/LC1332/Chat-Haruhi-Suzumiya)。`genshin-db` 采用 MIT；ChatHaruhi 代码采用 Apache-2.0、数据采用 CC BY-NC 4.0；`Genshin_Database` 未声明许可证，因此仅用于事实核对与外链溯源，不复制其长段文本。完整作者与授权信息保存在 `frontend/public/shrine-data/knowledge-base.json` 的 `sources` 中。
-
-### 厨力研究所实时检索
-
-```
-GitHub Actions（每 6 小时）→ fetch_shrine.py
-  ├── Bing Web RSS → 发现 B站影像候选
-  ├── Bilibili View API → 核验作者、封面、播放量与点赞量
-  ├── 原神WIKI_BWIKI API → 攻略与角色资料
-  └── Google 新闻 RSS → 中文资讯
-      ↓
-frontend/public/shrine-data/index.json
-      ↓
-Cloudflare Worker /api/shrine/search → 画廊 / Wiki / 资讯实时检索
-                                      → 对话知识检索与逐条引用
-```
-
-动态索引中的每条内容必须包含来源名称与原文 URL，`validate_shrine.py` 会在发布前校验来源完整性。B站搜索受限时，系统仍会通过公开 View API 刷新站内精选视频的元数据；“与影对话”会在回复下方显示本轮检索所使用的具体来源。
-
-### SPA + 静态 JSON 共存
-
-`_redirects` 配置让 Cloudflare Pages 优先匹配静态 JSON 文件，其余走 SPA 路由回退。Vue 组件内置 `Content-Type: text/html` 检测，SPA fallback 时使用内嵌兜底数据。
 
 ## 第三方开源声明
 
-PGM 地图区域绘制器基于 Adil NAS 的开源项目
-[`Adilnasceng/ros2-map-zone-painter`](https://github.com/Adilnasceng/ros2-map-zone-painter)
-进行 Web 端功能迁移与交互扩展，原项目采用 MIT License。
+PGM 地图区域绘制器基于 Adil NAS 的开源项目 [`Adilnasceng/ros2-map-zone-painter`](https://github.com/Adilnasceng/ros2-map-zone-painter) 进行 Web 端迁移与功能扩展，原项目采用 MIT License。
 
 - 原作者：[Adil NAS](https://github.com/Adilnasceng)
-- 源码：[github.com/Adilnasceng/ros2-map-zone-painter](https://github.com/Adilnasceng/ros2-map-zone-painter)
+- 上游源码：[github.com/Adilnasceng/ros2-map-zone-painter](https://github.com/Adilnasceng/ros2-map-zone-painter)
 - 许可副本：[frontend/public/third-party-notices/ros2-map-zone-painter-LICENSE.txt](frontend/public/third-party-notices/ros2-map-zone-painter-LICENSE.txt)
-- 本项目导出的双掩码 ZIP 会附带 `SOURCE.txt`，保留原项目来源、作者与许可信息
 
-## 相关文档
+## 项目文档
 
-- [工作规范](docs/rule.md) — 项目开发流程与技术约定
-- [待办事项](docs/todo.md) — 需求记录与方案存档
+- [docs/rule.md](docs/rule.md)：开发、构建与部署规范
+- [docs/todo.md](docs/todo.md)：需求方案与实施记录
