@@ -41,7 +41,7 @@ const RESPONSE_POLICY = [
   '通常回复 2至5 句；复杂的世界观或人生问题可以稍长。使用自然、克制、略带古典感的现代中文，不滥用“汝”“此身”“虚无”，不使用网络梗、颜文字或 emoji。',
   '不要为了像角色而机械复读名台词，也不要虚构与用户共同经历过的事。可以表现停顿、坦率、细微幽默和对甜点的偏爱，但不幼化角色。',
   '谈到真与旧友时温柔而克制；谈眼狩令时承担责任；谈国崩时承认疏忽与亏欠；谈武艺时专注而自信；谈日常时允许笨拙与好奇。',
-  '引用检索资料时只使用提供的事实，在相关陈述末尾标注 [1] [2]。网络搜索结果只作为现实世界近况参考，不能覆盖角色亲历与确定设定。资料不足或互相冲突时直接说明，不编造来源。',
+  '引用检索资料时只使用提供的事实，在相关陈述末尾标注 [1] [2]。网络搜索结果用于回答版本、卡池、活动、新角色、周边等玩家现实世界近况：这类问题有网络资料时要先正面回答，再用“听闻”“从你带来的外界消息看”等角色口吻包装；不要以“一心净土不知世事”回避。网络资料不能改写你在提瓦特内亲历的确定设定。资料不足、跨作品或互相冲突时直接说明，不编造来源。',
 ].join('\n')
 
 const PERSONA_LABELS = {
@@ -524,6 +524,25 @@ const WEB_SEARCH_DENY_PATTERNS = [
   /密码|密钥|token|api[_-]?key/i,
 ]
 
+const GENSHIN_CONTEXT_PATTERN = /原神|genshin|hoyoverse|mihoyo|米哈游|提瓦特|神之眼|七神|旅行者|派蒙|蒙德|璃月|稻妻|须弥|枫丹|纳塔|至冬|坎瑞亚|深渊|天理|雷电将军|雷电影|影|八重神子|愚人众|执行官|冰之女皇|卡池|祈愿|复刻/i
+
+const WRONG_GAME_PATTERN = /鸣潮|wuthering\s*waves|战双|明日方舟|王者荣耀|崩坏[:：\s]*(?:星穹铁道|3|三)|星穹铁道|绝区零|zenless\s*zone\s*zero/i
+
+const GENSHIN_TRUSTED_HOSTS = [
+  'ys.mihoyo.com',
+  'genshin.hoyoverse.com',
+  'www.hoyolab.com',
+  'hoyolab.com',
+  'wiki.biligame.com',
+  'bbs.mihoyo.com',
+]
+
+const WEB_SEARCH_STOP_TERMS = new Set([
+  ...WEB_SEARCH_KEYWORDS,
+  '最近有什么', '有什么新', '有什么', '什么', '哪个', '那些', '这个', '那个',
+  '你指的是', '还是', '相关', '消息', '听闻', '外界', '实时',
+])
+
 function questionTerms(question) {
   const normalized = cleanText(question, 500).toLowerCase()
   const knownTerms = SHRINE_RETRIEVAL_TERMS.filter(term => normalized.includes(term.toLowerCase()))
@@ -531,35 +550,128 @@ function questionTerms(question) {
   return [...new Set([...knownTerms, ...chunks])].slice(0, 12)
 }
 
-function needsWebSearch(question) {
-  const text = cleanText(question, 500)
-  if (!text || WEB_SEARCH_DENY_PATTERNS.some(pattern => pattern.test(text))) return false
-  return WEB_SEARCH_KEYWORDS.some(keyword => text.includes(keyword))
+function previousUserMessage(history = [], currentQuestion = '') {
+  if (!Array.isArray(history)) return ''
+  const current = cleanText(currentQuestion, 1200)
+  for (let index = history.length - 1; index >= 0; index -= 1) {
+    const message = history[index]
+    if (message?.role !== 'user') continue
+    const content = cleanText(message.content, 1200)
+    if (!content || content === current) continue
+    return content
+  }
+  return ''
 }
 
-function buildWebSearchQuery(question) {
-  const text = cleanText(question, 180)
+function isShortFollowUp(question) {
+  const compact = cleanText(question, 80).replace(/[\s?？!！。，“”"']/g, '')
+  return compact.length > 0 && (
+    compact.length <= 12
+    || /^(?:至冬|纳塔|枫丹|须弥|璃月|稻妻|蒙德|坎瑞亚|执行官|愚人众|卡池|角色|活动|复刻)(?:的|呢|相关|那边)?$/.test(compact)
+  )
+}
+
+function contextualWebSearchQuestion(question, history = []) {
+  const current = cleanText(question, 500)
+  const previous = previousUserMessage(history, current)
+  if (!current || !previous) return current
+  if (!isShortFollowUp(current)) return current
+  if (!needsWebSearch(previous) && !GENSHIN_CONTEXT_PATTERN.test(previous)) return current
+  return `${previous} ${current}`
+}
+
+function needsWebSearch(question, history = []) {
+  const text = cleanText(question, 500)
+  if (!text || WEB_SEARCH_DENY_PATTERNS.some(pattern => pattern.test(text))) return false
+  if (WEB_SEARCH_KEYWORDS.some(keyword => text.includes(keyword))) return true
+
+  const contextualQuestion = contextualWebSearchQuestion(question, history)
+  if (contextualQuestion === text) return false
+  return WEB_SEARCH_KEYWORDS.some(keyword => contextualQuestion.includes(keyword))
+    && GENSHIN_CONTEXT_PATTERN.test(contextualQuestion)
+}
+
+function webSearchIntentTerms(text) {
+  const terms = []
+  const rules = [
+    [/雷电将军|雷电影|影/, '雷电将军'],
+    [/新角色|角色/, '新角色'],
+    [/至冬|冰之女皇|执行官|愚人众/, '至冬'],
+    [/纳塔|枫丹|须弥|璃月|稻妻|蒙德|坎瑞亚/, match => match[0]],
+    [/卡池|祈愿/, '卡池'],
+    [/复刻/, '复刻'],
+    [/活动/, '活动'],
+    [/版本|更新|公告/, '版本更新'],
+    [/周边|预售|出货|黏土人|手办/, '周边'],
+  ]
+  for (const [pattern, value] of rules) {
+    const match = text.match(pattern)
+    if (!match) continue
+    terms.push(typeof value === 'function' ? value(match) : value)
+  }
+  return [...new Set(terms)]
+}
+
+function shouldPreferGenshinSources(text) {
+  if (WRONG_GAME_PATTERN.test(text)) return false
+  return GENSHIN_CONTEXT_PATTERN.test(text) || /新角色|角色|版本|活动|周边/.test(text)
+}
+
+function buildWebSearchQuery(question, history = []) {
+  const contextualQuestion = contextualWebSearchQuestion(question, history)
+  const text = cleanText(contextualQuestion, 220)
     .replace(/请记住[^。！？!?]*[。！？!?]?/g, '')
     .replace(/[?？!！。，“”"']/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
-  const terms = questionTerms(text).filter(term => !WEB_SEARCH_KEYWORDS.includes(term))
-  const hasGenshinContext = /原神|雷电将军|雷电影|影|稻妻|米哈游|卡池|复刻/.test(text)
-  const context = hasGenshinContext ? '原神 雷电将军' : ''
-  return [context, ...terms, text.slice(0, 60)]
+  const preferGenshin = shouldPreferGenshinSources(text)
+  const terms = questionTerms(text).filter(term => {
+    const normalized = term.toLowerCase()
+    return !WEB_SEARCH_STOP_TERMS.has(normalized)
+      && !WEB_SEARCH_KEYWORDS.includes(term)
+      && !/^(?:最近|最新|现在|当前|今天|昨日|昨天|什么|有什么|的|呢)$/.test(term)
+  })
+  const context = preferGenshin ? '原神' : ''
+  const authorityHint = preferGenshin ? '官方 米哈游 HoYoverse' : ''
+  return [context, ...webSearchIntentTerms(text), ...terms, authorityHint, text.slice(0, 60)]
     .filter(Boolean)
     .join(' ')
     .replace(/\s+/g, ' ')
-    .slice(0, 120)
+    .slice(0, 140)
 }
 
-async function searchWebWithBrave(query, env) {
+function sourceHost(url) {
+  try {
+    return new URL(url).hostname.toLowerCase()
+  } catch {
+    return ''
+  }
+}
+
+function isTrustedGenshinHost(host, url) {
+  return GENSHIN_TRUSTED_HOSTS.some(allowed => host === allowed || host.endsWith(`.${allowed}`))
+    && (host !== 'wiki.biligame.com' || /\/ys\//.test(url))
+}
+
+function isUsefulWebResult(result, preferGenshin) {
+  const url = cleanText(result.url, 500)
+  const title = cleanText(result.title, 160)
+  const excerpt = cleanText(result.description, 260)
+  const combined = `${title} ${excerpt} ${url}`
+  if (WRONG_GAME_PATTERN.test(combined)) return false
+  if (!preferGenshin) return true
+  const host = sourceHost(url)
+  return isTrustedGenshinHost(host, url) || GENSHIN_CONTEXT_PATTERN.test(combined)
+}
+
+async function searchWebWithBrave(query, env, options = {}) {
   const apiKey = cleanText(env?.BRAVE_SEARCH_API_KEY, 200)
   if (!apiKey || !query) return { sources: [], provider: 'brave', skipped: apiKey ? 'empty-query' : 'missing-key' }
+  const preferGenshin = Boolean(options.preferGenshin ?? shouldPreferGenshinSources(query))
 
   const endpoint = new URL('https://api.search.brave.com/res/v1/web/search')
   endpoint.searchParams.set('q', query)
-  endpoint.searchParams.set('count', '5')
+  endpoint.searchParams.set('count', '8')
   endpoint.searchParams.set('country', 'cn')
   endpoint.searchParams.set('search_lang', 'zh-hans')
   endpoint.searchParams.set('ui_lang', 'zh-CN')
@@ -584,6 +696,7 @@ async function searchWebWithBrave(query, env) {
     const title = cleanText(result.title, 160)
     const excerpt = cleanText(result.description, 260)
     if (!url || !title || seen.has(url)) continue
+    if (!isUsefulWebResult(result, preferGenshin)) continue
     seen.add(url)
     sources.push({
       title,
@@ -600,11 +713,13 @@ async function searchWebWithBrave(query, env) {
   return { sources, provider: 'brave', query, skipped: '' }
 }
 
-async function retrieveWebSources(question, env) {
-  if (!needsWebSearch(question)) return { sources: [], provider: '', query: '', skipped: 'not-needed' }
-  const query = buildWebSearchQuery(question)
+async function retrieveWebSources(question, env, history = []) {
+  if (!needsWebSearch(question, history)) return { sources: [], provider: '', query: '', skipped: 'not-needed' }
+  const contextualQuestion = contextualWebSearchQuestion(question, history)
+  const query = buildWebSearchQuery(question, history)
+  const preferGenshin = shouldPreferGenshinSources(contextualQuestion || query)
   try {
-    return await searchWebWithBrave(query, env)
+    return await searchWebWithBrave(query, env, { preferGenshin })
   } catch (error) {
     return {
       sources: [],
@@ -856,7 +971,7 @@ export default {
         const [knowledgeLoad, shrineLoad, webLoad] = await Promise.allSettled([
           loadKnowledgeBase(request, env),
           loadShrineIndex(request, env),
-          retrieveWebSources(lastUserMsg.content, env),
+          retrieveWebSources(lastUserMsg.content, env, history),
         ])
         const knowledgeBase = knowledgeLoad.status === 'fulfilled' ? knowledgeLoad.value.payload : null
         const shrineIndex = shrineLoad.status === 'fulfilled' ? shrineLoad.value.payload : null

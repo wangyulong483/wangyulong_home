@@ -113,10 +113,25 @@ test('网络搜索只在时效问题触发，并避免发送明确隐私记忆',
   assert.equal(needsWebSearch('雷电将军最近有复刻消息吗？'), true)
   assert.equal(needsWebSearch('你如何理解永恒？'), false)
   assert.equal(needsWebSearch('请记住，我的生日是 6 月 26 日，最近我有点累'), false)
+  assert.equal(needsWebSearch('至冬的', [
+    { role: 'user', content: '最近有什么新角色' },
+    { role: 'assistant', content: '我会留意外界传闻。' },
+    { role: 'user', content: '至冬的' },
+  ]), true)
 
   const query = buildWebSearchQuery('影，最近雷电将军什么时候复刻？')
   assert.match(query, /原神 雷电将军/)
   assert.ok(query.length <= 120)
+
+  const followUpQuery = buildWebSearchQuery('至冬的', [
+    { role: 'user', content: '最近有什么新角色' },
+    { role: 'assistant', content: '你若问外界近况，需看新的资料。' },
+    { role: 'user', content: '至冬的' },
+  ])
+  assert.match(followUpQuery, /原神/)
+  assert.match(followUpQuery, /新角色/)
+  assert.match(followUpQuery, /至冬/)
+  assert.ok(followUpQuery.length <= 140)
 })
 
 test('Brave 网络搜索结果会合并为可引用来源', async () => {
@@ -148,6 +163,44 @@ test('Brave 网络搜索结果会合并为可引用来源', async () => {
     const references = buildChatReferences(null, { entries: [] }, result.sources)
     assert.match(references.context, /网络搜索/)
     assert.equal(references.sources[0].sourceType, 'web')
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('原神近况搜索会过滤跨作品结果', async () => {
+  const originalFetch = globalThis.fetch
+  globalThis.fetch = async () => Response.json({
+    web: {
+      results: [
+        {
+          title: '《鸣潮》3.0 新角色介绍',
+          description: '莫宁等鸣潮角色公开。',
+          url: 'https://www.gamersky.com/news/202511/2051676.shtml',
+          profile: { name: 'GamerSky' },
+        },
+        {
+          title: 'r/WutheringWaves on Reddit: 新角色揭晓',
+          description: 'Wuthering Waves new characters.',
+          url: 'https://www.reddit.com/r/WutheringWaves/comments/test',
+          profile: { name: 'Reddit' },
+        },
+        {
+          title: '原神｜至冬新角色情报汇总',
+          description: '原神至冬相关角色与版本近况摘要。',
+          url: 'https://wiki.biligame.com/ys/%E8%87%B3%E5%86%AC',
+          profile: { name: '原神WIKI_BWIKI' },
+        },
+      ],
+    },
+  })
+
+  try {
+    const result = await retrieveWebSources('最近有什么新角色 至冬的', { BRAVE_SEARCH_API_KEY: 'brave-test-key' })
+    assert.equal(result.sources.length, 1)
+    assert.equal(result.sources[0].sourceType, 'web')
+    assert.match(result.sources[0].title, /原神/)
+    assert.doesNotMatch(result.sources.map(source => source.title).join('\n'), /鸣潮|WutheringWaves/)
   } finally {
     globalThis.fetch = originalFetch
   }
@@ -285,6 +338,69 @@ test('聊天接口会把网络搜索资料注入提示并返回来源', async ()
     assert.ok(data.sources.some(source => source.sourceType === 'web'))
     assert.equal(data.webSearch.resultCount, 1)
     assert.equal(data.webSearch.provider, 'brave')
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('聊天接口会把短追问改写为带上下文的网络搜索', async () => {
+  const originalFetch = globalThis.fetch
+  let requestedUrl
+  let deepSeekPayload
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) {
+      return Response.json({
+        character: { sources: [] },
+        liveSearch: { generatedAt: '2026-09-06T00:00:00Z', wiki: [], news: [] },
+        guides: [],
+        news: [],
+      })
+    }
+    if (url.startsWith('https://api.search.brave.com/')) {
+      requestedUrl = url
+      return Response.json({
+        web: {
+          results: [{
+            title: '原神至冬新角色公告',
+            description: '至冬相关新角色测试摘要。',
+            url: 'https://ys.mihoyo.com/main/news/detail/test',
+            profile: { name: '原神官方' },
+          }],
+        },
+      })
+    }
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      deepSeekPayload = JSON.parse(options.body)
+      return Response.json({ choices: [{ message: { content: '从外界消息看，至冬确有新角色情报。[1]' } }] })
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const response = await worker.fetch(new Request('https://example.com/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          { role: 'user', content: '最近有什么新角色' },
+          { role: 'assistant', content: '若要问近况，需要外界资料。' },
+          { role: 'user', content: '至冬的' },
+        ],
+        session: { trustScore: 4, memory: [] },
+      }),
+    }), { DEEPSEEK_API_KEY: 'test-key', BRAVE_SEARCH_API_KEY: 'brave-test-key' })
+    const data = await response.json()
+    const decodedQuery = decodeURIComponent(new URL(requestedUrl).searchParams.get('q'))
+
+    assert.equal(response.status, 200)
+    assert.match(decodedQuery, /原神/)
+    assert.match(decodedQuery, /新角色/)
+    assert.match(decodedQuery, /至冬/)
+    assert.ok(deepSeekPayload.messages.some(message => /网络资料时要先正面回答/.test(message.content)))
+    assert.equal(data.webSearch.resultCount, 1)
+    assert.ok(data.sources.some(source => source.url.includes('ys.mihoyo.com')))
   } finally {
     globalThis.fetch = originalFetch
   }
