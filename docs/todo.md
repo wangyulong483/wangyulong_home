@@ -1,201 +1,260 @@
-结合你网站「暗色终端 + 科幻档案 + 雷电紫/黄绿强调色」的气质，以及你对月之暗面官网光标风格的偏好，我整理了以下参考网站和具体设计建议。
+完全可以，而且**强烈建议**为角色扮演聊天配置网络搜索能力。这能解决角色"知识截止"和"实时信息缺失"的核心痛点。
+
+以下是基于你现有技术栈（Cloudflare Worker + DeepSeek）的免费方案：
 
 ---
 
-## 一、风格参考网站
+## 一、免费搜索工具对比
 
-| 网站 | 光标特点 | 与你网站的契合点 |
-|------|---------|---------------|
-| **[Moonshot AI 官网](https://www.moonshot.cn/)** | 简洁科技感的自定义光标，偏极简圆点/细环，配合暗色背景 | 品牌气质最接近，暗色高对比 + 克制科技感 |
-| **[Kiro Cyberpunk Cursor](https://github.com/kirodotdev/Kiro/issues/6543)** | 6px 紫色发光圆点 + Canvas 粒子拖尾，带 `lerp` 延迟跟随 | 紫色调+粒子拖尾直接匹配你的雷电主题和现有粒子效果 |
-| **[FreeFrontend - JavaScript Cursors](https://freefrontend.com/javascript-cursors/)** | 收录大量现代自定义光标：变形跟随、悬停图片揭示、速度旋转 SVG、渐变光晕追踪等 | 可直接找到与你「档案库终端」气质匹配的实现代码 |
-| **[Dribbble - Custom Cursor](https://dribbble.com/search/custom-cursor)** | 设计灵感库，有大量暗色主题、科幻风、圆形光标、磁吸按钮的设计稿 | 用于确定光标形态、hover 状态、尺寸比例 |
-| **[Sweezy Cursors - Neon Cyberpunk](https://sweezy-cursors.com/cursor/neon-cyberpunk-swords-animated/)** | 霓虹赛博风光标设计，紫/青/蓝发光配色 | 配色参考：紫+青绿的发光组合 |
+| 工具 | 免费额度 | 中文支持 | 接入难度 | 稳定性 | 推荐度 |
+|------|---------|---------|---------|--------|--------|
+| **Bing Web Search API** | 1000次/月 | 优秀 | 低（REST） | 高 | ⭐⭐⭐⭐⭐ |
+| **Brave Search API** | 2000次/月 | 良好 | 低（REST） | 高 | ⭐⭐⭐⭐⭐ |
+| **SearXNG**（自建） | 无限 | 依赖实例 | 中（需部署） | 中 | ⭐⭐⭐⭐ |
+| **DuckDuckGo**（非官方） | 理论无限 | 一般 | 中（易被封） | 低 | ⭐⭐⭐ |
+| **Google Custom Search** | 100次/天 | 优秀 | 低 | 高 | ⭐⭐⭐（额度太少） |
+
+**最推荐：Bing Web Search API**
+- 微软 Azure 提供，注册即用
+- 免费层 S1 实例每月 1000 次调用，个人站完全够用
+- 中文网页检索质量高
+- 返回结果结构化（标题、摘要、URL、日期）
+
+**备选：Brave Search API**
+- 免费层 2000 次/月
+- 隐私友好，无跟踪
+- 同样支持中文
 
 ---
 
-## 二、UI 设计建议（贴合你的网站语言）
+## 二、集成架构
 
-### 1. 核心光标形态：「终端瞄准点」
-
-不要做成传统箭头，建议采用 **双层圆环瞄准器** 或 **实心小圆点**，呼应你网站的"终端 UI"和"档案编号"语言：
+在你的现有架构中增加一层**搜索网关**：
 
 ```
-外层：细线圆环（1px stroke）—— 像终端准星
-内层：4-6px 实心圆点 —— 精确瞄准点
+用户输入
+   │
+   ▼
+┌─────────────────┐
+│   Worker 代理层  │
+│  ┌───────────┐  │
+│  │ 意图判断   │  │  ← 是否需要搜索？
+│  │ (LLM/规则) │  │
+│  └─────┬─────┘  │
+│        │        │
+│   ┌────┴────┐   │
+│   ▼         ▼   │
+│ ┌─────┐  ┌─────┐│
+│ │知识库│  │搜索API││  ← 本地知识 + 实时网络
+│ │RAG  │  │Bing  ││
+│ └──┬──┘  └──┬──┘│
+│    └────┬───┘   │
+│         ▼       │
+│    结果合并      │
+│    注入Prompt   │
+└────┬────────────┘
+     ▼
+  DeepSeek API
+     │
+     ▼
+  流式回复
 ```
 
-**尺寸参考**：
-- 默认状态：外环 24px，内点 6px
-- Hover 可交互元素：外环放大到 40px，内点保持 6px，形成"磁吸"感
+---
 
-### 2. 配色方案：雷电档案库
+## 三、具体实现（Worker 端）
 
-| 状态 | 颜色 | 用途 |
-|------|------|------|
-| 默认 | `#c084fc`（亮紫）+ 外环 `rgba(192, 132, 252, 0.4)` | 与网站强调色统一 |
-| Hover 按钮/链接 | `#a3e635`（雷电黄绿） | 呼应雷电将军主题，提示可交互 |
-| 点击 | 内点缩放到 3px，外环收缩到 16px | 给予明确反馈 |
-| 文本选择区 | 变成竖线 `I-beam`，颜色保持紫色 | 保持终端编辑器感 |
-| 拖拽/画布区域（Map Zone Painter）| 外环变成十字准星 + 坐标读数 | 工具页面的专业感 |
+### 1. 判断是否需要搜索
 
-### 3. 动效设计：克制但有质感
-
-参考月之暗面和 Kiro 的实现，建议以下动效：
-
-**A. Lerp 跟随延迟**
+**方式 A：规则判断（轻量、快速）**
 ```js
-// 光标位置用插值跟随，产生"流体"感
-cx += (tx - cx) * 0.35;
-cy += (ty - cy) * 0.35;
-```
+// 检测时间敏感词、事实询问词
+const NEED_SEARCH_KEYWORDS = [
+  '最新', '最近', '今天', '昨天', '新闻', '更新', '版本',
+  '多少', '价格', '排名', '什么时候', '发布了'
+]
 
-**B. 悬停磁吸（Magnetic）**
-- 靠近按钮/卡片时，光标被"吸"向元素中心
-- 外环放大并变为黄绿色，内点保持紫色
-- 用 GSAP 或纯 CSS `transform` 实现，不触发 layout
-
-**C. 微拖尾（可选）**
-- 在 Shrine 页面（最强风格化）可开启极淡的紫色粒子拖尾
-- 在 Map Zone Painter 等工具页面关闭拖尾，保持精确
-- 拖尾用 Canvas 2D，`globalAlpha` 逐渐衰减，避免性能问题
-
-**D. 速度响应**
-- 快速移动时，外环可轻微拉伸成椭圆（像终端扫描线）
-- 静止 500ms 后，外环恢复正圆
-
-### 4. 状态标签化（呼应你的档案语言）
-
-光标附近可跟随一个极小的状态标签（类似你网站的 ONLINE、WORLD FILE 标签）：
-
-```
-默认：        [●]        （无标签）
-Hover 链接：  [●]  OPEN  （黄绿色，8px 等宽字体）
-Hover 图片：  [●]  VIEW  （紫色）
-Hover 视频：  [●]  PLAY  （紫色）
-拖拽中：      [+]  MOVE  （灰色）
-```
-
-标签用 `position: fixed` 跟随光标右下方 16px，字体用你网站的等宽字体（如 JetBrains Mono / Fira Code）。
-
-### 5. 页面差异化
-
-| 页面 | 光标策略 |
-|------|---------|
-| **首页 Hero** | 全屏视频区域隐藏自定义光标，恢复系统默认（避免与视频 UI 冲突） |
-| **Shrine 资料库** | 完整特效：发光圆点 + 微拖尾 + 状态标签，沉浸感最强 |
-| **应用/热点/地图工具** | 简化版：圆点 + 磁吸 hover，无拖尾，保证操作精确 |
-| **Map Zone Painter** | 工具准星模式：十字线 + 坐标 tooltip，像专业绘图软件 |
-
-### 6. 性能与可访问性
-
-- **移动端禁用**：检测到 `touch` 设备时完全恢复默认光标
-- **`will-change: transform`**：光标元素开启硬件加速
-- **`pointer-events: none`**：自定义光标不拦截点击
-- **`prefers-reduced-motion`**：尊重用户减少动效偏好，关闭拖尾和 lerp 延迟
-- **光标尺寸**：PNG/SVG 光标图片不超过 128×128px（浏览器限制）
-
----
-
-## 三、Vue 3 实现思路
-
-```vue
-<!-- CustomCursor.vue -->
-<template>
-  <div v-show="!isTouch" class="cursor-wrap">
-    <!-- 外环 -->
-    <div class="cursor-ring" :style="ringStyle" />
-    <!-- 内点 -->
-    <div class="cursor-dot" :style="dotStyle" />
-    <!-- 状态标签 -->
-    <div v-if="label" class="cursor-label">{{ label }}</div>
-  </div>
-</template>
-
-<script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
-
-const isTouch = 'ontouchstart' in window
-const x = ref(0), y = ref(0)
-const targetX = ref(0), targetY = ref(0)
-const label = ref('')
-const isHovering = ref(false)
-const isClicking = ref(false)
-
-let raf
-
-function onMove(e) {
-  targetX.value = e.clientX
-  targetY.value = e.clientY
+function needsSearch(userMessage) {
+  return NEED_SEARCH_KEYWORDS.some(kw => userMessage.includes(kw))
 }
+```
 
-function loop() {
-  // lerp 插值
-  x.value += (targetX.value - x.value) * 0.35
-  y.value += (targetY.value - y.value) * 0.35
-  raf = requestAnimationFrame(loop)
-}
-
-onMounted(() => {
-  if (isTouch) return
-  window.addEventListener('mousemove', onMove, { passive: true })
-  raf = requestAnimationFrame(loop)
-  
-  // 监听 hover 状态
-  document.addEventListener('mouseover', (e) => {
-    if (e.target.closest('a, button, [data-cursor="link"]')) {
-      isHovering.value = true
-      label.value = 'OPEN'
-    } else if (e.target.closest('[data-cursor="view"]')) {
-      label.value = 'VIEW'
-    }
+**方式 B：LLM 意图分类（更准、稍慢）**
+```js
+async function classifyIntent(userMessage, env) {
+  const res = await fetch('https://api.deepseek.com/chat/completions', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${env.DEEPSEEK_API_KEY}` },
+    body: JSON.stringify({
+      model: 'deepseek-v4-flash',
+      messages: [{
+        role: 'system',
+        content: '判断用户问题是否需要搜索最新网络信息。只回答 YES 或 NO。'
+      }, {
+        role: 'user',
+        content: userMessage
+      }]
+    })
   })
-})
+  const data = await res.json()
+  return data.choices[0].message.content.trim() === 'YES'
+}
+```
 
-onUnmounted(() => {
-  cancelAnimationFrame(raf)
-  window.removeEventListener('mousemove', onMove)
-})
-</script>
+**建议**：个人站先用规则判断，命中关键词再搜索，节省额度。
 
-<style scoped>
-.cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  width: 24px; height: 24px;
-  border: 1px solid rgba(192, 132, 252, 0.6);
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform;
-  transition: width 0.3s, height 0.3s, border-color 0.3s;
+---
+
+### 2. Bing Web Search 调用
+
+```js
+async function bingSearch(query, env) {
+  const endpoint = 'https://api.bing.microsoft.com/v7.0/search'
+  const res = await fetch(`${endpoint}?q=${encodeURIComponent(query)}&count=5&mkt=zh-CN`, {
+    headers: { 'Ocp-Apim-Subscription-Key': env.BING_API_KEY }
+  })
+  const data = await res.json()
+  
+  // 提取前3条结果，控制Token长度
+  return data.webPages?.value?.slice(0, 3).map(p => ({
+    title: p.name,
+    snippet: p.snippet,
+    url: p.url,
+    date: p.dateLastCrawled
+  })) || []
 }
-.cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 6px; height: 6px;
-  background: #c084fc;
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform;
-  box-shadow: 0 0 8px #a855f7, 0 0 20px rgba(124, 58, 237, 0.3);
-}
-.cursor-label {
-  position: fixed;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  color: #a3e635;
-  letter-spacing: 0.1em;
-  pointer-events: none;
-}
-</style>
+```
+
+**Worker Secrets 配置**：
+```bash
+npx.cmd wrangler pages secret put BING_API_KEY --project-name=wangyulong-home
 ```
 
 ---
 
-## 四、一句话设计原则
+### 3. 搜索结果注入 Prompt
 
-> **「像一个精准的终端瞄准器，而不是一个花哨的玩具。」**
+```js
+function buildSystemPrompt(characterPrompt, knowledgeResults, searchResults) {
+  let prompt = characterPrompt
+  
+  // 本地知识库
+  if (knowledgeResults.length) {
+    prompt += '\n\n【角色知识】\n' + knowledgeResults.map((r, i) => `[${i+1}] ${r.content}`).join('\n')
+  }
+  
+  // 实时网络信息
+  if (searchResults.length) {
+    prompt += '\n\n【实时信息】（来自网络搜索，仅供参考）\n'
+    prompt += searchResults.map((r, i) => 
+      `[网${i+1}] ${r.title}: ${r.snippet}（${r.date?.split('T')[0] || '未知日期'}）`
+    ).join('\n')
+    prompt += '\n\n注意：如果实时信息与角色知识冲突，优先以角色知识为准；如果不确定，请说"此事我尚未可知"。'
+  }
+  
+  return prompt
+}
+```
 
-月之暗面的光标之所以好看，是因为它**克制**——小尺寸、单色调、响应迅速、不抢内容风头。你的雷电档案库风格也适合这种路线：用紫/黄绿双色区分状态，用圆环准星呼应终端感，用极小的状态标签强化档案编号语言，拖尾和发光只在 Shrine 等沉浸页面出现，工具页面保持干净。
+---
 
-如果你已经有了具体的光标 SVG 草图或者想讨论某个页面的特殊交互（比如 Map Zone Painter 的十字准星），可以发出来，我帮你细化实现方案。
+### 4. 完整 Worker 流程
+
+```js
+export default {
+  async fetch(request, env) {
+    const { message, history } = await request.json()
+    
+    // 1. 判断是否需要搜索
+    let searchResults = []
+    if (needsSearch(message)) {
+      // 把用户问题优化成搜索关键词（可省略）
+      const searchQuery = message.replace(/雷电将军|影|你/g, '原神 雷电将军')
+      searchResults = await bingSearch(searchQuery, env)
+    }
+    
+    // 2. 本地知识检索（你现有的 BM25）
+    const knowledgeResults = await searchKnowledgeBase(message, env)
+    
+    // 3. 构建完整 Prompt
+    const systemPrompt = buildSystemPrompt(BASE_CHARACTER_PROMPT, knowledgeResults, searchResults)
+    
+    // 4. 调用 DeepSeek
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${env.DEEPSEEK_API_KEY}` },
+      body: JSON.stringify({
+        model: 'deepseek-v4-flash',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...trimHistory(history),
+          { role: 'user', content: message }
+        ],
+        stream: true
+      })
+    })
+    
+    return new Response(response.body, {
+      headers: { 'Content-Type': 'text/event-stream' }
+    })
+  }
+}
+```
+
+---
+
+## 四、与角色扮演的结合策略
+
+### 1. 搜索触发时机
+不是每句话都搜，只在以下场景触发：
+- 用户问**现实世界事件**（"最近原神有什么活动？"）
+- 用户问**时效性信息**（"雷电将军什么时候复刻？"）
+- 用户问**角色知识库未覆盖**的内容（"你觉得新角色怎么样？"）
+
+### 2. 角色视角包装
+搜索结果不要直接丢给 LLM，要加上**角色视角约束**：
+
+```text
+【实时信息】
+[网1] 原神5.0版本更新公告：新增纳塔地区...
+
+【约束】
+- 你可以引用上述信息回答用户。
+- 但请保持雷电将军的语气和世界观，不要像新闻播报员。
+- 如果信息涉及未来剧情，用"听闻..."或"若真有此事..."等模糊表述。
+```
+
+### 3. 来源标注
+如果角色引用了搜索结果，前端可以显示一个小图标，hover 显示来源链接，增加可信度。
+
+---
+
+## 五、限制与注意事项
+
+| 问题 | 方案 |
+|------|------|
+| **免费额度用完** | 加计数器，接近限额时自动关闭搜索，降级为纯知识库回答 |
+| **搜索结果质量差** | 用 `site:wiki.biligame.com` 或 `site:ys.mihoyo.com` 限定域名 |
+| **延迟增加** | 搜索和 LLM 调用串行会慢，可并行：同时发搜索请求和知识检索 |
+| **隐私合规** | 不要把用户对话内容直接发给 Bing，先提取关键词再搜索 |
+| **缓存** | Worker 用 Cache API 缓存热门搜索结果（如"雷电将军复刻"），TTL 设 1 小时 |
+
+---
+
+## 六、最小可行方案（本周可落地）
+
+如果你现在就想加，最小改动是：
+
+1. **注册 Bing Web Search API**（Azure Portal，免费层）
+2. **Worker 加 `BING_API_KEY` Secret**
+3. **修改 `_worker.js`**：
+   - 用户消息含"最新/最近/新闻"时，调 Bing API
+   - 取前 3 条结果注入 System Prompt
+   - 加一句约束："以上信息来自网络，不确定时请说未可知"
+4. **前端无需改动**（搜索完全透明）
+
+预计改动 50 行代码以内，测试通过后上线。
+
+---
+
+需要我帮你写一份完整的 `_worker.js` 搜索模块代码，或者讨论如何把搜索能力也开放给"行业热点"模块做实时增强？

@@ -6,10 +6,13 @@ import {
   advanceSession,
   buildChatReferences,
   buildSystemPrompt,
+  buildWebSearchQuery,
   extractMemoryUpdates,
   inferPersona,
+  needsWebSearch,
   normalizeMemories,
   relationshipFromScore,
+  retrieveWebSources,
   searchKnowledge,
   tokenizeKnowledge,
 } from '../_worker.js'
@@ -106,6 +109,50 @@ test('知识检索遵守世界树记忆边界并统一来源编号', () => {
   assert.ok(references.sources.some(source => source.sourceType === 'live'))
 })
 
+test('网络搜索只在时效问题触发，并避免发送明确隐私记忆', () => {
+  assert.equal(needsWebSearch('雷电将军最近有复刻消息吗？'), true)
+  assert.equal(needsWebSearch('你如何理解永恒？'), false)
+  assert.equal(needsWebSearch('请记住，我的生日是 6 月 26 日，最近我有点累'), false)
+
+  const query = buildWebSearchQuery('影，最近雷电将军什么时候复刻？')
+  assert.match(query, /原神 雷电将军/)
+  assert.ok(query.length <= 120)
+})
+
+test('Brave 网络搜索结果会合并为可引用来源', async () => {
+  const originalFetch = globalThis.fetch
+  let requestedUrl
+  globalThis.fetch = async (input, options = {}) => {
+    requestedUrl = String(input)
+    assert.equal(options.headers['X-Subscription-Token'], 'brave-test-key')
+    return Response.json({
+      web: {
+        results: [{
+          title: '雷电将军复刻公告',
+          description: '测试用搜索摘要。',
+          url: 'https://example.com/raiden-news',
+          profile: { name: '示例来源' },
+          age: '2026-09-06T00:00:00Z',
+        }],
+      },
+    })
+  }
+
+  try {
+    const result = await retrieveWebSources('最近雷电将军复刻了吗？', { BRAVE_SEARCH_API_KEY: 'brave-test-key' })
+    assert.match(requestedUrl, /api\.search\.brave\.com/)
+    assert.equal(result.provider, 'brave')
+    assert.equal(result.sources.length, 1)
+    assert.equal(result.sources[0].sourceType, 'web')
+
+    const references = buildChatReferences(null, { entries: [] }, result.sources)
+    assert.match(references.context, /网络搜索/)
+    assert.equal(references.sources[0].sourceType, 'web')
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
 test('典型问题稳定命中对应知识节点', () => {
   const cases = [
     ['将军人偶和影是双重人格吗', 'identity-ei-and-shogun'],
@@ -182,6 +229,62 @@ test('聊天接口使用 Flash 0731 协议并返回可持久化状态', async ()
     assert.equal(data.knowledgeVersion, knowledgeBase.knowledgeVersion)
     assert.ok(data.knowledgeMatches.some(entry => entry.id === 'values-wishes'))
     assert.ok(data.sources.some(source => source.sourceType === 'knowledge'))
+    assert.equal(data.webSearch.skipped, 'not-needed')
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('聊天接口会把网络搜索资料注入提示并返回来源', async () => {
+  const originalFetch = globalThis.fetch
+  let deepSeekPayload
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) {
+      return Response.json({
+        character: { sources: [] },
+        liveSearch: { generatedAt: '2026-09-06T00:00:00Z', wiki: [], news: [] },
+        guides: [],
+        news: [],
+      })
+    }
+    if (url.startsWith('https://api.search.brave.com/')) {
+      assert.equal(options.headers['X-Subscription-Token'], 'brave-test-key')
+      return Response.json({
+        web: {
+          results: [{
+            title: '雷电将军近期活动',
+            description: '近期活动测试摘要。',
+            url: 'https://example.com/live-event',
+            profile: { name: '活动来源' },
+          }],
+        },
+      })
+    }
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      deepSeekPayload = JSON.parse(options.body)
+      return Response.json({ choices: [{ message: { content: '此事我只听闻一二。[1]' } }] })
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const response = await worker.fetch(new Request('https://example.com/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [{ role: 'user', content: '最近雷电将军有什么活动？' }],
+        session: { trustScore: 4, memory: [] },
+      }),
+    }), { DEEPSEEK_API_KEY: 'test-key', BRAVE_SEARCH_API_KEY: 'brave-test-key' })
+    const data = await response.json()
+
+    assert.equal(response.status, 200)
+    assert.ok(deepSeekPayload.messages.some(message => /网络搜索/.test(message.content)))
+    assert.ok(data.sources.some(source => source.sourceType === 'web'))
+    assert.equal(data.webSearch.resultCount, 1)
+    assert.equal(data.webSearch.provider, 'brave')
   } finally {
     globalThis.fetch = originalFetch
   }

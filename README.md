@@ -17,6 +17,7 @@
 关键约束：
 
 - 不要把 `DEEPSEEK_API_KEY` 或任何密钥写入仓库；生产密钥只放 Cloudflare Secret。
+- 角色聊天网络搜索使用 `BRAVE_SEARCH_API_KEY`，同样只放 Cloudflare Secret；未配置时会自动降级为站内知识库。
 - 前端新增能力优先保持纯静态；除非明确要求，不要改 `frontend/_worker.js`。
 - 修改后至少运行 `npm.cmd --prefix frontend run test` 和 `npm.cmd run build`。
 - 部署必须从仓库根目录执行，Wrangler 必须显式加 `--branch=main`。
@@ -99,6 +100,7 @@ Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不�
 | 构建 | Vite 8、Node.js 22+ |
 | 生产 API | Cloudflare Pages Worker |
 | AI | DeepSeek V4 Flash 0731（API 模型标识 `deepseek-v4-flash`） |
+| 搜索 | Brave Search API（角色聊天按需检索现实世界近况） |
 | 本地示例 API | FastAPI、Uvicorn |
 | 自动化 | GitHub Actions、Python 3.12 |
 | 部署 | Cloudflare Pages、Wrangler 4 |
@@ -247,9 +249,11 @@ uvicorn main:app --reload
 | `GET /api/shrine` | 完整厨厨实时索引 |
 | `GET /api/shrine/search?type=gallery&q=关键词` | 按类型检索画廊、Wiki 或资讯 |
 | `GET /api/shrine/knowledge?q=关键词` | 调试角色知识检索结果 |
-| `POST /api/chat` | 带人物状态、知识召回、实时来源和引用的角色对话 |
+| `POST /api/chat` | 带人物状态、知识召回、站内实时来源、可选网络搜索和引用的角色对话 |
 
-“与影对话”使用分层世界观、身份、人生观和价值观提示，结合语义人物状态、有限的浏览器本地记忆、结构化知识库与实时资料。回答中的事实来源会以编号引用展示；资料不足或存在冲突时，角色被要求明确说明不确定性。
+“与影对话”使用分层世界观、身份、人生观和价值观提示，结合语义人物状态、有限的浏览器本地记忆、结构化知识库、站内实时资料与可选网络搜索。回答中的事实来源会以编号引用展示；资料不足或存在冲突时，角色被要求明确说明不确定性。
+
+网络搜索只在用户问题包含“最新、最近、新闻、版本、复刻、卡池、活动”等时效关键词时触发。Worker 会先抽取相对干净的搜索词，避免把用户明确要求记住的个人信息、密钥或隐私内容发给搜索服务。未配置 `BRAVE_SEARCH_API_KEY` 或搜索失败时，聊天接口不会报错，会自动回退到本地知识库和站内资料。
 
 知识检索借鉴以下开源项目的公开设计思想，但未复制其实现代码：
 
@@ -309,6 +313,7 @@ npx.cmd wrangler pages deploy frontend/dist --project-name=wangyulong-home --bra
 
 ```bash
 npx.cmd wrangler pages secret put DEEPSEEK_API_KEY --project-name=wangyulong-home
+npx.cmd wrangler pages secret put BRAVE_SEARCH_API_KEY --project-name=wangyulong-home
 ```
 
 ## 优化建议
@@ -336,6 +341,7 @@ npx.cmd wrangler pages secret put DEEPSEEK_API_KEY --project-name=wangyulong-hom
    - 不要在前端暴露密钥。
    - 修改 `_worker.js` 前先补测试。
    - 保持知识引用、事实边界和不确定性说明。
+   - 网络搜索只用于时效问题，搜索失败必须静默降级，不能阻断角色聊天。
 
 5. **部署与 CI**
    - 确保根目录 `package.json` 的 `build` 在 Cloudflare Git 集成中可运行。

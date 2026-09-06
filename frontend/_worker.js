@@ -41,7 +41,7 @@ const RESPONSE_POLICY = [
   '通常回复 2至5 句；复杂的世界观或人生问题可以稍长。使用自然、克制、略带古典感的现代中文，不滥用“汝”“此身”“虚无”，不使用网络梗、颜文字或 emoji。',
   '不要为了像角色而机械复读名台词，也不要虚构与用户共同经历过的事。可以表现停顿、坦率、细微幽默和对甜点的偏爱，但不幼化角色。',
   '谈到真与旧友时温柔而克制；谈眼狩令时承担责任；谈国崩时承认疏忽与亏欠；谈武艺时专注而自信；谈日常时允许笨拙与好奇。',
-  '引用检索资料时只使用提供的事实，在相关陈述末尾标注 [1] [2]。资料不足或互相冲突时直接说明，不编造来源。',
+  '引用检索资料时只使用提供的事实，在相关陈述末尾标注 [1] [2]。网络搜索结果只作为现实世界近况参考，不能覆盖角色亲历与确定设定。资料不足或互相冲突时直接说明，不编造来源。',
 ].join('\n')
 
 const PERSONA_LABELS = {
@@ -512,11 +512,107 @@ const SHRINE_RETRIEVAL_TERMS = [
   '团子牛奶', '做饭', '生日', '复刻', '技能', '剧情', '考据',
 ]
 
+const WEB_SEARCH_KEYWORDS = [
+  '最新', '最近', '今天', '昨日', '昨天', '新闻', '公告', '更新', '版本', '活动',
+  '复刻', '卡池', '什么时候', '几号', '现在', '当前', '近期', '上线', '发布',
+  '价格', '预售', '出货', '联动', '周边',
+]
+
+const WEB_SEARCH_DENY_PATTERNS = [
+  /请记住/,
+  /我的(?:名字|生日|手机号|电话|地址|学校|公司|邮箱|微信|qq)/i,
+  /密码|密钥|token|api[_-]?key/i,
+]
+
 function questionTerms(question) {
   const normalized = cleanText(question, 500).toLowerCase()
   const knownTerms = SHRINE_RETRIEVAL_TERMS.filter(term => normalized.includes(term.toLowerCase()))
   const chunks = normalized.match(/[\u3400-\u9fff]{2,8}|[a-z0-9]{3,20}/g) || []
   return [...new Set([...knownTerms, ...chunks])].slice(0, 12)
+}
+
+function needsWebSearch(question) {
+  const text = cleanText(question, 500)
+  if (!text || WEB_SEARCH_DENY_PATTERNS.some(pattern => pattern.test(text))) return false
+  return WEB_SEARCH_KEYWORDS.some(keyword => text.includes(keyword))
+}
+
+function buildWebSearchQuery(question) {
+  const text = cleanText(question, 180)
+    .replace(/请记住[^。！？!?]*[。！？!?]?/g, '')
+    .replace(/[?？!！。，“”"']/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  const terms = questionTerms(text).filter(term => !WEB_SEARCH_KEYWORDS.includes(term))
+  const hasGenshinContext = /原神|雷电将军|雷电影|影|稻妻|米哈游|卡池|复刻/.test(text)
+  const context = hasGenshinContext ? '原神 雷电将军' : ''
+  return [context, ...terms, text.slice(0, 60)]
+    .filter(Boolean)
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .slice(0, 120)
+}
+
+async function searchWebWithBrave(query, env) {
+  const apiKey = cleanText(env?.BRAVE_SEARCH_API_KEY, 200)
+  if (!apiKey || !query) return { sources: [], provider: 'brave', skipped: apiKey ? 'empty-query' : 'missing-key' }
+
+  const endpoint = new URL('https://api.search.brave.com/res/v1/web/search')
+  endpoint.searchParams.set('q', query)
+  endpoint.searchParams.set('count', '5')
+  endpoint.searchParams.set('country', 'cn')
+  endpoint.searchParams.set('search_lang', 'zh-hans')
+  endpoint.searchParams.set('ui_lang', 'zh-CN')
+  endpoint.searchParams.set('spellcheck', '1')
+
+  const response = await fetch(endpoint, {
+    headers: {
+      Accept: 'application/json',
+      'Accept-Encoding': 'gzip',
+      'X-Subscription-Token': apiKey,
+    },
+    cf: { cacheEverything: true, cacheTtl: 1800 },
+  })
+  if (!response.ok) throw new Error(`Brave Search ${response.status}`)
+
+  const payload = await response.json()
+  const results = Array.isArray(payload?.web?.results) ? payload.web.results : []
+  const seen = new Set()
+  const sources = []
+  for (const result of results) {
+    const url = cleanText(result.url, 500)
+    const title = cleanText(result.title, 160)
+    const excerpt = cleanText(result.description, 260)
+    if (!url || !title || seen.has(url)) continue
+    seen.add(url)
+    sources.push({
+      title,
+      source: cleanText(result.profile?.name, 80) || new URL(url).hostname,
+      url,
+      excerpt,
+      retrievedAt: result.age || new Date().toISOString(),
+      sourceType: 'web',
+      provider: 'Brave Search',
+    })
+    if (sources.length >= 3) break
+  }
+
+  return { sources, provider: 'brave', query, skipped: '' }
+}
+
+async function retrieveWebSources(question, env) {
+  if (!needsWebSearch(question)) return { sources: [], provider: '', query: '', skipped: 'not-needed' }
+  const query = buildWebSearchQuery(question)
+  try {
+    return await searchWebWithBrave(query, env)
+  } catch (error) {
+    return {
+      sources: [],
+      provider: 'brave',
+      query,
+      skipped: error.message || 'search-failed',
+    }
+  }
 }
 
 async function serveKnowledge(request, env, url) {
@@ -653,12 +749,16 @@ export {
   advanceSession,
   buildChatReferences,
   buildSystemPrompt,
+  buildWebSearchQuery,
   extractMemoryUpdates,
   inferPersona,
+  needsWebSearch,
   normalizeMemories,
   questionTerms,
   relationshipFromScore,
+  retrieveWebSources,
   searchKnowledge,
+  searchWebWithBrave,
   tokenizeKnowledge,
 }
 
@@ -696,8 +796,10 @@ function buildChatReferences(knowledgeBase, knowledgeResult, liveSources) {
   })
 
   const liveLines = (liveSources || []).map((source, index) => {
-    const position = addReference({ ...source, sourceType: 'live' })
-    return `[实时资料 ${index + 1}｜来源 ${position}] ${source.title}｜${source.source}：${source.excerpt}`
+    const sourceType = source.sourceType || 'live'
+    const label = sourceType === 'web' ? '网络搜索' : '实时资料'
+    const position = addReference({ ...source, sourceType })
+    return `[${label} ${index + 1}｜来源 ${position}] ${source.title}｜${source.source}：${source.excerpt}`
   })
 
   return {
@@ -751,14 +853,21 @@ export default {
         const memoryUpdates = extractMemoryUpdates(lastUserMsg.content)
         const memories = normalizeMemories([...(body.session?.memory || []), ...memoryUpdates])
         const session = advanceSession(body.session, lastUserMsg.content, history)
-        const [knowledgeLoad, shrineLoad] = await Promise.allSettled([
+        const [knowledgeLoad, shrineLoad, webLoad] = await Promise.allSettled([
           loadKnowledgeBase(request, env),
           loadShrineIndex(request, env),
+          retrieveWebSources(lastUserMsg.content, env),
         ])
         const knowledgeBase = knowledgeLoad.status === 'fulfilled' ? knowledgeLoad.value.payload : null
         const shrineIndex = shrineLoad.status === 'fulfilled' ? shrineLoad.value.payload : null
+        const webSearch = webLoad.status === 'fulfilled'
+          ? webLoad.value
+          : { sources: [], provider: 'brave', query: '', skipped: webLoad.reason?.message || 'search-failed' }
         const knowledgeResult = searchKnowledge(knowledgeBase, lastUserMsg.content)
-        const liveSources = shrineIndex ? retrieveChatSources(shrineIndex, lastUserMsg.content) : []
+        const liveSources = [
+          ...(shrineIndex ? retrieveChatSources(shrineIndex, lastUserMsg.content) : []),
+          ...webSearch.sources,
+        ]
         const { context: referenceContext, sources: retrievalSources } = buildChatReferences(
           knowledgeBase,
           knowledgeResult,
@@ -820,6 +929,12 @@ export default {
             certainty: entry.certainty,
           })),
           retrievalStats: knowledgeResult.stats,
+          webSearch: {
+            provider: webSearch.provider || null,
+            query: webSearch.query || null,
+            resultCount: webSearch.sources.length,
+            skipped: webSearch.skipped || null,
+          },
           model: 'DeepSeek-V4-Flash-0731',
         }), {
           headers: {
