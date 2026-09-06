@@ -2,17 +2,17 @@
   "date": "2026-09-06",
   "items": [
     {
-      "id": "93120c79aa81",
+      "id": "e12180330916",
       "title": "安徽新“五子登科”产业成就|安徽|机器人|人工智能_新浪新闻",
       "summary": "",
-      "source": "sina.cn",
+      "source": "新浪网",
       "sourceFeed": "合肥产业动态",
       "sourceIcon": "location",
       "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5GYm1XVGtoY3ptSUR4MnVfeUJKSGtMcGJPcE40WWNFT2lsRGY1a0tGWW94S2xOYURkb3NzdHFtRmFlazFNdTRZYXNWODRvZEdic0NrT0VaOFBGYkNPUFVFZTBqbw?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-09-06T06:30:00+00:00",
       "timeType": "published",
@@ -20,10 +20,10 @@
       "scope": "hefei"
     },
     {
-      "id": "ecd88eb923e0",
+      "id": "607c8deae0c4",
       "title": "开局之年看中国·日新江淮｜合肥低空经济正加速起飞",
       "summary": "",
-      "source": "k.sina.com.cn",
+      "source": "新浪网",
       "sourceFeed": "合肥产业动态",
       "sourceIcon": "location",
       "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE04dnRyX3VuSXczazNtQWhVVmFIak9wWEVFLWoxQk1fZkREeTJVOTVINDQ5bE51M2lOeHpjV3dRMGZ4Z21Mcl9DUHBTRHNmYW5LODFMSGVRSVV3cGl6QnlKYXFmV2pfWktUalgyWjloZHdDMGZ3eXhfTUhXQi12UQ?oc=5",
@@ -32,40 +32,6 @@
         "robot"
       ],
       "publishedAt": "2026-09-06T04:55:13+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "hefei"
-    },
-    {
-      "id": "15a21ee636f5",
-      "title": "全球首款三证齐全eVTOL 在合肥起飞|eh216-s|合翼航空有限公司|evtol|低空经济_新浪新闻",
-      "summary": "",
-      "source": "sina.cn",
-      "sourceFeed": "合肥产业动态",
-      "sourceIcon": "location",
-      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1HWHZkSDdRUW94TndsejdOWFJscDBIWmZQV19UeTdRdDd1ejhLZC10MEEyTmZvSGN3dFFNbHRTS3VHZEh4N3dVX3gtdmJsYVFHMEItNVRjZzNDajVmN2VWNklMQQ?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-09-06T01:37:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "hefei"
-    },
-    {
-      "id": "369e51b338bf",
-      "title": "安徽蒙城：种菜用上“机器人”",
-      "summary": "",
-      "source": "Sohu",
-      "sourceFeed": "合肥产业动态",
-      "sourceIcon": "location",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQUk9lczRRRzZUMXFzcDNOajhFcHdwdE1BbmJRZ0d5cDFIVU5Wem5ud2ZkSm5Xdk5rc1N0T3JZV2F6RklpUkIwNndiUDhnVVhHWHM4cVUteUxKSVN3anZRUlVDNUF4MHEyOE82Z1VEd3kxWEhWeDlNX1JTWWtRcFVFWFRTWE13LVp2?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-09-05T23:46:36+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "hefei"
@@ -88,6 +54,40 @@
       "scope": "hefei"
     },
     {
+      "id": "566c6b259471",
+      "title": "安徽蒙城：种菜用上“机器人”",
+      "summary": "",
+      "source": "人民网-图片频道",
+      "sourceFeed": "合肥产业动态",
+      "sourceIcon": "location",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBUb1RYbXJUSDdud2Nsdkk5a0lIY01KRTNlc2RPWE9LX0JYLU5JMnpDMTdkVVN2TVZCQURIbllodGxVOVdHWUVZVzhiYVAyNmYwcHNkcjgzUGRLMEVNb1BMX2RLbTNQMkNw?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-09-05T00:49:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "hefei"
+    },
+    {
+      "id": "2aa94b650c95",
+      "title": "谁拿走了国产算力的利润？",
+      "summary": "",
+      "source": "wallstreetcn.com",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9ZelpiWHhOamQxOERuZ0tPdlZZTTFOajExd2hfdHRlTmFFWk9vVndXd0RXaXpMb0gyRjF4Wkw3M1pJWV9WWlR3MnpkUVZmOEhGSURj?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-09-06T08:20:37+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
       "id": "b0cdcce7d742",
       "title": "重磅！中国梦·智算联合宇树科技研发“算力机器人”即将上线",
       "summary": "",
@@ -97,8 +97,8 @@
       "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBfU1gwRDBiby1QN0RrUEZsQXU4VmVmZzNCX19FMG1tS3BBbnVsX3pvZE5BaHhVX2VCYlhlLTN6NUtTWk1qX3F0NDFEOFNRa0txdXpkcndjNWVoTE9QQkE?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-09-06T07:00:41+00:00",
       "timeType": "published",
@@ -118,6 +118,23 @@
         "ai"
       ],
       "publishedAt": "2026-09-06T07:00:14+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "c79d0d10d4a3",
+      "title": "全球多个市场同步铺开！中国Robotaxi出海驶入“规模化竞速”新阶段",
+      "summary": "",
+      "source": "新浪网",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1QVThoRHNua0FzbGl4Y0FnWUxPS25nT1ROSHFaUlRIR0pKbDREOTJPTzNYUmZkZHRReTFvVVEzd1RNNkVOamY2VlYzRV9IX1NKYUI3ZlUtMWJLd1p5UW1SMzhZakIxMFpiajItLW8yQVo2QQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-09-06T06:32:14+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -149,8 +166,8 @@
       "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1OQWR0ajFHT0VFWlA1VU56VXUwODZJc29lUnJxVHh4eENHMUc4dFRzQy02eGV0YnFJNTd0UWJaOExNbklPNTJraUtSeGp6bFo4WkdFM0EteWotVU9Xd3c4VGtQUVJKaXZFVjBsRG9aTWNaT3pQaUplVFhpS2Q?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-09-06T05:37:06+00:00",
       "timeType": "published",
@@ -175,17 +192,17 @@
       "scope": "china"
     },
     {
-      "id": "71d5740709ff",
+      "id": "9c2d7b16c94f",
       "title": "打造“一脑多形”具身智能平台",
       "summary": "",
-      "source": "k.sina.com.cn",
+      "source": "新浪网",
       "sourceFeed": "国内机器人产业",
       "sourceIcon": "controller",
       "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1ZZTBCcldSWlFDbXIxeW5BRmZzTFhvZjNKOFh6Snp4clZIR01WNy1hNmVIZlJZaWp1Z0J6eDRkWWhZWUpZRnBOZlNtVkFHYmk0VlVTN0hfcE03TWdKZWhzSHotcmlKMTVRb2o4Qkw3Q1c2WkJvQXRHTXNCd1BFS2M?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-09-06T03:35:10+00:00",
       "timeType": "published",
@@ -253,8 +270,8 @@
       "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9hc1hQa2ItYUxuLWxlbGJlb2ZwcWtGMlR5bWZORk96YlFDV0Fpak12X0RCVUxGcWxoWFlNZmprZnB5MXE3UjdyMDJ4aVhWbk4waXlJcWtzOFZqRllSLTc5UVJhRDgyX21BUVYxN2YtNnI0NkFsWlE?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-09-06T01:27:00+00:00",
       "timeType": "published",
@@ -279,10 +296,10 @@
       "scope": "china"
     },
     {
-      "id": "0f3b4a1ea73d",
+      "id": "5d86b24a266d",
       "title": "马斯克爆料：正着手推进SpaceX IPO事宜，自动驾驶汽车今年将实现更广泛部署",
       "summary": "",
-      "source": "财联社",
+      "source": "cls.cn",
       "sourceFeed": "国内机器人技术",
       "sourceIcon": "settings",
       "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE5vTkhrZDFIM0pZUHBaZXMtX3NISzR0SU1qZVpvUmlfaER1SERhTUtZUGVYc0FjQjM4WXV2TnJvZXV1RzZWUGpQRQ?oc=5",
@@ -296,10 +313,10 @@
       "scope": "china"
     },
     {
-      "id": "3b9d2d9775cc",
+      "id": "12d57cf2c34b",
       "title": "海外研选 | 巴克莱：自动化3.0时代开启 人形机器人市场10年后或达2000亿美元",
       "summary": "",
-      "source": "财联社",
+      "source": "cls.cn",
       "sourceFeed": "国内机器人产业",
       "sourceIcon": "controller",
       "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE12ZjBIMXNiQVEtUTZXbHRaMTFFNGtGVjdUM1hLY3RwSm9lcS15Z1k4WkgzdW9LT3Y4ZUJyN3hjUjhDTHNaOWhzcg?oc=5",
@@ -373,8 +390,8 @@
       "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxONzd0XzY1VXJPNjRzX2VBTmd1MHZ6M2h0ZDVnRE5oT2VseTBKZC1pMHMtZktMZVhNSVhOeldidDRKOG1yd2JFdy0taDVIZzZZRFo2MWcwWGVLNDk1SzIxR2hZdW1pd0tBakRBREM0c0g2d1NTN05tY25GaE5vRm9FZzVaYXVSMzVpZEJZ?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-09-05T13:41:00+00:00",
       "timeType": "published",
@@ -382,10 +399,44 @@
       "scope": "china"
     },
     {
-      "id": "a7c240bbf75e",
+      "id": "bdbe1bed232c",
+      "title": "自动驾驶，将正式入法",
+      "summary": "",
+      "source": "cj.sina.cn",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5OZElLWFh2UW1TWXZreEk3eGtHODlfRzNoTmI4LWdJaVBrM2pkdGZTTlJoaE1DSm9nWElkZVh3UWdQZHB6RXNzMmdqNUlraTFOblkxczZIUzNISDFpSjNSTlM4eGQ1LVc4RFR1a0JVUU82UVNMWVlzTl95Y20?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-09-05T12:37:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "73f32ec323f8",
+      "title": "地平线CEO放话“明年超越英伟达”：目标中国自动驾驶芯片市占率第一",
+      "summary": "",
+      "source": "Sohu",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPQXNwamlESlRWbjlyYXVBUE5XQk9xVlExRlFvUVpVMk9EQUtuS2JPQ3hFMmJ4NkxVM05HNUZMREJVSmVJeDhjZllVYzNDaTEwcG90dHl4Q0l1UDZNM04weVM4MWptTkZEVEdrLXRYZDl6a3FjMVBBNEZiNDhrVnFVMnhMaGZ1cDFtbmlOSQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-09-05T11:37:18+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "b7111bdd7fea",
       "title": "余凯：地平线明年目标是要在中国高阶自动驾驶芯片市场超过英伟达",
       "summary": "",
-      "source": "k.sina.com.cn",
+      "source": "新浪网",
       "sourceFeed": "国内机器人技术",
       "sourceIcon": "settings",
       "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5WZ0FSMVVONzZJRTNKemwtOGRVc0xZZlhRYXppczFVZC00YTYtVVpGekNaN1BTeXJzZHVDazU0VW9GczBZTGw5QU5kX2dBU1JURU42OFJQT0dKUHMxVEppU0pRVGd0eDJOaWprNnFMS2x6WWtRYm5TWnh0ajJEZ3c?oc=5",
@@ -394,6 +445,24 @@
         "robot"
       ],
       "publishedAt": "2026-09-05T08:55:52+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "076a4cf10d68",
+      "title": "（经济观察）广东具身智能机器人加速走向市场",
+      "summary": "",
+      "source": "新浪新闻_手机新浪网",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBnSnA5aWN2QVM0Vk1YY0tiLXBnV0RheUk5TFFMOWdaalc4dnE4V0hYYzI1amRDT2lucVUzRGxOdFdzNTZXcW5qRmJ2bTJJdHN4YVljMTBQamRaaW5ZdU91QkFEcEZLazltbWxVWTFfMWE2dVZRYllNQQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-09-05T07:02:22+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -433,10 +502,27 @@
       "scope": "china"
     },
     {
-      "id": "5a3008e390b0",
+      "id": "d68746f257bf",
+      "title": "余凯：超越英伟达，地平线目标明年中国自动驾驶芯片市占率第一",
+      "summary": "",
+      "source": "cj.sina.cn",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPc2xVbkU0TGllMHVDYXhQS1o0ektqNlJxbmZUNzJEdDRzSGpsSkZSZW54NXJyM3JFMldFTDBzbWJBWWUwejZKZU9COE5QVUJoUzFvYk9xRXUwMUVtVi16ZUtBVDFPRXNSX3FBVDNXa2tqelo3b1p6Ni0xT3FnYnRkUVNmY0E?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-09-05T03:57:48+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "1fcb80febc09",
       "title": "小米纽北无人自动驾驶刷圈，或将开创中国智驾新局面",
       "summary": "",
-      "source": "pcauto.com.cn",
+      "source": "太平洋汽车",
       "sourceFeed": "国内机器人技术",
       "sourceIcon": "settings",
       "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5JZ3BkVG56VU83Qy1Fak4zZ2E2WmxjTk1RX3BYcGJPUF9hVnU5ay1xVUp3eFBYaW43c3JETkFwUU5HcVM1SDB5V1pBTmhzQnJ5a3g2Z2NiTXc5anc?oc=5",
@@ -445,23 +531,6 @@
         "robot"
       ],
       "publishedAt": "2026-09-05T02:18:41+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "2d7767b87391",
-      "title": "中国（广西）—东盟“人工智能+应急管理”科技创新大赛决赛圆满落幕",
-      "summary": "",
-      "source": "mem.gov.cn",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5kaVdOSmtoUXk4M1ZCZFJsZEktZ0dxemU4bDYydnBkcUlFY3ZSQVFfelp2UHAwZWhJc2ViU1A0RnBoWk9MYXgwT3ZvaFlPVWg5bXJhT21uMW5kRXAyZDNIY2RBU2lKMnR0NzgzSw?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-09-05T02:05:00+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -518,24 +587,6 @@
       "scope": "china"
     },
     {
-      "id": "eca69e9141d8",
-      "title": "（经济观察）广东具身智能机器人加速走向市场",
-      "summary": "",
-      "source": "chinanews.com.cn",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5KcjZPNkNsWERMMmEzdklLV1VkcnNlY3NoNVZnQ1d2M1c1cVVwSEJ2ZVRFMVc3TUZQRlVsY25TRHYxYkFYdk11em9fSTFzY2EwaHdsVkhNei00VEVvcXZFWHllMlhGbV9E?oc=5",
-      "category": "robot",
-      "tags": [
-        "ai",
-        "robot"
-      ],
-      "publishedAt": "2026-09-04T13:39:26+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "79ab03d52484",
       "title": "中国长安赵非：“天枢领航”将全系搭载激光雷达、全系采用“端到端”技术",
       "summary": "",
@@ -579,8 +630,8 @@
       "url": "https://www.qbitai.com/2026/09/484437.html",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-09-04T09:19:29+00:00",
       "timeType": "published",
@@ -790,12 +841,12 @@
       "icon": "connection"
     }
   ],
-  "total": 44,
-  "generatedAt": "2026-09-06T08:23:11.618069+00:00",
+  "total": 47,
+  "generatedAt": "2026-09-06T08:38:44.612364+00:00",
   "freshness": {
     "windowHours": 48,
     "updateIntervalHours": 12,
-    "sourceCount": 23,
+    "sourceCount": 25,
     "newestPublishedAt": "2026-09-06T06:30:00+00:00",
     "oldestPublishedAt": "2026-09-04T16:00:05+00:00"
   },
@@ -807,7 +858,7 @@
   "sourceHealth": [
     {
       "name": "合肥产业动态",
-      "count": 7,
+      "count": 6,
       "status": "ok"
     },
     {
