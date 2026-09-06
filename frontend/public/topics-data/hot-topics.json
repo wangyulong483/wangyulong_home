@@ -71,10 +71,10 @@
       "scope": "hefei"
     },
     {
-      "id": "2aa94b650c95",
+      "id": "93b4dfa512e8",
       "title": "谁拿走了国产算力的利润？",
       "summary": "",
-      "source": "wallstreetcn.com",
+      "source": "华尔街见闻",
       "sourceFeed": "国内 AI 产业",
       "sourceIcon": "microchip",
       "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9ZelpiWHhOamQxOERuZ0tPdlZZTTFOajExd2hfdHRlTmFFWk9vVndXd0RXaXpMb0gyRjF4Wkw3M1pJWV9WWlR3MnpkUVZmOEhGSURj?oc=5",
@@ -118,6 +118,23 @@
         "ai"
       ],
       "publishedAt": "2026-09-06T07:00:14+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "04075369fec9",
+      "title": "“算力资源借我一用”…拖中国AI后腿的芯片",
+      "summary": "",
+      "source": "cnnews.chosun.com",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPYzdjU2Z5b1pvZ01uLUpubU5DSjFPOFF6clZMUUVZdjRyRkY1SENqMG5MVF91dTctVGEzQzlkd21oZXoyV2daMGtRTDFLY3Q2Q2hTNl8wS2FJM1hRano2czJHRC01cmZHU21CM1F5QkdSbUFOTFpiZ2xMWEJkc0IweEhjYmd2bzd5SEJVX0Ntei1NNzU4OVRVSUFremRHSTNX?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-09-06T06:44:53+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -296,23 +313,6 @@
       "scope": "china"
     },
     {
-      "id": "5d86b24a266d",
-      "title": "马斯克爆料：正着手推进SpaceX IPO事宜，自动驾驶汽车今年将实现更广泛部署",
-      "summary": "",
-      "source": "cls.cn",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE5vTkhrZDFIM0pZUHBaZXMtX3NISzR0SU1qZVpvUmlfaER1SERhTUtZUGVYc0FjQjM4WXV2TnJvZXV1RzZWUGpQRQ?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-09-06T00:29:31+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "12d57cf2c34b",
       "title": "海外研选 | 巴克莱：自动化3.0时代开启 人形机器人市场10年后或达2000亿美元",
       "summary": "",
@@ -399,23 +399,6 @@
       "scope": "china"
     },
     {
-      "id": "bdbe1bed232c",
-      "title": "自动驾驶，将正式入法",
-      "summary": "",
-      "source": "cj.sina.cn",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5OZElLWFh2UW1TWXZreEk3eGtHODlfRzNoTmI4LWdJaVBrM2pkdGZTTlJoaE1DSm9nWElkZVh3UWdQZHB6RXNzMmdqNUlraTFOblkxczZIUzNISDFpSjNSTlM4eGQ1LVc4RFR1a0JVUU82UVNMWVlzTl95Y20?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-09-05T12:37:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "73f32ec323f8",
       "title": "地平线CEO放话“明年超越英伟达”：目标中国自动驾驶芯片市占率第一",
       "summary": "",
@@ -433,18 +416,18 @@
       "scope": "china"
     },
     {
-      "id": "b7111bdd7fea",
+      "id": "a80104a837ab",
       "title": "余凯：地平线明年目标是要在中国高阶自动驾驶芯片市场超过英伟达",
       "summary": "",
       "source": "新浪网",
       "sourceFeed": "国内机器人技术",
       "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5WZ0FSMVVONzZJRTNKemwtOGRVc0xZZlhRYXppczFVZC00YTYtVVpGekNaN1BTeXJzZHVDazU0VW9GczBZTGw5QU5kX2dBU1JURU42OFJQT0dKUHMxVEppU0pRVGd0eDJOaWprNnFMS2x6WWtRYm5TWnh0ajJEZ3c?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE04VUktZTdYODFSeXRUeTl4MmVWT0s1c0FNdm1aa0dGWUVDNTVEdlg3LU9LWlBsQVhkenFXTnFlcDEtZXo3TzZibFVQVXc3blZrMlp2NGtFdFhEalVjVnVPV25Kc1BfSnY1Q3VJNkcxaXdKbFB5Y1pfMm52dDVRdw?oc=5",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-09-05T08:55:52+00:00",
+      "publishedAt": "2026-09-05T08:39:44+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -468,10 +451,10 @@
       "scope": "china"
     },
     {
-      "id": "c0cfefbee789",
+      "id": "94444a988378",
       "title": "通讯丨中国机器人在沙特LEAP科技展“圈粉”",
       "summary": "",
-      "source": "news.cn",
+      "source": "新华网",
       "sourceFeed": "国内机器人产业",
       "sourceIcon": "controller",
       "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBtV0pKeHY4dXhnYlhvRmhnaG91OEdXMURFVjBiZWlhUEI3dTNlNmQ2N3J6Q2VteGM2Z3pXdkVnZDRWNzNjc0JqWm1tMzVaUEZZTVZvV2JvUG1YUVJyOVljcjFyTURjSnRoVEsyaDhaOEdsMzNMNEJDRk1DTUh4dw?oc=5",
@@ -502,23 +485,6 @@
       "scope": "china"
     },
     {
-      "id": "d68746f257bf",
-      "title": "余凯：超越英伟达，地平线目标明年中国自动驾驶芯片市占率第一",
-      "summary": "",
-      "source": "cj.sina.cn",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPc2xVbkU0TGllMHVDYXhQS1o0ektqNlJxbmZUNzJEdDRzSGpsSkZSZW54NXJyM3JFMldFTDBzbWJBWWUwejZKZU9COE5QVUJoUzFvYk9xRXUwMUVtVi16ZUtBVDFPRXNSX3FBVDNXa2tqelo3b1p6Ni0xT3FnYnRkUVNmY0E?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-09-05T03:57:48+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "1fcb80febc09",
       "title": "小米纽北无人自动驾驶刷圈，或将开创中国智驾新局面",
       "summary": "",
@@ -531,23 +497,6 @@
         "robot"
       ],
       "publishedAt": "2026-09-05T02:18:41+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "4fb545ea8c40",
-      "title": "不再只是卖API 沙特王储领衔的大模型底座竟是中国MiniMax",
-      "summary": "",
-      "source": "东方财富",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9uUG13S09WQVRHT0xRdFFKRldfXzlINlFuUmJBX2VJcURhUzBjWGVaWThLbmpTQlo3aVNSTkhNMWJ2VGdSblJ4SE5DUGFjWF82dS1WQWFUX0JoUG1VR0JsVQ?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-09-04T23:09:52+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -841,8 +790,8 @@
       "icon": "connection"
     }
   ],
-  "total": 47,
-  "generatedAt": "2026-09-06T08:38:44.612364+00:00",
+  "total": 44,
+  "generatedAt": "2026-09-06T09:10:27.337987+00:00",
   "freshness": {
     "windowHours": 48,
     "updateIntervalHours": 12,
@@ -873,7 +822,7 @@
     },
     {
       "name": "国内机器人技术",
-      "count": 14,
+      "count": 13,
       "status": "ok"
     },
     {
