@@ -783,6 +783,17 @@ function onDrop(event) {
   loadFile(event.dataTransfer?.files?.[0])
 }
 
+function onStageDragEnter() {
+  isDraggingFile.value = true
+}
+
+function onStageDragLeave(event) {
+  const nextTarget = event.relatedTarget
+  if (!stage.value || !(nextTarget instanceof Node) || !stage.value.contains(nextTarget)) {
+    isDraggingFile.value = false
+  }
+}
+
 function loadDemoMap() {
   loadMap(createDemoMap(), 'demo_warehouse.pgm')
   showNotice('演示地图已重置')
@@ -900,10 +911,8 @@ onMounted(() => {
   resizeObserver.observe(canvas.value)
   window.addEventListener('keydown', onKeyDown)
   window.addEventListener('keyup', onKeyUp)
-  stage.value.addEventListener('dragenter', () => { isDraggingFile.value = true })
-  stage.value.addEventListener('dragleave', event => {
-    if (!stage.value.contains(event.relatedTarget)) isDraggingFile.value = false
-  })
+  stage.value?.addEventListener('dragenter', onStageDragEnter)
+  stage.value?.addEventListener('dragleave', onStageDragLeave)
   resizeCanvas()
 })
 
@@ -911,6 +920,8 @@ onUnmounted(() => {
   resizeObserver?.disconnect()
   window.removeEventListener('keydown', onKeyDown)
   window.removeEventListener('keyup', onKeyUp)
+  stage.value?.removeEventListener('dragenter', onStageDragEnter)
+  stage.value?.removeEventListener('dragleave', onStageDragLeave)
   window.clearTimeout(noticeTimer)
   window.clearTimeout(clearTimer)
   if (renderFrame) window.cancelAnimationFrame(renderFrame)

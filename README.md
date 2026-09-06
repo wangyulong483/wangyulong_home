@@ -11,14 +11,14 @@
 如果后续使用 Claude Code 优化本项目，请先阅读：
 
 1. [docs/rule.md](docs/rule.md)：开发、构建、提交和部署规则。
-2. [docs/todo.md](docs/todo.md)：需求方案与历史实施记录。
+2. [docs/todo.md](docs/todo.md)：需求方案、设计参考与历史实施记录。
 3. 本 README 的「项目结构」「模块说明」「优化建议」部分。
 
 关键约束：
 
 - 不要把 `DEEPSEEK_API_KEY` 或任何密钥写入仓库；生产密钥只放 Cloudflare Secret。
 - 前端新增能力优先保持纯静态；除非明确要求，不要改 `frontend/_worker.js`。
-- 修改后至少运行 `npm.cmd --prefix frontend test` 和 `npm.cmd run build`。
+- 修改后至少运行 `npm.cmd --prefix frontend run test` 和 `npm.cmd run build`。
 - 部署必须从仓库根目录执行，Wrangler 必须显式加 `--branch=main`。
 - Windows PowerShell 下优先使用 `npm.cmd`、`npx.cmd`，避免 `npm.ps1` 执行策略问题。
 - 如果要部署，按 [docs/rule.md](docs/rule.md) 走：构建、提交、推送、Wrangler 直传。
@@ -29,7 +29,7 @@
 请先阅读 README.md、docs/rule.md、docs/todo.md，理解项目结构和部署规则。
 目标：<写清楚要优化的模块或问题>。
 要求：保持现有 Vue 3 + Vite 架构，不泄露密钥，不破坏 Cloudflare Pages 部署。
-完成后运行 npm.cmd --prefix frontend test 和 npm.cmd run build，并说明改动文件、验证结果和剩余风险。
+完成后运行 npm.cmd --prefix frontend run test 和 npm.cmd run build，并说明改动文件、验证结果和剩余风险。
 ```
 
 ## 主要模块
@@ -44,6 +44,26 @@
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区与限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |
 | `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略/Wiki、资讯和“与影对话” | `frontend/src/pages/Shrine.vue`、`frontend/src/features/shrine/`、`frontend/public/shrine-data/` |
 | `/ai-quiz` | AI 应用能力测评 | 纯静态场景判断测评，本地组卷、判分、雷达画像、错题复盘和学习建议 | `frontend/src/pages/AiQuiz.vue`、`frontend/src/features/ai-quiz/`、`frontend/public/ai-quiz-data/`（manifest + questions/ 分片） |
+
+## UI 与交互风格
+
+网站当前采用「暗色终端 + 科幻档案 + 雷电紫/黄绿强调色」的统一视觉系统。基础界面使用高对比深色背景、细边框、网格纹理、等宽状态标签和紧凑工具面板；首页与 Shrine 页面保留更强的沉浸感，应用与地图工具页面则偏向可扫描、可操作的工作台风格。
+
+全站桌面端启用自定义光标组件：
+
+- 组件：`frontend/src/shared/components/CustomCursor.vue`
+- 接入点：`frontend/src/app/App.vue`
+- 默认形态：紫色圆点 + 细圆环，像终端瞄准点。
+- 交互状态：链接/按钮显示黄绿色 `OPEN`，图片显示 `VIEW`，视频封面显示 `PLAY`，地图绘制区显示十字准星 `DRAW`。
+- 页面差异：Shrine 页面启用轻微拖尾；首页全屏视频区域恢复系统光标，避免干扰首屏视频体验。
+- 可访问性：触摸设备自动禁用；`prefers-reduced-motion` 下取消拖尾和延迟跟随。
+
+近期媒体与动效性能处理：
+
+- 首页 Hero 视频使用 `preload="metadata"`，组件卸载时暂停并释放视频资源。
+- 首页、侧栏、画廊和生日图等图片补充尺寸、懒加载与 `fetchpriority`。
+- 页面切换与卡片强调线尽量使用 `opacity` / `transform`，避免不必要的 layout/paint。
+- Map Zone Painter 的拖拽监听在组件卸载时会正确移除。
 
 ## 系统架构
 
@@ -96,7 +116,7 @@ vue_blog/
 |   |   |   |-- ai-quiz/                 # AI 能力测评：组卷、判分、组件
 |   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
 |   |   |   `-- shrine/                  # 画廊、Wiki、资讯、对话与检索
-|   |   `-- shared/                      # 图标、布局、通用组件
+|   |   `-- shared/                      # 图标、布局、通用组件、自定义光标
 |   |-- public/
 |   |   |-- ai-quiz-data/                # AI 测评题库：manifest 索引 + questions/ 分片
 |   |   |-- shrine-data/                 # 角色内容、知识库、封面与图片
@@ -147,7 +167,7 @@ npm.cmd --prefix frontend ci
 npm.cmd run dev
 
 # 前端测试
-npm.cmd --prefix frontend test
+npm.cmd --prefix frontend run test
 
 # 根目录生产构建；会安装前端依赖、构建 frontend/dist、复制到根 dist/
 npm.cmd run build
@@ -202,10 +222,10 @@ uvicorn main:app --reload
 
 扩展题库推荐流程：
 
-1. 把新题或素材放到 `docs/data.md`。
+1. 把新题或素材先整理到 `docs/todo.md` 的需求/方案记录中，或直接写入对应题库分片。
 2. 按 `audience` 写入对应分片 `questions/{general,professional,shared}/NNN.json`（正文），并在 `manifest.json` 的 `questions` 里登记元数据与 `file` 指针。
 3. 检查 `id` 唯一、`sourceIds` 有效、答案下标正确。
-4. 运行 `python scripts/validate_quiz.py`、`npm.cmd --prefix frontend test` 和 `npm.cmd run build`。
+4. 运行 `python scripts/validate_quiz.py`、`npm.cmd --prefix frontend run test` 和 `npm.cmd run build`。
 
 ## 实时数据与 API
 
@@ -305,6 +325,7 @@ npx.cmd wrangler pages secret put DEEPSEEK_API_KEY --project-name=wangyulong-hom
    - 拆分过长页面组件，保持 `pages/` 为薄壳，业务逻辑放 `features/`。
    - 抽取通用按钮、标签、空状态和数据面板组件。
    - 检查移动端小屏布局，避免文本溢出和按钮挤压。
+   - 自定义光标继续保持轻量：不要给工具页增加拖尾或复杂磁吸，优先保证精确操作。
 
 3. **数据可靠性**
    - 给 `topics-data`、`shrine-data`、`ai-quiz-data` 增加 schema 校验。
@@ -333,4 +354,3 @@ PGM 地图区域绘制器基于 Adil NAS 的开源项目 [`Adilnasceng/ros2-map-
 
 - [docs/rule.md](docs/rule.md)：开发、构建与部署规范
 - [docs/todo.md](docs/todo.md)：需求方案与实施记录
-- [docs/data.md](docs/data.md)：临时素材、题库草稿或批量导入内容

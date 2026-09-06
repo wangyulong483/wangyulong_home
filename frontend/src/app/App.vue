@@ -11,6 +11,8 @@
     color="134,104,255"
   />
 
+  <CustomCursor />
+
   <div class="app-layout">
     <main class="main-content" :class="{ 'home-content': route.name === 'Home' }">
       <router-view v-slot="{ Component }">
@@ -28,6 +30,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Sidebar from '@/shared/layout/Sidebar.vue'
+import CustomCursor from '@/shared/components/CustomCursor.vue'
 import ParticleBackground from '@/shared/effects/ParticleBackground.vue'
 import { showParticles } from '@/features/home/composables/useHeroScroll.js'
 
@@ -123,6 +126,17 @@ onUnmounted(() => {
 
 html {
   overflow-x: hidden; /* 防止 video + padding 产生横向滚动条 */
+}
+
+html.custom-cursor-enabled,
+html.custom-cursor-enabled body,
+html.custom-cursor-enabled body * {
+  cursor: none !important;
+}
+
+html.custom-cursor-enabled .hero-stage,
+html.custom-cursor-enabled .hero-stage * {
+  cursor: auto !important;
 }
 
 /* 桌面端保留原生滚动能力，仅弱化轨道并统一品牌视觉 */
@@ -461,15 +475,17 @@ h3,
   position: absolute;
   top: 0;
   left: 0;
-  width: 34px;
+  width: 92px;
   height: 2px;
   content: '';
   background: var(--signal);
-  transition: width 0.35s var(--ease-out);
+  transform: scaleX(0.37);
+  transform-origin: left center;
+  transition: transform 0.35s var(--ease-out);
 }
 
 .card:hover::before {
-  width: 92px;
+  transform: scaleX(1);
 }
 
 .card:hover {
@@ -556,19 +572,17 @@ h3,
 
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.28s var(--ease-out), transform 0.36s var(--ease-out), clip-path 0.42s var(--ease-out);
+  transition: opacity 0.28s var(--ease-out), transform 0.36s var(--ease-out);
 }
 
 .page-enter-from {
   opacity: 0;
   transform: translateY(18px);
-  clip-path: inset(0 0 8% 0);
 }
 
 .page-leave-to {
   opacity: 0;
   transform: translateY(-8px);
-  clip-path: inset(8% 0 0 0);
 }
 
 @media (max-width: 768px) {

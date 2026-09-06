@@ -150,7 +150,7 @@
                 class="birthday-img"
                 width="1600"
                 height="1600"
-                loading="eager"
+                :loading="idx === currentSlide ? 'eager' : 'lazy'"
                 decoding="async"
                 :fetchpriority="idx === currentSlide ? 'high' : 'low'"
               />
@@ -201,8 +201,9 @@
               class="thumb-img"
               width="160"
               height="160"
-              loading="eager"
+              loading="lazy"
               decoding="async"
+              fetchpriority="low"
             />
             <span class="thumb-year">{{ item.year }}</span>
             <span class="thumb-index">{{ String(idx + 1).padStart(2, '0') }}</span>
@@ -279,10 +280,14 @@ function shouldLoadSlide(index) {
 /* 自动轮播 */
 let autoplayTimer = null
 
+function carouselAutoplayEnabled() {
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 function startAutoplay() {
   stopAutoplay()
-  if (birthdays.value.length > 1) {
-    autoplayTimer = setInterval(() => {
+  if (birthdays.value.length > 1 && carouselAutoplayEnabled()) {
+    autoplayTimer = window.setInterval(() => {
       nextSlide()
     }, 6000)
   }
@@ -290,7 +295,7 @@ function startAutoplay() {
 
 function stopAutoplay() {
   if (autoplayTimer) {
-    clearInterval(autoplayTimer)
+    window.clearInterval(autoplayTimer)
     autoplayTimer = null
   }
 }

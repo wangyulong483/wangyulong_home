@@ -17,7 +17,8 @@
           muted
           loop
           playsinline
-          preload="auto"
+          preload="metadata"
+          aria-hidden="true"
         ></video>
         <div class="hero-shade" aria-hidden="true"></div>
         <div ref="flashRef" class="transition-flash" aria-hidden="true"></div>
@@ -133,13 +134,19 @@ function setupAnimation() {
     autoAlpha: 1,
     clipPath: `circle(150% at ${focus})`,
     pointerEvents: 'auto',
+    willChange: 'clip-path, opacity',
   })
-  gsap.set(video, { scale: 1, filter: 'saturate(0.9) contrast(1.05)' })
+  gsap.set(video, {
+    scale: 1,
+    filter: 'saturate(0.9) contrast(1.05)',
+    willChange: 'transform, filter',
+  })
   gsap.set(content, { autoAlpha: reduceMotion ? 1 : 0.28 })
   gsap.set(contentItems, {
     autoAlpha: reduceMotion ? 1 : 0,
     y: reduceMotion ? 0 : 46,
     clipPath: reduceMotion ? 'none' : 'inset(0 0 18% 0)',
+    willChange: reduceMotion ? 'auto' : 'transform, opacity',
   })
   gsap.set(apertureRef.value, { autoAlpha: 0, scale: 1.35 })
   gsap.set(flashRef.value, { autoAlpha: 0 })
@@ -149,6 +156,7 @@ function setupAnimation() {
       autoAlpha: 0,
       x: reduceMotion ? 0 : (isMobile ? 18 : 70),
       pointerEvents: 'none',
+      willChange: reduceMotion ? 'auto' : 'transform, opacity',
     })
   }
 
@@ -246,7 +254,11 @@ function setupAnimation() {
       .set(navigation, { pointerEvents: 'auto' }, 0.82)
   }
 
-  timeline.to({}, { duration: 0.08 }, 0.92)
+  const animatedTargets = [stage, video, apertureRef.value, flashRef.value, ...contentItems].filter(Boolean)
+
+  timeline
+    .to({}, { duration: 0.08 }, 0.92)
+    .set(animatedTargets, { willChange: 'auto' }, 0.92)
   emit('progress', timeline.scrollTrigger.progress)
 }
 
@@ -256,9 +268,19 @@ function destroyAnimation() {
   timeline = null
 
   if (animatedNavigation) {
-    gsap.set(animatedNavigation, { clearProps: 'opacity,visibility,transform,pointerEvents' })
+    gsap.set(animatedNavigation, { clearProps: 'opacity,visibility,transform,pointerEvents,willChange' })
     animatedNavigation = null
   }
+
+  const clearTargets = [
+    stageRef.value,
+    videoRef.value,
+    contentRef.value,
+    apertureRef.value,
+    flashRef.value,
+    ...(rootRef.value?.querySelectorAll('.js-home-reveal') || []),
+  ].filter(Boolean)
+  if (clearTargets.length) gsap.set(clearTargets, { clearProps: 'willChange' })
 }
 
 function onVisibilityChange() {
@@ -286,6 +308,12 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.clearTimeout(resizeTimer)
+  const video = videoRef.value
+  if (video) {
+    video.pause()
+    video.removeAttribute('src')
+    video.load()
+  }
   destroyAnimation()
   emit('progress', 0)
   document.removeEventListener('visibilitychange', onVisibilityChange)

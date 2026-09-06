@@ -66,7 +66,15 @@
             :to="portal.to"
             class="portal-card"
           >
-            <img :src="portal.image" :alt="portal.alt" loading="lazy" decoding="async" />
+            <img
+              :src="portal.image"
+              :alt="portal.alt"
+              width="1280"
+              height="720"
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
+            />
             <span class="portal-shade" aria-hidden="true"></span>
             <span class="portal-number">0{{ index + 1 }}</span>
             <span class="portal-content">
@@ -80,7 +88,15 @@
       </section>
 
       <section class="origin-section js-home-reveal" aria-labelledby="origin-title">
-        <img src="/image/school.jpg" alt="安徽建筑大学校门" loading="lazy" decoding="async" />
+        <img
+          src="/image/school.jpg"
+          alt="安徽建筑大学校门"
+          width="1280"
+          height="800"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+        />
         <div class="origin-shade" aria-hidden="true"></div>
         <div class="origin-copy">
           <p class="section-kicker light"><span></span> ORIGIN POINT</p>

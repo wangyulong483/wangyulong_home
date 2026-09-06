@@ -21,7 +21,14 @@
       </header>
 
       <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
-        <img src="/image/mylog.jpg" alt="雷电将军头像" />
+        <img
+          src="/image/mylog.jpg"
+          alt="雷电将军头像"
+          width="96"
+          height="96"
+          loading="lazy"
+          decoding="async"
+        />
         <span aria-hidden="true">HOME</span>
       </router-link>
 

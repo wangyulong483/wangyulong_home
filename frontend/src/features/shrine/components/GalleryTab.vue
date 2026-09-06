@@ -70,8 +70,9 @@
             class="card-cover"
             width="1280"
             height="720"
-            loading="eager"
+            :loading="index < 3 ? 'eager' : 'lazy'"
             decoding="async"
+            :fetchpriority="index < 3 ? 'high' : 'low'"
             referrerpolicy="no-referrer"
             @error="coverErrors[video.id] = true"
           />
@@ -155,6 +156,7 @@
               frameborder="0"
               allow="autoplay; fullscreen; picture-in-picture"
               allowfullscreen
+              loading="lazy"
               referrerpolicy="no-referrer"
             ></iframe>
           </div>
@@ -531,11 +533,13 @@ onUnmounted(() => {
   z-index: 3;
   top: 0;
   left: 0;
-  width: 28px;
+  width: 86px;
   height: 2px;
   content: '';
   background: var(--signal);
-  transition: width 0.3s;
+  transform: scaleX(0.33);
+  transform-origin: left center;
+  transition: transform 0.3s;
 }
 
 .video-card.official::before {
@@ -550,7 +554,7 @@ onUnmounted(() => {
 }
 
 .video-card:hover::before {
-  width: 86px;
+  transform: scaleX(1);
 }
 
 @keyframes card-enter {

@@ -277,13 +277,13 @@
         "general",
         "professional"
       ],
-      "difficulty": "basic",
-      "cognitiveLevel": "apply",
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
       "volatility": "low",
       "tags": [
         "privacy",
-        "daily-use",
-        "security"
+        "misconception",
+        "daily-use"
       ],
       "sourceIds": [
         "owasp-agentic-2026"
@@ -449,13 +449,13 @@
       "audience": [
         "general"
       ],
-      "difficulty": "basic",
-      "cognitiveLevel": "apply",
+      "difficulty": "intermediate",
+      "cognitiveLevel": "analyze",
       "volatility": "low",
       "tags": [
-        "boundary",
-        "daily-use",
-        "calculation"
+        "verification",
+        "probabilistic",
+        "daily-use"
       ],
       "sourceIds": [
         "llm-docs"
@@ -679,12 +679,12 @@
       "audience": [
         "general"
       ],
-      "difficulty": "basic",
+      "difficulty": "intermediate",
       "cognitiveLevel": "apply",
       "volatility": "low",
       "tags": [
-        "boundary",
-        "medical",
+        "verification",
+        "search",
         "daily-use"
       ],
       "sourceIds": [
@@ -717,12 +717,12 @@
       "audience": [
         "general"
       ],
-      "difficulty": "basic",
+      "difficulty": "intermediate",
       "cognitiveLevel": "apply",
       "volatility": "low",
       "tags": [
-        "boundary",
-        "finance",
+        "local-deployment",
+        "privacy",
         "daily-use"
       ],
       "sourceIds": [
@@ -830,12 +830,11 @@
       "audience": [
         "general"
       ],
-      "difficulty": "basic",
-      "cognitiveLevel": "understand",
+      "difficulty": "intermediate",
+      "cognitiveLevel": "apply",
       "volatility": "low",
       "tags": [
         "tool-selection",
-        "search-vs-ai",
         "daily-use"
       ],
       "sourceIds": [

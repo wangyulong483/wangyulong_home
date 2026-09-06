@@ -36,6 +36,7 @@ function crystalStyle(i) {
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
+  contain: layout paint;
 }
 
 .crystal {
@@ -47,6 +48,7 @@ function crystalStyle(i) {
   border-radius: 2px;
   box-shadow: 0 0 8px rgba(176, 136, 249, 0.3);
   animation: float-up linear infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes float-up {
@@ -62,6 +64,13 @@ function crystalStyle(i) {
   }
   100% {
     transform: rotate(45deg) translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crystal {
+    animation: none;
     opacity: 0;
   }
 }
