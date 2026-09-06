@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import {
   advanceSession,
   buildChatReferences,
+  buildRoleplayIntel,
   buildSystemPrompt,
   buildWebSearchQuery,
   extractMemoryUpdates,
@@ -146,6 +147,29 @@ test('Brave 只采用原神官方或知名 Wiki 来源', async () => {
   assert.equal(isAllowedGenshinSource('https://www.gamersky.com/news/202607/2166289.shtml'), false)
   assert.equal(isAllowedGenshinSource('https://cg.163.com/static/content/test'), false)
   assert.equal(shouldReviseReply('你认识奥黛塔吗', [], { sources: [], skipped: 'no-official-or-wiki-source' }), true)
+})
+
+test('前置情报摘要会把合格来源转译为角色可用事实', () => {
+  const intel = buildRoleplayIntel('最近原神的新角色', [], [{
+    title: '《原神》官方网站-全新7.0版本「无神怜爱的雪国」上线',
+    source: 'Mihoyo',
+    url: 'https://ys.mihoyo.com/main/news/detail/test',
+    excerpt: '官方公告提到新版本与新角色信息。',
+    sourceType: 'web',
+    sourceTier: 'official',
+  }], { sources: [{}], skipped: '' })
+
+  assert.match(intel, /前置处理 - 信息整合与转译/)
+  assert.match(intel, /奥诘众与鸣神大社递上的正式急报/)
+  assert.match(intel, /必须使用至少一条具体事实点/)
+  assert.match(intel, /全新7\.0版本/)
+
+  const blockedIntel = buildRoleplayIntel('你认识奥黛塔吗', [], [], {
+    sources: [],
+    skipped: 'no-official-or-wiki-source',
+  })
+  assert.match(blockedIntel, /没有返回原神官方或知名 Wiki 来源/)
+  assert.match(blockedIntel, /不得使用第三方页面补全事实/)
 })
 
 test('Brave 网络搜索结果会合并为可引用来源', async () => {
@@ -356,6 +380,8 @@ test('聊天接口会把网络搜索资料注入提示并返回来源', async ()
     assert.equal(response.status, 200)
     assert.equal(deepSeekPayloads.length, 2)
     assert.ok(firstPayload.messages.some(message => /网络搜索/.test(message.content)))
+    assert.ok(firstPayload.messages.some(message => /前置处理 - 信息整合与转译/.test(message.content)))
+    assert.ok(firstPayload.messages.some(message => /必须使用至少一条具体事实点/.test(message.content)))
     assert.ok(firstPayload.messages.some(message => /可信度 官方/.test(message.content)))
     assert.ok(data.sources.some(source => source.sourceType === 'web'))
     assert.ok(data.sources.some(source => source.sourceTier === 'official'))
@@ -363,6 +389,8 @@ test('聊天接口会把网络搜索资料注入提示并返回来源', async ()
     assert.equal(data.webSearch.provider, 'brave')
     assert.equal(data.safety.route, 'slow')
     assert.equal(data.safety.revision, 'applied')
+    assert.equal(data.safety.intel, true)
+    assert.equal(data.safety.sourcePolicy, 'official-or-wiki-only')
   } finally {
     globalThis.fetch = originalFetch
   }
@@ -426,6 +454,7 @@ test('聊天接口会把短追问改写为带上下文的网络搜索', async ()
     assert.match(decodedQuery, /至冬/)
     assert.equal(deepSeekPayloads.length, 2)
     assert.ok(deepSeekPayloads[0].messages.some(message => /网络资料时必须先正面回答/.test(message.content)))
+    assert.ok(deepSeekPayloads[0].messages.some(message => /获知渠道/.test(message.content)))
     assert.ok(deepSeekPayloads[0].messages.some(message => /可信度 官方/.test(message.content)))
     assert.equal(data.webSearch.resultCount, 1)
     assert.ok(data.sources.some(source => source.url.includes('ys.mihoyo.com')))
