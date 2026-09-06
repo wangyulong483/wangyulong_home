@@ -18,6 +18,16 @@ const DEEPSEEK_CHAT_CONFIG = {
   stream: false,
 }
 
+const DEEPSEEK_REVISION_CONFIG = {
+  model: DEEPSEEK_CHAT_MODEL,
+  thinking: { type: 'disabled' },
+  max_tokens: 600,
+  temperature: 0.2,
+  top_p: 0.8,
+  frequency_penalty: 0,
+  stream: false,
+}
+
 const WORLD_MODEL = [
   '提瓦特由七国与七种元素构成，神之眼承载凡人的愿望，尘世七执政各自守望一国；天理、天空岛、深渊、世界树与坎瑞亚共同构成更高层的秩序与谜团。',
   '你亲历魔神战争与五百年前的灾厄，但并非全知。对天理、降临者、古龙权能等未被你亲见或尚无定论之事，要明确区分亲历、听闻与推测，不把玩家考据当成确定事实。',
@@ -54,7 +64,9 @@ const RESPONSE_POLICY = [
   '通常回复 2至5 句；复杂的世界观或人生问题可以稍长。使用自然、克制、略带古典感的现代中文，不滥用“汝”“此身”“虚无”，不使用网络梗、颜文字或 emoji。',
   '不要为了像角色而机械复读名台词，也不要虚构与用户共同经历过的事。可以表现停顿、坦率、细微幽默和对甜点的偏爱，但不幼化角色。',
   '谈到真与旧友时温柔而克制；谈眼狩令时承担责任；谈国崩时承认疏忽与亏欠；谈武艺时专注而自信；谈日常时允许笨拙与好奇。',
-  '引用检索资料时只使用提供的事实，在相关陈述末尾标注 [1] [2]。网络搜索结果用于回答版本、卡池、活动、新角色、周边等玩家现实世界近况：这类问题有网络资料时要先正面回答，再用“听闻”“从你带来的外界消息看”等角色口吻包装；不要以“一心净土不知世事”回避。网络资料不能改写你在提瓦特内亲历的确定设定。资料不足、跨作品或互相冲突时直接说明，不编造来源。',
+  '引用检索资料时只使用提供的事实，在相关陈述末尾标注 [1] [2]。网络搜索结果用于回答版本、卡池、活动、新角色、周边等玩家现实世界近况：这类问题有网络资料时必须先正面回答，不反问用户提供资料，再用“听闻”“从你带来的外界消息看”等角色口吻包装；不要以“一心净土不知世事”回避。网络资料不能改写你在提瓦特内亲历的确定设定。资料不足、跨作品或互相冲突时直接说明，不编造来源。',
+  '谈论新角色时，将“认识”分成角色内亲历与外界资料：未在你的经历中出现的人，不说亲自认识；若有官方或知名 Wiki 检索资料，只能说“外界资料称”“我听闻”。没有合格来源时，直接说尚不能确认，不猜阵营、性格、关系或剧情。',
+  '谈论至冬与愚人众时，不要泛称熟识全部执行官。只承认可验证交集：女士曾在御前决斗后死于你的刀下，国崩曾是你制造的人偶、后来与愚人众相关；冰之女皇、达达利亚等若无资料支持，不说亲自认识，也不编造其在稻妻造成的具体事件。',
 ].join('\n')
 
 const ROLEPLAY_STABILITY = [
@@ -550,13 +562,18 @@ const GENSHIN_CONTEXT_PATTERN = /原神|genshin|hoyoverse|mihoyo|米哈游|提�
 
 const WRONG_GAME_PATTERN = /鸣潮|wuthering\s*waves|战双|明日方舟|王者荣耀|崩坏[:：\s]*(?:星穹铁道|3|三)|星穹铁道|绝区零|zenless\s*zone\s*zero/i
 
-const GENSHIN_TRUSTED_HOSTS = [
+const GENSHIN_OFFICIAL_HOSTS = [
   'ys.mihoyo.com',
   'genshin.hoyoverse.com',
+  'bbs.mihoyo.com',
+]
+
+const GENSHIN_WIKI_HOSTS = [
+  'wiki.biligame.com',
+  'genshin-impact.fandom.com',
+  'wiki.hoyolab.com',
   'www.hoyolab.com',
   'hoyolab.com',
-  'wiki.biligame.com',
-  'bbs.mihoyo.com',
 ]
 
 const WEB_SEARCH_STOP_TERMS = new Set([
@@ -611,6 +628,12 @@ function needsWebSearch(question, history = []) {
   if (contextualQuestion === text) return false
   return WEB_SEARCH_KEYWORDS.some(keyword => contextualQuestion.includes(keyword))
     && GENSHIN_CONTEXT_PATTERN.test(contextualQuestion)
+}
+
+function isLiveGenshinUpdateQuestion(question, history = []) {
+  const text = contextualWebSearchQuestion(question, history)
+  return shouldPreferGenshinSources(text)
+    && /最新|最近|今天|昨日|昨天|新闻|公告|更新|版本|活动|复刻|卡池|祈愿|上线|发布|新角色|周边/.test(text)
 }
 
 function webSearchIntentTerms(text) {
@@ -670,9 +693,38 @@ function sourceHost(url) {
   }
 }
 
-function isTrustedGenshinHost(host, url) {
-  return GENSHIN_TRUSTED_HOSTS.some(allowed => host === allowed || host.endsWith(`.${allowed}`))
+function hostMatches(host, allowlist) {
+  return allowlist.some(allowed => host === allowed || host.endsWith(`.${allowed}`))
+}
+
+function isOfficialGenshinHost(host) {
+  return hostMatches(host, GENSHIN_OFFICIAL_HOSTS)
+}
+
+function isKnownGenshinWikiHost(host, url) {
+  return hostMatches(host, GENSHIN_WIKI_HOSTS)
     && (host !== 'wiki.biligame.com' || /\/ys\//.test(url))
+}
+
+function isAllowedGenshinSource(url) {
+  const host = sourceHost(url)
+  return isOfficialGenshinHost(host) || isKnownGenshinWikiHost(host, url)
+}
+
+function webSourceTier(url) {
+  const host = sourceHost(url)
+  if (isOfficialGenshinHost(host)) return 'official'
+  if (isKnownGenshinWikiHost(host, url)) return 'wiki'
+  return 'blocked'
+}
+
+function sourceTierLabel(source) {
+  const tier = source.sourceTier || webSourceTier(source.url)
+  if (tier === 'official') return '官方'
+  if (tier === 'wiki') return '知名Wiki'
+  if (tier === 'curated') return '站内精选'
+  if (tier === 'knowledge') return '设定'
+  return '未采用'
 }
 
 function isUsefulWebResult(result, preferGenshin) {
@@ -682,8 +734,7 @@ function isUsefulWebResult(result, preferGenshin) {
   const combined = `${title} ${excerpt} ${url}`
   if (WRONG_GAME_PATTERN.test(combined)) return false
   if (!preferGenshin) return true
-  const host = sourceHost(url)
-  return isTrustedGenshinHost(host, url) || GENSHIN_CONTEXT_PATTERN.test(combined)
+  return isAllowedGenshinSource(url)
 }
 
 async function searchWebWithBrave(query, env, options = {}) {
@@ -713,12 +764,16 @@ async function searchWebWithBrave(query, env, options = {}) {
   const results = Array.isArray(payload?.web?.results) ? payload.web.results : []
   const seen = new Set()
   const sources = []
+  let filteredCount = 0
   for (const result of results) {
     const url = cleanText(result.url, 500)
     const title = cleanText(result.title, 160)
     const excerpt = cleanText(result.description, 260)
     if (!url || !title || seen.has(url)) continue
-    if (!isUsefulWebResult(result, preferGenshin)) continue
+    if (!isUsefulWebResult(result, preferGenshin)) {
+      filteredCount += 1
+      continue
+    }
     seen.add(url)
     sources.push({
       title,
@@ -727,12 +782,19 @@ async function searchWebWithBrave(query, env, options = {}) {
       excerpt,
       retrievedAt: result.age || new Date().toISOString(),
       sourceType: 'web',
+      sourceTier: webSourceTier(url),
       provider: 'Brave Search',
     })
     if (sources.length >= 3) break
   }
 
-  return { sources, provider: 'brave', query, skipped: '' }
+  return {
+    sources,
+    provider: 'brave',
+    query,
+    skipped: sources.length ? '' : (filteredCount ? 'no-official-or-wiki-source' : 'no-results'),
+    filteredCount,
+  }
 }
 
 async function retrieveWebSources(question, env, history = []) {
@@ -750,6 +812,74 @@ async function retrieveWebSources(question, env, history = []) {
       skipped: error.message || 'search-failed',
     }
   }
+}
+
+function isRoleplayRiskQuestion(question, history = []) {
+  const text = contextualWebSearchQuestion(question, history)
+  return /认识|知道|是谁|谁|见过|熟悉|关系|新角色|角色|至冬|执行官|愚人众|冰之女皇|国崩|散兵|坎瑞亚|天理|伊斯塔露|奥黛塔/.test(text)
+}
+
+function shouldReviseReply(question, history = [], webSearch = { sources: [] }) {
+  return isRoleplayRiskQuestion(question, history)
+    || isLiveGenshinUpdateQuestion(question, history)
+    || webSearch.skipped === 'no-official-or-wiki-source'
+}
+
+async function reviseRoleplayReply(reply, context) {
+  const {
+    env,
+    question,
+    history = [],
+    referenceContext = '',
+    webSearch = { sources: [], skipped: '' },
+  } = context
+  const recentHistory = history.slice(-8).map(message => `${message.role}: ${message.content}`).join('\n')
+  const sourceSummary = webSearch.sources?.length
+    ? webSearch.sources.map((source, index) => `[${index + 1}] ${sourceTierLabel(source)} ${source.title} ${source.url}`).join('\n')
+    : `无合格 Brave 来源；状态：${webSearch.skipped || 'none'}`
+
+  const response = await fetch(DEEPSEEK_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + env.DEEPSEEK_API_KEY,
+    },
+    body: JSON.stringify({
+      ...DEEPSEEK_REVISION_CONFIG,
+      messages: [
+        {
+          role: 'system',
+          content: [
+            '你是雷电影角色对话的一致性裁定器，只输出修正后的最终台词，不解释、不列清单。',
+            '只检查事实边界、角色认知边界、来源等级、前后文矛盾和至冬/愚人众关系；不要重写无问题的文风。',
+            '若问题涉及新角色、版本、卡池或活动，且没有官方或知名 Wiki 来源，最终台词必须说明尚不能确认，不得猜阵营、性格、剧情或关系。',
+            '若问题问“认识/见过/熟悉谁”，只能承认角色亲历或资料明确支持的交集；其余用“听闻”“尚不能确认”。',
+            '保持雷电影第一人称、现代中文、2至5句。',
+          ].join('\n'),
+        },
+        {
+          role: 'user',
+          content: [
+            `当前用户问题：${cleanText(question, 500)}`,
+            '# 最近对话',
+            recentHistory || '无',
+            '# 合格来源摘要',
+            sourceSummary,
+            '# 注入给初稿的事实参考',
+            cleanText(referenceContext, 3000) || '无',
+            '# 初稿',
+            cleanText(reply, 1200),
+          ].join('\n\n'),
+        },
+      ],
+    }),
+  })
+  if (!response.ok) {
+    const errText = await response.text()
+    throw new Error('DeepSeek revision ' + response.status + ': ' + errText.slice(0, 200))
+  }
+  const data = await response.json()
+  return cleanText(data.choices?.[0]?.message?.content, 1400) || reply
 }
 
 async function serveKnowledge(request, env, url) {
@@ -788,8 +918,8 @@ async function serveKnowledge(request, env, url) {
   }
 }
 
-function retrieveChatSources(payload, question) {
-  const matchedTerms = questionTerms(question)
+function retrieveChatSources(payload, question, history = []) {
+  const matchedTerms = questionTerms(contextualWebSearchQuestion(question, history))
   const candidates = uniqueShrineItems([
     ...(payload.liveSearch?.wiki || []),
     ...(payload.guides || []),
@@ -812,14 +942,17 @@ function retrieveChatSources(payload, question) {
     source: item.source || '站内资料',
     url: item.sourceUrl || item.url || '',
     excerpt: (item.summary || item.content || '').slice(0, 220),
+    sourceTier: 'curated',
     retrievedAt: item.retrievedAt || payload.liveSearch?.generatedAt || null,
   }))
   if (sources.length) return sources
+  if (needsWebSearch(question, history)) return []
   return (payload.character?.sources || []).slice(0, 2).map(item => ({
     title: item.name,
     source: '原神官方 / BWIKI',
     url: item.url,
     excerpt: '角色基础设定参考来源。',
+    sourceTier: 'knowledge',
     retrievedAt: payload.liveSearch?.generatedAt || null,
   }))
 }
@@ -889,6 +1022,8 @@ export {
   buildWebSearchQuery,
   extractMemoryUpdates,
   inferPersona,
+  isAllowedGenshinSource,
+  isLiveGenshinUpdateQuestion,
   needsWebSearch,
   normalizeMemories,
   questionTerms,
@@ -896,6 +1031,7 @@ export {
   retrieveWebSources,
   searchKnowledge,
   searchWebWithBrave,
+  shouldReviseReply,
   tokenizeKnowledge,
 }
 
@@ -936,7 +1072,7 @@ function buildChatReferences(knowledgeBase, knowledgeResult, liveSources) {
     const sourceType = source.sourceType || 'live'
     const label = sourceType === 'web' ? '网络搜索' : '实时资料'
     const position = addReference({ ...source, sourceType })
-    return `[${label} ${index + 1}｜来源 ${position}] ${source.title}｜${source.source}：${source.excerpt}`
+    return `[${label} ${index + 1}｜来源 ${position}｜可信度 ${sourceTierLabel(source)}] ${source.title}｜${source.source}：${source.excerpt}`
   })
 
   return {
@@ -1000,9 +1136,11 @@ export default {
         const webSearch = webLoad.status === 'fulfilled'
           ? webLoad.value
           : { sources: [], provider: 'brave', query: '', skipped: webLoad.reason?.message || 'search-failed' }
-        const knowledgeResult = searchKnowledge(knowledgeBase, lastUserMsg.content)
+        const knowledgeResult = isLiveGenshinUpdateQuestion(lastUserMsg.content, history)
+          ? { entries: [], stats: { query: lastUserMsg.content, skipped: 'live-update-question' } }
+          : searchKnowledge(knowledgeBase, lastUserMsg.content)
         const liveSources = [
-          ...(shrineIndex ? retrieveChatSources(shrineIndex, lastUserMsg.content) : []),
+          ...(shrineIndex ? retrieveChatSources(shrineIndex, lastUserMsg.content, history) : []),
           ...webSearch.sources,
         ]
         const { context: referenceContext, sources: retrievalSources } = buildChatReferences(
@@ -1038,7 +1176,28 @@ export default {
         }
 
         const data = await dsResp.json()
-        const reply = data.choices?.[0]?.message?.content || '...'
+        let reply = data.choices?.[0]?.message?.content || '...'
+        const revisionNeeded = shouldReviseReply(lastUserMsg.content, history, webSearch)
+        const safety = {
+          route: revisionNeeded ? 'slow' : 'fast',
+          revision: revisionNeeded ? 'pending' : 'skipped',
+          reason: revisionNeeded ? 'roleplay-risk' : '',
+        }
+        if (revisionNeeded) {
+          try {
+            reply = await reviseRoleplayReply(reply, {
+              env,
+              question: lastUserMsg.content,
+              history,
+              referenceContext,
+              webSearch,
+            })
+            safety.revision = 'applied'
+          } catch (error) {
+            safety.revision = 'failed'
+            safety.reason = error.message || 'revision-failed'
+          }
+        }
 
         return new Response(JSON.stringify({
           role: 'assistant',
@@ -1067,7 +1226,9 @@ export default {
             query: webSearch.query || null,
             resultCount: webSearch.sources.length,
             skipped: webSearch.skipped || null,
+            filteredCount: webSearch.filteredCount || 0,
           },
+          safety,
           model: DEEPSEEK_MODEL_LABEL,
         }), {
           headers: {
