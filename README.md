@@ -105,6 +105,8 @@ Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不�
 | 自动化 | GitHub Actions、Python 3.12 |
 | 部署 | Cloudflare Pages、Wrangler 4 |
 
+角色聊天在 `frontend/_worker.js` 中使用 DeepSeek Chat Completions 兼容接口，`base_url` 为 `https://api.deepseek.com`，模型标识为 `deepseek-v4-flash`。DeepSeek 官方文档说明 Flash 默认开启 thinking，且 thinking 模式下采样参数不生效；本项目是低延迟角色对话，因此显式设置 `thinking: { type: 'disabled' }`，并使用 `temperature/top_p/frequency_penalty` 稳定角色声线。
+
 ## 项目结构
 
 ```text
