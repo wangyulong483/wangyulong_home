@@ -50,8 +50,13 @@
             </router-link>
           </li>
           <li>
+            <router-link to="/learning" class="nav-link" @click="close">
+              <span class="nav-code">02</span><AppIcon icon="book" size="18" /><span>学习记录</span>
+            </router-link>
+          </li>
+          <li>
             <router-link to="/about" class="nav-link" @click="close">
-              <span class="nav-code">02</span><AppIcon icon="user-avatar" size="18" /><span>关于</span>
+              <span class="nav-code">03</span><AppIcon icon="user-avatar" size="18" /><span>关于</span>
             </router-link>
           </li>
         </ul>

@@ -70,6 +70,7 @@ const iconMap = {
   'arrow-left': '/game-icon-pack-main/svg/no-padding/8-ui/arrow-left.svg',
   'arrow-right': '/game-icon-pack-main/svg/no-padding/8-ui/arrow-right.svg',
   'arrow-down': '/game-icon-pack-main/svg/no-padding/8-ui/arrow-down.svg',
+  tick: '/game-icon-pack-main/svg/no-padding/8-ui/tick.svg',
   // 9-media — 媒体/通讯/科技
   mail: '/game-icon-pack-main/svg/no-padding/9-media/mail.svg',
   camera: '/game-icon-pack-main/svg/no-padding/9-media/camera.svg',

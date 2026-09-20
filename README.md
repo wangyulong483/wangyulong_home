@@ -117,6 +117,7 @@ vue_blog/
 |   |   |-- pages/                       # 路由级页面
 |   |   |-- features/
 |   |   |   |-- home/                    # 首页视频与滚动过渡
+|   |   |   |-- learning/                # 学习记录数据与代码展示组件
 |   |   |   |-- ai-quiz/                 # AI 能力测评：组卷、判分、组件
 |   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
 |   |   |   `-- shrine/                  # 画廊、Wiki、资讯、对话与检索
@@ -241,6 +242,12 @@ uvicorn main:app --reload
 | 厨厨索引 | 每天 02:37、08:37、14:37、20:37 | `shrine-data/index.json` | Bing Web RSS、Bilibili View API、原神 WIKI_BWIKI、Google 新闻 RSS |
 
 热点排序优先考虑合肥、安徽与国内中文信息，同时保留 ROS2、机器人和 AI 的国际一手来源。两类任务都会先运行校验脚本，来源缺失或数据结构无效时不会发布。
+
+自动更新工作流只负责更新站内数据并部署网站，不包含邮件发送逻辑。邮件提醒由 GitHub 仓库订阅设置控制，关闭订阅不会影响定时抓取、提交或 Cloudflare Pages 发布。
+
+### 学习记录
+
+学习记录的数据位于 `frontend/src/features/learning/data/records.js`。新增内容时追加一条记录，填写日期、分类、摘要、要点以及代码语言、文件名和源码即可；页面会自动生成分类筛选、行号和复制按钮。
 
 ### Worker 接口
 
