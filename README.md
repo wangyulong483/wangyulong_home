@@ -37,7 +37,7 @@
 
 | 路径 | 模块 | 主要能力 | 关键文件 |
 |------|------|----------|----------|
-| `/` | 首页 | 视频开场、滚动过渡、个人世界索引与项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
+| `/` | 首页 | 视频开场、滚动过渡、三游戏角色档案、UID 与项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
 | `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 | `frontend/src/pages/About.vue` |
 | `/applist` | 应用列表 | 统一管理游戏、热点、地图工具、厨厨模块和测评模块 | `frontend/src/pages/AppList.vue` |
 | `/game` | 飞机大战 | Canvas 射击游戏，支持键盘和移动端触控 | `frontend/src/pages/Game.vue` |
@@ -48,7 +48,9 @@
 
 ## UI 与交互风格
 
-网站当前采用「暗色终端 + 科幻档案 + 雷电紫/黄绿强调色」的统一视觉系统。基础界面使用高对比深色背景、细边框、网格纹理、等宽状态标签和紧凑工具面板；首页与 Shrine 页面保留更强的沉浸感，应用与地图工具页面则偏向可扫描、可操作的工作台风格。
+网站当前采用「暗色终端 + 科幻档案」的统一视觉系统。基础界面使用高对比深色背景、细边框、网格纹理、等宽状态标签和紧凑工具面板；首页的角色档案分别使用原神雷电紫、崩铁青金与绝区零红黑作为局部识别色，Shrine 页面保留更强的沉浸感，应用与地图工具页面则偏向可扫描、可操作的工作台风格。
+
+排版使用本地托管的 Geist Variable 处理英文界面与展示标题，Geist Mono Variable 处理代码、UID、日期和状态编号；中文依次回退到 HarmonyOS Sans SC、MiSans、苹方或微软雅黑。全站字体角色统一由 `App.vue` 中的 `--font-body`、`--font-display`、`--font-mono` 和 `--font-serif` 管理。
 
 全站桌面端启用自定义光标组件：
 

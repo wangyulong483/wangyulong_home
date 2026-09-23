@@ -191,7 +191,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   padding-right: 200px;
-  font-family: 'Segoe UI Variable', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -317,7 +317,7 @@ a {
   padding: 2px 10px;
   border-radius: 12px;
   font-size: 0.75rem;
-  font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
+  font-family: var(--font-mono);
   background: var(--accent-muted);
   color: var(--accent);
   border: 1px solid rgba(108, 92, 231, 0.15);
@@ -368,12 +368,8 @@ a {
 
 @media (max-width: 480px) {
   body {
-    font-size: 14px;
+    font-size: 15px;
   }
-
-  h1 { font-size: 1.6rem !important; }
-  h2 { font-size: 1.2rem !important; }
-  h3 { font-size: 1.0rem !important; }
 
   .card {
     padding: 14px 16px;
@@ -416,21 +412,55 @@ a {
   --radius-sm: 3px;
   --radius: 5px;
   --radius-lg: 7px;
-  --font-display: 'Arial Black', 'Microsoft YaHei', 'PingFang SC', sans-serif;
-  --font-body: 'Segoe UI Variable', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --font-mono: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
+  --font-body: 'Geist Variable', 'HarmonyOS Sans SC', 'MiSans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
+  --font-display: 'Geist Variable', 'HarmonyOS Sans SC', 'MiSans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'Geist Mono Variable', 'Cascadia Code', 'Cascadia Mono', 'SFMono-Regular', Consolas, monospace;
+  --font-serif: 'Songti SC', 'STSong', 'SimSun', serif;
+  --weight-regular: 420;
+  --weight-medium: 540;
+  --weight-semibold: 650;
+  --weight-bold: 740;
 }
 
 html {
   background: var(--bg-primary);
   color-scheme: dark;
+  font-synthesis: none;
 }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: var(--weight-regular);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  line-height: 1.7;
   letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  letter-spacing: 0;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+time {
+  font-variant-numeric: tabular-nums;
 }
 
 body::before {
@@ -456,8 +486,17 @@ h2,
 h3,
 .display-type {
   font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-optical-sizing: auto;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  line-height: 1.1;
   letter-spacing: 0;
   text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
 }
 
 .card {
@@ -500,7 +539,7 @@ h3,
   background: #17171c;
   color: var(--text-primary);
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: var(--weight-semibold);
   letter-spacing: 0;
 }
 
@@ -522,6 +561,7 @@ h3,
   background: var(--accent-muted);
   color: #d8ccff;
   font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
   letter-spacing: 0;
 }
 
@@ -623,6 +663,7 @@ h3,
 
 .main-content {
   flex: 1;
+  min-width: 0;
 }
 
 @media (max-width: 768px) {

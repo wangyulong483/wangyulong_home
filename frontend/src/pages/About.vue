@@ -297,7 +297,7 @@ onUnmounted(() => {
   background: rgba(0, 0, 0, 0.75);
   color: #fff;
   font-size: 0.72rem;
-  font-family: 'Cascadia Code', 'Cascadia Mono', Consolas, monospace;
+  font-family: var(--font-mono);
 }
 
 /* 卡片文本 */

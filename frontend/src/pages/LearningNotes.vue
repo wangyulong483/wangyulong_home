@@ -1,226 +1,39 @@
 <template>
   <div class="learning-page">
-    <header class="header">
-      <div>
-        <span class="section-code">LOG / KNOWLEDGE</span>
-        <h1>学习记录</h1>
-        <p class="header-sub">知识碎片、调试结论与可复用代码。</p>
+    <header class="header"><div><span class="section-code">LAB / AI KNOWLEDGE</span><h1>学习实验室</h1><p class="header-sub">从本地 AI 实验到可操作的神经网络，边读、边调、边验证。</p></div><span class="record-count">{{ aiChapters.length }} 个 AI 章节 · {{ learningRecords.length }} 条记录</span></header>
+    <nav class="view-tabs" aria-label="学习模块视图"><button type="button" :class="{ active: activeView === 'ai' }" @click="activeView = 'ai'">AI 学习路径</button><button type="button" :class="{ active: activeView === 'notes' }" @click="activeView = 'notes'">全部学习记录</button></nav>
+    <template v-if="activeView === 'ai'">
+      <section class="chapter-intro"><div><span>DOCS / AI</span><h2>从代码档案建立知识地图</h2></div><p>已整理梯度下降、编码与归一化、CNN 图像分类和 LSTM 时序预测。页面内容来自仓库 <code>docs/ai</code>，实验数据与模型仍保留在原目录。</p></section>
+      <div class="chapter-layout">
+        <nav class="chapter-nav" aria-label="AI 学习章节"><button v-for="(chapter, index) in aiChapters" :key="chapter.id" type="button" :class="{ active: activeChapter.id === chapter.id }" @click="activeChapterId = chapter.id"><span>0{{ index + 1 }}</span>{{ chapter.title }}</button></nav>
+        <article class="chapter-content"><span class="chapter-tag">{{ activeChapter.tag }}</span><h2>{{ activeChapter.title }}</h2><p>{{ activeChapter.summary }}</p><ul><li v-for="point in activeChapter.points" :key="point">{{ point }}</li></ul><div class="source-line"><span>SOURCE</span><code>{{ activeChapter.source }}</code></div></article>
       </div>
-      <span class="record-count">{{ filteredRecords.length.toString().padStart(2, '0') }} 条记录</span>
-    </header>
-
-    <nav class="filters" aria-label="按主题筛选学习记录">
-      <button
-        v-for="category in categories"
-        :key="category"
-        type="button"
-        :class="{ active: activeCategory === category }"
-        @click="activeCategory = category"
-      >
-        {{ category }}
-      </button>
-    </nav>
-
-    <div class="record-list">
-      <article v-for="record in filteredRecords" :key="record.id" :id="record.id" class="record">
-        <aside class="record-meta">
-          <time :datetime="record.date">{{ formatDate(record.date) }}</time>
-          <span>{{ record.category }}</span>
-        </aside>
-
-        <div class="record-body">
-          <h2>{{ record.title }}</h2>
-          <p class="summary">{{ record.summary }}</p>
-
-          <ul>
-            <li v-for="point in record.points" :key="point">{{ point }}</li>
-          </ul>
-
-          <LearningCodeBlock
-            :code="record.code.value"
-            :language="record.code.language"
-            :filename="record.code.filename"
-          />
-        </div>
-      </article>
-    </div>
-
-    <p v-if="filteredRecords.length === 0" class="empty-state">这个主题还没有记录。</p>
+      <NeuralNetworkLab />
+      <section class="references" aria-labelledby="references-title"><div><span>REFERENCES / EXA + GITHUB</span><h2 id="references-title">优秀交互案例</h2><p>设计参考集中在实时数值、正负权重颜色、分步传播与公式联动，没有复制第三方实现。</p></div><div class="reference-links"><a href="https://interactiveml.org/neural-net" target="_blank" rel="noreferrer"><strong>Interactive ML</strong><span>决策面与链式法则联动 ↗</span></a><a href="https://github.com/Slavigrad/NeuralNetworkSimulator" target="_blank" rel="noreferrer"><strong>Neural Network Simulator</strong><span>SVG 网络与权重编辑 ↗</span></a><a href="https://leonardocofone.github.io/NeuroVision/" target="_blank" rel="noreferrer"><strong>NeuroVision</strong><span>逐步训练叙事 ↗</span></a></div></section>
+    </template>
+    <template v-else>
+      <nav class="filters" aria-label="按主题筛选学习记录"><button v-for="category in categories" :key="category" type="button" :class="{ active: activeCategory === category }" @click="activeCategory = category">{{ category }}</button></nav>
+      <div class="record-list"><article v-for="record in filteredRecords" :key="record.id" :id="record.id" class="record"><aside class="record-meta"><time :datetime="record.date">{{ formatDate(record.date) }}</time><span>{{ record.category }}</span></aside><div class="record-body"><h2>{{ record.title }}</h2><p class="summary">{{ record.summary }}</p><ul><li v-for="point in record.points" :key="point">{{ point }}</li></ul><LearningCodeBlock :code="record.code.value" :language="record.code.language" :filename="record.code.filename" /></div></article></div>
+      <p v-if="filteredRecords.length === 0" class="empty-state">这个主题还没有记录。</p>
+    </template>
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
 import LearningCodeBlock from '@/features/learning/components/LearningCodeBlock.vue'
+import NeuralNetworkLab from '@/features/learning/components/NeuralNetworkLab.vue'
 import { learningRecords } from '@/features/learning/data/records.js'
-
-const allCategory = '全部'
-const activeCategory = ref(allCategory)
+import { aiChapters } from '@/features/learning/data/aiContent.js'
+const activeView = ref('ai'); const activeChapterId = ref(aiChapters[0].id); const allCategory = '全部'; const activeCategory = ref(allCategory)
+const activeChapter = computed(() => aiChapters.find(chapter => chapter.id === activeChapterId.value) || aiChapters[0])
 const categories = computed(() => [allCategory, ...new Set(learningRecords.map(record => record.category))])
-const filteredRecords = computed(() => {
-  if (activeCategory.value === allCategory) return learningRecords
-  return learningRecords.filter(record => record.category === activeCategory.value)
-})
-
-const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-})
-
-function formatDate(value) {
-  return dateFormatter.format(new Date(`${value}T00:00:00+08:00`))
-}
+const filteredRecords = computed(() => activeCategory.value === allCategory ? learningRecords : learningRecords.filter(record => record.category === activeCategory.value))
+const dateFormatter = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
+function formatDate(value) { return dateFormatter.format(new Date(`${value}T00:00:00+08:00`)) }
 </script>
 
 <style scoped>
-.learning-page {
-  width: min(100%, 980px);
-  margin: 0 auto;
-  padding-bottom: 48px;
-}
-
-.header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 28px;
-}
-
-.section-code,
-.record-count {
-  color: var(--signal);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-}
-
-.header h1 { margin-top: 8px; }
-
-.record-count {
-  margin-bottom: 4px;
-  color: var(--text-tertiary);
-  white-space: nowrap;
-}
-
-.filters {
-  display: flex;
-  margin: 0 0 18px;
-  gap: 4px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.filters::-webkit-scrollbar { display: none; }
-
-.filters button {
-  min-height: 36px;
-  padding: 0 14px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), background 0.2s var(--ease-out);
-}
-
-.filters button:hover {
-  color: var(--text-primary);
-  background: var(--bg-input);
-}
-
-.filters button.active {
-  border-color: rgba(234, 255, 87, 0.3);
-  background: var(--signal-muted);
-  color: var(--signal);
-}
-
-.record-list { border-top: 1px solid var(--border); }
-
-.record {
-  display: grid;
-  grid-template-columns: 128px minmax(0, 1fr);
-  gap: 30px;
-  padding: 38px 0 42px;
-  border-bottom: 1px solid var(--border);
-  scroll-margin-top: 24px;
-}
-
-.record-meta {
-  display: flex;
-  padding-top: 6px;
-  flex-direction: column;
-  gap: 7px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-}
-
-.record-meta time { color: var(--text-tertiary); }
-
-.record-meta span {
-  width: fit-content;
-  padding: 2px 6px;
-  border-left: 2px solid var(--signal);
-  background: var(--signal-muted);
-  color: var(--signal);
-}
-
-.record-body { min-width: 0; }
-
-.record-body h2 {
-  margin: 0 0 12px;
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: 1.35rem;
-  line-height: 1.35;
-}
-
-.summary {
-  margin-bottom: 16px;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.85;
-}
-
-.record-body ul {
-  display: grid;
-  margin: 0 0 24px;
-  padding: 0;
-  gap: 8px;
-  list-style: none;
-}
-
-.record-body li {
-  position: relative;
-  padding-left: 18px;
-  color: var(--text-secondary);
-  font-size: 0.88rem;
-  line-height: 1.7;
-}
-
-.record-body li::before {
-  position: absolute;
-  top: 0.72em;
-  left: 0;
-  width: 6px;
-  height: 2px;
-  content: '';
-  background: var(--accent);
-}
-
-.empty-state {
-  padding: 64px 0;
-  color: var(--text-tertiary);
-  text-align: center;
-}
-
-@media (max-width: 700px) {
-  .header { align-items: flex-start; flex-direction: column; gap: 8px; }
-  .record-count { margin: 0; }
-  .record { grid-template-columns: 1fr; gap: 16px; padding: 30px 0 34px; }
-  .record-meta { flex-direction: row; align-items: center; }
-  .record-body h2 { font-size: 1.18rem; }
-}
+.learning-page{width:min(100%,1120px);margin:0 auto;padding-bottom:48px}.header{display:flex;align-items:flex-end;justify-content:space-between;gap:28px}.section-code,.record-count,.chapter-intro span,.references>div>span{color:var(--signal);font:0.7rem var(--font-mono)}.header h1{margin-top:8px}.record-count{margin-bottom:4px;color:var(--text-tertiary);white-space:nowrap}.view-tabs,.filters{display:flex;margin:0 0 26px;gap:4px;overflow-x:auto;scrollbar-width:none}.view-tabs button,.filters button{min-height:40px;padding:0 15px;border:1px solid transparent;border-radius:var(--radius-sm);background:transparent;color:var(--text-tertiary);font:.75rem var(--font-mono);white-space:nowrap;cursor:pointer}.view-tabs button:hover,.filters button:hover{color:var(--text-primary);background:var(--bg-input)}.view-tabs button.active,.filters button.active{border-color:rgba(234,255,87,.3);background:var(--signal-muted);color:var(--signal)}.chapter-intro{display:grid;grid-template-columns:minmax(240px,.8fr) 1.2fr;gap:40px;padding:30px 0}.chapter-intro h2,.references h2{margin-top:8px;font-size:1.55rem}.chapter-intro p,.references p{color:var(--text-secondary);font-size:.9rem;line-height:1.8}.chapter-intro code{color:var(--signal)}.chapter-layout{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:300px;border-block:1px solid var(--border)}.chapter-nav{padding:22px 20px 22px 0;border-right:1px solid var(--border)}.chapter-nav button{display:grid;width:100%;grid-template-columns:28px 1fr;gap:7px;padding:14px 10px;border:0;border-left:2px solid transparent;background:transparent;color:var(--text-secondary);font-size:.84rem;text-align:left;cursor:pointer}.chapter-nav button span{color:var(--text-tertiary);font:.66rem var(--font-mono)}.chapter-nav button.active{border-left-color:var(--signal);background:var(--signal-muted);color:var(--signal)}.chapter-content{padding:34px clamp(24px,5vw,60px)}.chapter-tag{color:var(--accent-2);font:.68rem var(--font-mono)}.chapter-content h2{margin:8px 0 14px;font-size:1.6rem}.chapter-content>p{color:var(--text-secondary);line-height:1.8}.chapter-content ul,.record-body ul{display:grid;margin:22px 0;padding:0;gap:8px;list-style:none}.chapter-content li,.record-body li{position:relative;padding-left:18px;color:var(--text-secondary);font-size:.86rem;line-height:1.7}.chapter-content li::before,.record-body li::before{position:absolute;top:.72em;left:0;width:6px;height:2px;content:'';background:var(--accent)}.source-line{display:flex;gap:12px;margin-top:24px;padding-top:14px;border-top:1px solid var(--border);color:var(--text-tertiary);font:.68rem var(--font-mono)}.source-line span{color:var(--signal)}.references{display:grid;grid-template-columns:.8fr 1.2fr;gap:38px;padding:34px 0;border-block:1px solid var(--border)}.reference-links{display:grid}.reference-links a{display:flex;min-height:64px;padding:12px 0;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--border);color:var(--text-primary)}.reference-links a:first-child{border-top:1px solid var(--border)}.reference-links a:hover strong{color:var(--signal)}.reference-links span{color:var(--text-tertiary);font:.7rem var(--font-mono)}.record-list{border-top:1px solid var(--border)}.record{display:grid;grid-template-columns:128px minmax(0,1fr);gap:30px;padding:38px 0 42px;border-bottom:1px solid var(--border)}.record-meta{display:flex;padding-top:6px;flex-direction:column;gap:7px;font:.7rem var(--font-mono)}.record-meta time{color:var(--text-tertiary)}.record-meta span{width:fit-content;padding:2px 6px;border-left:2px solid var(--signal);background:var(--signal-muted);color:var(--signal)}.record-body{min-width:0}.record-body h2{margin:0 0 12px;font-size:1.35rem}.summary{margin-bottom:16px;color:var(--text-secondary);font-size:.95rem;line-height:1.85}.empty-state{padding:64px 0;color:var(--text-tertiary);text-align:center}@media(max-width:700px){.header{align-items:flex-start;flex-direction:column;gap:8px}.record-count{white-space:normal}.chapter-intro,.references{grid-template-columns:1fr;gap:16px}.chapter-layout{grid-template-columns:1fr}.chapter-nav{display:flex;padding:12px 0;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border)}.chapter-nav button{min-width:210px}.chapter-content{padding:28px 0}.reference-links a{align-items:flex-start;flex-direction:column;gap:4px}.record{grid-template-columns:1fr;gap:16px;padding:30px 0 34px}.record-meta{flex-direction:row;align-items:center}}
+.learning-page,.chapter-content,.source-line code{min-width:0}.source-line code{overflow-wrap:anywhere}
 </style>

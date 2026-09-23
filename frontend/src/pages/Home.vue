@@ -50,6 +50,8 @@
         </div>
       </section>
 
+      <HoyoverseRoster />
+
       <section class="portal-section js-home-reveal" aria-labelledby="portal-title">
         <header class="section-heading">
           <div>
@@ -140,6 +142,7 @@
 <script setup>
 import AppIcon from '@/shared/components/AppIcon.vue'
 import HeroTransition from '@/features/home/components/HeroTransition.vue'
+import HoyoverseRoster from '@/features/home/components/HoyoverseRoster.vue'
 import { heroProgress } from '@/features/home/composables/useHeroScroll.js'
 
 const portals = [
@@ -396,7 +399,7 @@ function onProgress(progress) {
 
 .character-label span {
   margin-left: 12px;
-  font-family: serif;
+  font-family: var(--font-serif);
   font-size: 14px;
 }
 

@@ -472,7 +472,7 @@ onUnmounted(() => {
 
 .hero-quote {
   color: rgba(255, 255, 255, 0.9);
-  font-family: serif;
+  font-family: var(--font-serif);
 }
 
 .hero-status {
