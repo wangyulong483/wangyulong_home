@@ -134,6 +134,13 @@
         <strong>MY WEBSITE</strong>
         <span>KEEP LEARNING / KEEP BUILDING</span>
         <span>© 2026 WYL</span>
+        <!-- 友情链接：电子创新实验室 -->
+        <a
+          class="friend-link"
+          href="https://chuangxin811.pages.dev/"
+          target="_blank"
+          rel="noopener"
+        >FRIEND / 电子创新实验室</a>
       </footer>
     </div>
   </HeroTransition>
@@ -662,7 +669,8 @@ function onProgress(progress) {
 
 .home-footer {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  /* 最左标题 + 两个标语 + 最右友情链接 */
+  grid-template-columns: 1fr auto auto auto;
   align-items: end;
   gap: 28px;
   min-height: 180px;
@@ -681,6 +689,19 @@ function onProgress(progress) {
   color: var(--text-tertiary);
   font-family: var(--font-mono);
   font-size: 9px;
+}
+
+/* 友情链接：位于页脚最右侧（移动端在网格中自然换行到最下方） */
+.friend-link {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.friend-link:hover {
+  color: var(--accent);
 }
 
 @media (max-width: 1080px) {
@@ -814,6 +835,11 @@ function onProgress(progress) {
     gap: 12px;
     min-height: 160px;
     padding: 32px 18px;
+  }
+
+  /* 移动端：友情链接排在页脚最后 */
+  .friend-link {
+    margin-top: 4px;
   }
 }
 

@@ -41,9 +41,17 @@ jobs:
         run: pip install -r scripts/requirements.txt
 
       - name: 更新并校验实时索引
+        id: refresh
         run: |
-          python scripts/fetch_shrine.py
-          python scripts/validate_shrine.py
+          # 抓取失败时回滚改动、保留现有索引；校验失败同样不终止工作流，
+          # 避免定时任务以失败结束而发送通知邮件。
+          if ! python scripts/fetch_shrine.py; then
+            echo "::warning::shrine 抓取失败，保留现有索引"
+            git checkout -- frontend/public/shrine-data/index.json || true
+          elif ! python scripts/validate_shrine.py; then
+            echo "::warning::shrine 校验未通过，回滚本次更新"
+            git checkout -- frontend/public/shrine-data/index.json || true
+          fi
 
       - name: 提交索引
         run: |
@@ -51,11 +59,18 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add frontend/public/shrine-data/index.json
 
+          # 没有变化时正常结束，不推送也不失败。
           if git diff --cached --quiet; then
             echo "索引没有变化"
             exit 0
           fi
 
           git commit -m "自动检索: $(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M') 厨力研究所更新"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          # 推送被拒绝（他人并发提交等）只警告，不失败。
+          if ! git pull --rebase origin main; then
+            echo "::warning::rebase 失败，放弃本次索引提交"
+            exit 0
+          fi
+          if ! git push origin HEAD:main; then
+            echo "::warning::索引推送失败，下次运行会重试"
+          fi

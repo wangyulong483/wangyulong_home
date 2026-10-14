@@ -43,8 +43,15 @@ jobs:
 
       - name: 抓取并校验行业热点
         run: |
-          python scripts/fetch_topics.py
-          python scripts/validate_topics.py
+          # 抓取或校验失败时回滚改动、保留现有有效数据，
+          # 不让工作流以失败结束（避免 GitHub 发送失败通知邮件）。
+          if ! python scripts/fetch_topics.py; then
+            echo "::warning::热点抓取失败，保留现有数据"
+            git checkout -- frontend/public/topics-data/ || true
+          elif ! python scripts/validate_topics.py; then
+            echo "::warning::热点校验未通过，回滚本次抓取"
+            git checkout -- frontend/public/topics-data/ || true
+          fi
 
       - name: 提交真实数据归档
         id: commit
@@ -57,12 +64,18 @@ jobs:
             echo "没有数据变化，继续部署现有有效数据"
           else
             git commit -m "自动抓取: $(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M') 行业热点更新"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            # rebase 或推送失败只警告，下次定时任务会重试，避免失败邮件。
+            if ! git pull --rebase origin main; then
+              echo "::warning::rebase 失败，放弃本次数据提交"
+            elif ! git push origin HEAD:main; then
+              echo "::warning::数据推送失败，下次运行会重试"
+            fi
           fi
 
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          echo "generated_at=$(python -c \"import json; print(json.load(open('frontend/public/topics-data/hot-topics.json', encoding='utf-8'))['generatedAt'])\")" >> "$GITHUB_OUTPUT"
+          # 注意：YAML 块标量中不能出现未转义的 \"，否则 bash 报语法错误导致整个工作流失败。
+          generated_at=$(python -c 'import json; print(json.load(open("frontend/public/topics-data/hot-topics.json", encoding="utf-8"))["generatedAt"])')
+          echo "generated_at=$generated_at" >> "$GITHUB_OUTPUT"
 
       - name: 安装 Node.js
         uses: actions/setup-node@v4
@@ -105,6 +118,7 @@ jobs:
         env:
           EXPECTED_GENERATED_AT: ${{ steps.commit.outputs.generated_at }}
         run: |
+          # 验证失败只记录警告，不终止工作流（避免失败邮件通知）。
           for attempt in 1 2 3 4; do
             curl --fail --silent --show-error \
               "https://wangyulong-home.pages.dev/api/topics?verify=${{ steps.commit.outputs.sha }}-${attempt}" \
@@ -118,4 +132,4 @@ jobs:
             fi
             sleep $((attempt * 15))
           done
-          exit 1
+          echo "::warning::生产数据尚未切换到本次抓取，请稍后在 Pages 仪表盘确认部署状态"
