@@ -130,17 +130,61 @@
         </div>
       </section>
 
+      <!-- ===================== 页脚（MD3 层级 + 南孚式结构） ===================== -->
       <footer class="home-footer js-home-reveal">
-        <strong>MY WEBSITE</strong>
-        <span>KEEP LEARNING / KEEP BUILDING</span>
-        <span>© 2026 WYL</span>
-        <!-- 友情链接：电子创新实验室 -->
-        <a
-          class="friend-link"
-          href="https://chuangxin811.pages.dev/"
-          target="_blank"
-          rel="noopener"
-        >FRIEND / 电子创新实验室</a>
+        <!-- 顶层：品牌锚点（左）+ 站内导航列（右），参考 nanfu.global .top -->
+        <div class="footer-top">
+          <a class="footer-brand" href="/" aria-label="返回首页 MY WEBSITE">
+            <span class="footer-mark">MY WEBSITE</span>
+            <span class="footer-tagline">KEEP LEARNING / KEEP BUILDING</span>
+          </a>
+
+          <nav class="footer-cols" aria-label="页脚导航">
+            <div class="footer-col">
+              <a class="footer-heading" href="/">首页</a>
+              <a class="footer-link" href="/applist">应用终端</a>
+              <a class="footer-link" href="/learning">学习记录</a>
+              <a class="footer-link" href="/about">关于我</a>
+            </div>
+
+            <div class="footer-col">
+              <a class="footer-heading" href="/hot-topics">热点雷达</a>
+              <a class="footer-link" href="/shrine">一心净土</a>
+              <a class="footer-link" href="/game">互动游戏</a>
+              <a class="footer-link" href="/ai-quiz">AI 问答</a>
+            </div>
+
+            <div class="footer-col">
+              <span class="footer-heading footer-heading-static">学习信标</span>
+              <a
+                v-for="resource in resources"
+                :key="resource.url"
+                class="footer-link"
+                :href="resource.url"
+                target="_blank"
+                rel="noopener"
+              >{{ resource.name }}</a>
+            </div>
+          </nav>
+        </div>
+
+        <!-- 中层：友情链接卡（独立层级，MD3 emphasis） -->
+        <div class="footer-friends">
+          <span class="footer-heading footer-heading-static">友情链接 / FRIENDS</span>
+          <a
+            class="friend-link"
+            href="https://chuangxin811.pages.dev/"
+            target="_blank"
+            rel="noopener"
+          >电子创新实验室<svg class="friend-link-arrow" aria-hidden="true" viewBox="0 0 12 12" width="10" height="10"><path d="M2 10 L10 2 M4.5 2 H10 V7.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+
+        <!-- 底层：版权条（hairline 分隔，参考 nanfu.global .btm） -->
+        <div class="footer-bottom">
+          <span>© 2026 WYL · 保留所有权利</span>
+          <span class="footer-sep">/</span>
+          <span>CN / BUILT WITH VUE</span>
+        </div>
       </footer>
     </div>
   </HeroTransition>
@@ -667,41 +711,156 @@ function onProgress(progress) {
   color: var(--accent);
 }
 
+/* ============================================================
+   页脚 — 参考南孚 nanfu.global 的三层结构（top/mid/btm）
+   与 Material Design 3 的排版层级（display / label / body）
+   ============================================================ */
 .home-footer {
-  display: grid;
-  /* 最左标题 + 两个标语 + 最右友情链接 */
-  grid-template-columns: 1fr auto auto auto;
-  align-items: end;
-  gap: 28px;
-  min-height: 180px;
-  padding: 40px clamp(28px, 6vw, 96px);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 72px clamp(28px, 6vw, 96px) 36px;
   border-top: 1px solid var(--border);
-  background: #08080a;
+  background:
+    radial-gradient(120% 90% at 85% 0%, rgba(151, 113, 255, 0.07), transparent 55%),
+    #08080a;
 }
 
-.home-footer strong {
+/* ---------- 顶层：品牌 + 导航列 ---------- */
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 48px;
+  padding-bottom: 56px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.footer-mark {
   color: var(--text-primary);
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: clamp(30px, 3.2vw, 40px);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.25s var(--ease-out);
 }
 
-.home-footer span {
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 9px;
+.footer-brand:hover .footer-mark {
+  color: var(--accent);
 }
 
-/* 友情链接：位于页脚最右侧（移动端在网格中自然换行到最下方） */
-.friend-link {
+.footer-tagline {
   color: var(--text-tertiary);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.footer-cols {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  gap: clamp(32px, 5vw, 88px);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-width: 96px;
+}
+
+/* 列标题：MD3 title-small 级别，中性主色 */
+.footer-heading {
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
   text-decoration: none;
-  transition: color 0.2s;
+  margin-bottom: 5px;
+}
+
+.footer-heading-static {
+  cursor: default;
+}
+
+.footer-heading:not(.footer-heading-static):hover {
+  color: var(--accent);
+}
+
+/* 常规链接：MD3 body-medium 级别，次级颜色，悬停提亮（南孚 word-l 模式） */
+.footer-link {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+
+.footer-link:hover {
+  color: var(--text-primary);
+  transform: translateX(3px);
+}
+
+/* ---------- 中层：友情链接 ---------- */
+.footer-friends {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(18px, 3vw, 40px);
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.friend-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
 }
 
 .friend-link:hover {
-  color: var(--accent);
+  color: var(--accent-hover);
+}
+
+.friend-link-arrow {
+  flex: none;
+  opacity: 0.55;
+  transition: transform 0.25s var(--ease-out), opacity 0.25s var(--ease-out);
+}
+
+.friend-link:hover .friend-link-arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+/* ---------- 底层：版权 hairline 条 ---------- */
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 22px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.footer-sep {
+  color: var(--text-tertiary);
+  opacity: 0.5;
 }
 
 @media (max-width: 1080px) {
@@ -831,15 +990,28 @@ function onProgress(progress) {
   }
 
   .home-footer {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    min-height: 160px;
-    padding: 32px 18px;
+    padding: 48px 18px 26px;
   }
 
-  /* 移动端：友情链接排在页脚最后 */
+  .footer-top {
+    flex-direction: column;
+    gap: 40px;
+    padding-bottom: 36px;
+  }
+
+  .footer-cols {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 28px 44px;
+  }
+
+  .footer-friends {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
   .friend-link {
-    margin-top: 4px;
+    font-size: 15px;
   }
 }
 
