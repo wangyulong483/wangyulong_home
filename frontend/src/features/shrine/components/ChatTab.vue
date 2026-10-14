@@ -4,7 +4,7 @@
       <div>
         <p class="module-kicker">PLANE OF EUTHYMIA / LIVE</p>
         <h2>一心净土通讯</h2>
-        <p class="module-meta">雷电影角色设定对话 · DeepSeek V4 Flash 0731</p>
+        <p class="module-meta">雷电影角色设定对话 · DeepSeek V4.1 Flash</p>
       </div>
       <span class="status-badge"><i></i> SYSTEM ONLINE</span>
     </header>
@@ -47,6 +47,7 @@
                 <span>
                   本轮知识与检索来源
                   <small v-if="message.knowledgeVersion">KB {{ message.knowledgeVersion }}</small>
+                  <small v-if="message.githubTool?.resultCount"> · GitHub 档案 {{ message.githubTool.resultCount }}</small>
                 </span>
                 <a
                   v-for="(source, sourceIndex) in message.sources"
@@ -56,7 +57,7 @@
                   rel="noopener noreferrer"
                 >
                   [{{ sourceIndex + 1 }}] {{ source.title }} · {{ source.source }}
-                  <em>{{ source.sourceType === 'knowledge' ? '设定' : '实时' }}</em>
+                  <em>{{ sourceLabel(source) }}</em>
                 </a>
               </div>
             </div>
@@ -121,7 +122,7 @@
 
         <div class="generation-note">
           <strong>生成说明</strong>
-          <p>回复由 DeepSeek V4 Flash 0731 根据角色档案、站内知识与本轮检索生成，仅供角色扮演与娱乐，不代表原神官方观点。</p>
+          <p>回复由 DeepSeek V4.1 Flash 根据角色档案、站内知识、Brave 网络搜索与 GitHub 结构化档案生成，仅供角色扮演与娱乐，不代表原神官方观点。</p>
         </div>
       </aside>
     </div>
@@ -287,6 +288,7 @@ async function sendMsg() {
       retrievedAt: data.retrievedAt || null,
       knowledgeVersion: data.knowledgeVersion || null,
       knowledgeMatches: Array.isArray(data.knowledgeMatches) ? data.knowledgeMatches : [],
+      githubTool: data.githubTool || null,
     })
     saveChat()
   } catch (error) {
@@ -304,6 +306,14 @@ function clearChat() {
   resetSession()
   initChat()
   connectionError.value = ''
+}
+
+// 来源标签：区分知识库、站内、网络搜索与 GitHub 档案
+function sourceLabel(source) {
+  if (source.sourceType === 'knowledge') return '设定'
+  if (source.sourceType === 'github') return '档案'
+  if (source.sourceType === 'web') return '实时'
+  return '站内'
 }
 
 onMounted(restoreChat)

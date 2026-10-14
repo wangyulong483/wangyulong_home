@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/finalize-build.mjs",
     "preview": "vite preview",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test-isolation=none --test tests/*.test.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

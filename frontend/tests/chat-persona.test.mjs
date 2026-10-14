@@ -11,12 +11,15 @@ import {
   extractMemoryUpdates,
   inferPersona,
   isAllowedGenshinSource,
+  mergeSourcePools,
   needsWebSearch,
   normalizeMemories,
   relationshipFromScore,
+  retrieveGithubIntel,
   retrieveWebSources,
   searchKnowledge,
   shouldReviseReply,
+  summarizeGenshinDbCharacter,
   tokenizeKnowledge,
 } from '../_worker.js'
 import worker from '../_worker.js'
@@ -168,7 +171,7 @@ test('前置情报摘要会把合格来源转译为角色可用事实', () => {
     sources: [],
     skipped: 'no-official-or-wiki-source',
   })
-  assert.match(blockedIntel, /没有返回原神官方或知名 Wiki 来源/)
+  assert.match(blockedIntel, /Brave 与 GitHub 检索均没有返回/)
   assert.match(blockedIntel, /不得使用第三方页面补全事实/)
 })
 
@@ -278,7 +281,7 @@ test('典型问题稳定命中对应知识节点', () => {
   assert.ok(!uncertain.entries.some(entry => entry.id === 'daily-poetry-and-cards'))
 })
 
-test('聊天接口使用 Flash 0731 协议并返回可持久化状态', async () => {
+test('聊天接口使用 V4.1 Flash 协议并返回可持久化状态', async () => {
   const originalFetch = globalThis.fetch
   let deepSeekPayload
   globalThis.fetch = async (input, options = {}) => {
@@ -313,18 +316,19 @@ test('聊天接口使用 Flash 0731 协议并返回可持久化状态', async ()
     const data = await response.json()
 
     assert.equal(response.status, 200)
-    assert.equal(deepSeekPayload.model, 'deepseek-v4-flash')
+    assert.equal(deepSeekPayload.model, 'deepseek-flash')
     assert.deepEqual(deepSeekPayload.thinking, { type: 'disabled' })
-    assert.equal(deepSeekPayload.max_tokens, 900)
+    assert.equal(deepSeekPayload.max_tokens, 1000)
     assert.equal(deepSeekPayload.stream, false)
     assert.match(deepSeekPayload.messages[0].content, /人生观/)
-    assert.equal(data.model, 'DeepSeek-V4-Flash-0731')
+    assert.equal(data.model, 'DeepSeek-V4.1-Flash-0910')
     assert.equal(data.memoryUpdates[0].value, '归去来兮')
     assert.equal(data.persona, 'reflective')
     assert.equal(data.knowledgeVersion, knowledgeBase.knowledgeVersion)
     assert.ok(data.knowledgeMatches.some(entry => entry.id === 'values-wishes'))
     assert.ok(data.sources.some(source => source.sourceType === 'knowledge'))
     assert.equal(data.webSearch.skipped, 'not-needed')
+    assert.equal(data.githubTool.tool, 'github-mcp')
   } finally {
     globalThis.fetch = originalFetch
   }
@@ -360,7 +364,7 @@ test('聊天接口会把网络搜索资料注入提示并返回来源', async ()
     if (url === 'https://api.deepseek.com/chat/completions') {
       const payload = JSON.parse(options.body)
       deepSeekPayloads.push(payload)
-      return Response.json({ choices: [{ message: { content: payload.max_tokens === 600 ? '从外界消息看，近期确有活动消息。[1]' : '此事我只听闻一二。[1]' } }] })
+      return Response.json({ choices: [{ message: { content: payload.max_tokens === 700 ? '从外界消息看，近期确有活动消息。[1]' : '此事我只听闻一二。[1]' } }] })
     }
     throw new Error(`unexpected fetch: ${url}`)
   }
@@ -390,7 +394,7 @@ test('聊天接口会把网络搜索资料注入提示并返回来源', async ()
     assert.equal(data.safety.route, 'slow')
     assert.equal(data.safety.revision, 'applied')
     assert.equal(data.safety.intel, true)
-    assert.equal(data.safety.sourcePolicy, 'official-or-wiki-only')
+    assert.equal(data.safety.sourcePolicy, 'official-wiki-github-only')
   } finally {
     globalThis.fetch = originalFetch
   }
@@ -501,7 +505,7 @@ test('未知新角色只按检索来源保守回答，不注入旧角色兜底�
       return Response.json({
         choices: [{
           message: {
-            content: payload.max_tokens === 600
+            content: payload.max_tokens === 700
               ? '奥黛塔这个名字，我尚不能确认。没有官方或知名 Wiki 的资料前，我不会猜测她的身份与来历。'
               : '想来应是至冬那边的新面孔吧。',
           },
@@ -529,8 +533,8 @@ test('未知新角色只按检索来源保守回答，不注入旧角色兜底�
 
     assert.equal(response.status, 200)
     assert.equal(deepSeekPayloads.length, 2)
-    assert.ok(/无合格 Brave 来源/.test(revisionMessage))
-    assert.ok(/no-official-or-wiki-source/.test(revisionMessage))
+    assert.ok(/无合格 Brave\/GitHub 来源/.test(revisionMessage))
+    assert.match(revisionMessage, /状态：(no-official-or-wiki-source|search-failed|none)/)
     assert.equal(data.content, '奥黛塔这个名字，我尚不能确认。没有官方或知名 Wiki 的资料前，我不会猜测她的身份与来历。')
     assert.equal(data.webSearch.resultCount, 0)
     assert.equal(data.webSearch.filteredCount, 1)
@@ -564,4 +568,69 @@ test('知识库查询接口返回版本、确定性与可核对来源', async ()
   } finally {
     globalThis.fetch = originalFetch
   }
+})
+
+test('档案类问题触发 GitHub 工具并只读 allowlist 仓库', async () => {
+  const originalFetch = globalThis.fetch
+  const requestedUrls = []
+  globalThis.fetch = async (input) => {
+    const url = String(input)
+    if (url.includes('raw.githubusercontent.com')) {
+      requestedUrls.push(url)
+      if (url.includes('Chat-Haruhi-Suzumiya')) {
+        return new Response('Please be aware that your codename in this conversation is 雷电将军.')
+      }
+      return new Response(JSON.stringify({ name: 'Yae Miko', rarity: 5, elementName: '雷' }))
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const result = await retrieveGithubIntel('雷电将军的档案资料和设定数据', {})
+    assert.equal(result.tool, 'github-mcp')
+    assert.ok(requestedUrls.every(url => url.startsWith('https://raw.githubusercontent.com/')))
+    assert.ok(requestedUrls.some(url => url.includes('LC1332/Chat-Haruhi-Suzumiya')))
+    assert.ok(result.sources.some(source => source.sourceType === 'github'))
+    assert.ok(result.sources.every(source => source.sourceTier === 'github'))
+
+    const idle = await retrieveGithubIntel('今天心情怎么样', {})
+    assert.equal(idle.skipped, 'not-needed')
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('genshin-db 角色档案只提取客观字段', () => {
+  const raw = JSON.stringify({
+    name: 'Yae Miko',
+    title: '狐斋宫的继承者',
+    rarity: 5,
+    elementName: '雷',
+    weaponText: '法器',
+    region: '稻妻',
+    constellations: [{ name: '狐之座' }, { name: '心安处' }],
+    talents: [{ name: '狐言', description: '造成雷元素伤害。' }],
+  })
+  const summary = summarizeGenshinDbCharacter(raw, '八重神子')
+  assert.match(summary, /名称：Yae Miko/)
+  assert.match(summary, /稀有度：5/)
+  assert.match(summary, /元素：雷/)
+  assert.match(summary, /武器类型：法器/)
+  assert.match(summary, /命座名：狐之座/)
+  assert.doesNotMatch(summary, /undefined/)
+
+  assert.equal(summarizeGenshinDbCharacter('not-json', '测试'), null)
+})
+
+test('多来源池合并时会按 URL 去重', () => {
+  const merged = mergeSourcePools(
+    [{ title: 'A', source: 'x', url: 'https://a.example/1' }],
+    [
+      { title: 'A-dup', source: 'x', url: 'https://a.example/1' },
+      { title: 'B', source: 'y', url: 'https://b.example/2' },
+    ],
+  )
+  assert.equal(merged.length, 2)
+  assert.equal(merged[0].title, 'A')
+  assert.equal(merged[1].title, 'B')
 })

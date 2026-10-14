@@ -39,22 +39,6 @@
         <span class="app-desc">雷电将军 · 影像 / 攻略 / 对话</span>
       </router-link>
 
-      <router-link to="/ai-quiz" class="app-card card card-interactive">
-        <span class="app-icon-wrap">
-          <AppIcon icon="microchip" size="28" />
-        </span>
-        <span class="app-name">AI 应用能力测评</span>
-        <span class="app-desc">场景判断 · 本地判分 · 学习导航</span>
-      </router-link>
-
-      <router-link to="/learning" class="app-card card card-interactive">
-        <span class="app-icon-wrap">
-          <AppIcon icon="book" size="28" />
-        </span>
-        <span class="app-name">学习记录</span>
-        <span class="app-desc">知识笔记 · 代码片段</span>
-      </router-link>
-
     </div>
   </div>
 </template>

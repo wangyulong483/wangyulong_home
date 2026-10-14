@@ -1,8 +1,13 @@
 import { fileURLToPath, URL } from 'node:url'
+import { createRequire } from 'node:module'
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+const require = createRequire(import.meta.url)
+
+// 用 CommonJS require 加载全部配置依赖，
+// 避免本沙盒环境下 bundler 加载 ESM 依赖时的路径解析问题
+const { defineConfig } = require('vite')
+const vue = require('@vitejs/plugin-vue')
+const vueDevTools = require('vite-plugin-vue-devtools')
 
 // https://vite.dev/config/
 export default defineConfig({

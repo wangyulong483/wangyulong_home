@@ -143,7 +143,7 @@
             <div class="footer-col">
               <a class="footer-heading" href="/">首页</a>
               <a class="footer-link" href="/applist">应用终端</a>
-              <a class="footer-link" href="/learning">学习记录</a>
+              <a class="footer-link" href="/hot-topics">行业热点</a>
               <a class="footer-link" href="/about">关于我</a>
             </div>
 
@@ -151,7 +151,7 @@
               <a class="footer-heading" href="/hot-topics">热点雷达</a>
               <a class="footer-link" href="/shrine">一心净土</a>
               <a class="footer-link" href="/game">互动游戏</a>
-              <a class="footer-link" href="/ai-quiz">AI 问答</a>
+              <a class="footer-link" href="/map-zone-painter">地图绘制器</a>
             </div>
 
             <div class="footer-col">

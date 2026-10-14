@@ -39,12 +39,11 @@
 |------|------|----------|----------|
 | `/` | 首页 | 视频开场、滚动过渡、三游戏角色档案、UID 与项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
 | `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 | `frontend/src/pages/About.vue` |
-| `/applist` | 应用列表 | 统一管理游戏、热点、地图工具、厨厨模块和测评模块 | `frontend/src/pages/AppList.vue` |
+| `/applist` | 应用列表 | 统一管理游戏、热点、地图工具和厨厨模块 | `frontend/src/pages/AppList.vue` |
 | `/game` | 飞机大战 | Canvas 射击游戏，支持键盘和移动端触控 | `frontend/src/pages/Game.vue` |
 | `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人/AI 动态，支持搜索、分类和日期归档 | `frontend/src/pages/HotTopics.vue`、`frontend/public/topics-data/` |
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区与限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |
 | `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略/Wiki、资讯和“与影对话” | `frontend/src/pages/Shrine.vue`、`frontend/src/features/shrine/`、`frontend/public/shrine-data/` |
-| `/ai-quiz` | AI 应用能力测评 | 纯静态场景判断测评，本地组卷、判分、雷达画像、错题复盘和学习建议 | `frontend/src/pages/AiQuiz.vue`、`frontend/src/features/ai-quiz/`、`frontend/public/ai-quiz-data/`（manifest + questions/ 分片） |
 
 ## UI 与交互风格
 
@@ -101,13 +100,16 @@ Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不�
 | 动效与内容 | GSAP、marked、Canvas、SVG |
 | 构建 | Vite 8、Node.js 22+ |
 | 生产 API | Cloudflare Pages Worker |
-| AI | DeepSeek V4 Flash 0731（API 模型标识 `deepseek-v4-flash`） |
+| AI | DeepSeek V4.1 Flash（API 模型标识 `deepseek-flash`，失败回退 `deepseek-v4-flash`） |
 | 搜索 | Brave Search API（角色聊天按需检索现实世界近况） |
+| 模型工具 | GitHub 结构化档案（genshin-db、Chat-Haruhi-Suzumiya 角色卡，只读 raw） |
 | 本地示例 API | FastAPI、Uvicorn |
 | 自动化 | GitHub Actions、Python 3.12 |
 | 部署 | Cloudflare Pages、Wrangler 4 |
 
-角色聊天在 `frontend/_worker.js` 中使用 DeepSeek Chat Completions 兼容接口，`base_url` 为 `https://api.deepseek.com`，模型标识为 `deepseek-v4-flash`。DeepSeek 官方文档说明 Flash 默认开启 thinking，且 thinking 模式下采样参数不生效；本项目是低延迟角色对话，因此显式设置 `thinking: { type: 'disabled' }`，并使用 `temperature/top_p/frequency_penalty` 稳定角色声线。
+角色聊天在 `frontend/_worker.js` 中使用 DeepSeek Chat Completions 兼容接口，`base_url` 为 `https://api.deepseek.com`，模型标识为 `deepseek-flash`（DeepSeek V4.1 Flash，2026-09-10 上线；旧名 `deepseek-v4-flash` 暂时路由到 V4.1）。DeepSeek 官方文档说明 Flash 默认开启 thinking，且 thinking 模式下采样参数不生效；本项目是低延迟角色对话，因此显式设置 `thinking: { type: 'disabled' }`，并使用 `temperature/top_p/frequency_penalty/presence_penalty` 稳定角色声线。当模型名不可用（400/404）时自动回退到 `deepseek-v4-flash`、`deepseek-chat`，保证对话可用。
+
+模型工具链路：除 Brave 网络搜索外，Worker 还内置 GitHub 只读档案工具（模拟 MCP 工具调用模式）：档案类问题（设定、语音、天赋、命座、属性等）触发时，从 allowlist 仓库（`theBowja/genshin-db`、`LC1332/Chat-Haruhi-Suzumiya`）拉取结构化数据，提取客观字段注入提示词，与知识库、站内精选、网络搜索统一编号为可引用来源；可选配置 `GITHUB_TOKEN`（wrangler pages secret）提升速率限制，未配置时匿名访问同样可用。
 
 ## 项目结构
 
@@ -119,19 +121,16 @@ vue_blog/
 |   |   |-- pages/                       # 路由级页面
 |   |   |-- features/
 |   |   |   |-- home/                    # 首页视频与滚动过渡
-|   |   |   |-- learning/                # 学习记录数据与代码展示组件
-|   |   |   |-- ai-quiz/                 # AI 能力测评：组卷、判分、组件
 |   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
 |   |   |   `-- shrine/                  # 画廊、Wiki、资讯、对话与检索
 |   |   `-- shared/                      # 图标、布局、通用组件、自定义光标
 |   |-- public/
-|   |   |-- ai-quiz-data/                # AI 测评题库：manifest 索引 + questions/ 分片
 |   |   |-- shrine-data/                 # 角色内容、知识库、封面与图片
 |   |   |-- topics-data/                 # 热点当前数据与日期归档
 |   |   |-- third-party-notices/         # 第三方许可证和来源声明
 |   |   |-- image/ video/ video-covers/  # 站点媒体资源
 |   |   `-- _redirects                   # 静态数据优先 + SPA 回退
-|   |-- tests/                           # Worker、角色检索、测评判分测试
+|   |-- tests/                           # Worker 与角色检索测试
 |   |-- _worker.js                       # 生产 API、知识检索与 AI 代理
 |   |-- vite.config.js
 |   `-- package.json
@@ -143,7 +142,6 @@ vue_blog/
 |   |-- fetch_shrine.py                   # 厨厨实时索引聚合
 |   |-- validate_topics.py
 |   |-- validate_shrine.py
-|   `-- validate_quiz.py                  # AI 测评题库校验（manifest + 分片）
 |-- .github/workflows/
 |   |-- deploy.yml                        # main 分支生产部署
 |   |-- daily-topics.yml                  # 热点抓取、校验和部署
@@ -151,7 +149,7 @@ vue_blog/
 |-- docs/
 |   |-- rule.md                           # 工作规范与部署规则
 |   |-- todo.md                           # 需求方案与实施记录
-|   `-- data.md                           # 临时题库/素材输入区
+|   `-- data.md                           # 临时素材输入区
 |-- package.json                          # 根目录命令入口
 `-- README.md
 ```
@@ -195,45 +193,6 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-## AI 应用能力测评
-
-测评模块是纯静态实现，不依赖 Worker，不调用 LLM API。
-
-- 入口：`/ai-quiz`
-- 页面：`frontend/src/pages/AiQuiz.vue`
-- 组件：`frontend/src/features/ai-quiz/components/`
-- 状态：`frontend/src/features/ai-quiz/composables/useQuiz.js`
-- 组卷与判分：`frontend/src/features/ai-quiz/lib/scoring.js`
-- 题库索引：`frontend/public/ai-quiz-data/manifest.json`
-- 题目正文分片：`frontend/public/ai-quiz-data/questions/{general,professional,shared}/`
-- 测试：`frontend/tests/quiz-scoring.test.mjs`
-
-当前题型：
-
-- `single`：单选
-- `multiple`：多选，全对才得分
-- `judge`：判断题，`answer: 0` 表示正确，`answer: 1` 表示错误
-
-题库字段要点：
-
-- `dimension` 六选一：`model-basics`、`prompt-context`、`rag`、`agent`、`tools-skills-mcp`、`eval-safety`
-- `audience` 可为 `["general"]`、`["professional"]` 或 `["general", "professional"]`
-- `sourceIds` 必须引用 `manifest.json` 顶部 `sources[]` 中已有的 `id`
-- 新题优先写成场景判断题，不要写纯定义题
-
-题库分片结构（`manifest.json` 只存索引元数据，正文按受众分片）：
-
-- `manifest.json`：`dimensions`、`sources` + `questions[]` 元数据（`id`/`dimension`/`audience`/`difficulty`/`cognitiveLevel`/`volatility`/`tags`/`sourceIds`/`file`），不含题干正文
-- `questions/{general,professional,shared}/*.json`：题目正文（`type`/`prompt`/`options`/`answer`/`explanation`/`evidence`），每片 ≤100 题
-- 前端组卷只在索引元数据上做，选中后再按 `file` 懒加载正文分片
-
-扩展题库推荐流程：
-
-1. 把新题或素材先整理到 `docs/todo.md` 的需求/方案记录中，或直接写入对应题库分片。
-2. 按 `audience` 写入对应分片 `questions/{general,professional,shared}/NNN.json`（正文），并在 `manifest.json` 的 `questions` 里登记元数据与 `file` 指针。
-3. 检查 `id` 唯一、`sourceIds` 有效、答案下标正确。
-4. 运行 `python scripts/validate_quiz.py`、`npm.cmd --prefix frontend run test` 和 `npm.cmd run build`。
-
 ## 实时数据与 API
 
 ### 自动更新
@@ -247,10 +206,6 @@ uvicorn main:app --reload
 
 自动更新工作流只负责更新站内数据并部署网站，不包含邮件发送逻辑。邮件提醒由 GitHub 仓库订阅设置控制，关闭订阅不会影响定时抓取、提交或 Cloudflare Pages 发布。
 
-### 学习记录
-
-学习记录的数据位于 `frontend/src/features/learning/data/records.js`。新增内容时追加一条记录，填写日期、分类、摘要、要点以及代码语言、文件名和源码即可；页面会自动生成分类筛选、行号和复制按钮。
-
 ### Worker 接口
 
 | 接口 | 说明 |
@@ -260,11 +215,17 @@ uvicorn main:app --reload
 | `GET /api/shrine` | 完整厨厨实时索引 |
 | `GET /api/shrine/search?type=gallery&q=关键词` | 按类型检索画廊、Wiki 或资讯 |
 | `GET /api/shrine/knowledge?q=关键词` | 调试角色知识检索结果 |
-| `POST /api/chat` | 带人物状态、知识召回、站内实时来源、可选网络搜索和引用的角色对话 |
+| `POST /api/chat` | 带人物状态、知识召回、站内实时来源、可选网络搜索、GitHub 结构化档案和引用的角色对话 |
 
-“与影对话”使用分层世界观、身份、人生观和价值观提示，结合语义人物状态、有限的浏览器本地记忆、结构化知识库、站内实时资料与可选网络搜索。回答中的事实来源会以编号引用展示；资料不足或存在冲突时，角色被要求明确说明不确定性。
+“与影对话”使用分层世界观、身份、人生观和价值观提示，结合语义人物状态、有限的浏览器本地记忆、结构化知识库、站内实时资料、可选网络搜索与 GitHub 结构化档案。回答中的事实来源会以编号引用展示；资料不足或存在冲突时，角色被要求明确说明不确定性。
 
 网络搜索只在用户问题包含“最新、最近、新闻、版本、复刻、卡池、活动”等时效关键词时触发。Worker 会先抽取相对干净的搜索词，避免把用户明确要求记住的个人信息、密钥或隐私内容发给搜索服务。未配置 `BRAVE_SEARCH_API_KEY` 或搜索失败时，聊天接口不会报错，会自动回退到本地知识库和站内资料。
+
+GitHub 模型工具在用户问题包含“资料、档案、设定、语音、天赋、命座、属性”等档案关键词时触发。Worker 只读 allowlist 仓库（`theBowja/genshin-db`、`LC1332/Chat-Haruhi-Suzumiya`）的 raw 文件并提取客观字段，不执行任何仓库代码；仓库缺失或网络失败时同样静默降级。可选配置 `GITHUB_TOKEN` 提升速率限制：
+
+```bash
+npx.cmd wrangler pages secret put GITHUB_TOKEN --project-name=wangyulong-home
+```
 
 知识检索借鉴以下开源项目的公开设计思想，但未复制其实现代码：
 
@@ -344,7 +305,7 @@ npx.cmd wrangler pages secret put BRAVE_SEARCH_API_KEY --project-name=wangyulong
    - 自定义光标继续保持轻量：不要给工具页增加拖尾或复杂磁吸，优先保证精确操作。
 
 3. **数据可靠性**
-   - 给 `topics-data`、`shrine-data`、`ai-quiz-data` 增加 schema 校验。
+   - 给 `topics-data`、`shrine-data` 增加 schema 校验。
    - 静态 JSON 路径如被 SPA 回退吞掉，优先检查 `frontend/public/_redirects`。
    - 高时效题目按 `volatility` 定期复查。
 
