@@ -36,24 +36,6 @@
       "scope": "hefei"
     },
     {
-      "id": "4bed59a0fb81",
-      "title": "【央广网】安徽省具身智能创新中心揭牌",
-      "summary": "",
-      "source": "中国科大新闻网",
-      "sourceFeed": "合肥产业动态",
-      "sourceIcon": "location",
-      "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE93NW1LQkdUYjV0UFowcVJncHZYeWZXNC1kSzR4Sl94QnVESjIyZmt3VWdicVhSZUpSUk1MYmZoWnFfUmxVeFcwQXEtVDZHcmwxVnFKczdCbzktUFEwQWx3?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "ai"
-      ],
-      "publishedAt": "2026-10-13T06:56:36+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "hefei"
-    },
-    {
       "id": "8c9904d2ebaf",
       "title": "合肥已集聚机器人和具身智能产业链上下游企业近200家",
       "summary": "",
@@ -67,6 +49,24 @@
         "ai"
       ],
       "publishedAt": "2026-10-12T09:37:53+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "hefei"
+    },
+    {
+      "id": "785d39bef85d",
+      "title": "【合肥日报】安徽省具身智能创新中心揭牌",
+      "summary": "",
+      "source": "中国科大新闻网",
+      "sourceFeed": "合肥产业动态",
+      "sourceIcon": "location",
+      "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE9OU1JaZEstNU44VkctOGI1Yzl5MkNqSmx1WVVzTUc5c0lQNWpJRmZYeFltQmxBS2RiVC1TT3B5RGp1R2I3ZFVrZEdyN252OVUtUVhrOWZPRQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-10-12T08:13:56+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "hefei"
@@ -124,6 +124,23 @@
       "scope": "china"
     },
     {
+      "id": "fe7ed13c2d27",
+      "title": "4款今年新出中型纯电SUV深度横评：4811mm车长、660km续航与192线激光雷达，谁更懂中国家庭？",
+      "summary": "",
+      "source": "新浪网",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBmTnpEbGdJakVzaENFZ3ZHN3dERk81OXVWUmh3XzlsaWtxQ3BDU0NHV0F2RTRFMERiUjd5RWJPcXR0TDZ3eU8xWFZyMURjNjRaMFpnRjIzX2YyYVh2NDVIUUxVdnhMNG12RjVrbWNCRG43UQ?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-10-14T03:00:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
       "id": "3106614c368c",
       "title": "乌兹别克斯坦牵手中国，共拓人工智能新机遇",
       "summary": "",
@@ -170,24 +187,6 @@
         "robot"
       ],
       "publishedAt": "2026-10-14T02:08:11+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "7c4f84b41d9b",
-      "title": "ABB机器人亮相2026工博会，展示模仿学习、视觉与智能体AI前瞻技术",
-      "summary": "",
-      "source": "产业在线",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1IcnVZWEhLekwyMUtCMnpwWWZUdTZqYnFORmtLRm5JNERvdktmRkZXRnctcjI3S0VULUplVlJXaUhGQ3NWM21OeDgwZHdSLWVlaV96TGJzRU52NGhoS2Z6VTZJTVpiYUl3?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "ai"
-      ],
-      "publishedAt": "2026-10-14T02:01:57+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -347,6 +346,23 @@
       "scope": "china"
     },
     {
+      "id": "c22540b39027",
+      "title": "泰瑞达机器人亮相2026中国工博会，将优傲机器人第七代平台引入中国",
+      "summary": "",
+      "source": "https://m.capwhale.com/",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPNGk3TEdVM2VSOGstZXh0VTdFZ1BHeDdMTnM4a0c0Y2ZCMzh6THUzQklMZTM1VHlpMGt0UnNGQWI1RTRMdVl4RzNMbDgxdklheVdwaGNPalNHdTJBTWVMMDFUTUZlY2stbVJ0MGxVX1VTeGN2VUZRSFBBX1pPcVV2d0EtRGRQazYwRVdKODJNbU1sZw?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-13T14:43:53+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
       "id": "1eb24a0a6da9",
       "title": "浙江杭州：人形机器人进厂“打工”",
       "summary": "",
@@ -364,35 +380,19 @@
       "scope": "china"
     },
     {
-      "id": "7dad335aacee",
-      "title": "192线激光雷达加持，德系智驾素质对决：大众ID.AURA T6、奥迪E7X、马自达EZ-60谁更懂中国路？",
+      "id": "abc0daa334a3",
+      "title": "ABB机器人亮相2026工博会，展示模仿学习、视觉与智能体AI 前瞻技术",
       "summary": "",
-      "source": "新浪网",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBnMFh3anNtaTRIRTNnVnItemU5ek9rNXM1b3AzTW02NHBtMndZOUhqYUh3aU50emRpbWd2V1lqRi1RcEE2dGFDN0hUWFFBaVZmSmYyOGdCSGRLWkNmUURyMmpIR3YxWlY1ZF9LNk5CLXo4Zw?oc=5",
-      "category": "lidar",
-      "tags": [
-        "lidar"
-      ],
-      "publishedAt": "2026-10-13T12:26:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "89c7e22e4eab",
-      "title": "小鹏集团当选联合国自动驾驶工作组秘书长，国产智驾供应链标准话语权再进一步",
-      "summary": "",
-      "source": "网通社",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE15WkdRTmw5LTl1U3Z1XzROUUQxVzl4UDdweW5aVE1lMmVMU2xBVFI1V0J1SzVqaXdlTXo1UFhXNVFHeHd6X0E4T0tyc1FpQzdPRUhnUVplcU0zNTQ?oc=5",
+      "source": "美通社",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBpTjJqekFocU5xQlNmaHU0aUszVi1mODRDaGNLMHBabWZ6RlJ6bmFuM3B6MWZJVHcyRURhWnBFSkZYSFl6cHJRbGlEYnZZZmFINi1lWGZKUkdmZ0YxQzVOZEh2TldwY0RUQmllOV9n?oc=5",
       "category": "robot",
       "tags": [
-        "robot"
+        "robot",
+        "ai"
       ],
-      "publishedAt": "2026-10-13T10:24:10+00:00",
+      "publishedAt": "2026-10-13T13:19:00+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -630,8 +630,8 @@
       "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1FMFU4bmp2VG54czM3NGxMZmpzWWc2dWpKZXRIMXQ0LUhwZ0JoRmROcWlzZmJfVXR6T2hhOGZkVk0wcFVoWlJ3dmxmbExyTFhZUW5OVTliRkx1R1ZtLXRB?oc=5",
       "category": "robot",
       "tags": [
-        "lidar",
-        "robot"
+        "robot",
+        "lidar"
       ],
       "publishedAt": "2026-10-13T00:07:18+00:00",
       "timeType": "published",
@@ -870,8 +870,8 @@
       "url": "https://discourse.openrobotics.org/t/roboshield-v2-an-inline-command-firewall-gateway-for-ros-2-rust-rclrs-two-domain-bridge-sros2/58826",
       "category": "ros2",
       "tags": [
-        "camera",
-        "ros2"
+        "ros2",
+        "camera"
       ],
       "publishedAt": "2026-10-13T16:13:00+00:00",
       "timeType": "published",
@@ -912,7 +912,7 @@
     }
   ],
   "total": 51,
-  "generatedAt": "2026-10-14T04:51:41.436900+00:00",
+  "generatedAt": "2026-10-14T05:22:57.945343+00:00",
   "freshness": {
     "windowHours": 48,
     "updateIntervalHours": 12,
@@ -928,7 +928,7 @@
   "sourceHealth": [
     {
       "name": "合肥产业动态",
-      "count": 5,
+      "count": 4,
       "status": "ok"
     },
     {
@@ -943,7 +943,7 @@
     },
     {
       "name": "国内机器人技术",
-      "count": 14,
+      "count": 13,
       "status": "ok"
     },
     {
