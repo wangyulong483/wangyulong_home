@@ -1,6 +1,24 @@
 {
-  "date": "2026-10-14",
+  "date": "2026-10-15",
   "items": [
+    {
+      "id": "ad426a85aaa0",
+      "title": "【中国科学报】安徽省具身智能创新中心揭牌",
+      "summary": "",
+      "source": "中国科大新闻网",
+      "sourceFeed": "合肥产业动态",
+      "sourceIcon": "location",
+      "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE14Nlhza1pEYWFFX0JObFYway1CTXZrc2ZBUDk3ZXZmRzltbUtraWpHbUUzSWZsTl82ODFNdkRHVEFYazlXMVI0S21iWFlGOEZ4YTBZTEhMQQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-10-14T08:19:19+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "hefei"
+    },
     {
       "id": "d2a76c5e17d1",
       "title": "黑龙江省教育厅赴科大讯飞合肥总部考察调研，共商深化“人工智能+教育”战略合作",
@@ -14,6 +32,23 @@
         "ai"
       ],
       "publishedAt": "2026-10-13T09:55:30+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "hefei"
+    },
+    {
+      "id": "c63f354656a4",
+      "title": "安徽超八成无人机机巢依托铁塔共享建设 成本降低六成以上",
+      "summary": "",
+      "source": "央视网",
+      "sourceFeed": "合肥产业动态",
+      "sourceIcon": "location",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9TY2tBQndnbFJIUTl0QUlsNDR4Uk5BOGZlaDZpYzlZaEZXVUV4QVNHeGtqU0VJOEFSTkZqWDZPNUh6ZVo0bVNMVFBTdnR6TVREYk1NREVZalBCeEdZODNNOXllWm1Vc2M2a0h6NU5IUGZfQ0piOXhPUVRR?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-13T09:14:17+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "hefei"
@@ -36,40 +71,245 @@
       "scope": "hefei"
     },
     {
-      "id": "4bed59a0fb81",
-      "title": "【央广网】安徽省具身智能创新中心揭牌",
+      "id": "8740c92af65b",
+      "title": "中国具身智能产业迎来“交付大考”",
       "summary": "",
-      "source": "中国科大新闻网",
-      "sourceFeed": "合肥产业动态",
-      "sourceIcon": "location",
-      "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE93NW1LQkdUYjV0UFowcVJncHZYeWZXNC1kSzR4Sl94QnVESjIyZmt3VWdicVhSZUpSUk1MYmZoWnFfUmxVeFcwQXEtVDZHcmwxVnFKczdCbzktUFEwQWx3?oc=5",
+      "source": "搜狐",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQWXRCR3oyRkNpLUxibmh5cUxtazd1c3pEUE15emZ6WmxEanFzUmQ1bTJ6QXZsdUJjaVF1U3NzWkhqZXZQUURmcTNER0l3dFRiVlhZN0NTRWIteGlNcnZ6RFpQS3lZeldFSVdMcng0SlBoR1Axc1J4UVUzWUF6YndQTVZ2UmM1Vks1NE1SVA?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
-      "publishedAt": "2026-10-13T06:56:36+00:00",
+      "publishedAt": "2026-10-14T16:10:01+00:00",
       "timeType": "published",
       "language": "zh",
-      "scope": "hefei"
+      "scope": "china"
     },
     {
-      "id": "8c9904d2ebaf",
-      "title": "合肥已集聚机器人和具身智能产业链上下游企业近200家",
+      "id": "f7449b4cedef",
+      "title": "韩资“扫货”中国硬科技，“囤”起算力链",
       "summary": "",
-      "source": "手机新浪网",
-      "sourceFeed": "合肥产业动态",
-      "sourceIcon": "location",
-      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9DTFhDOFdaOFdHRzF6UWVoaWN3YUYzczRIOVZZQ1czZjRoeHk1ZFpSWGtSNGZzT1ljbnRzTzZOZEdWVVhGalpoQnJBTmliN1BnTlFYZlNsaVFnRmZqSlJxUkIzM0w2NVdJcDhQOUEwZ1YxcEh6cTRDT3dzeV9NUQ?oc=5",
-      "category": "robot",
+      "source": "21财经",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNaHNrTHlBSjBoM1ZPcGd2UnlfV21mZTBmQ1dUb1pXWVJ0WjB5cEpLUE5rX2lNSUY0aTY3Sy1hSnJZMkFXQS1VZTR0OExtbFN0VmRfZWVaZUVNRGRZRGMyeVpscjJyUHBCOWdXaUNwU010VDdzZkJFUWhRMWRHYXMxc1N3RFp1UzBGYnNfWWRqOA?oc=5",
+      "category": "ai",
       "tags": [
-        "ai",
-        "robot"
+        "ai"
       ],
-      "publishedAt": "2026-10-12T09:37:53+00:00",
+      "publishedAt": "2026-10-14T15:00:00+00:00",
       "timeType": "published",
       "language": "zh",
-      "scope": "hefei"
+      "scope": "china"
+    },
+    {
+      "id": "ab92a0fd3ea7",
+      "title": "我校在第八届中国研究生人工智能创新大赛中获佳绩",
+      "summary": "",
+      "source": "武汉科技大学",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5CXzZhZzRsYWVjX2hHVFZod2dpTlBnR0x6dUJpWl9VdlBaMlh5anlEOGhQblB3VkJoU1pTdDBpWFE0c3FSSVFLNk51ODA1bXN6YjBDdUxwbWI?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-10-14T14:13:28+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "33eed4e9dc6e",
+      "title": "L3、L4级自动驾驶“强标”明年7月实施 明确安全主体责任、接管机制",
+      "summary": "",
+      "source": "财联社",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE0ycFdEWTV4aDFwdUo4SWJxZ1BaNUc5TTN3WTFQR0htRGFGUlFYcE1VbFlJOHhrZEdrSTZESmU0OXd1ZGFuOWVTSg?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-14T13:57:25+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "c9abb547db70",
+      "title": "中国物流发布2780亿参数“流云”大模型",
+      "summary": "",
+      "source": "观点网",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5uVUx4U3lvSkRPbmVxM29qdmpTNFR0MnNBLUlXOUtWUWZFTnYzYjBTSms0UUhubHVsbWZDbV91YW9qNWFBdW50OVllSkZjWG5IS3lZOFRUUDNTMDl4amZKRV9R?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-10-14T13:41:15+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "704caf926159",
+      "title": "外银：看好中国A股人工智能板块",
+      "summary": "",
+      "source": "中国新闻网",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5ITmVvVDB5TjBVb3NYYWlQb0duTTdYRFprSlhRWnR3dExrRnU3V0RXRUV3UF9GSjM4UXJxWkVjNjhFak5NeUZhcEdtcjcwWnMweW05Mnl5UTkyamNKTGdCaE9aTjVDYVo2?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-10-14T13:37:39+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "ecaf8ff47558",
+      "title": "聚焦工博会：中国工业机器人从“演示”走向“真场景” 外国观众点赞“超级现代”",
+      "summary": "",
+      "source": "中新经纬",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9oUHNMNVVtU1pteWVKTDU5eHNaR1dEZEZacUNOcjY1OUZzbTlKZDRodUw3ZEc4b3BuSkkzYmU4NkFVLWtEN0hkSEhjRUUzakp6dHV6Q0dOV1NrMVFfSGx6Q3pxX1U?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-14T13:06:54+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "633530cda4cf",
+      "title": "禾赛Kosmo 3D空间相机：激光雷达制造商进军物理AI - 新闻和统计",
+      "summary": "",
+      "source": "IndexBox",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPeVp1RTkyWmxlbnFZcEoyQ1NSQTlIZEJCVUdlTExyVDEwQ19BT21lX1N1dXRMUmIzSHlWR3l1SFZWdFJGbW5qTnVDSmt4SVlqdlp2WWllaHljUjFVbnU3cVpMNk9XNDYwNGNZSm5PWjRyUENvekdDSmVSVjVqR1pVMnRWTlEzVXVoNFBlWEQybnZORUpNVjEwSGNNQ1B0RGd4bUE1Y3lR?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-10-14T12:40:43+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "0b036aacd399",
+      "title": "ABB机器人中国区总裁：软银收购仍在推进，对中国市场承诺不变",
+      "summary": "",
+      "source": "ThePaper.cn",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE45cFN5a3NOZzcwMjgtVUN5SUhubXliRkEwdmpFVGNHOHJ3MzFqZ2hEd2lZVFpWZVNzTmZiRE12ZmpKQlAyZUQtc19xbkxqRnlWamxUWlBEem1OcXllNnNVSQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-14T12:12:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "0c7a7c771072",
+      "title": "使用中国自动驾驶技术的第七代Robotaxi将落地曼彻斯特",
+      "summary": "",
+      "source": "中国新闻网",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE0wTGdWTTVxNUF4QVpVcW9mbGRSN0tYdW1SVVFmdlBNajVDV3J6MHg3MkNZSkIzbTBkV2pLbFlHbkRkbEVaZzhPenBrOW9xQ3pFRDRwRFRKd1ZDWS1vTFlnaFZiR1FyUE5w?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-14T11:53:53+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "c04383efe0c7",
+      "title": "“中国造”强力支撑全球算力和电力发展“双提速”",
+      "summary": "",
+      "source": "中国科技网",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE03Q3lDSDJBYlJ1UTQ0c19LTEkxUDFDWkU5THAzRWlfeWVZUC1IUlFRVFRZZ2ZxTzJnZTloMW94WUZoOWZaVE9NS1RtN0FiY1JXdWMxNWJWQjNvTW1Lc3Z1VjdyQllTNDk1WDV3bXVCQ1Y?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-10-14T11:41:34+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "d4f973457a91",
+      "title": "抢先盘点2026全球开发者先锋大会暨国际具身智能技能大赛十大亮点！",
+      "summary": "“具身进实景，劳动最光荣”",
+      "source": "量子位",
+      "sourceFeed": "量子位",
+      "sourceIcon": "qbitai",
+      "url": "https://www.qbitai.com/2026/10/503294.html",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-10-14T10:41:47+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "5ed8bf04c122",
+      "title": "投完宇树，DeepSeek在具身智能领域又落一子",
+      "summary": "",
+      "source": "观察者网",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE8zX0VzaC00T1dlV2p1WmNWSDJQOGhINFdQRUlpQXA1M0pFRGcwRFJpQXZIeC1lcFZiMmhubW1WdXYxcGlWcURwa0drc0ZkcXFQcDl0bzlxN1RrenB2WEFqUWFtYnIyOTRKVjg1S0VzRm5GU0FY?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "ai"
+      ],
+      "publishedAt": "2026-10-14T08:35:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "d4ecbaad633e",
+      "title": "海关总署：前三季度我国工业机器人出口近百亿元 同比增长16.9%",
+      "summary": "",
+      "source": "21财经",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNZl9VeXpSNmdIQWdWdVRqMk01eGQ2T0p2RElFWTg1VG1DRnZmQ1FkaFNzbmR0MDdrUGZsRTAzSVJIa1lidmJXdldzbVNoU1RQYUZ4c2NNTEYtZTVlMEpZZG5pNHp3WDFjS0M5WTFVdjZQRy1MQjdQRHpkdXl0NHZDSWctUXVlbU5vS0R4cnR5TQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-14T08:04:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
     },
     {
       "id": "9258f5f238ea",
@@ -84,24 +324,6 @@
         "robot"
       ],
       "publishedAt": "2026-10-14T07:35:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "b72fc0d0d886",
-      "title": "ABB机器人亮相2026工博会，展示模仿学习、视觉与智能体AI前瞻技术",
-      "summary": "",
-      "source": "中华网",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1pYnVNYndmbnI1dnRRaUlvdVItTGJ3MlhRS2hPbEkzLVlybmVrbDNqdVB5Zm9HRURvZThzUFh3bkQ1UUxrd0dfWVNQZ0lJY01leC1LRWZiOHpiWFhUX2xVSzZlWF82c3R2WFcw?oc=5",
-      "category": "robot",
-      "tags": [
-        "ai",
-        "robot"
-      ],
-      "publishedAt": "2026-10-14T07:32:54+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -124,23 +346,6 @@
       "scope": "china"
     },
     {
-      "id": "b5f08f5666fb",
-      "title": "海关总署：中国为应对全球算力和电力需求增长提供支撑",
-      "summary": "",
-      "source": "搜狐",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNbHV5M2hDNWZpcXRNNzgwejBmODJ6ZHFFTnYyZXVVUjZiV0xQVkJDMzNHanI4Z0I0blBUYk1DUnFlSkZoa1lkX1ZuUUw1OTBTejNTMnRpV2pja0JSZUxwTDRJSEJ0bWlJZVVwTnNQYndCbkFXbDNjcTFPZE5qd1lSZUwwY3NlWHFJWUhoSm5xSjZRVHZlV1pHTTM0RlU3U1gt?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-10-14T06:44:32+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "e317a8bfc489",
       "title": "MemSilicon完成国际首款高密度、大容量1T4R 1Gb RRAM芯片流片",
       "summary": "CMOS标准工艺兼容的1TnR技术路线加速研发。",
@@ -153,23 +358,6 @@
         "sensor"
       ],
       "publishedAt": "2026-10-14T06:24:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "11b25f9ffe7b",
-      "title": "新华读报｜外媒报道：中国配送机器人学习上夜班",
-      "summary": "",
-      "source": "搜狐",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOd1V2Yld2MUFmbVZFQWZtNWt2NlRTTjVNRXFaTGdfbTdSY1lTRkUzbXJNZy1JUU52akk0aHcya0FvZVVTYkNfZTlJN1dLbVJTLW90U3k1MzZfY3N3c2I5U1dKS29xV1kxZVUwTlhLZXZIVURMS2h6M0ZyWmdaVktxOFRENnpVbkhO?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-14T05:35:41+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -209,18 +397,18 @@
       "scope": "china"
     },
     {
-      "id": "499e9085c24b",
-      "title": "聚焦工博会：中国工业机器人从“演示”走向“真场景” 外国观众点赞“超级现代”",
+      "id": "365a6c9fb8bb",
+      "title": "思想耀岭南｜对话陈洪波：“人形机器人五年内，将走进工厂上班干活”",
       "summary": "",
-      "source": "中国新闻网",
+      "source": "珠海网",
       "sourceFeed": "国内机器人产业",
       "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBIYVh4TlZCRkFKUl91VmlmX01TWXZaR1M5WlJoeEVmejIta0NmRlYwdWotUFB6bUp6Y3pMSi1YZUhpR3VrUWgtQjlBR3VjbnVFaFBSMGswOEZZdG1URlFJYjMxWUg5MFZsRzI2VFZsUEt4NDRjTHc2OWlQWQ?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9XNkNCeXRvSlkzSGpKOUk1OEQ2Y2dySS1yaEtNS2NKM1VKZDQwS2pTZVFWZXV3S0x1Z2M1MXNJMkdYSGVHZVl1TTNMbHQwM3pVQjBCVWtMYzMtR0RxTDZjM3dONzFEOWgydXVfbk5QOExyN3hxTDB3?oc=5",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-10-14T03:31:00+00:00",
+      "publishedAt": "2026-10-14T03:21:00+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -260,23 +448,6 @@
       "scope": "china"
     },
     {
-      "id": "84c09b8f7e55",
-      "title": "青春华章｜中国最北高铁有了“机器人医生”！它如何完成探伤作业？",
-      "summary": "",
-      "source": "中国新闻网",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE91QWNsanBRZEpjcVhGYTQtN1poTU9rS0dLSGZkUzVKY1hmUnpXUFFpdmYxT0dybE9fTklyZTZzVXJxS1hXa2o1M01lbHBpMHh2QkhmYzdDN3VfVHFONDc4R2luWHZuZFk4dEVsWXhNZXJyUXc0Rmc?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-14T01:57:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "0fef16db320f",
       "title": "【理响中国·幸福有“理”】筑牢算力底座，炼成数字福建“超级大脑”",
       "summary": "",
@@ -303,27 +474,10 @@
       "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9ZQXRwaUpDWGJXZVQzV1h6UHFtU0pRQnJMR0lwWmRrVkRXaXAyTTdRTnYwSmUwcWdySndoZFg3dEdEMkR6eDJLaDZNdnc3SXppaFVOSWlwVHRmNHJyZ3BVeDYzX0tZN2xRenpRLXBn?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-10-14T00:00:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "54c9b96c2b27",
-      "title": "全球人形机器人收入榜：深企优必选登顶，中企包揽前五",
-      "summary": "",
-      "source": "21财经",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxORDJiSE1KNWpWOHRwbDdUM00wTldzTzl5QXRCaFQtZlJVbnpic0pSNzBnbHpJUk03ZkxrLXg5cXJuMGVYNm1PUWdrVkI2Q2Z6RWZucmppcFZFblhsM3JFbTltaVJOQ3RuODB3WGlrV3VJMk5fZ2V5dUlocDB4cERmSFR0WlBVaEkzYU5BSGxKNA?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-13T23:27:00+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -346,35 +500,19 @@
       "scope": "china"
     },
     {
-      "id": "dc5b41b72be7",
-      "title": "2026中国算力大会（上）",
+      "id": "c74805dca5de",
+      "title": "《中国具身智能数据产业分析报告2026》解读：2026年具身智能领域最受关注的产业板块",
       "summary": "",
-      "source": "封面新闻",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQME0tUDhtdFJJN3ZJNXA3VHVPQUhwVkFyZ081SndERlJ0TVl2Z09BQ0NVZzQxRFlpVU5qTVlLODVEUmlveXRMcG83NFdmUUtkOWQ1dkpyeTZ4YVB0Mkt4LTJBY2JLc2pQalEwOXNJRF9PNDl4WVNLZ2JGc1JnbEhhOXh6Wm9TMmc?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-10-13T16:28:18+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "1eb24a0a6da9",
-      "title": "浙江杭州：人形机器人进厂“打工”",
-      "summary": "",
-      "source": "中国网",
+      "source": "36Kr",
       "sourceFeed": "国内机器人产业",
       "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBqZjZXd1dWSE5aZ2FkZ0ZqOUlpWU9yYmtaT2VQVFZJT3pnX0FEdDdKenBMc1I2N3hLczRCTkM2c3FpS3RIMDhjdHgtQ0s4cTM2RWNuNlhZNGxIMVJrbEpOTjN4amtHUjVKdXpKSDVoUQ?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE0tWFpUUGdkVjQ0RUljdGE0czNGTEZfSlFwaVR0S2oxVVYzZlljYXNVOEhKakRudEIzLTBEWFdtbWVYWEVSN1M2WnlLUW9Qdw?oc=5",
       "category": "robot",
       "tags": [
-        "robot"
+        "robot",
+        "ai"
       ],
-      "publishedAt": "2026-10-13T13:44:00+00:00",
+      "publishedAt": "2026-10-13T22:19:00+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -406,8 +544,8 @@
       "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1pYnBXMlZxZlg1aWs4ZEdSdHpFWnd4QW5RWHZNVlVCOVlTenQtdDlGbm40dmpDYzJsYk9vMkIta1U5NDFGT2RKbVdQdV9WU19KRmlULVZB?oc=5",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-10-13T09:55:16+00:00",
       "timeType": "published",
@@ -444,57 +582,6 @@
         "lidar"
       ],
       "publishedAt": "2026-10-13T07:07:32+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "d3a0a66892de",
-      "title": "【视频】15万内独一份？星瑞L PLUS激光雷达+油混+可变阻尼全给你",
-      "summary": "",
-      "source": "汽车之家",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1fajNZLVFOamhOdzFqQ0p2N0RGNEdROEIxX3lBSldpRmVBVTJmNkFuVDgzUlZ6QWZCaWJGQmJ0cm90bTFIVkVsSmVldTI2Tk9Hd0xLWk1Kd2V3OFk?oc=5",
-      "category": "lidar",
-      "tags": [
-        "lidar"
-      ],
-      "publishedAt": "2026-10-13T03:53:52+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "33eed4e9dc6e",
-      "title": "L3、L4级自动驾驶“强标”明年7月实施 明确安全主体责任、接管机制",
-      "summary": "",
-      "source": "财联社",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE0ycFdEWTV4aDFwdUo4SWJxZ1BaNUc5TTN3WTFQR0htRGFGUlFYcE1VbFlJOHhrZEdrSTZESmU0OXd1ZGFuOWVTSg?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-13T02:53:17+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "af08d8a90775",
-      "title": "活力中国调研行丨“北上广研发+广西集成+东盟应用” 广西深化中国—东盟人工智能合作",
-      "summary": "",
-      "source": "中国科技网",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5CczloNUthUjNxWFl5ZEZJdUx5MzE5dVkwR1oxcDkzZ1FTMVRzcXFtS3RxcGJHNTdQZWl6RVhzR3NrTzZUaEJiVHB2WmFiaTI5cGxxZFpVTklGQ1JvS0VIdlFNUXloRjNJUkJJRk9oYzQ?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-10-13T02:50:32+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -586,21 +673,107 @@
       "scope": "china"
     },
     {
-      "id": "0bf82691262f",
-      "title": "广州多举措护航第140届广交会：首开自动驾驶巴士 推出中英打车明白卡",
-      "summary": "",
-      "source": "中国新闻网",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE80QzhJVVB6dllxUnJOR1VadUxjc2stT25EX1JMRk5yeWVNSnp6QTN0dXQ4MHFZbURUbnB3ZmppSmVzMWE1U1NtdWppeTR3TVd3ZTk4TkRVT3ZWR3JXbnFwM3k5M1VJc0ls?oc=5",
+      "id": "de0154c5497d",
+      "title": "Ros2_pulse: topic rates on a Grafana dashboard, now counting rclpy nodes and loaned messages",
+      "summary": "Some updates on ros2_pulse since the first post ( Ros2_pulse: per-topic rates and node liveness, including intra-process, on stock binaries ), the LD_PRELOAD probe that counts per-topic rates and node liveness from the tracetools hooks instead of subscribing. Python nodes are counted on both sides n",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ros2-pulse-topic-rates-on-a-grafana-dashboard-now-counting-rclpy-nodes-and-loaned-messages/58863",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-10-14T16:34:03+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "484cdde600e0",
+      "title": "Save 50% on your TechCrunch Disrupt 2026 ticket and join the last 2 days in San Francisco’s Moscone West",
+      "summary": "Get a 50% discount on the last two days of TechCrunch Disrupt 2026, October 14-15, in San Francisco. Register now and join the rest of the startup ecosystem. Today, it's all about physical and software AI.",
+      "source": "TechCrunch Robotics",
+      "sourceFeed": "TechCrunch Robotics",
+      "sourceIcon": "techcrunch",
+      "url": "https://techcrunch.com/2026/10/14/save-50-on-your-techcrunch-disrupt-2026-ticket-and-join-the-last-two-days-in-san-francisco/",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-10-12T13:31:33+00:00",
+      "publishedAt": "2026-10-14T15:13:24+00:00",
       "timeType": "published",
-      "language": "zh",
-      "scope": "china"
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "bfb0a9a71710",
+      "title": "RoboBusiness 2026 panel to discuss reshoring with robots",
+      "summary": "While reshoring manufacturing is a high priority for policymakers and technologists, RoboBusiness panelists will examine how to promote it. The post RoboBusiness 2026 panel to discuss reshoring with robots appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceFeed": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/robobusiness-2026-panel-discusses-reshoring-with-robots/",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-14T15:08:59+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "dcb194518464",
+      "title": "Robotics Prototyping Intern @ Nestack Technologies in Hyderabad, India (On-site)",
+      "summary": "We are building an original, friendly-looking walking robot with expressive movement and AI interaction. We’re looking for a hands-on intern who is excited about robotics and wants to work on a real-world prototype from design and assembly through programming and testing. Must-haves: Currently pursu",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/robotics-prototyping-intern-nestack-technologies-in-hyderabad-india-on-site/58861",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-10-14T15:06:58+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "fe40884ff55f",
+      "title": "Timken Precision Drives puts the motion challenge first in humanoid robots",
+      "summary": "Timken combines the expertise of Cone Drive, SPINEA, CGI Motion, and Timken Encoders to develop application-specific motion systems. The post Timken Precision Drives puts the motion challenge first in humanoid robots appeared first on The Robot Report .",
+      "source": "The Robot Report",
+      "sourceFeed": "The Robot Report",
+      "sourceIcon": "robot-report",
+      "url": "https://www.therobotreport.com/timken-precision-drives-puts-motion-challenge-first-humanoid-robots/",
+      "category": "robot",
+      "tags": [
+        "robot",
+        "sensor"
+      ],
+      "publishedAt": "2026-10-14T12:20:19+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "95d5874ae668",
+      "title": "AI-assisted inspection of ROS 2 systems: a preview of DDS Monitor Pro’s MCP integration",
+      "summary": "Hi everyone, We at eProsima are sharing a preview of the upcoming AI capabilities in DDS Monitor Pro, with a workflow that is also relevant to engineers working with DDS-based ROS 2 systems. The Monitor’s built-in Model Context Protocol (MCP) server connects an MCP-compatible AI assistant to the sys",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/ai-assisted-inspection-of-ros-2-systems-a-preview-of-dds-monitor-pro-s-mcp-integration/58853",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-10-14T09:09:24+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
     },
     {
       "id": "f0f43607c20e",
@@ -629,8 +802,8 @@
       "url": "https://arxiv.org/abs/2610.14018",
       "category": "robot",
       "tags": [
-        "ai",
-        "robot"
+        "robot",
+        "ai"
       ],
       "publishedAt": "2026-10-14T04:00:00+00:00",
       "timeType": "published",
@@ -670,109 +843,6 @@
       "timeType": "published",
       "language": "en",
       "scope": "global"
-    },
-    {
-      "id": "0c31ccda9cba",
-      "title": "Building Trustworthy Household Robots through Open-World Safety",
-      "summary": "arXiv:2610.14034v1 Announce Type: new \nAbstract: Foundation models are expanding robot capabilities, enabling robots to handle more diverse objects, follow sophisticated instructions, and operate in complex environments. These advances bring us to a future in which robots become part of everyday hou",
-      "source": "arXiv CS.RO",
-      "sourceFeed": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2610.14034",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-14T04:00:00+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "7850c5648fab",
-      "title": "Residual Compliant Policy: Learning Compliant Policies from Few Demonstrations",
-      "summary": "arXiv:2610.14035v1 Announce Type: new \nAbstract: Contact-rich manipulation requires a robot to be precise in free space to establish the intended contacts, and compliant once in contact to avoid excessive forces. Imitation learning has proven effective for simpler manipulation tasks, but the complia",
-      "source": "arXiv CS.RO",
-      "sourceFeed": "arXiv CS.RO",
-      "sourceIcon": "arxiv",
-      "url": "https://arxiv.org/abs/2610.14035",
-      "category": "robot",
-      "tags": [
-        "ai",
-        "robot"
-      ],
-      "publishedAt": "2026-10-14T04:00:00+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "902e0b3b401f",
-      "title": "Google DeepMind and Singapore Government collaborate to build fine-tuned AI model for scam detection",
-      "summary": "Learn how Google DeepMind and GovTech Singapore uses lightweight on-device Gemma models to intercept conversational scams in private chats with zero cloud data egress.",
-      "source": "Google DeepMind",
-      "sourceFeed": "Google DeepMind",
-      "sourceIcon": "deepmind",
-      "url": "https://deepmind.google/blog/on-device-ai-scam-detection-mddi/",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-10-14T02:00:14+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "01506576dafd",
-      "title": "AI can act exactly like a human, but we still don't think it's conscious",
-      "summary": "A new study reveals that people draw a surprisingly sharp line between human consciousness and artificial intelligence, even when both behave identically. Researchers found that participants considered even the most responsive AI less conscious than the least responsive human. Yet when asked about \"",
-      "source": "ScienceDaily Robotics",
-      "sourceFeed": "ScienceDaily Robotics",
-      "sourceIcon": "science",
-      "url": "https://www.sciencedaily.com/releases/2026/10/261012185017.htm",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-10-14T01:41:55+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "e58716234b68",
-      "title": "NYSOFA expands partnership with Intuition Robotics to bring ElliQ to more seniors",
-      "summary": "With the expansion, NYSOFA and Intuition Robotics established a new three-year, $2.1 million agreement to keep rolling out ElliQ. The post NYSOFA expands partnership with Intuition Robotics to bring ElliQ to more seniors appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceFeed": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/nysofa-expands-partnership-intuition-robotics-bring-elliq-more-seniors/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-13T23:22:05+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "103b8de28e80",
-      "title": "Industrial Next wants factory robots to switch tasks in minutes, not weeks",
-      "summary": "Industrial Next helps manufacturers automate complex, delicate tasks that have traditionally required human labor.",
-      "source": "TechCrunch Robotics",
-      "sourceFeed": "TechCrunch Robotics",
-      "sourceIcon": "techcrunch",
-      "url": "https://techcrunch.com/2026/10/13/industrial-next-wants-factory-robots-to-switch-tasks-in-minutes-not-weeks/",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-13T23:00:00+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
     }
   ],
   "categories": [
@@ -807,14 +877,14 @@
       "icon": "connection"
     }
   ],
-  "total": 45,
-  "generatedAt": "2026-10-14T08:04:03.347739+00:00",
+  "total": 49,
+  "generatedAt": "2026-10-14T17:09:11.966126+00:00",
   "freshness": {
     "windowHours": 48,
     "updateIntervalHours": 12,
-    "sourceCount": 29,
-    "newestPublishedAt": "2026-10-13T09:55:30+00:00",
-    "oldestPublishedAt": "2026-10-13T23:00:00+00:00"
+    "sourceCount": 32,
+    "newestPublishedAt": "2026-10-14T08:19:19+00:00",
+    "oldestPublishedAt": "2026-10-14T04:00:00+00:00"
   },
   "audience": {
     "city": "合肥",
@@ -834,7 +904,7 @@
     },
     {
       "name": "国内 AI 产业",
-      "count": 7,
+      "count": 8,
       "status": "ok"
     },
     {
@@ -854,7 +924,7 @@
     },
     {
       "name": "The Robot Report",
-      "count": 4,
+      "count": 5,
       "status": "ok"
     },
     {
@@ -864,7 +934,7 @@
     },
     {
       "name": "TechCrunch Robotics",
-      "count": 4,
+      "count": 6,
       "status": "ok"
     },
     {
@@ -889,7 +959,7 @@
     },
     {
       "name": "量子位",
-      "count": 2,
+      "count": 3,
       "status": "ok"
     }
   ]
