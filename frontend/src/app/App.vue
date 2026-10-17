@@ -195,7 +195,13 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /*
+    这里必须是 clip 而不是 hidden：
+    body 上的 overflow-x: hidden 会让 body 变成滚动容器，
+    导致内部所有 position: sticky 元素（对话页时间轴、厨厨页 Tab 栏）失效。
+    clip 同样能裁掉横向溢出，但不产生滚动容器，sticky 才能正常吸顶。
+  */
+  overflow-x: clip;
   /*
     首页 padding-right 由 GSAP ScrollTrigger 动画驱动（0→200px）
     不设 padding-right transition，避免与 GSAP 的 60fps 更新冲突

@@ -39,11 +39,12 @@
 |------|------|----------|----------|
 | `/` | 首页 | 视频开场、滚动过渡、三游戏角色档案、UID 与项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
 | `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 | `frontend/src/pages/About.vue` |
-| `/applist` | 应用列表 | 统一管理游戏、热点、地图工具和厨厨模块 | `frontend/src/pages/AppList.vue` |
+| `/applist` | 应用列表 | 统一管理游戏、热点、地图工具、厨厨与对话模块 | `frontend/src/pages/AppList.vue` |
 | `/game` | 飞机大战 | Canvas 射击游戏，支持键盘和移动端触控 | `frontend/src/pages/Game.vue` |
 | `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人/AI 动态，支持搜索、分类和日期归档 | `frontend/src/pages/HotTopics.vue`、`frontend/public/topics-data/` |
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区与限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |
-| `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略/Wiki、资讯和“与影对话” | `frontend/src/pages/Shrine.vue`、`frontend/src/features/shrine/`、`frontend/public/shrine-data/` |
+| `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略/Wiki、资讯 | `frontend/src/pages/Shrine.vue`、`frontend/src/features/shrine/`、`frontend/public/shrine-data/` |
+| `/dialogue` | 与影对谈 | 独立 AI 对话模块：鸣神纪年横向时间轴 + 宣纸面板对话（流式输出、脚注来源） | `frontend/src/pages/Dialogue.vue`、`frontend/src/features/dialogue/` |
 
 ## UI 与交互风格
 
@@ -81,7 +82,7 @@
         `-- Cloudflare Pages Worker
               +-- /api/topics              行业热点与归档
               +-- /api/shrine/*            厨厨索引与知识检索
-              `-- /api/chat                DeepSeek 角色对话
+              `-- /api/chat                DeepSeek 角色对话（支持 SSE 流式）
 
 GitHub Actions
   +-- 定时刷新 topics-data/
@@ -97,7 +98,7 @@ Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不�
 |------|------|
 | 前端 | Vue 3.5、Composition API、`<script setup>` |
 | 路由 | Vue Router 5、路由级懒加载 |
-| 动效与内容 | GSAP、marked、Canvas、SVG |
+| 动效与内容 | GSAP + ScrollTrigger、marked、Canvas、SVG |
 | 构建 | Vite 8、Node.js 22+ |
 | 生产 API | Cloudflare Pages Worker |
 | AI | DeepSeek V4.1 Flash（API 模型标识 `deepseek-flash`，失败回退 `deepseek-v4-flash`） |
@@ -111,6 +112,22 @@ Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不�
 
 模型工具链路：除 Brave 网络搜索外，Worker 还内置 GitHub 只读档案工具（模拟 MCP 工具调用模式）：档案类问题（设定、语音、天赋、命座、属性等）触发时，从 allowlist 仓库（`theBowja/genshin-db`、`LC1332/Chat-Haruhi-Suzumiya`）拉取结构化数据，提取客观字段注入提示词，与知识库、站内精选、网络搜索统一编号为可引用来源；可选配置 `GITHUB_TOKEN`（wrangler pages secret）提升速率限制，未配置时匿名访问同样可用。
 
+## 与影对谈（独立对话模块）
+
+`/dialogue` 把角色对话从厨厨页的 Tab 中拆了出来，独占一整条页面叙事：
+
+1. **开篇** —— 满屏留白、衬线大标题与一条自上而下的发丝脊线。
+2. **鸣神纪年** —— 横向滚动时间轴。机制对齐 nanfu.global：外层高度由 JS 按板块数撑开（`vh × (parts + 0.5)`）、原生 `position: sticky` 钉住视口、ScrollTrigger `scrub` 驱动横向位移；大字揭开不用 JS 改 `clip-path`，而是 GSAP 只写一个 CSS 变量 `--go`，去 scrub 一段 `animation-play-state: paused` 的关键帧。窄屏与 `prefers-reduced-motion` 下退化为竖向静态列表。
+3. **对谈** —— 宣纸质感面板上的对话线程（消息挂在同一条发丝脊线上），右侧是心境 / 缘分 / 记忆 / 检索状态，来源以学术脚注呈现。
+
+年表数据在 `frontend/src/features/dialogue/data/chronicle.js`，每个节点通过 `entryId` 关联站内知识库中 `certainty: canonical` 的 `timeline-*` 条目；原作未给出具体年份的事件只用时期标注，不补写年份。`frontend/tests/dialogue-chronicle.test.mjs` 会把这条纪律固定成回归测试。
+
+对话接口支持 SSE 流式输出：请求体带 `stream: true` 时返回 `text/event-stream`，事件序列为 `meta → delta* →（可选 replace）→ done`；不带 `stream` 时保持原有一次性 JSON 行为。前端在流式不可用时自动降级为一次性解析。
+
+人格提示词在 `frontend/_worker.js` 中分层组织：世界观、身份、人生观、价值观、声线与称呼（`VOICE_ANCHORS`）、神性回收（`DIVINITY_RECOVERY`）、关系与情绪口吻（`RELATIONSHIP_VOICE`）、对话示例（`FEW_SHOT_EXAMPLES`）、当前心境、记忆、稳定性与回应规则。运行时还会把 allowlist 仓库中的雷电将军角色卡作为「声线参考」注入（只影响语气，不新增事实）。
+
+社区角色卡的调研结论与许可证边界记录在 `docs/research/raiden-persona-cards.md`，nanfu.global 的交互机制取证记录在 `docs/research/nanfu-interaction.md`。
+
 ## 项目结构
 
 ```text
@@ -121,8 +138,9 @@ vue_blog/
 |   |   |-- pages/                       # 路由级页面
 |   |   |-- features/
 |   |   |   |-- home/                    # 首页视频与滚动过渡
+|   |   |   |-- dialogue/                # 与影对谈：年表数据、对话组件与流式客户端
 |   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
-|   |   |   `-- shrine/                  # 画廊、Wiki、资讯、对话与检索
+|   |   |   `-- shrine/                  # 画廊、Wiki、资讯与检索
 |   |   `-- shared/                      # 图标、布局、通用组件、自定义光标
 |   |-- public/
 |   |   |-- shrine-data/                 # 角色内容、知识库、封面与图片
@@ -130,11 +148,15 @@ vue_blog/
 |   |   |-- third-party-notices/         # 第三方许可证和来源声明
 |   |   |-- image/ video/ video-covers/  # 站点媒体资源
 |   |   `-- _redirects                   # 静态数据优先 + SPA 回退
-|   |-- tests/                           # Worker 与角色检索测试
-|   |-- _worker.js                       # 生产 API、知识检索与 AI 代理
+|   |-- tests/                           # Worker、年表、流式客户端与角色检索测试
+|   |-- _worker.js                       # 生产 API、知识检索、SSE 流式与 AI 代理
 |   |-- vite.config.js
 |   `-- package.json
 |-- backend/                              # FastAPI 本地示例服务
+|-- docs/
+|   |-- rule.md                           # 工作规范与部署规则
+|   |-- todo.md                           # 需求方案与实施记录
+|   `-- research/                         # 调研取证（nanfu 交互机制、角色卡与许可证）
 |-- scripts/
 |   |-- build/copy-frontend.mjs           # 复制 frontend/dist 到根 dist
 |   |-- deploy/deploy.sh                  # 构建、提交、推送和部署
@@ -146,10 +168,6 @@ vue_blog/
 |   |-- deploy.yml                        # main 分支生产部署
 |   |-- daily-topics.yml                  # 热点抓取、校验和部署
 |   `-- shrine-search.yml                 # 厨厨索引抓取与校验
-|-- docs/
-|   |-- rule.md                           # 工作规范与部署规则
-|   |-- todo.md                           # 需求方案与实施记录
-|   `-- data.md                           # 临时素材输入区
 |-- package.json                          # 根目录命令入口
 `-- README.md
 ```
@@ -215,9 +233,9 @@ uvicorn main:app --reload
 | `GET /api/shrine` | 完整厨厨实时索引 |
 | `GET /api/shrine/search?type=gallery&q=关键词` | 按类型检索画廊、Wiki 或资讯 |
 | `GET /api/shrine/knowledge?q=关键词` | 调试角色知识检索结果 |
-| `POST /api/chat` | 带人物状态、知识召回、站内实时来源、可选网络搜索、GitHub 结构化档案和引用的角色对话 |
+| `POST /api/chat` | 带人物状态、知识召回、站内实时来源、可选网络搜索、GitHub 结构化档案和引用的角色对话；请求体带 `stream: true` 时返回 SSE 流式响应 |
 
-“与影对话”使用分层世界观、身份、人生观和价值观提示，结合语义人物状态、有限的浏览器本地记忆、结构化知识库、站内实时资料、可选网络搜索与 GitHub 结构化档案。回答中的事实来源会以编号引用展示；资料不足或存在冲突时，角色被要求明确说明不确定性。
+“与影对谈”使用分层世界观、身份、人生观和价值观提示，结合语义人物状态、有限的浏览器本地记忆、结构化知识库、站内实时资料、可选网络搜索与 GitHub 结构化档案。回答中的事实来源会以编号引用展示；资料不足或存在冲突时，角色被要求明确说明不确定性。
 
 网络搜索只在用户问题包含“最新、最近、新闻、版本、复刻、卡池、活动”等时效关键词时触发。Worker 会先抽取相对干净的搜索词，避免把用户明确要求记住的个人信息、密钥或隐私内容发给搜索服务。未配置 `BRAVE_SEARCH_API_KEY` 或搜索失败时，聊天接口不会报错，会自动回退到本地知识库和站内资料。
 
