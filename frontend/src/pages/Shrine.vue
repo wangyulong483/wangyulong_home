@@ -102,12 +102,21 @@
           </button>
         </div>
 
+        <!-- 对话入口：AI 对话已独立成页，这里只留一条克制的入口 -->
+        <router-link to="/dialogue" class="dialogue-entry">
+          <span class="entry-mark"><AppIcon icon="message" size="16" /></span>
+          <span class="entry-copy">
+            <strong>与影对谈</strong>
+            <small>鸣神纪年 · 独立对话模块</small>
+          </span>
+          <span class="entry-more">前往 <AppIcon icon="arrow-right" size="13" /></span>
+        </router-link>
+
         <!-- Tab 内容区 -->
         <div class="tab-content">
           <GalleryTab v-if="activeTab === 'gallery'" :items="data.gallery" :related="data.related || []" :live-items="data.liveSearch?.gallery || []" />
           <WikiTab    v-if="activeTab === 'wiki'"    :items="data.guides" :live-items="data.liveSearch?.wiki || []" />
           <NewsTab    v-if="activeTab === 'news'"    :items="data.news" :live-items="data.liveSearch?.news || []" />
-          <ChatTab    v-if="activeTab === 'chat'" />
         </div>
       </div>
     </template>
@@ -121,7 +130,6 @@ import RaidenHero from '@/features/shrine/components/RaidenHero.vue'
 import GalleryTab from '@/features/shrine/components/GalleryTab.vue'
 import WikiTab from '@/features/shrine/components/WikiTab.vue'
 import NewsTab from '@/features/shrine/components/NewsTab.vue'
-import ChatTab from '@/features/shrine/components/ChatTab.vue'
 import AppIcon from '@/shared/components/AppIcon.vue'
 
 // ============================================================
@@ -196,7 +204,6 @@ const tabs = [
   { key: 'gallery', label: '厨力画廊', icon: 'camera' },
   { key: 'wiki',    label: '攻略/Wiki', icon: 'book' },
   { key: 'news',    label: '资讯动态', icon: 'bullhorn' },
-  { key: 'chat',    label: '与影对话', icon: 'message' },
 ]
 
 const requestedTab = new URLSearchParams(window.location.search).get('tab')
@@ -219,7 +226,7 @@ function tabCount(key) {
       ...(data.value.related || []),
     ])
   }
-  const map = { gallery: 'gallery', wiki: 'guides', news: 'news', chat: null }
+  const map = { gallery: 'gallery', wiki: 'guides', news: 'news' }
   const arr = data.value[map[key]]
   const liveMap = { wiki: 'wiki', news: 'news' }
   return uniqueItemCount([...(data.value.liveSearch?.[liveMap[key]] || []), ...(arr || [])])
@@ -534,6 +541,52 @@ onMounted(() => {
 .tab-icon { opacity: 0.86; }
 .tab-count { font-size: 0.72rem; opacity: 0.5; }
 
+/* ====== 对话入口（AI 对话已独立成页） ====== */
+.dialogue-entry {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 24px;
+  padding: 14px 16px;
+  border: 1px solid rgba(201, 169, 110, 0.28);
+  border-left: 2px solid #c9a96e;
+  background: linear-gradient(90deg, rgba(201, 169, 110, 0.07), transparent 62%);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: border-color 0.28s var(--ease-out), background 0.28s var(--ease-out);
+}
+
+.dialogue-entry:hover {
+  border-color: rgba(201, 169, 110, 0.6);
+  background: linear-gradient(90deg, rgba(201, 169, 110, 0.13), transparent 68%);
+}
+
+.entry-mark {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(201, 169, 110, 0.34);
+  border-radius: 50%;
+  color: #c9a96e;
+}
+
+.entry-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.entry-copy strong { color: var(--text-primary); font-family: var(--font-serif); font-size: 0.95rem; font-weight: 400; letter-spacing: 0.08em; }
+.entry-copy small { color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.58rem; }
+
+.entry-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: #c9a96e;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  white-space: nowrap;
+}
+
 /* ====== Tab 内容区 ====== */
 .tab-content {
   position: relative;
@@ -607,10 +660,10 @@ onMounted(() => {
     height: 7px;
   }
 
-  /* Tab 栏横向滚动（保留标签文字） */
+  /* Tab 栏（3 项） */
   .tab-bar {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 3px;
     overflow: visible;
   }

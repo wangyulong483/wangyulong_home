@@ -36,7 +36,15 @@
           <AppIcon icon="lightning" size="28" />
         </span>
         <span class="app-name">？！厨厨！？</span>
-        <span class="app-desc">雷电将军 · 影像 / 攻略 / 对话</span>
+        <span class="app-desc">雷电将军 · 影像 / 攻略 / 资讯</span>
+      </router-link>
+
+      <router-link to="/dialogue" class="app-card card card-interactive">
+        <span class="app-icon-wrap">
+          <AppIcon icon="message" size="28" />
+        </span>
+        <span class="app-name">与影对谈</span>
+        <span class="app-desc">鸣神纪年 · 角色对话</span>
       </router-link>
 
     </div>

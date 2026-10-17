@@ -150,6 +150,7 @@
             <div class="footer-col">
               <a class="footer-heading" href="/hot-topics">热点雷达</a>
               <a class="footer-link" href="/shrine">一心净土</a>
+              <a class="footer-link" href="/dialogue">与影对谈</a>
               <a class="footer-link" href="/game">互动游戏</a>
               <a class="footer-link" href="/map-zone-painter">地图绘制器</a>
             </div>

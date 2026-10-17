@@ -634,3 +634,380 @@ test('多来源池合并时会按 URL 去重', () => {
   assert.equal(merged[0].title, 'A')
   assert.equal(merged[1].title, 'B')
 })
+
+// ============================================================
+// SSE 流式输出与人格锚定（新增）
+// ============================================================
+
+const SHRINE_INDEX_STUB = {
+  character: { sources: [] },
+  liveSearch: { generatedAt: '2026-09-06T00:00:00Z', wiki: [], news: [] },
+  guides: [],
+  news: [],
+}
+
+function ssePayloads(text) {
+  return text
+    .split('\n\n')
+    .map(block => block.trim())
+    .filter(Boolean)
+    .map(block => JSON.parse(block.replace(/^data:\s*/, '')))
+}
+
+function sseResponse(chunks) {
+  const encoder = new TextEncoder()
+  return new Response(new ReadableStream({
+    start(controller) {
+      for (const chunk of chunks) controller.enqueue(encoder.encode(chunk))
+      controller.close()
+    },
+  }), { headers: { 'Content-Type': 'text/event-stream' } })
+}
+
+function chatRequest(body, headers = {}) {
+  return new Request('https://example.com/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...headers },
+    body: JSON.stringify(body),
+  })
+}
+
+test('流式对话按 meta → delta → done 契约输出，且 done.content 等于增量拼接', async () => {
+  const originalFetch = globalThis.fetch
+  const deepSeekPayloads = []
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) return Response.json(SHRINE_INDEX_STUB)
+    if (url.includes('raw.githubusercontent.com')) throw new Error(`offline: ${url}`)
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      deepSeekPayloads.push(JSON.parse(options.body))
+      // 故意把一条 SSE 的 JSON 拆到两个 chunk，验证跨 chunk 行缓冲
+      return sseResponse([
+        'data: {"choices":[{"delta":{"content":"愿望"}}]}\n\n',
+        'data: {"choices":[{"del',
+        'ta":{"content":"并非"}}]}\n\ndata: {"choices":[{"delta":{"content":"永恒的敌人。"}}]}\n\n',
+        'data: [DONE]\n\n',
+      ])
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const response = await worker.fetch(chatRequest({
+      messages: [{ role: 'user', content: '你如何看待愿望？' }],
+      session: { trustScore: 0, memory: [] },
+      stream: true,
+    }), { DEEPSEEK_API_KEY: 'test-key' })
+
+    assert.equal(response.status, 200)
+    assert.equal(response.headers.get('content-type'), 'text/event-stream; charset=utf-8')
+    assert.equal(response.headers.get('cache-control'), 'no-cache, no-transform')
+    assert.equal(response.headers.get('connection'), 'keep-alive')
+    assert.equal(response.headers.get('access-control-allow-origin'), '*')
+    assert.equal(response.headers.get('x-accel-buffering'), 'no')
+
+    const events = ssePayloads(await response.text())
+    const types = events.map(event => event.type)
+    assert.equal(types[0], 'meta')
+    assert.equal(types.at(-1), 'done')
+    assert.ok(types.indexOf('delta') > types.indexOf('meta'))
+    assert.ok(types.indexOf('done') > types.indexOf('delta'))
+
+    const streamed = events.filter(event => event.type === 'delta').map(event => event.text).join('')
+    assert.equal(streamed, '愿望并非永恒的敌人。')
+
+    const done = events.at(-1)
+    assert.equal(done.content, streamed)
+    assert.equal(done.role, 'assistant')
+    assert.equal(done.model, 'DeepSeek-V4.1-Flash-0910')
+    assert.equal(done.safety.route, 'fast')
+    assert.equal(done.safety.revision, 'skipped')
+    assert.deepEqual(done.memoryUpdates, [])
+
+    // meta 提前给出非流式响应里除 content 外的状态字段
+    const meta = events[0]
+    assert.equal(meta.persona, 'reflective')
+    assert.equal(meta.trustScore, done.trustScore)
+    assert.equal(meta.turnCount, done.turnCount)
+    assert.equal(meta.model, done.model)
+    assert.equal(meta.githubTool.tool, 'github-mcp')
+    assert.equal(meta.safety.sourcePolicy, 'official-wiki-github-only')
+    assert.equal(meta.personaCard.loaded, false)
+    assert.ok(Array.isArray(meta.sources))
+    assert.equal('content' in meta, false)
+
+    assert.equal(deepSeekPayloads.length, 1)
+    assert.equal(deepSeekPayloads[0].stream, true)
+    assert.equal(deepSeekPayloads[0].model, 'deepseek-flash')
+    assert.match(deepSeekPayloads[0].messages[0].content, /愚问/)
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('流式修订会发送 replace，且 done.content 用修订文本替换已累积的 delta', async () => {
+  const originalFetch = globalThis.fetch
+  const deepSeekPayloads = []
+  const revised = '奥黛塔这个名字，我尚不能确认。没有官方或知名 Wiki 的资料前，我不会猜测她的来历。'
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) return Response.json(SHRINE_INDEX_STUB)
+    if (url.includes('raw.githubusercontent.com')) throw new Error(`offline: ${url}`)
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      const payload = JSON.parse(options.body)
+      deepSeekPayloads.push(payload)
+      if (payload.stream === true) {
+        return sseResponse([
+          'data: {"choices":[{"delta":{"content":"想来应是"}}]}\n\n',
+          'data: {"choices":[{"delta":{"content":"至冬那边的新面孔吧。"}}]}\n\n',
+          'data: [DONE]\n\n',
+        ])
+      }
+      return Response.json({ choices: [{ message: { content: revised } }] })
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const response = await worker.fetch(chatRequest({
+      messages: [{ role: 'user', content: '你认识奥黛塔吗' }],
+      session: { trustScore: 4, memory: [] },
+      stream: true,
+    }), { DEEPSEEK_API_KEY: 'test-key' })
+
+    const events = ssePayloads(await response.text())
+    const types = events.map(event => event.type)
+    assert.ok(types.includes('replace'))
+    assert.ok(types.indexOf('replace') > types.indexOf('delta'))
+
+    const deltaText = events.filter(event => event.type === 'delta').map(event => event.text).join('')
+    assert.equal(deltaText, '想来应是至冬那边的新面孔吧。')
+
+    const replace = events.find(event => event.type === 'replace')
+    assert.equal(replace.text, revised)
+
+    const done = events.at(-1)
+    assert.equal(done.type, 'done')
+    assert.equal(done.content, revised)
+    assert.notEqual(done.content, deltaText)
+    assert.equal(done.safety.route, 'slow')
+    assert.equal(done.safety.revision, 'applied')
+
+    assert.equal(deepSeekPayloads.length, 2)
+    assert.equal(deepSeekPayloads[0].stream, true)
+    assert.equal(deepSeekPayloads[1].stream, false)
+    assert.equal(deepSeekPayloads[1].max_tokens, 700)
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('不带 stream 的请求仍返回一次性 JSON，Accept 头也能触发流式', async () => {
+  const originalFetch = globalThis.fetch
+  const deepSeekPayloads = []
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) return Response.json(SHRINE_INDEX_STUB)
+    if (url.includes('raw.githubusercontent.com')) throw new Error(`offline: ${url}`)
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      const payload = JSON.parse(options.body)
+      deepSeekPayloads.push(payload)
+      if (payload.stream === true) {
+        return sseResponse([
+          'data: {"choices":[{"delta":{"content":"雷光"}}]}\n\n',
+          'data: [DONE]\n\n',
+        ])
+      }
+      return Response.json({ choices: [{ message: { content: '愿望并非永恒的敌人。' } }] })
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const jsonResponse = await worker.fetch(chatRequest({
+      messages: [{ role: 'user', content: '你如何看待愿望？' }],
+      session: { trustScore: 0, memory: [] },
+    }), { DEEPSEEK_API_KEY: 'test-key' })
+    const data = await jsonResponse.json()
+
+    assert.equal(jsonResponse.status, 200)
+    assert.equal(jsonResponse.headers.get('content-type'), 'application/json')
+    assert.equal(data.content, '愿望并非永恒的敌人。')
+    assert.equal(deepSeekPayloads[0].stream, false)
+
+    const eventResponse = await worker.fetch(chatRequest({
+      messages: [{ role: 'user', content: '你如何看待愿望？' }],
+      session: { trustScore: 0, memory: [] },
+    }, { Accept: 'text/event-stream' }), { DEEPSEEK_API_KEY: 'test-key' })
+
+    assert.equal(eventResponse.headers.get('content-type'), 'text/event-stream; charset=utf-8')
+    const events = ssePayloads(await eventResponse.text())
+    assert.equal(events.at(-1).type, 'done')
+    assert.equal(events.at(-1).content, '雷光')
+    assert.equal(deepSeekPayloads[1].stream, true)
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('人格补全包含声线、神性回收与关系口吻，且禁用自称只出现在禁令里', () => {
+  const prompt = buildSystemPrompt(
+    { persona: 'shogun', relationship: 'familiar' },
+    [],
+  )
+
+  assert.match(prompt, /# 声线与称呼/)
+  assert.match(prompt, /# 神性回收/)
+  assert.match(prompt, /# 关系与情绪口吻/)
+  assert.match(prompt, /# 对话示例/)
+  assert.match(prompt, /愚问/)
+  assert.match(prompt, /神性回收（强制）/)
+  assert.match(prompt, /没有回收动作的反差一律视为 OOC/)
+  assert.match(prompt, /绝对禁用「朕」「吾」「本座」/)
+  assert.match(prompt, /蛀牙什么的，换一套就好了/)
+  assert.match(prompt, /御侧保镖/)
+  assert.match(prompt, /那小子/)
+  assert.match(prompt, /御侧保镖|侧用人/)
+  assert.match(prompt, /可露笨拙（每轮最多一句）/)
+  assert.match(prompt, /必须保持威严/)
+  assert.match(prompt, /神里绫华/)
+  assert.match(prompt, /雷电真：敬服 \+ 怀念 \+ 不肯直说痛/)
+
+  // 纠偏：社区卡常见错误不得出现在提示词里
+  assert.doesNotMatch(prompt, /九条早蕨|眼渊|夺瞳令|锁国之令|巴力/)
+
+  // 社区卡禁用自称只允许出现在「绝对禁用」那一条规则里
+  const forbiddenLines = prompt.split('\n').filter(line => /朕|吾|本座/.test(line))
+  assert.equal(forbiddenLines.length, 1)
+  assert.match(forbiddenLines[0], /绝对禁用/)
+})
+
+test('角色卡只作为声线参考注入，拉取失败时静默降级且不影响对话', async () => {
+  const originalFetch = globalThis.fetch
+  const cardText = 'Please be aware that your codename in this conversation is 雷电将军.'
+  const payloads = []
+  const call = () => worker.fetch(chatRequest({
+    messages: [{ role: 'user', content: '你如何看待愿望？' }],
+    session: { trustScore: 0, memory: [] },
+  }), { DEEPSEEK_API_KEY: 'test-key' })
+
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) return Response.json(SHRINE_INDEX_STUB)
+    if (url.includes('characters/raidenShogun/system_prompt.txt')) return new Response(cardText)
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      payloads.push(JSON.parse(options.body))
+      return Response.json({ choices: [{ message: { content: '愿望并非永恒的敌人。' } }] })
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const data = await (await call()).json()
+    assert.equal(data.personaCard.loaded, true)
+    assert.equal(data.personaCard.source, 'LC1332/Chat-Haruhi-Suzumiya')
+    assert.match(data.personaCard.url, /^https:\/\/github\.com\/LC1332\/Chat-Haruhi-Suzumiya\/blob\/main\/characters\/raidenShogun\/system_prompt\.txt$/)
+    assert.match(data.personaCard.license, /Apache-2\.0/)
+
+    // 只进入独立的声线参考 system 消息，且带「不可当作设定事实」的标题
+    const cardMessage = payloads[0].messages.find(
+      message => message.role === 'system' && message.content.includes(cardText),
+    )
+    assert.ok(cardMessage)
+    assert.match(cardMessage.content, /# 人格与声线参考（仅用于语气，不可当作设定事实）/)
+    assert.ok(cardMessage.content.length <= 1100)
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) return Response.json(SHRINE_INDEX_STUB)
+    if (url.includes('raw.githubusercontent.com')) return new Response('not found', { status: 404 })
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      payloads.push(JSON.parse(options.body))
+      return Response.json({ choices: [{ message: { content: '愿望并非永恒的敌人。' } }] })
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const response = await call()
+    const data = await response.json()
+    assert.equal(response.status, 200)
+    assert.equal(data.personaCard.loaded, false)
+    assert.equal(data.content, '愿望并非永恒的敌人。')
+    assert.equal(data.model, 'DeepSeek-V4.1-Flash-0910')
+    assert.ok(!payloads[1].messages.some(message => message.content.includes('人格与声线参考')))
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
+
+test('流式保留模型回退链，全部失败时先发 error 事件再结束流', async () => {
+  const originalFetch = globalThis.fetch
+  const modelRequests = []
+
+  globalThis.fetch = async (input, options = {}) => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) return Response.json(SHRINE_INDEX_STUB)
+    if (url.includes('raw.githubusercontent.com')) throw new Error(`offline: ${url}`)
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      const payload = JSON.parse(options.body)
+      modelRequests.push(payload.model)
+      if (payload.model === 'deepseek-flash') return new Response('model not found', { status: 404 })
+      return sseResponse([
+        'data: {"choices":[{"delta":{"content":"雷光"}}]}\n\n',
+        'data: [DONE]\n\n',
+      ])
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const response = await worker.fetch(chatRequest({
+      messages: [{ role: 'user', content: '你如何看待愿望？' }],
+      session: { trustScore: 0, memory: [] },
+      stream: true,
+    }), { DEEPSEEK_API_KEY: 'test-key' })
+
+    const events = ssePayloads(await response.text())
+    assert.deepEqual(modelRequests, ['deepseek-flash', 'deepseek-v4-flash'])
+    assert.equal(events.at(-1).type, 'done')
+    assert.equal(events.at(-1).content, '雷光')
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+
+  globalThis.fetch = async input => {
+    const url = String(input)
+    if (url.includes('shrine-data/knowledge-base.json')) return Response.json(knowledgeBase)
+    if (url.includes('shrine-data/index.json')) return Response.json(SHRINE_INDEX_STUB)
+    if (url.includes('raw.githubusercontent.com')) throw new Error(`offline: ${url}`)
+    if (url === 'https://api.deepseek.com/chat/completions') {
+      return new Response('rate limited', { status: 429 })
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+
+  try {
+    const response = await worker.fetch(chatRequest({
+      messages: [{ role: 'user', content: '你如何看待愿望？' }],
+      session: { trustScore: 0, memory: [] },
+      stream: true,
+    }), { DEEPSEEK_API_KEY: 'test-key' })
+
+    assert.equal(response.status, 200)
+    const events = ssePayloads(await response.text())
+    assert.deepEqual(events.map(event => event.type), ['meta', 'error'])
+    assert.match(events[1].message, /429/)
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})
