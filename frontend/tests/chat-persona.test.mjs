@@ -318,7 +318,7 @@ test('聊天接口使用 V4.1 Flash 协议并返回可持久化状态', async ()
     assert.equal(response.status, 200)
     assert.equal(deepSeekPayload.model, 'deepseek-flash')
     assert.deepEqual(deepSeekPayload.thinking, { type: 'disabled' })
-    assert.equal(deepSeekPayload.max_tokens, 1000)
+    assert.equal(deepSeekPayload.max_tokens, 1200)
     assert.equal(deepSeekPayload.stream, false)
     assert.match(deepSeekPayload.messages[0].content, /人生观/)
     assert.equal(data.model, 'DeepSeek-V4.1-Flash-0910')
@@ -505,7 +505,7 @@ test('未知新角色只按检索来源保守回答，不注入旧角色兜底�
       return Response.json({
         choices: [{
           message: {
-            content: payload.max_tokens === 700
+            content: payload.max_tokens === 800
               ? '奥黛塔这个名字，我尚不能确认。没有官方或知名 Wiki 的资料前，我不会猜测她的身份与来历。'
               : '想来应是至冬那边的新面孔吧。',
           },
@@ -798,7 +798,7 @@ test('流式修订会发送 replace，且 done.content 用修订文本替换已�
     assert.equal(deepSeekPayloads.length, 2)
     assert.equal(deepSeekPayloads[0].stream, true)
     assert.equal(deepSeekPayloads[1].stream, false)
-    assert.equal(deepSeekPayloads[1].max_tokens, 700)
+    assert.equal(deepSeekPayloads[1].max_tokens, 800)
   } finally {
     globalThis.fetch = originalFetch
   }

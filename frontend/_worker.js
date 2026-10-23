@@ -12,20 +12,20 @@ const DEEPSEEK_MODEL_LABEL = 'DeepSeek-V4.1-Flash-0910'
 const DEEPSEEK_CHAT_CONFIG = {
   model: DEEPSEEK_CHAT_MODEL,
   thinking: { type: 'disabled' },
-  max_tokens: 1000,
-  temperature: 0.82,
-  top_p: 0.92,
-  frequency_penalty: 0.22,
-  presence_penalty: 0.1,
+  max_tokens: 1200,
+  temperature: 0.85,
+  top_p: 0.94,
+  frequency_penalty: 0.3,
+  presence_penalty: 0.15,
   stream: false,
 }
 
 const DEEPSEEK_REVISION_CONFIG = {
   model: DEEPSEEK_CHAT_MODEL,
   thinking: { type: 'disabled' },
-  max_tokens: 700,
-  temperature: 0.25,
-  top_p: 0.85,
+  max_tokens: 800,
+  temperature: 0.22,
+  top_p: 0.82,
   frequency_penalty: 0,
   presence_penalty: 0,
   stream: false,
@@ -1490,6 +1490,13 @@ function buildChatPayload(context, content, safety) {
     personaCard: personaCard?.info || personaCardInfo(false),
     safety,
     model: DEEPSEEK_MODEL_LABEL,
+    parameters: {
+      temperature: DEEPSEEK_CHAT_CONFIG.temperature,
+      topP: DEEPSEEK_CHAT_CONFIG.top_p,
+      maxTokens: DEEPSEEK_CHAT_CONFIG.max_tokens,
+      frequencyPenalty: DEEPSEEK_CHAT_CONFIG.frequency_penalty,
+      presencePenalty: DEEPSEEK_CHAT_CONFIG.presence_penalty,
+    },
   }
 }
 

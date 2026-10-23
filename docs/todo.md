@@ -151,3 +151,101 @@
 4. 上半屏节点文字与吸顶信息条重叠——按奇偶分别补齐竖直留白。
 
 ===============================================================
+
+## 需求（2026-10-23）
+
+用户提出优化「与影对谈」（`/dialogue`）页面：
+
+1. **时间轴语义纠正**：时间轴应描述**对话历史**，而不是背景故事（鸣神纪年）。
+2. **更新模型参数**：调整 Worker 中的对话生成参数，并在页面上可见。
+3. **先锋艺术视觉**：在不改变页面主体风格（暗色底、衬线中文、大面积留白）的前提下，加入苏联至上主义与构成主义、马列维奇风格——
+   - 完全几何解构：硬朗锐利的三角形、方形、圆形、直线切割；
+   - 大面积平涂色块，极致扁平化，无柔和渐变、无软阴影，高撞色对比；
+   - 经典苏维埃复古配色：正红、纯黑、米白基底、暗金；
+   - 强烈对角线动态构图、粗重工业感线条；
+   - 复古做旧粗糙印刷纸张颗粒纹理；
+   - 平面抽象构成、秩序感与先锋冲击力，摒弃写实透视，复古前卫海报质感。
+4. **部署网页**：可暂不做 GitHub 推送，但必须完成网页部署。
+
+## 方案
+
+### 1. 时间轴：从「鸣神纪年」改为「对话纪年」
+
+- 新增纯函数 `frontend/src/features/dialogue/composables/useDialogueTimeline.js`：`buildConversationTimeline(messages)` 把消息流按「一问一答」配对为对话轮次，输出 `{ greeting, nodes, stats }`。
+  - 节点字段：`id / mark / question / answer / userIndex / answerIndex / time / timeLabel / streaming / sources`；`userIndex` 直接指向线程消息下标，供「跳至原文」。
+  - 无用户消息时只保留问候语作为卷首引文，节点为空并显示「此卷尚未落笔」。
+- 组件 `DialogueChronicle.vue` 退役，新建 `DialogueTimeline.vue`：
+  - 保留 nanfu 式 sticky 横向滚动机制（原生 sticky + ScrollTrigger scrub + `--go` 大字揭开），但**总高度与节点数解耦**（`min(4.6, 1.8 + n×0.5) × 100vh`），避免每轮对话把聊天区向下推一整屏。
+  - 轨道 = 卷首 + N 个对话轮次 + 卷末「此卷仍在书写」；节点卡正反交替（米白/纯黑），点击可跳回对应对谈原文。
+  - 窄屏与 `prefers-reduced-motion` 退化为竖向静态列表；节点增减时重建 ScrollTrigger 并 refresh。
+- `Dialogue.vue` 不再引用 `chronicle.js`；该文件保留为知识库 canonical 年表档案（其回归测试继续有效），但不再渲染。
+
+### 2. 构成主义视觉系统（不改主体风格）
+
+- 页内色板：`--red #c8102e`、`--ink #12100e`、`--paper #ece4d3`、`--gold #a67c2e`；金色退为辅助刻度，红色承担主强调。
+- 圆角归零，阴影一律硬边偏移（`box-shadow: 10px 10px 0 …`），删除柔和径向渐变与模糊阴影。
+- 开篇：保留「一心净土 / 与影对谈」排版与暗底留白，新增马列维奇式海报构成（黑方块、红圆、红楔形、细黑对角线、СУПРЕМАТИЗМ / ДИАЛОГ 字样）、红色斜切色带与鼠标视差。
+- 时间轴：红色斜切色块、粗导轨、方形刻度、海报式节点卡、超大轮次编号。
+- 对谈区：宣纸面板改为平涂米白 + 2px 黑边 + 红色硬投影 + 左侧红条 + 印刷颗粒；消息序号改方形色块；来源脚注、输入区、按钮全部去圆角、硬边撞色。
+- 侧栏：方块标题、红色分段缘分隔线、模型参数表。
+- 所有颗粒纹理用内联 SVG `feTurbulence` data URI，不新增依赖；动画遵守 `prefers-reduced-motion`。
+
+### 3. 模型参数
+
+- `frontend/_worker.js`：`DEEPSEEK_CHAT_CONFIG` 调整为 `max_tokens 1200 / temperature 0.85 / top_p 0.94 / frequency_penalty 0.3 / presence_penalty 0.15`；修订配置 `max_tokens 800 / temperature 0.22 / top_p 0.82`。
+- `buildChatPayload` 新增 `parameters` 字段（温度、top_p、长度、两种惩罚），经 SSE meta 下发。
+- `useDialogue.js` 的 `lastToolState` 增加 `params`，`DialogueAside` 新增「生成参数」块展示。
+
+### 4. 文件改动
+
+| 文件 | 改动 |
+|------|------|
+| `frontend/src/features/dialogue/composables/useDialogueTimeline.js` | 新增：消息 → 对话轮次纯函数 |
+| `frontend/src/features/dialogue/components/DialogueTimeline.vue` | 新增：对话历史时间轴 |
+| `frontend/src/features/dialogue/components/DialogueChronicle.vue` | 删除 |
+| `frontend/src/pages/Dialogue.vue` | 重构页面视觉与交互 |
+| `frontend/src/features/dialogue/components/DialogueThread.vue` | 构成主义重绘 + `focusMessage` |
+| `frontend/src/features/dialogue/components/DialogueAside.vue` | 构成主义重绘 + 参数块 |
+| `frontend/src/features/dialogue/composables/useDialogue.js` | 用户消息时间戳、参数状态 |
+| `frontend/_worker.js` | 模型参数与 `parameters` 下发 |
+| `frontend/tests/dialogue-timeline.test.mjs` | 新增：配对、流式、空态、跳转下标 |
+| `README.md`、`docs/todo.md` | 文案与执行记录 |
+
+### 5. 验证与部署
+
+- `npm.cmd --prefix frontend run test`、`npm.cmd run build`。
+- 无头浏览器检查 1440×900 与 390×844：时间轴吸顶/横向位移/点击跳转、流式渲染、无横向溢出、无控制台错误。
+- 部署：`npx wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main`（GitHub 推送暂缓）。
+
+### 6. 边界
+
+- 不改路由、侧栏导航与其他页面；不新增依赖；不改 backend FastAPI。
+- 不虚构设定；对话纪年只呈现用户真实说过的话。
+- `chronicle.js` 与 `dialogue-chronicle.test.mjs` 保留，但不参与页面渲染。
+
+===============================================================
+
+## 执行记录（2026-10-23）
+
+### 完成内容
+
+1. **时间轴改为对话历史**：新增 `useDialogueTimeline.js`（消息 → 轮次纯函数）与 `DialogueTimeline.vue`（sticky 横向轨道）；`Dialogue.vue` 改渲染真实提问/回答轮次，卡片可点击回跳并高亮原文。退役 `DialogueChronicle.vue` 已删除；`chronicle.js` 仅作 canonical 年表归档保留，`dialogue-chronicle.test.mjs` 继续守护其与知识库的一致性。
+2. **构成主义视觉**：页面内 `--red #c8102e / --ink #12100e / --paper #ece4d3 / --gold #a67c2e`，全页去圆角、硬边偏移投影、无渐变；首屏马列维奇式黑方块/红圆/红楔形/斜切红带/细黑对角线/俄文字样与鼠标视差；时间轴红斜块、粗导轨、超大编号与正反交替卡片；对谈区平涂纸面 + 2px 黑边 + 红硬投影 + 左侧红条 + SVG `feTurbulence` 印刷颗粒；侧栏方块标题与参数表。动画继续遵守 `prefers-reduced-motion`。
+3. **模型参数**：`frontend/_worker.js` 对话 `max_tokens 1200 / temperature 0.85 / top_p 0.94 / frequency_penalty 0.3 / presence_penalty 0.15`，修订 `max_tokens 800 / temperature 0.22 / top_p 0.82`；`buildChatPayload` 增发 `parameters`，`useDialogue.js` 存入 `lastToolState.params`，`DialogueAside` 新增「生成参数」块实时展示。
+4. **文档**：README 模块表、模型参数说明与「与影对谈」章节同步为对话纪年 + 构成主义；本记录。
+
+### 验证
+
+- `npm.cmd --prefix frontend run test`：47/47 通过（新增 8 条时间轴配对用例；同步修正 `chat-persona.test.mjs` 中旧的 1000/700 参数断言为 1200/800）。
+- `npm.cmd run build`：成功，入口 `assets/index-ROJmPnrR.js`。
+- 无头 Edge 1440×900 / 390×844：无横向溢出、sticky 生效、轨道位移 0 → -2543px、移动端「对话纪年」大字可见、未选中轮次回退为「共 04 轮 · 已落笔」。
+- 过程中修复：`.tl-track` 的 `transform: none !important` 覆盖 GSAP 内联位移（删除）；窄屏 `--go` 未开启导致标题不可见（补媒体查询）；轨道末端多算 10vw 导致末卡被裁（改为 `scrollWidth - clientWidth` 并重设内边距）；移动端 `talk-era` 未选中时显示「未选中轮次」（回退到最后一轮）。
+- 线上复核：`https://wangyulong-home.pages.dev/dialogue` 返回新入口资源，无控制台错误，首屏与本地一致。
+
+### 部署
+
+- 命令：`npx wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main`。
+- 结果：成功，部署预览 `https://c4f7824d.wangyulong-home.pages.dev`；生产分支 `main` 已生效（`https://wangyulong-home.pages.dev`）。
+- GitHub 推送按用户要求暂缓，仅本地提交。
+
+===============================================================

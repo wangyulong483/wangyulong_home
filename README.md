@@ -44,7 +44,7 @@
 | `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人/AI 动态，支持搜索、分类和日期归档 | `frontend/src/pages/HotTopics.vue`、`frontend/public/topics-data/` |
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区与限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |
 | `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略/Wiki、资讯 | `frontend/src/pages/Shrine.vue`、`frontend/src/features/shrine/`、`frontend/public/shrine-data/` |
-| `/dialogue` | 与影对谈 | 独立 AI 对话模块：鸣神纪年横向时间轴 + 宣纸面板对话（流式输出、脚注来源） | `frontend/src/pages/Dialogue.vue`、`frontend/src/features/dialogue/` |
+| `/dialogue` | 与影对谈 | 独立 AI 对话模块：对话纪年横向时间轴（由真实对话生成）+ 构成主义纸面面板对话（流式输出、脚注来源、生成参数） | `frontend/src/pages/Dialogue.vue`、`frontend/src/features/dialogue/` |
 
 ## UI 与交互风格
 
@@ -108,7 +108,7 @@ Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不�
 | 自动化 | GitHub Actions、Python 3.12 |
 | 部署 | Cloudflare Pages、Wrangler 4 |
 
-角色聊天在 `frontend/_worker.js` 中使用 DeepSeek Chat Completions 兼容接口，`base_url` 为 `https://api.deepseek.com`，模型标识为 `deepseek-flash`（DeepSeek V4.1 Flash，2026-09-10 上线；旧名 `deepseek-v4-flash` 暂时路由到 V4.1）。DeepSeek 官方文档说明 Flash 默认开启 thinking，且 thinking 模式下采样参数不生效；本项目是低延迟角色对话，因此显式设置 `thinking: { type: 'disabled' }`，并使用 `temperature/top_p/frequency_penalty/presence_penalty` 稳定角色声线。当模型名不可用（400/404）时自动回退到 `deepseek-v4-flash`、`deepseek-chat`，保证对话可用。
+角色聊天在 `frontend/_worker.js` 中使用 DeepSeek Chat Completions 兼容接口，`base_url` 为 `https://api.deepseek.com`，模型标识为 `deepseek-flash`（DeepSeek V4.1 Flash，2026-09-10 上线；旧名 `deepseek-v4-flash` 暂时路由到 V4.1）。DeepSeek 官方文档说明 Flash 默认开启 thinking，且 thinking 模式下采样参数不生效；本项目是低延迟角色对话，因此显式设置 `thinking: { type: 'disabled' }`，并使用 `temperature/top_p/frequency_penalty/presence_penalty` 稳定角色声线。当模型名不可用（400/404）时自动回退到 `deepseek-v4-flash`、`deepseek-chat`，保证对话可用。2026-10-23 调优后的采样参数：对话 `max_tokens 1200 / temperature 0.85 / top_p 0.94 / frequency_penalty 0.3 / presence_penalty 0.15`，稳定性复核 `max_tokens 800 / temperature 0.22 / top_p 0.82`；SSE 的 `meta` 事件会把本轮参数随 `parameters` 字段下发，页面右侧「生成参数」据此渲染。
 
 模型工具链路：除 Brave 网络搜索外，Worker 还内置 GitHub 只读档案工具（模拟 MCP 工具调用模式）：档案类问题（设定、语音、天赋、命座、属性等）触发时，从 allowlist 仓库（`theBowja/genshin-db`、`LC1332/Chat-Haruhi-Suzumiya`）拉取结构化数据，提取客观字段注入提示词，与知识库、站内精选、网络搜索统一编号为可引用来源；可选配置 `GITHUB_TOKEN`（wrangler pages secret）提升速率限制，未配置时匿名访问同样可用。
 
@@ -116,11 +116,11 @@ Worker 会优先读取 GitHub `main` 分支中的最新数据，并在回源不�
 
 `/dialogue` 把角色对话从厨厨页的 Tab 中拆了出来，独占一整条页面叙事：
 
-1. **开篇** —— 满屏留白、衬线大标题与一条自上而下的发丝脊线。
-2. **鸣神纪年** —— 横向滚动时间轴。机制对齐 nanfu.global：外层高度由 JS 按板块数撑开（`vh × (parts + 0.5)`）、原生 `position: sticky` 钉住视口、ScrollTrigger `scrub` 驱动横向位移；大字揭开不用 JS 改 `clip-path`，而是 GSAP 只写一个 CSS 变量 `--go`，去 scrub 一段 `animation-play-state: paused` 的关键帧。窄屏与 `prefers-reduced-motion` 下退化为竖向静态列表。
-3. **对谈** —— 宣纸质感面板上的对话线程（消息挂在同一条发丝脊线上），右侧是心境 / 缘分 / 记忆 / 检索状态，来源以学术脚注呈现。
+1. **开篇** —— 苏联构成主义 / 至上主义海报式首屏：马列维奇式方块、正圆、锐角楔形、粗直线切割与斜向红色色带，正红 / 纯黑 / 米白 / 暗金平涂，无渐变、无软阴影，只用硬偏移投影与印刷颗粒；大字标题、竖向脊线与滚动提示仍沿用暗色档案页的骨架。
+2. **对话纪年** —— 横向滚动时间轴，但刻度不再是设定年表，而是**这一次对话本身**：每条用户提问与影的回答合成一张卡片（问 / 答 / 时间 / 引用数 / 状态），按真实轮次编号，点击卡片可「跳至原文」。同一条轴只记录你与影说过的话，稻妻往事留在别处。机制沿用原实现：外层高度由 JS 按板块数撑开、原生 `position: sticky` 钉住视口、ScrollTrigger `scrub` 驱动横向位移；窄屏与 `prefers-reduced-motion` 下退化为竖向卡片列表。
+3. **对谈** —— 米白纸面面板上的对话线程（方形序号、红色问句、2px 硬脊线），右侧是心境 / 缘分 / 记忆 / 检索状态，以及读取自 SSE `meta.parameters` 的**生成参数**（温度、top_p、max_tokens、频率惩罚、存在惩罚），来源以学术脚注呈现。
 
-年表数据在 `frontend/src/features/dialogue/data/chronicle.js`，每个节点通过 `entryId` 关联站内知识库中 `certainty: canonical` 的 `timeline-*` 条目；原作未给出具体年份的事件只用时期标注，不补写年份。`frontend/tests/dialogue-chronicle.test.mjs` 会把这条纪律固定成回归测试。
+轮次配对的纯函数在 `frontend/src/features/dialogue/composables/useDialogueTimeline.js`（`buildConversationTimeline`），`frontend/tests/dialogue-timeline.test.mjs` 固定了空轴、只有问候、配对与引用计数、连续提问、流式未落笔、忽略非对话角色等行为。旧的世界观年表 `frontend/src/features/dialogue/data/chronicle.js` 不再参与页面渲染，仅作为站内 canonical 年表的归档保留；`frontend/tests/dialogue-chronicle.test.mjs` 继续保证它与知识库一致。构成主义视觉只作用于本页（页面内配色变量 + scoped CSS），全站暗色终端风格与其他页面保持不变。
 
 对话接口支持 SSE 流式输出：请求体带 `stream: true` 时返回 `text/event-stream`，事件序列为 `meta → delta* →（可选 replace）→ done`；不带 `stream` 时保持原有一次性 JSON 行为。前端在流式不可用时自动降级为一次性解析。
 
@@ -138,7 +138,7 @@ vue_blog/
 |   |   |-- pages/                       # 路由级页面
 |   |   |-- features/
 |   |   |   |-- home/                    # 首页视频与滚动过渡
-|   |   |   |-- dialogue/                # 与影对谈：年表数据、对话组件与流式客户端
+|   |   |   |-- dialogue/                # 与影对谈：对话纪年、构成主义组件与流式客户端
 |   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
 |   |   |   `-- shrine/                  # 画廊、Wiki、资讯与检索
 |   |   `-- shared/                      # 图标、布局、通用组件、自定义光标

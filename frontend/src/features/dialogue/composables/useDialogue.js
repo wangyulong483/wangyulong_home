@@ -66,7 +66,7 @@ export function useDialogue() {
   const input = ref('')
   const connectionError = ref('')
   const phase = ref('')
-  const lastToolState = reactive({ web: null, github: null, personaCard: null, model: null, safety: null })
+  const lastToolState = reactive({ web: null, github: null, personaCard: null, model: null, params: null, safety: null })
 
   const userMessageCount = computed(() => messages.filter(message => message.role === 'user').length)
   const hasConversation = computed(() => userMessageCount.value > 0)
@@ -80,6 +80,7 @@ export function useDialogue() {
       role: 'assistant',
       content: '雷光已静。旅者，既然来到一心净土，便说说你此刻所想吧。',
       personaLabel: '御前',
+      createdAt: new Date().toISOString(),
     })
   }
 
@@ -150,6 +151,7 @@ export function useDialogue() {
     if (payload.githubTool) lastToolState.github = payload.githubTool
     if (payload.personaCard) lastToolState.personaCard = payload.personaCard
     if (payload.model) lastToolState.model = payload.model
+    if (payload.parameters) lastToolState.params = payload.parameters
     if (payload.safety) lastToolState.safety = payload.safety
   }
 
@@ -235,7 +237,7 @@ export function useDialogue() {
 
     input.value = ''
     connectionError.value = ''
-    messages.push({ role: 'user', content })
+    messages.push({ role: 'user', content, createdAt: new Date().toISOString() })
     saveChat()
 
     const target = reactive({
@@ -307,7 +309,7 @@ export function useDialogue() {
   function clearChat() {
     localStorage.removeItem(STORAGE_KEY)
     resetSession()
-    Object.assign(lastToolState, { web: null, github: null, personaCard: null, model: null, safety: null })
+    Object.assign(lastToolState, { web: null, github: null, personaCard: null, model: null, params: null, safety: null })
     initChat()
     connectionError.value = ''
   }

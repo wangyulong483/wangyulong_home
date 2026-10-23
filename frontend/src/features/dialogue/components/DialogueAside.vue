@@ -1,9 +1,3 @@
-<!--
-  与影对谈 — 侧栏状态
-
-  克制原则：只用发丝线与小字，不做卡片堆积。
-  内容：她的心境与缘分、她记得的事、本轮检索状态、生成说明。
--->
 <template>
   <aside class="aside">
     <section class="block">
@@ -18,8 +12,8 @@
           <dd>{{ session.relationshipLabel }}</dd>
         </div>
       </dl>
-      <div class="trust-line" :title="`缘分值 ${session.trustScore} / 24`">
-        <span :style="{ width: `${trustPercent}%` }"></span>
+      <div class="trust-line" :title="'缘分值 ' + session.trustScore + ' / 24'">
+        <span :style="{ width: trustPercent + '%' }"></span>
       </div>
       <p class="trust-note">第 {{ session.turnCount }} 次交谈 · 缘分 {{ session.trustScore }} / 24</p>
     </section>
@@ -57,6 +51,33 @@
       <p v-if="tools.safety?.revision === 'applied'" class="block-empty">本轮回复经二次核对后修订。</p>
     </section>
 
+    <section class="block">
+      <h2 class="block-title">生成参数</h2>
+      <ul v-if="params" class="param-list">
+        <li>
+          <span>温度</span>
+          <em>{{ params.temperature }}</em>
+        </li>
+        <li>
+          <span>top_p</span>
+          <em>{{ params.topP }}</em>
+        </li>
+        <li>
+          <span>单次上限</span>
+          <em>{{ params.maxTokens }} tokens</em>
+        </li>
+        <li>
+          <span>重复抑制</span>
+          <em>{{ params.frequencyPenalty }}</em>
+        </li>
+        <li>
+          <span>话题推动</span>
+          <em>{{ params.presencePenalty }}</em>
+        </li>
+      </ul>
+      <p v-else class="block-empty">开始一轮对谈后显示。</p>
+    </section>
+
     <section class="block block-note">
       <h2 class="block-title">生成说明</h2>
       <p>
@@ -66,6 +87,7 @@
       <p>
         本站为同人作品，与米哈游无关；角色与设定版权归米哈游所有，不商用、不整段复制官方台词。
       </p>
+      <p class="block-mark" aria-hidden="true">∎</p>
     </section>
   </aside>
 </template>
@@ -78,6 +100,8 @@ const props = defineProps({
   tools: { type: Object, default: () => ({}) },
 })
 
+const params = computed(() => props.tools.params || null)
+
 const trustPercent = computed(() => {
   const score = Number(props.session.trustScore) || 0
   return Math.min(100, Math.round((score / 24) * 100))
@@ -87,16 +111,16 @@ const describeWeb = computed(() => {
   const web = props.tools.web
   if (!web) return '未触发'
   if (web.skipped === 'missing-key') return '未配置密钥'
-  if (web.resultCount) return `${web.resultCount} 条已采用`
-  if (web.skipped) return `未采用（${web.skipped}）`
+  if (web.resultCount) return web.resultCount + ' 条已采用'
+  if (web.skipped) return '未采用（' + web.skipped + '）'
   return '未触发'
 })
 
 const describeGithub = computed(() => {
   const github = props.tools.github
   if (!github) return '未触发'
-  if (github.resultCount) return `${github.resultCount} 份档案`
-  if (github.skipped && github.skipped !== 'not-needed') return `未采用（${github.skipped}）`
+  if (github.resultCount) return github.resultCount + ' 份档案'
+  if (github.skipped && github.skipped !== 'not-needed') return '未采用（' + github.skipped + '）'
   return '未触发'
 })
 
@@ -108,28 +132,53 @@ const describePersonaCard = computed(() => {
 </script>
 
 <style scoped>
-.aside { display: grid; gap: 26px; align-content: start; }
+.aside {
+  --red: #c8102e;
+  --gold: #a67c2e;
+  --cream: #f6f3e9;
+  --rule: rgba(246, 243, 233, 0.18);
+  --soft: #b8b1a3;
+  display: grid;
+  gap: 0;
+  align-content: start;
+  border-top: 2px solid var(--rule);
+}
 
-.block { padding-bottom: 22px; border-bottom: 1px solid var(--border); }
-.block:last-child { border-bottom: 0; padding-bottom: 0; }
+.block {
+  padding: 18px 0 20px;
+  border-bottom: 2px solid var(--rule);
+}
+
+.block:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
 
 .block-title {
-  margin: 0 0 12px;
-  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 13px;
+  color: var(--gold);
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.58rem;
   font-weight: 400;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .block-title::before {
-  margin-right: 7px;
-  color: #c9a96e;
-  content: '—';
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  content: '';
 }
 
-.state-list { display: grid; gap: 7px; margin: 0; }
+.state-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
 
 .state-list > div {
   display: flex;
@@ -139,36 +188,39 @@ const describePersonaCard = computed(() => {
 }
 
 .state-list dt {
-  color: var(--text-tertiary);
+  color: var(--soft);
   font-size: 0.68rem;
+  letter-spacing: 0.06em;
 }
 
 .state-list dd {
   margin: 0;
-  color: var(--text-primary);
+  color: var(--cream);
   font-family: var(--font-serif);
-  font-size: 0.86rem;
+  font-size: 0.88rem;
 }
 
 .trust-line {
   position: relative;
-  height: 1px;
-  margin: 14px 0 8px;
+  height: 8px;
+  margin: 15px 0 8px;
   background: rgba(246, 243, 233, 0.12);
 }
 
 .trust-line span {
   position: absolute;
   inset: 0 auto 0 0;
-  background: #c9a96e;
-  transition: width 0.6s var(--ease-out);
+  background: var(--red);
+  transition: width 0.6s cubic-bezier(0.38, 0, 0, 1);
 }
 
 .trust-note {
   margin: 0;
-  color: var(--text-tertiary);
+  color: var(--soft);
   font-family: var(--font-mono);
   font-size: 0.56rem;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
 .memory-list {
@@ -180,34 +232,49 @@ const describePersonaCard = computed(() => {
 }
 
 .memory-list li {
-  color: var(--text-secondary);
+  position: relative;
+  padding-left: 12px;
+  color: #cfc7b8;
   font-size: 0.72rem;
-  line-height: 1.6;
+  line-height: 1.65;
+}
+
+.memory-list li::before {
+  position: absolute;
+  top: 0.55em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  background: var(--red);
+  content: '';
 }
 
 .memory-list li span {
   margin-right: 7px;
-  color: #c9a96e;
+  color: var(--gold);
   font-family: var(--font-mono);
   font-size: 0.54rem;
+  letter-spacing: 0.06em;
 }
 
 .block-empty {
   margin: 0;
-  color: var(--text-tertiary);
+  color: var(--soft);
   font-size: 0.68rem;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
-.tool-list {
+.tool-list,
+.param-list {
   display: grid;
-  gap: 7px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.tool-list li {
+.tool-list li,
+.param-list li {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -215,22 +282,44 @@ const describePersonaCard = computed(() => {
   font-size: 0.68rem;
 }
 
-.tool-list span { color: var(--text-tertiary); }
+.tool-list span,
+.param-list span {
+  color: var(--soft);
+  letter-spacing: 0.04em;
+}
 
 .tool-list em {
-  color: var(--text-secondary);
+  color: #d8d1c3;
   font-family: var(--font-mono);
   font-size: 0.6rem;
   font-style: normal;
   text-align: right;
 }
 
-.block-note p {
-  margin: 0 0 9px;
-  color: var(--text-tertiary);
-  font-size: 0.66rem;
-  line-height: 1.75;
+.param-list em {
+  color: var(--cream);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
-.block-note p:last-child { margin-bottom: 0; }
+.block-note p {
+  margin: 0 0 9px;
+  color: var(--soft);
+  font-size: 0.66rem;
+  line-height: 1.8;
+}
+
+.block-note p:last-child {
+  margin-bottom: 0;
+}
+
+.block-mark {
+  margin-top: 16px !important;
+  color: var(--red) !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+}
 </style>
