@@ -133,11 +133,13 @@ const describePersonaCard = computed(() => {
 
 <style scoped>
 .aside {
-  --red: #c8102e;
-  --gold: #a67c2e;
-  --cream: #f6f3e9;
-  --rule: rgba(246, 243, 233, 0.18);
-  --soft: #b8b1a3;
+  --purple: #8b5cf6;
+  --purple-bright: #a78bfa;
+  --red: #e01b2e;
+  --gold: #d8b25a;
+  --cream: #f3eee6;
+  --rule: rgba(216, 199, 255, 0.18);
+  --soft: #b6adc9;
   display: grid;
   gap: 0;
   align-content: start;
@@ -170,7 +172,7 @@ const describePersonaCard = computed(() => {
 .block-title::before {
   width: 8px;
   height: 8px;
-  background: var(--red);
+  background: var(--purple);
   content: '';
 }
 
@@ -196,8 +198,8 @@ const describePersonaCard = computed(() => {
 .state-list dd {
   margin: 0;
   color: var(--cream);
-  font-family: var(--font-serif);
-  font-size: 0.88rem;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
 }
 
 .trust-line {
@@ -210,7 +212,7 @@ const describePersonaCard = computed(() => {
 .trust-line span {
   position: absolute;
   inset: 0 auto 0 0;
-  background: var(--red);
+  background: var(--purple);
   transition: width 0.6s cubic-bezier(0.38, 0, 0, 1);
 }
 
@@ -234,7 +236,7 @@ const describePersonaCard = computed(() => {
 .memory-list li {
   position: relative;
   padding-left: 12px;
-  color: #cfc7b8;
+  color: var(--soft);
   font-size: 0.72rem;
   line-height: 1.65;
 }
@@ -289,7 +291,7 @@ const describePersonaCard = computed(() => {
 }
 
 .tool-list em {
-  color: #d8d1c3;
+  color: var(--soft);
   font-family: var(--font-mono);
   font-size: 0.6rem;
   font-style: normal;

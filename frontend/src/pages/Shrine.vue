@@ -151,7 +151,7 @@ const FALLBACK_DATA = {
     cutout: "/shrine-data/images/image (1).webp",
     bio: "雷电将军，真名「雷电影」，魔神名「巴尔泽布」，稻妻的现任雷神。她是极致的武人，稻妻的薙刀术、剑术和各门派的锻刀技术皆出自她手。外表威严冷峻，以「永恒」为信念统治稻妻。",
     whyLove: "第一眼就被她的外形击中——紫色长发、和服铠甲的华丽设计，胸口拔刀的视觉冲击力无与伦比。深入了解后更着迷于她的反差：对外是威严冷峻的雷神，私底下却是个不会做饭、宅在一心净土里的天然呆。这种神性与可爱的巨大反差，让她不止是一尊神明，更是一个鲜活的人。",
-    colors: { primary: "#6B4C9A", accent: "#B088F9", gold: "#C9A96E" },
+    colors: { primary: "#8B5CF6", accent: "#A78BFA", gold: "#D8B25A" },
     birthdayIllustrations: [
       { year: 2022, image: "/shrine-data/images/image (3).webp" },
       { year: 2023, image: "/shrine-data/images/image (4).webp" },
@@ -298,7 +298,7 @@ onMounted(() => {
 .shrine-page {
   position: relative;
   min-height: 100vh;
-  background: #0b0b0e;
+  background: #0a0714;
   color: var(--text-secondary);
   overflow-x: clip;
 }
@@ -377,10 +377,12 @@ onMounted(() => {
 
 .banner-title {
   margin: 0;
-  color: #f4eee0;
+  color: #f3eee6;
+  font-family: var(--font-display);
   font-size: 2.55rem;
   line-height: 1;
-  font-weight: 800;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   letter-spacing: 0;
   text-shadow: 0 3px 24px rgba(0, 0, 0, 0.72);
 }
@@ -398,10 +400,10 @@ onMounted(() => {
   gap: 7px;
   flex: 0 0 auto;
   padding: 7px 9px;
-  border: 1px solid rgba(234, 255, 87, 0.35);
-  border-radius: 3px;
-  background: rgba(10, 11, 10, 0.62);
-  color: rgba(234, 255, 87, 0.82);
+  border: 1px solid rgba(216, 178, 90, 0.45);
+  border-radius: 1px;
+  background: rgba(29, 18, 52, 0.72);
+  color: var(--gold-bright);
   font-family: var(--font-mono);
   font-size: 0.56rem;
   font-weight: 700;
@@ -412,8 +414,8 @@ onMounted(() => {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--signal);
-  box-shadow: 0 0 10px rgba(234, 255, 87, 0.72);
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(216, 178, 90, 0.55);
 }
 
 /* ====== 三巴纹水印 ====== */
@@ -425,8 +427,8 @@ onMounted(() => {
   height: 280px;
   pointer-events: none;
   z-index: 0;
-  color: #B088F9;
-  opacity: 0.025;
+  color: var(--purple-bright);
+  opacity: 0.035;
 }
 
 .watermark-svg {
@@ -455,8 +457,8 @@ onMounted(() => {
 .loading-ring {
   width: 48px;
   height: 48px;
-  border: 3px solid rgba(176, 136, 249, 0.15);
-  border-top-color: #B088F9;
+  border: 3px solid rgba(167, 139, 250, 0.18);
+  border-top-color: var(--purple-bright);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -530,9 +532,9 @@ onMounted(() => {
 
 .tab-btn.active {
   border-color: var(--signal);
-  color: #0b0b0e;
+  color: #0a0714;
   font-weight: 700;
-  background: var(--signal);
+  background: var(--gold);
 }
 
 /* 雷光下划线 */
@@ -548,17 +550,19 @@ onMounted(() => {
   gap: 13px;
   margin: 0 0 24px;
   padding: 14px 16px;
-  border: 1px solid rgba(201, 169, 110, 0.28);
-  border-left: 2px solid #c9a96e;
-  background: linear-gradient(90deg, rgba(201, 169, 110, 0.07), transparent 62%);
+  border: 1px solid rgba(216, 178, 90, 0.3);
+  border-left: 4px solid var(--purple);
+  background: rgba(139, 92, 246, 0.07);
   color: var(--text-secondary);
   text-decoration: none;
-  transition: border-color 0.28s var(--ease-out), background 0.28s var(--ease-out);
+  transition: border-color 0.28s var(--ease-out), background 0.28s var(--ease-out), transform 0.28s var(--ease-out);
 }
 
 .dialogue-entry:hover {
-  border-color: rgba(201, 169, 110, 0.6);
-  background: linear-gradient(90deg, rgba(201, 169, 110, 0.13), transparent 68%);
+  border-color: rgba(216, 178, 90, 0.65);
+  background: rgba(139, 92, 246, 0.14);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--red);
 }
 
 .entry-mark {
@@ -567,13 +571,13 @@ onMounted(() => {
   height: 32px;
   flex: 0 0 auto;
   place-items: center;
-  border: 1px solid rgba(201, 169, 110, 0.34);
+  border: 1px solid rgba(216, 178, 90, 0.42);
   border-radius: 50%;
-  color: #c9a96e;
+  color: var(--gold);
 }
 
 .entry-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
-.entry-copy strong { color: var(--text-primary); font-family: var(--font-serif); font-size: 0.95rem; font-weight: 400; letter-spacing: 0.08em; }
+.entry-copy strong { color: var(--text-primary); font-family: var(--font-display); font-size: 0.98rem; font-weight: 400; letter-spacing: 0.08em; }
 .entry-copy small { color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.58rem; }
 
 .entry-more {
@@ -581,7 +585,7 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   margin-left: auto;
-  color: #c9a96e;
+  color: var(--gold);
   font-family: var(--font-mono);
   font-size: 0.6rem;
   white-space: nowrap;
@@ -603,16 +607,16 @@ onMounted(() => {
   padding: 9px 11px;
   border: 1px solid var(--border);
   border-radius: 3px;
-  background: rgba(16, 16, 21, 0.72);
+  background: rgba(24, 17, 40, 0.72);
   color: var(--text-tertiary);
   font-family: var(--font-mono);
   font-size: 0.61rem;
 }
 .index-signal { display: inline-flex; align-items: center; gap: 6px; color: var(--signal); }
-.index-signal i { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px rgba(234, 255, 87, 0.65); }
+.index-signal i { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px rgba(216, 178, 90, 0.5); }
 .index-sources { display: flex; flex-wrap: wrap; gap: 5px; margin-left: auto; }
-.index-sources a { padding: 3px 6px; border: 1px solid rgba(182, 156, 255, 0.2); border-radius: 2px; color: #cfc5ec; text-decoration: none; }
-.index-sources a:hover { border-color: var(--signal); color: var(--signal); }
+.index-sources a { padding: 3px 6px; border: 1px solid rgba(167, 139, 250, 0.26); border-radius: 1px; color: var(--purple-bright); text-decoration: none; }
+.index-sources a:hover { border-color: var(--gold); color: var(--gold); }
 
 /* ====== 移动端 ====== */
 @media (max-width: 768px) {

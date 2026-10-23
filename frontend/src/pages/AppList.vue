@@ -2,6 +2,7 @@
   <!-- 应用列表页 -->
   <div class="app-list">
     <div class="header">
+      <p class="header-index"><span></span>APP TERMINAL / 模块索引</p>
       <h1>应用</h1>
       <p class="header-sub">工具 · 游戏 · 实验</p>
     </div>
@@ -44,7 +45,7 @@
           <AppIcon icon="message" size="28" />
         </span>
         <span class="app-name">与影对谈</span>
-        <span class="app-desc">鸣神纪年 · 角色对话</span>
+        <span class="app-desc">对话纪年 · 角色对话</span>
       </router-link>
 
     </div>
@@ -63,67 +64,154 @@ import AppIcon from '@/shared/components/AppIcon.vue'
 
 /* -------- 头部 -------- */
 .header {
+  position: relative;
   text-align: center;
-  padding: 36px 0;
+  padding: 40px 0 34px;
+}
+
+.header-index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+}
+
+.header-index span {
+  width: 9px;
+  height: 9px;
+  background: var(--red);
+  transform: rotate(45deg);
 }
 
 .header h1 {
+  position: relative;
+  display: inline-block;
   color: var(--text-primary);
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  font-weight: 400;
   margin: 0;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
+}
+
+.header h1::after {
+  content: '';
+  position: absolute;
+  left: 4%;
+  right: -14%;
+  bottom: 6px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple) 0 62%, var(--red) 62% 82%, var(--gold) 82% 100%);
+  opacity: 0.85;
 }
 
 .header-sub {
   color: var(--text-tertiary);
   font-size: 0.9rem;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 /* -------- 卡片网格 -------- */
 .app-grid {
   display: grid;
+  counter-reset: app-index;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 18px;
   padding: 0 4px;
 }
 
 .app-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 32px 20px;
+  padding: 38px 20px 32px;
+  overflow: hidden;
   text-align: center;
   text-decoration: none;
   color: var(--text-primary);
 }
 
+.app-card::before {
+  counter-increment: app-index;
+  content: '0' counter(app-index);
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: none;
+  transform: none;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+}
+
+.app-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: auto;
+  left: 0;
+  width: 42%;
+  height: 3px;
+  border: 0;
+  background: linear-gradient(90deg, var(--purple), var(--red));
+  opacity: 1;
+  transform: none;
+  transition: width 0.32s var(--ease-out);
+}
+
+.app-card:hover::after { width: 100%; }
+.app-card:hover::before { transform: none; }
+
 .app-icon-wrap {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 56px;
   height: 56px;
   border-radius: var(--radius);
-  color: var(--signal);
-  background: var(--signal-muted);
-  border: 1px solid rgba(234, 255, 87, 0.24);
+  color: var(--purple-bright);
+  background: var(--accent-muted);
+  border: 1px solid rgba(216, 178, 90, 0.42);
   margin-bottom: 4px;
   transition: all 0.3s var(--ease-out);
 }
 
+.app-icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: auto -5px -5px auto;
+  width: 11px;
+  height: 11px;
+  background: var(--red);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
 .app-card:hover .app-icon-wrap {
-  background: rgba(234, 255, 87, 0.18);
-  border-color: rgba(234, 255, 87, 0.58);
-  box-shadow: 0 0 18px rgba(234, 255, 87, 0.18);
+  background: rgba(139, 92, 246, 0.22);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+  box-shadow: 5px 5px 0 var(--red);
 }
 
 .app-name {
-  font-size: 1.1rem;
-  font-weight: 700;
   color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
 }
 
 .app-desc {

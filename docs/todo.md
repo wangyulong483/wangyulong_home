@@ -249,3 +249,43 @@
 - GitHub 推送按用户要求暂缓，仅本地提交。
 
 ===============================================================
+
+===============================================================
+
+## 执行记录（2026-10-23 · 第二轮：全站三色与首页重构）
+
+### 目标
+
+- 在不删除各页原有功能的前提下，把全站统一到「紫为主 + 正红 + 暗金 + 米白纸面」的三色体系。
+- 字体改为现代极简品牌字（Smiley Sans / 得意黑）承担标题，对话正文使用秀丽笔行书（Zhi Mang Xing / 志莽行书）。
+- 首页移除影 / Ei 角色图片（旅途同行者模块除外），保留视频与人物档案。
+- README 按开源 Web 项目结构重写，明确 DeepSeek Harness 协作，不再使用 Claude Code 表述。
+- 部署必须完成；GitHub 推送可暂缓。
+
+### 落地
+
+- 全局令牌：`frontend/src/app/App.vue` 统一紫 `#8b5cf6 / #a78bfa / #4c1d95`、红 `#e01b2e`、金 `#d8b25a / #f0cf7a`、米白 `#ece4d3`、紫墨底 `#0a0714`；字体令牌 `--font-display / --font-hand / --font-body / --font-mono`。
+- 页面改造：Dialogue / DialogueTimeline / DialogueThread / DialogueAside、Home、AppList、About、MapZonePainter 与 ZonePainterWorkspace、Shrine、Game、HotTopics、Sidebar、HoyoverseRoster 全部对齐三色与硬边几何语言。
+- 首页首屏：保留 Ei 视频，改为「印版 / 档案纸」构图；增加可见的人物档案卡（头像 + PERSONNEL // 001 + 王雨龙 · 归去来兮），点击进入 /about；视频不再整体压成紫色，保留原有色彩与面部细节；柔焦与软阴影改为硬偏移、平涂色块和纸张颗粒。
+- 首页中段：校园起点照片加内嵌细框、右上红色色条与轻微印刷调色，避免写实图与几何版面脱节。
+- README 与字体许可证：README 已按开源项目结构重写；新增 Smiley Sans 与 Zhi Mang Xing 的 OFL 文本到 `frontend/public/third-party-notices/`。
+
+### 首页返工（用户反馈后）
+
+- 用户指出首屏「影的视频和头像都没了、调色和风格融合很糟」。复核确认源码中视频与头像均在，但视频被 `saturate(.28)` + 紫色 `color` 混合与多层遮罩吞掉，头像又被首页路由的侧栏隐藏规则藏起。
+- 品牌视觉专家诊断：视频海报 90.4% 为紫色、中位色相 252.4°，头像 244.0°，站点紫 258.3°，紫与紫只差 6–16°；金色 41.9° 与米白 40.0° 仅差 1.9°，导致金线在纸面上不可见；紫色面积 38.9% 已高于墨色 37.5%。
+- 处理：删除 `.hp-ink` 紫色叠色与对应 GSAP 目标；视频滤镜改为 `saturate(1.02) contrast(1.06) brightness(1.03)`；网点从 0.55 multiply 降到 0.16 soft-light；颗粒 0.34 → 0.10；扫描线 0.3；底色紫色径向光 0.26 → 0.14；纸面软阴影改为 `12px 12px 0` 硬投影；视频硬投影偏移收至 10/11 与 20/23；主标题实心米白，去掉空心描边与软文字阴影；人物卡 56px 头像、红色硬投影、金色套准点。
+- 保留几何元素，但把遮住人物的黑色多边形从 34%×27% 收到 20%×14%，让面部和上半身完整可见。
+
+### 验证
+
+- `npm.cmd --prefix frontend run test`：47/47 通过。
+- `npm.cmd --prefix frontend run build`：成功，最终入口 `assets/index-MaH3EY5s.js`。
+- 无头 Edge 1440×900 / 390×844：首页无横向溢出、视频 `readyState 4` 且播放中、头像 50×50 / 40×40 可见、人物卡不压 SCROLL 提示、点击头像正确进入 /about；控制台无错误与 GSAP 警告。
+- 校园起点段在桌面与移动端均显示内嵌细框与红色色条，无溢出。
+
+### 部署状态
+
+- 按用户 m01023「暂时不要部署」，本轮未执行 wrangler，生产仍是上一版。
+- 本地预览保持运行：`http://127.0.0.1:4173/`（preview job `bash-44fb924094a341ca`，绑定 127.0.0.1）。
+- 待用户确认后执行：`npx.cmd wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main`。

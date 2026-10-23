@@ -173,9 +173,11 @@ defineExpose({ focusMessage, focusComposer })
   --paper-ink: #1b1815;
   --paper-ink-soft: #5c5548;
   --paper-line: rgba(27, 24, 21, 0.2);
-  --paper-gold: #a67c2e;
-  --paper-red: #c8102e;
-  --cream: #f6f3e9;
+  --paper-gold: #b8892f;
+  --paper-red: #e01b2e;
+  --paper-purple: #5b2bb5;
+  --paper-purple-deep: #3b1d78;
+  --cream: #f3eee6;
   --ease: cubic-bezier(0.38, 0, 0, 1);
   display: flex;
   min-height: 0;
@@ -241,7 +243,7 @@ defineExpose({ focusMessage, focusComposer })
 }
 
 .thread-item.assistant .item-mark {
-  border-color: var(--paper-ink);
+  border-color: var(--paper-purple);
   color: var(--paper-gold);
 }
 
@@ -252,8 +254,8 @@ defineExpose({ focusMessage, focusComposer })
 }
 
 .thread-item.is-highlight .item-body {
-  background: rgba(200, 16, 46, 0.06);
-  box-shadow: -3px 0 0 var(--paper-red);
+  background: rgba(139, 92, 246, 0.08);
+  box-shadow: -3px 0 0 var(--paper-purple);
 }
 
 .item-body {
@@ -278,7 +280,7 @@ defineExpose({ focusMessage, focusComposer })
 }
 
 .thread-item.assistant .item-sender {
-  color: var(--paper-gold);
+  color: var(--paper-purple);
 }
 
 .item-time {
@@ -291,8 +293,11 @@ defineExpose({ focusMessage, focusComposer })
 .item-text {
   margin: 0;
   color: var(--paper-ink);
-  font-size: 0.86rem;
-  line-height: 1.95;
+  font-family: var(--font-hand);
+  font-size: 1.18rem;
+  font-weight: 400;
+  line-height: 1.72;
+  letter-spacing: 0.02em;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -300,7 +305,7 @@ defineExpose({ focusMessage, focusComposer })
 .thread-item.user .item-text {
   padding-left: 12px;
   border-left: 3px solid var(--paper-red);
-  color: #3d382f;
+  color: #32283c;
 }
 
 .caret {
@@ -406,7 +411,7 @@ defineExpose({ focusMessage, focusComposer })
 .phase-dot {
   width: 7px;
   height: 7px;
-  background: var(--paper-red);
+  background: var(--paper-purple);
   animation: phase-pulse 1.4s steps(2) infinite;
 }
 
@@ -456,8 +461,8 @@ defineExpose({ focusMessage, focusComposer })
 }
 
 .prompt-list button:hover:not(:disabled) {
-  border-bottom-color: var(--paper-red);
-  color: var(--paper-red);
+  border-bottom-color: var(--paper-purple);
+  color: var(--paper-purple);
 }
 
 .prompt-list button:disabled {
@@ -486,7 +491,7 @@ defineExpose({ focusMessage, focusComposer })
   width: 7px;
   height: 7px;
   margin-right: 7px;
-  background: var(--paper-red);
+  background: var(--paper-purple);
   vertical-align: 1px;
 }
 
@@ -544,8 +549,8 @@ defineExpose({ focusMessage, focusComposer })
 }
 
 .ghost-btn:hover:not(:disabled) {
-  border-color: var(--paper-red);
-  color: var(--paper-red);
+  border-color: var(--paper-purple);
+  color: var(--paper-purple);
 }
 
 .ghost-btn:disabled {
@@ -559,20 +564,20 @@ defineExpose({ focusMessage, focusComposer })
   align-items: center;
   gap: 6px;
   padding: 0 18px;
-  border: 2px solid var(--paper-red);
-  background: var(--paper-red);
+  border: 2px solid var(--paper-purple-deep);
+  background: var(--paper-purple);
   color: var(--cream);
   cursor: pointer;
   font: inherit;
   font-size: 0.72rem;
   letter-spacing: 0.06em;
-  box-shadow: 4px 4px 0 var(--paper-ink);
+  box-shadow: 4px 4px 0 var(--paper-red);
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), opacity 0.2s var(--ease);
 }
 
 .send-btn:hover:not(:disabled) {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--paper-ink);
+  box-shadow: 6px 6px 0 var(--paper-red);
 }
 
 .send-btn:disabled {
@@ -611,8 +616,8 @@ defineExpose({ focusMessage, focusComposer })
   }
 
   .item-text {
-    font-size: 0.82rem;
-    line-height: 1.9;
+    font-size: 1.08rem;
+    line-height: 1.68;
   }
 
   .notes-list li {

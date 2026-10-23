@@ -20,16 +20,20 @@
         <span>WORLD // 01</span>
       </header>
 
-      <router-link to="/" class="sidebar-avatar" title="返回首页" @click="close">
-        <img
-          src="/image/mylog.jpg"
-          alt="雷电将军头像"
-          width="96"
-          height="96"
-          loading="lazy"
-          decoding="async"
-        />
-        <span aria-hidden="true">HOME</span>
+      <router-link to="/" class="sidebar-avatar" title="返回首页" aria-label="返回首页" @click="close">
+        <span class="avatar-frame">
+          <img
+            src="/image/mylog.jpg"
+            alt=""
+            width="640"
+            height="640"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="avatar-ink" aria-hidden="true"></span>
+          <span class="avatar-reg" aria-hidden="true"></span>
+        </span>
+        <span class="avatar-word" aria-hidden="true">影</span>
       </router-link>
 
       <div class="sidebar-identity">
@@ -104,9 +108,9 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   width: 46px;
   height: 46px;
   padding: 0;
-  border: 1px solid rgba(234, 255, 87, 0.56);
-  border-radius: 3px;
-  background: rgba(10, 10, 13, 0.92);
+  border: 1px solid rgba(216, 178, 90, 0.62);
+  border-radius: 1px;
+  background: rgba(13, 9, 24, 0.94);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
   cursor: pointer;
   flex-direction: column;
@@ -155,10 +159,12 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   padding: 24px 18px 20px;
   flex-direction: column;
   align-items: stretch;
-  border-left: 1px solid rgba(246, 243, 233, 0.13);
-  background: rgba(12, 12, 15, 0.96);
+  border-left: 1px solid rgba(167, 139, 250, 0.26);
+  background:
+    linear-gradient(180deg, rgba(76, 29, 149, 0.16), transparent 34%),
+    rgba(13, 9, 24, 0.97);
   color: var(--text-primary);
-  box-shadow: -18px 0 60px rgba(0, 0, 0, 0.34);
+  box-shadow: -18px 0 60px rgba(0, 0, 0, 0.44);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -167,10 +173,10 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   position: absolute;
   top: 0;
   left: -1px;
-  width: 2px;
-  height: 92px;
+  width: 3px;
+  height: 132px;
   content: '';
-  background: var(--signal);
+  background: linear-gradient(180deg, var(--purple), var(--red) 62%, var(--gold));
 }
 
 .rail-head {
@@ -183,9 +189,11 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
 }
 
 .rail-head strong {
-  color: var(--signal);
+  color: var(--gold-bright);
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
 }
 
 .rail-head span {
@@ -199,48 +207,87 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
   width: 96px;
   height: 96px;
   margin: 54px auto 16px;
-  overflow: hidden;
-  border: 1px solid rgba(182, 156, 255, 0.48);
-  border-radius: 4px;
-  background: #17151d;
-  box-shadow: 12px 12px 0 rgba(182, 156, 255, 0.1);
+  border: 1px solid rgba(216, 178, 90, 0.5);
+  border-radius: 0;
+  background: #0e0918;
+  box-shadow: 9px 9px 0 rgba(139, 92, 246, 0.22);
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
 }
 
-.sidebar-avatar::before,
-.sidebar-avatar::after {
-  position: absolute;
-  z-index: 2;
-  content: '';
-  background: var(--signal);
-}
-
-.sidebar-avatar::before { top: 8px; left: 0; width: 18px; height: 2px; }
-.sidebar-avatar::after { top: 0; left: 8px; width: 2px; height: 18px; }
-
 .sidebar-avatar:hover {
-  border-color: var(--signal);
-  box-shadow: 7px 7px 0 rgba(234, 255, 87, 0.16);
-  transform: translate(2px, 2px);
+  border-color: var(--gold-bright);
+  box-shadow: 5px 5px 0 var(--red);
+  transform: translate(3px, 3px);
 }
 
-.sidebar-avatar img {
+/* 头像也印在纸上：白底融进米纸，只留她本人 */
+.avatar-frame {
+  position: absolute;
+  inset: 7px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f2ebdc, #ded2bb);
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 84% 100%, 0 100%);
+}
+
+.avatar-frame img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
-  filter: saturate(0.76) contrast(1.06);
+  object-position: 50% 34%;
+  mix-blend-mode: multiply;
+  filter: contrast(1.07) saturate(1.08) brightness(1.02);
+  transform: scale(1.06);
+  transition: transform 0.6s var(--ease-out);
 }
 
-.sidebar-avatar > span {
+.sidebar-avatar:hover .avatar-frame img {
+  transform: scale(1.12);
+}
+
+.avatar-ink {
   position: absolute;
-  right: 4px;
-  bottom: 4px;
-  padding: 2px 4px;
-  background: #0b0b0e;
-  color: var(--signal);
-  font-family: var(--font-mono);
-  font-size: 7px;
+  inset: 0;
+  background: linear-gradient(196deg, rgba(247, 240, 227, 0.34), rgba(167, 139, 250, 0.26) 60%, rgba(76, 29, 149, 0.42));
+  mix-blend-mode: multiply;
+}
+
+.avatar-frame::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background-image: radial-gradient(circle at center, rgba(18, 12, 30, 0.75) 0.7px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: 0.34;
+  -webkit-mask-image: linear-gradient(0deg, #000 0 30%, transparent 60%);
+  mask-image: linear-gradient(0deg, #000 0 30%, transparent 60%);
+}
+
+.avatar-reg {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid rgba(18, 16, 15, 0.55);
+  border-bottom: 1px solid rgba(18, 16, 15, 0.55);
+}
+
+.avatar-word {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  z-index: 3;
+  padding: 1px 4px;
+  border: 1px solid var(--red);
+  background: #ece4d3;
+  color: #b3142a;
+  font-family: var(--font-serif);
+  font-size: 10px;
+  line-height: 1.2;
+  box-shadow: 3px 3px 0 rgba(224, 27, 46, 0.85);
 }
 
 .sidebar-identity {
@@ -294,26 +341,28 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
 }
 
 .nav-link:hover {
-  border-color: rgba(182, 156, 255, 0.28);
-  background: var(--accent-muted);
+  border-color: rgba(167, 139, 250, 0.36);
+  background: rgba(139, 92, 246, 0.12);
   color: var(--text-primary);
   transform: translateX(-3px);
 }
 
 .nav-link.router-link-active {
-  border-color: rgba(234, 255, 87, 0.3);
-  background: var(--signal-muted);
-  color: var(--signal);
+  border-color: rgba(216, 178, 90, 0.38);
+  background:
+    linear-gradient(90deg, rgba(139, 92, 246, 0.32), rgba(139, 92, 246, 0.06) 72%, transparent);
+  color: var(--gold-bright);
+  box-shadow: inset 3px 0 0 var(--red);
 }
 
 .nav-link.router-link-active::after {
   position: absolute;
   top: 8px;
   right: -19px;
-  width: 3px;
+  width: 4px;
   height: 30px;
   content: '';
-  background: var(--signal);
+  background: linear-gradient(180deg, var(--purple-bright), var(--red));
 }
 
 .rail-foot {

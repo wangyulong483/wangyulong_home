@@ -486,7 +486,7 @@ function drawCanvas() {
   const context = canvas.value.getContext('2d')
   context.setTransform(view.dpr, 0, 0, view.dpr, 0, 0)
   context.clearRect(0, 0, view.width, view.height)
-  context.fillStyle = '#0a0a0d'
+  context.fillStyle = '#0a0714'
   context.fillRect(0, 0, view.width, view.height)
 
   context.save()
@@ -497,7 +497,7 @@ function drawCanvas() {
 
   if (showGrid.value && view.scale >= 4) {
     context.lineWidth = 1 / view.scale
-    context.strokeStyle = 'rgba(234, 255, 87, 0.18)'
+    context.strokeStyle = 'rgba(216, 178, 90, 0.18)'
     context.beginPath()
     for (let x = 0; x <= mapInfo.value.width; x += 1) {
       context.moveTo(x, 0)
@@ -518,12 +518,12 @@ function drawCanvas() {
 function drawBrushCursor(context) {
   const screen = worldToScreen(cursorWorld.value)
   const color = brushAction.value === 'erase'
-    ? '#eaff57'
-    : activeLayer.value === 'keepout' ? '#ff6b7d' : '#66d9ff'
+    ? '#d8b25a'
+    : activeLayer.value === 'keepout' ? '#e01b2e' : '#8b5cf6'
   context.save()
   context.beginPath()
   context.arc(screen.x, screen.y, Math.max(3, brushSize.value * view.scale), 0, Math.PI * 2)
-  context.fillStyle = brushAction.value === 'erase' ? 'rgba(234, 255, 87, 0.08)' : 'rgba(255, 255, 255, 0.04)'
+  context.fillStyle = brushAction.value === 'erase' ? 'rgba(216, 178, 90, 0.08)' : 'rgba(255, 255, 255, 0.04)'
   context.fill()
   context.setLineDash([4, 3])
   context.lineWidth = 1.5
@@ -533,7 +533,7 @@ function drawBrushCursor(context) {
 }
 
 function drawPolygon(context) {
-  const color = activeLayer.value === 'keepout' ? '#ff6b7d' : '#66d9ff'
+  const color = activeLayer.value === 'keepout' ? '#e01b2e' : '#8b5cf6'
   context.save()
   context.lineWidth = 2
   context.strokeStyle = color
@@ -553,10 +553,10 @@ function drawPolygon(context) {
     const screen = worldToScreen(point)
     context.beginPath()
     context.arc(screen.x, screen.y, index === selectedPoint.value ? 7 : 5, 0, Math.PI * 2)
-    context.fillStyle = index === selectedPoint.value ? '#eaff57' : color
+    context.fillStyle = index === selectedPoint.value ? '#d8b25a' : color
     context.fill()
     context.lineWidth = 2
-    context.strokeStyle = '#0b0b0e'
+    context.strokeStyle = '#0a0714'
     context.stroke()
   })
   context.restore()
@@ -936,7 +936,7 @@ onUnmounted(() => {
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: rgba(14, 14, 18, 0.94);
+  background: rgba(13, 9, 24, 0.94);
   box-shadow: 0 26px 70px rgba(0, 0, 0, 0.34);
 }
 
@@ -948,7 +948,7 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 10px;
   border-bottom: 1px solid var(--border);
-  background: #121217;
+  background: #110c1e;
 }
 
 .tool-group,
@@ -979,7 +979,7 @@ onUnmounted(() => {
   gap: 6px;
   border: 1px solid var(--border);
   border-radius: 3px;
-  background: #19191f;
+  background: #161024;
   color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -994,7 +994,7 @@ onUnmounted(() => {
 .icon-command.selected {
   border-color: var(--border-hover);
   color: var(--text-primary);
-  background: #23212a;
+  background: #211936;
 }
 
 .icon-command:disabled {
@@ -1003,27 +1003,27 @@ onUnmounted(() => {
 }
 
 .primary-command {
-  border-color: rgba(234, 255, 87, 0.56);
+  border-color: rgba(216, 178, 90, 0.56);
   background: var(--signal);
-  color: #0b0b0e;
+  color: #0a0714;
   font-weight: 800;
 }
 
-.primary-command:hover { background: #f1ff8c; color: #0b0b0e; }
+.primary-command:hover { background: #f0cf7a; color: #0a0714; }
 .primary-command input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.danger-command:hover { border-color: rgba(255, 107, 125, 0.62); color: #ff6b7d; }
-.danger-command.armed { border-color: #ff6b7d; background: rgba(255, 107, 125, 0.16); color: #ff8a99; animation: danger-pulse 0.8s ease-in-out infinite alternate; }
-@keyframes danger-pulse { to { box-shadow: 0 0 14px rgba(255, 107, 125, 0.3); } }
+.danger-command:hover { border-color: rgba(224, 27, 46, 0.62); color: #e01b2e; }
+.danger-command.armed { border-color: #e01b2e; background: rgba(224, 27, 46, 0.16); color: #ff7a86; animation: danger-pulse 0.8s ease-in-out infinite alternate; }
+@keyframes danger-pulse { to { box-shadow: 0 0 14px rgba(224, 27, 46, 0.3); } }
 
-.segmented { padding: 3px; border: 1px solid var(--border); border-radius: 4px; background: #0d0d11; }
+.segmented { padding: 3px; border: 1px solid var(--border); border-radius: 4px; background: #0b0716; }
 .segmented button { min-height: 32px; border-color: transparent; background: transparent; }
-.segmented button.active { border-color: rgba(182, 156, 255, 0.4); background: var(--accent-muted); color: #d8ccff; }
-.layer-switch button.active:first-child { border-color: rgba(255, 107, 125, 0.48); color: #ff8a99; }
-.layer-switch button.active:last-child { border-color: rgba(102, 217, 255, 0.48); color: #87e3ff; }
+.segmented button.active { border-color: rgba(216, 178, 90, 0.44); background: var(--accent-muted); color: #f0cf7a; }
+.layer-switch button.active:first-child { border-color: rgba(224, 27, 46, 0.48); color: #ff7a86; }
+.layer-switch button.active:last-child { border-color: rgba(139, 92, 246, 0.5); color: #c4b5fd; }
 
 .swatch { display: inline-block; width: 8px; height: 8px; border-radius: 1px; }
-.swatch.keepout { background: #e6475d; box-shadow: 0 0 8px rgba(230, 71, 93, 0.45); }
-.swatch.speed { background: #30aede; box-shadow: 0 0 8px rgba(48, 174, 222, 0.45); }
+.swatch.keepout { background: #e01b2e; box-shadow: 0 0 8px rgba(224, 27, 46, 0.45); }
+.swatch.speed { background: #8b5cf6; box-shadow: 0 0 8px rgba(139, 92, 246, 0.45); }
 
 .brush-tools {
   display: flex;
@@ -1032,8 +1032,8 @@ onUnmounted(() => {
   gap: 8px;
 }
 .brush-action { flex-shrink: 0; }
-.brush-action button.active:first-child { border-color: rgba(234, 255, 87, 0.36); color: var(--signal); }
-.brush-action button.active:last-child { border-color: rgba(255, 107, 125, 0.46); color: #ff8a99; }
+.brush-action button.active:first-child { border-color: rgba(216, 178, 90, 0.36); color: var(--signal); }
+.brush-action button.active:last-child { border-color: rgba(224, 27, 46, 0.46); color: #ff7a86; }
 
 .brush-control {
   display: grid;
@@ -1061,7 +1061,7 @@ onUnmounted(() => {
   gap: 6px;
   border: 1px solid var(--border);
   border-radius: 3px;
-  background: #19191f;
+  background: #161024;
   color: var(--text-tertiary);
   font-family: var(--font-mono);
   font-size: 8px;
@@ -1077,16 +1077,16 @@ onUnmounted(() => {
   padding: 8px 14px;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid rgba(234, 255, 87, 0.22);
-  background: rgba(234, 255, 87, 0.08);
+  border-bottom: 1px solid rgba(216, 178, 90, 0.22);
+  background: rgba(216, 178, 90, 0.08);
   color: var(--signal);
   font-family: var(--font-mono);
   font-size: 11px;
 }
-.notice.error { border-color: rgba(255, 107, 125, 0.26); background: rgba(255, 107, 125, 0.09); color: #ff8a99; }
+.notice.error { border-color: rgba(224, 27, 46, 0.26); background: rgba(224, 27, 46, 0.09); color: #ff7a86; }
 .notice button { margin-left: auto; border: 0; background: none; color: currentColor; cursor: pointer; font-size: 18px; }
 
-.map-stage { position: relative; overflow: hidden; background: #09090c; }
+.map-stage { position: relative; overflow: hidden; background: #08040f; }
 .map-stage::before {
   position: absolute;
   inset: 0;
@@ -1101,7 +1101,7 @@ onUnmounted(() => {
 .mode-brush.brush-erase .map-canvas { cursor: url('/game-icon-pack-main/svg/no-padding/10-editing/eraser.svg') 4 28, crosshair; }
 .mode-pan .map-canvas { cursor: grab; }
 .map-stage.is-panning .map-canvas { cursor: grabbing; }
-.map-canvas:focus-visible { box-shadow: inset 0 0 0 2px rgba(234, 255, 87, 0.45); }
+.map-canvas:focus-visible { box-shadow: inset 0 0 0 2px rgba(216, 178, 90, 0.45); }
 
 .stage-status {
   position: absolute;
@@ -1112,10 +1112,10 @@ onUnmounted(() => {
   font-size: 9px;
 }
 .top-status { top: 14px; left: 14px; gap: 1px; }
-.top-status span { display: flex; padding: 5px 8px; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.12); background: rgba(9,9,12,0.82); color: var(--text-secondary); }
-.top-status i { width: 6px; height: 6px; background: #e6475d; }
-.top-status i.speed { background: #30aede; }
-.coordinate-status { right: 14px; bottom: 14px; padding: 5px 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(9,9,12,0.82); color: var(--signal); }
+.top-status span { display: flex; padding: 5px 8px; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.12); background: rgba(8,4,15,0.84); color: var(--text-secondary); }
+.top-status i { width: 6px; height: 6px; background: #e01b2e; }
+.top-status i.speed { background: #8b5cf6; }
+.coordinate-status { right: 14px; bottom: 14px; padding: 5px 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(8,4,15,0.84); color: var(--signal); }
 .drop-target { position: absolute; inset: 20px; z-index: 4; display: flex; align-items: center; justify-content: center; gap: 12px; border: 2px dashed var(--signal); background: rgba(11,11,14,0.86); color: var(--signal); }
 
 .status-strip {
@@ -1126,7 +1126,7 @@ onUnmounted(() => {
   justify-content: space-between;
   gap: 18px;
   border-top: 1px solid var(--border);
-  background: #111116;
+  background: #110c1e;
 }
 .map-identity { display: grid; grid-template-columns: auto auto; align-items: center; gap: 0 10px; }
 .map-identity span, .map-identity small { color: var(--text-tertiary); font-family: var(--font-mono); font-size: 8px; }
@@ -1136,19 +1136,19 @@ onUnmounted(() => {
 .pixel-metrics span { display: inline-flex; align-items: center; gap: 5px; }
 .pixel-metrics strong { color: var(--text-primary); font-size: 11px; }
 
-.export-dock { display: flex; min-height: 86px; padding: 14px 16px; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid var(--border); background: #17171d; }
+.export-dock { display: flex; min-height: 86px; padding: 14px 16px; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid var(--border); background: #140e24; }
 .export-copy { display: flex; flex-direction: column; }
 .export-copy span { color: var(--signal); font-family: var(--font-mono); font-size: 8px; }
 .export-copy strong { margin-top: 3px; font-size: 15px; }
 .export-actions { display: flex; gap: 8px; }
-.export-button { display: grid; min-width: 196px; min-height: 52px; padding: 8px 12px; grid-template-columns: 22px 1fr; align-items: center; border: 1px solid var(--border); border-radius: 3px; background: #0e0e12; color: var(--text-primary); text-align: left; cursor: pointer; transition: 0.2s ease; }
+.export-button { display: grid; min-width: 196px; min-height: 52px; padding: 8px 12px; grid-template-columns: 22px 1fr; align-items: center; border: 1px solid var(--border); border-radius: 3px; background: #0b0717; color: var(--text-primary); text-align: left; cursor: pointer; transition: 0.2s ease; }
 .export-button :deep(.app-icon) { grid-row: 1 / 3; }
 .export-button span { font-family: var(--font-mono); font-size: 10px; }
 .export-button small { color: var(--text-tertiary); font-family: var(--font-mono); font-size: 8px; }
-.keepout-export:hover { border-color: rgba(255, 107, 125, 0.6); color: #ff8a99; }
-.speed-export:hover { border-color: rgba(102, 217, 255, 0.6); color: #87e3ff; }
-.all-export { border-color: rgba(234, 255, 87, 0.28); color: var(--signal); }
-.all-export:hover { border-color: rgba(234, 255, 87, 0.7); background: var(--signal-muted); }
+.keepout-export:hover { border-color: rgba(224, 27, 46, 0.6); color: #ff7a86; }
+.speed-export:hover { border-color: rgba(139, 92, 246, 0.62); color: #c4b5fd; }
+.all-export { border-color: rgba(216, 178, 90, 0.28); color: var(--signal); }
+.all-export:hover { border-color: rgba(216, 178, 90, 0.7); background: var(--signal-muted); }
 
 @media (max-width: 1100px) {
   .view-tools { margin-left: 0; }

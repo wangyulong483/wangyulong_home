@@ -386,42 +386,54 @@ a {
 <!-- ===== 2026 visual system: fantasy atmosphere + high-contrast utility UI ===== -->
 <style>
 :root {
-  --accent: #b69cff;
-  --accent-hover: #c7b5ff;
-  --accent-glow: rgba(151, 113, 255, 0.28);
-  --accent-muted: rgba(151, 113, 255, 0.12);
-  --accent-2: #66d9ff;
-  --accent-2-glow: rgba(102, 217, 255, 0.18);
-  --signal: #eaff57;
-  --signal-muted: rgba(234, 255, 87, 0.12);
-  --warm: #f1d5a5;
+  /* —— 三色系统：紫色主导 / 正红 / 暗金 —— */
+  --purple: #8b5cf6;
+  --purple-bright: #a78bfa;
+  --purple-deep: #4c1d95;
+  --purple-ink: #170f28;
+  --red: #e01b2e;
+  --red-deep: #9d0f20;
+  --gold: #d8b25a;
+  --gold-bright: #f0cf7a;
 
-  --bg-primary: #0b0b0e;
-  --bg-elevated: #131318;
-  --bg-card: rgba(22, 21, 28, 0.86);
-  --bg-card-hover: #1b1922;
-  --bg-input: rgba(255, 255, 255, 0.055);
+  --accent: #a78bfa;
+  --accent-hover: #c4b5fd;
+  --accent-glow: rgba(139, 92, 246, 0.34);
+  --accent-muted: rgba(139, 92, 246, 0.14);
+  --accent-2: #d8b25a;
+  --accent-2-glow: rgba(216, 178, 90, 0.2);
+  --signal: #e3bc6a;
+  --signal-muted: rgba(227, 188, 106, 0.13);
+  --warm: #e3c79c;
 
-  --border: rgba(246, 243, 233, 0.13);
-  --border-hover: rgba(182, 156, 255, 0.58);
-  --text-primary: #f6f3e9;
-  --text-secondary: #b8b4bf;
-  --text-tertiary: #77737f;
+  --bg-primary: #0a0714;
+  --bg-elevated: #130f21;
+  --bg-card: rgba(24, 17, 40, 0.84);
+  --bg-card-hover: #1d1631;
+  --bg-input: rgba(255, 255, 255, 0.06);
+
+  --border: rgba(216, 199, 255, 0.14);
+  --border-hover: rgba(167, 139, 250, 0.64);
+  --text-primary: #f3eee6;
+  --text-secondary: #b6adc9;
+  --text-tertiary: #7d748f;
 
   --shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.04);
-  --shadow-md: 0 18px 50px rgba(0, 0, 0, 0.32);
-  --shadow-glow: 0 0 0 1px rgba(182, 156, 255, 0.12), 0 18px 54px rgba(86, 56, 160, 0.18);
-  --scrollbar-thumb: rgba(182, 156, 255, 0.34);
-  --scrollbar-thumb-hover: rgba(234, 255, 87, 0.62);
-  --scrollbar-thumb-active: #eaff57;
+  --shadow-md: 0 18px 50px rgba(0, 0, 0, 0.36);
+  --shadow-glow: 0 0 0 1px rgba(167, 139, 250, 0.16), 0 18px 54px rgba(76, 29, 149, 0.24);
+  --shadow-hard: 7px 7px 0 rgba(6, 3, 14, 0.72);
+  --scrollbar-thumb: rgba(139, 92, 246, 0.4);
+  --scrollbar-thumb-hover: rgba(216, 178, 90, 0.66);
+  --scrollbar-thumb-active: #d8b25a;
 
-  --radius-sm: 3px;
-  --radius: 5px;
-  --radius-lg: 7px;
+  --radius-sm: 1px;
+  --radius: 2px;
+  --radius-lg: 3px;
   --font-body: 'Geist Variable', 'HarmonyOS Sans SC', 'MiSans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
-  --font-display: 'Geist Variable', 'HarmonyOS Sans SC', 'MiSans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
+  --font-display: 'Smiley Sans Oblique', 'HarmonyOS Sans SC', 'MiSans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
   --font-mono: 'Geist Mono Variable', 'Cascadia Code', 'Cascadia Mono', 'SFMono-Regular', Consolas, monospace;
   --font-serif: 'Songti SC', 'STSong', 'SimSun', serif;
+  --font-hand: 'Zhi Mang Xing', 'Xingkai SC', 'STXingkai', 'KaiTi', 'Kaiti SC', cursive;
   --weight-regular: 420;
   --weight-medium: 540;
   --weight-semibold: 650;
@@ -476,15 +488,34 @@ body::before {
   content: '';
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+    linear-gradient(rgba(167, 139, 250, 0.036) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 139, 250, 0.036) 1px, transparent 1px),
+    radial-gradient(1100px 620px at 6% -8%, rgba(76, 29, 149, 0.34), transparent 68%),
+    radial-gradient(900px 520px at 102% 104%, rgba(224, 27, 46, 0.075), transparent 66%);
+  background-size: 72px 72px, 72px 72px, 100% 100%, 100% 100%;
+  mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+}
+
+/* 复古印刷纸张颗粒：全站统一做旧质感 */
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  content: '';
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
 }
 
 ::selection {
-  background: var(--signal);
-  color: #0b0b0e;
+  background: var(--gold);
+  color: #110a1e;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
 }
 
 h1,
@@ -492,12 +523,19 @@ h2,
 h3,
 .display-type {
   font-family: var(--font-display);
-  font-weight: var(--weight-bold);
+  font-weight: 400;
   font-optical-sizing: auto;
   font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
-  line-height: 1.1;
-  letter-spacing: 0;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
   text-wrap: balance;
+}
+
+/* 手写体：只用于与影对话的输出正文 */
+.hand-type {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  letter-spacing: 0.03em;
 }
 
 p,
@@ -520,55 +558,84 @@ li {
   position: absolute;
   top: 0;
   left: 0;
-  width: 92px;
-  height: 2px;
+  width: 108px;
+  height: 3px;
   content: '';
-  background: var(--signal);
-  transform: scaleX(0.37);
+  background: linear-gradient(90deg, var(--purple), var(--red));
+  transform: scaleX(0.42);
   transform-origin: left center;
   transition: transform 0.35s var(--ease-out);
+}
+
+.card::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  content: '';
+  border-top: 13px solid var(--gold);
+  border-left: 13px solid transparent;
+  opacity: 0.5;
+  transition: opacity 0.35s var(--ease-out);
 }
 
 .card:hover::before {
   transform: scaleX(1);
 }
 
+.card:hover::after {
+  opacity: 1;
+}
+
 .card:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-hover);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-glow), var(--shadow-hard);
+  transform: translate(-2px, -2px);
 }
 
 .btn {
   min-height: 40px;
   border-radius: var(--radius);
-  background: #17171c;
+  border-color: rgba(216, 199, 255, 0.22);
+  background: #171022;
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-weight: var(--weight-semibold);
-  letter-spacing: 0;
+  letter-spacing: 0.02em;
+}
+
+.btn:hover {
+  border-color: var(--purple-bright);
+  background: #221735;
+  color: var(--gold-bright);
+  box-shadow: 4px 4px 0 rgba(6, 3, 14, 0.7);
+  transform: translate(-2px, -2px);
 }
 
 .btn-primary {
-  border-color: var(--signal);
-  background: var(--signal);
-  color: #0b0b0e;
+  border-color: var(--purple);
+  background: var(--purple);
+  color: #0c0716;
+  box-shadow: 4px 4px 0 var(--red);
 }
 
 .btn-primary:hover {
-  border-color: #f2ff91;
-  background: #f2ff91;
-  color: #0b0b0e;
+  border-color: var(--purple-bright);
+  background: var(--purple-bright);
+  color: #0c0716;
+  box-shadow: 4px 4px 0 var(--gold);
 }
 
 .tag {
-  border-color: rgba(182, 156, 255, 0.26);
-  border-radius: 2px;
-  background: var(--accent-muted);
-  color: #d8ccff;
+  border-color: rgba(216, 178, 90, 0.4);
+  border-radius: 1px;
+  background: rgba(216, 178, 90, 0.08);
+  color: var(--gold-bright);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
 }
 
 .main-content:not(.home-content) {
@@ -593,18 +660,29 @@ li {
   position: absolute;
   bottom: -1px;
   left: 0;
-  width: min(180px, 38%);
-  height: 2px;
+  width: min(220px, 42%);
+  height: 3px;
   content: '';
-  background: var(--signal);
+  background: linear-gradient(90deg, var(--purple), var(--red) 68%, var(--gold));
+}
+
+.main-content .header::before {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: 56px;
+  height: 3px;
+  content: '';
+  background: var(--gold);
 }
 
 .main-content .header h1 {
   color: var(--text-primary);
-  font-size: 56px;
-  line-height: 0.95;
-  letter-spacing: 0;
-  text-transform: uppercase;
+  font-size: 58px;
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  text-shadow: 3px 3px 0 rgba(76, 29, 149, 0.55);
 }
 
 .main-content .header .subtitle,

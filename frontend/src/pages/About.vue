@@ -3,6 +3,7 @@
   <div class="about-page">
     <!-- 头部 -->
     <div class="header">
+      <p class="header-index"><span></span>ABOUT / 关于本站</p>
       <h1>关于我</h1>
       <p class="subtitle">这里记录了我的一些项目和学习历程</p>
     </div>
@@ -186,22 +187,57 @@ onUnmounted(() => {
 
 /* -------- 头部 -------- */
 .header {
+  position: relative;
   text-align: center;
-  padding: 36px 0 24px;
+  padding: 40px 0 28px;
+}
+
+.header-index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+}
+
+.header-index span {
+  width: 9px;
+  height: 9px;
+  background: var(--red);
+  transform: rotate(45deg);
 }
 
 .header h1 {
+  position: relative;
+  display: inline-block;
   color: var(--text-primary);
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  font-weight: 400;
   margin: 0;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
+}
+
+.header h1::after {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: -12%;
+  bottom: 6px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple) 0 60%, var(--red) 60% 84%, var(--gold) 84% 100%);
+  opacity: 0.85;
 }
 
 .subtitle {
   color: var(--text-tertiary);
   font-size: 0.95rem;
-  margin-top: 6px;
+  margin: 8px auto 0;
+  text-align: center;
 }
 
 /* -------- 画廊标题 -------- */
@@ -210,10 +246,21 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   color: var(--text-primary);
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
   margin-bottom: 16px;
   padding-left: 4px;
+}
+
+.gallery-title::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: var(--red);
+  transform: rotate(45deg);
+  flex-shrink: 0;
 }
 
 .video-count {
@@ -267,8 +314,8 @@ onUnmounted(() => {
 }
 
 .thumb-placeholder.is-published {
-  color: var(--accent);
-  background: rgba(108, 92, 231, 0.06);
+  color: var(--purple-bright);
+  background: rgba(139, 92, 246, 0.09);
 }
 
 /* 播放覆盖层 */
@@ -293,9 +340,10 @@ onUnmounted(() => {
   bottom: 6px;
   right: 6px;
   padding: 2px 8px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.75);
-  color: #fff;
+  border-radius: 1px;
+  border-left: 2px solid var(--red);
+  background: rgba(10, 7, 20, 0.82);
+  color: var(--cream, #f3eee6);
   font-size: 0.72rem;
   font-family: var(--font-mono);
 }
@@ -357,11 +405,13 @@ onUnmounted(() => {
   justify-content: center;
   transition: all 0.2s;
   z-index: 2;
+  border-radius: 1px;
 }
 
 .modal-close:hover {
-  background: var(--accent);
-  color: #fff;
+  background: var(--purple);
+  color: var(--cream, #f3eee6);
+  box-shadow: 4px 4px 0 var(--red);
 }
 
 .modal-title {

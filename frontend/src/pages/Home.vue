@@ -37,16 +37,31 @@
 
         <div class="character-visual">
           <div class="visual-backdrop" aria-hidden="true"></div>
-          <img
-            src="/shrine-data/images/image (1).webp"
-            alt="雷电将军与稻妻城角色立绘"
-            width="1200"
-            height="1200"
-            loading="eager"
-            decoding="async"
-          />
+
+          <!-- 丝网印：立绘印在纸上，只有两种油墨 -->
+          <figure class="portrait-plate">
+            <span class="pp-paper" aria-hidden="true"></span>
+            <span class="pp-shadow" aria-hidden="true"></span>
+            <div class="pp-window">
+              <img
+                src="/shrine-data/images/image (1).webp"
+                alt="雷电将军（影）与稻妻城的角色立绘"
+                width="1200"
+                height="1200"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="pp-ink" aria-hidden="true"></span>
+              <span class="pp-halftone" aria-hidden="true"></span>
+              <span class="pp-grain" aria-hidden="true"></span>
+              <span class="pp-reg reg-tl" aria-hidden="true"></span>
+              <span class="pp-reg reg-br" aria-hidden="true"></span>
+            </div>
+            <figcaption class="pp-caption">PLATE 02 · 影 · 稻妻 · 1993</figcaption>
+          </figure>
+
           <p class="character-label">RAIDEN SHOGUN <span>影</span></p>
-          <p class="vertical-type" aria-hidden="true">ELECTRO</p>
+          <p class="vertical-type" aria-hidden="true">ELECTRO // ETERNITY</p>
         </div>
       </section>
 
@@ -69,6 +84,7 @@
             class="portal-card"
           >
             <img
+              v-if="portal.image"
               :src="portal.image"
               :alt="portal.alt"
               width="1280"
@@ -77,6 +93,13 @@
               decoding="async"
               fetchpriority="low"
             />
+            <span v-else class="portal-art" aria-hidden="true">
+              <i class="pa-purple"></i>
+              <i class="pa-black"></i>
+              <i class="pa-red"></i>
+              <i class="pa-gold"></i>
+              <i class="pa-line"></i>
+            </span>
             <span class="portal-shade" aria-hidden="true"></span>
             <span class="portal-number">0{{ index + 1 }}</span>
             <span class="portal-content">
@@ -218,7 +241,7 @@ const portals = [
     to: '/shrine',
     title: '一心净土',
     eyebrow: 'ARCHIVE / ETERNITY',
-    description: '雷电将军角色应援与资料库',
+    description: '雷电影角色应援与资料库',
     image: '/shrine-data/images/image (2).webp',
     alt: '雷电将军雷元素纹样',
   },
@@ -284,10 +307,11 @@ function onProgress(progress) {
   align-items: center;
   gap: 12px;
   margin-bottom: 22px;
-  color: var(--signal);
+  color: var(--gold-bright);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .section-kicker span {
@@ -334,9 +358,9 @@ function onProgress(progress) {
   gap: 10px;
   min-height: 46px;
   padding: 0 20px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(216, 199, 255, 0.24);
   border-radius: var(--radius);
-  background: #15151a;
+  background: #171022;
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -345,20 +369,25 @@ function onProgress(progress) {
 }
 
 .command:hover {
-  border-color: var(--accent);
-  background: #201d29;
-  transform: translateY(-2px);
+  border-color: var(--purple);
+  background: #221735;
+  color: var(--gold-bright);
+  box-shadow: 4px 4px 0 rgba(6, 3, 14, 0.7);
+  transform: translate(-2px, -2px);
 }
 
 .command-primary {
-  border-color: var(--signal);
-  background: var(--signal);
-  color: #0b0b0e;
+  border-color: var(--purple);
+  background: var(--purple);
+  color: #0c0716;
+  box-shadow: 4px 4px 0 var(--red);
 }
 
 .command-primary:hover {
-  border-color: #f1ff91;
-  background: #f1ff91;
+  border-color: var(--purple-bright);
+  background: var(--purple-bright);
+  color: #0c0716;
+  box-shadow: 4px 4px 0 var(--gold);
 }
 
 .world-stats {
@@ -403,37 +432,144 @@ function onProgress(progress) {
   position: relative;
   min-height: 720px;
   overflow: hidden;
-  border-left: 1px solid var(--border);
-  background: #121017;
+  border-left: 1px solid rgba(167, 139, 250, 0.24);
+  background:
+    radial-gradient(circle at 68% 34%, rgba(76, 29, 149, 0.5), transparent 62%),
+    linear-gradient(155deg, #171024, #0c0818 68%);
 }
 
 .visual-backdrop {
   position: absolute;
-  inset: 14% 8% 10%;
-  border: 1px solid rgba(182, 156, 255, 0.2);
-  border-radius: 50%;
-  box-shadow: inset 0 0 90px rgba(151, 113, 255, 0.09), 0 0 90px rgba(151, 113, 255, 0.08);
+  inset: 12% 7% 10%;
+  border: 1px solid rgba(216, 178, 90, 0.26);
+  border-radius: 0;
+  box-shadow: inset 0 0 90px rgba(139, 92, 246, 0.1), 0 0 90px rgba(139, 92, 246, 0.08);
 }
 
 .visual-backdrop::before,
 .visual-backdrop::after {
   position: absolute;
   content: '';
-  background: var(--signal);
+  background: var(--gold);
 }
 
 .visual-backdrop::before { top: 50%; right: -38px; width: 76px; height: 1px; }
 .visual-backdrop::after { bottom: -28px; left: 50%; width: 1px; height: 56px; }
 
-.character-visual img {
+/* 丝网印主视觉：立绘印在一张纸上，只有两种油墨 */
+.portrait-plate {
   position: absolute;
-  right: -8%;
-  bottom: -3%;
-  width: 114%;
-  height: 104%;
-  object-fit: contain;
-  object-position: center bottom;
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5)) saturate(0.9);
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+}
+
+/* 纸：立绘不是贴上去的图片，是印在这张纸上的 */
+.pp-paper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(76%, 470px);
+  aspect-ratio: 1;
+  background: linear-gradient(162deg, #f4eddf, #d8ccb4);
+  transform: translate(-50%, -50%) rotate(-4.6deg);
+  box-shadow: 0 26px 64px rgba(4, 2, 10, 0.55);
+}
+
+/* 硬边投影：红色印版错位，构成主义的硬边界 */
+.pp-shadow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(72%, 440px);
+  aspect-ratio: 1;
+  background: var(--red);
+  transform: translate(calc(-50% + 17px), calc(-50% + 19px)) rotate(-1.4deg);
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 84% 100%, 0 100%);
+}
+
+.pp-window {
+  position: relative;
+  z-index: 2;
+  width: min(72%, 440px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #ece4d3;
+  transform: rotate(-1.4deg);
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 84% 100%, 0 100%);
+  outline: 2px solid #12100f;
+  outline-offset: -2px;
+}
+
+.pp-window img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  filter: grayscale(1) contrast(1.16) brightness(1.05);
+  mix-blend-mode: multiply;
+  transform: scale(1.03);
+}
+
+/* 双色油墨：骨白纸 + 紫墨，一抹都不多 */
+.pp-ink {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(198deg, #f7f0e3 0%, #eadfca 36%, #c6adec 66%, #7f4bd4 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.94;
+}
+
+.pp-halftone {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, rgba(18, 12, 30, 0.9) 0.8px, transparent 1.1px);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(0deg, #000 0 32%, transparent 62%);
+  mask-image: linear-gradient(0deg, #000 0 32%, transparent 62%);
+}
+
+.pp-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='pg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pg)' opacity='.6'/%3E%3C/svg%3E");
+}
+
+.pp-reg {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-top: 1px solid rgba(18, 16, 15, 0.72);
+  border-left: 1px solid rgba(18, 16, 15, 0.72);
+}
+
+.pp-window .reg-tl { top: 12px; left: 12px; }
+.pp-window .reg-br {
+  right: 12px;
+  bottom: 12px;
+  border: 0;
+  border-right: 1px solid rgba(18, 16, 15, 0.72);
+  border-bottom: 1px solid rgba(18, 16, 15, 0.72);
+}
+
+.pp-caption {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  color: rgba(236, 228, 211, 0.55);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  white-space: nowrap;
 }
 
 .character-label {
@@ -442,11 +578,14 @@ function onProgress(progress) {
   left: 28px;
   z-index: 2;
   padding: 9px 12px;
-  background: var(--signal);
-  color: #0b0b0e;
+  border-left: 3px solid var(--red);
+  background: var(--gold-bright);
+  color: #12100f;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 800;
+  letter-spacing: 0.08em;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4);
 }
 
 .character-label span {
@@ -513,6 +652,7 @@ function onProgress(progress) {
 }
 
 .portal-card img,
+.portal-art,
 .portal-shade {
   position: absolute;
   inset: 0;
@@ -523,20 +663,78 @@ function onProgress(progress) {
 .portal-card img {
   z-index: -2;
   object-fit: cover;
-  filter: saturate(0.65) contrast(1.06);
+  filter: saturate(0.62) contrast(1.06) hue-rotate(-8deg);
   transition: transform 0.65s var(--ease-out), filter 0.45s var(--ease-out);
+}
+
+.portal-art {
+  z-index: -2;
+  overflow: hidden;
+  background: #ece4d3;
+  transition: transform 0.65s var(--ease-out);
+}
+
+.portal-art i {
+  position: absolute;
+  display: block;
+}
+
+.pa-purple {
+  top: -10%;
+  right: -7%;
+  width: 55%;
+  height: 66%;
+  background: var(--purple);
+  transform: rotate(12deg);
+}
+
+.pa-black {
+  top: 14%;
+  left: 10%;
+  width: 33%;
+  height: 41%;
+  background: #12100f;
+}
+
+.pa-red {
+  right: 14%;
+  bottom: 15%;
+  width: 24%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.pa-gold {
+  left: 23%;
+  bottom: 0;
+  width: 8%;
+  height: 36%;
+  background: var(--gold);
+}
+
+.pa-line {
+  top: 59%;
+  left: 8%;
+  width: 66%;
+  height: 2px;
+  background: #12100f;
+  transform: rotate(-24deg);
+  transform-origin: left center;
 }
 
 .portal-shade {
   z-index: -1;
-  background: linear-gradient(to top, rgba(8, 8, 11, 0.96), rgba(8, 8, 11, 0.1) 72%);
+  background: linear-gradient(to top, rgba(8, 5, 16, 0.97), rgba(8, 5, 16, 0.08) 74%);
 }
 
 .portal-number {
   position: absolute;
   top: 18px;
   left: 18px;
-  color: var(--signal);
+  padding: 3px 7px;
+  background: rgba(12, 8, 24, 0.78);
+  color: var(--gold-bright);
   font-family: var(--font-mono);
   font-size: 10px;
 }
@@ -582,14 +780,20 @@ function onProgress(progress) {
   transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
 }
 
-.portal-card:hover img {
+.portal-card:hover img,
+.portal-card:hover .portal-art {
   filter: saturate(1) contrast(1.02);
   transform: scale(1.045);
 }
 
+.portal-card:hover {
+  border-color: var(--purple);
+  box-shadow: 8px 8px 0 rgba(139, 92, 246, 0.28);
+}
+
 .portal-card:hover .portal-arrow {
-  background: var(--signal);
-  color: #0b0b0e;
+  background: var(--gold-bright);
+  color: #12100f;
   transform: translateX(3px);
 }
 
@@ -599,6 +803,27 @@ function onProgress(progress) {
   overflow: hidden;
   border-block: 1px solid var(--border);
   isolation: isolate;
+}
+
+.origin-section::before {
+  position: absolute;
+  inset: 20px;
+  z-index: 1;
+  content: '';
+  border: 1px solid rgba(236, 228, 211, 0.16);
+  pointer-events: none;
+}
+
+.origin-section::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: min(22vw, 220px);
+  height: 8px;
+  content: '';
+  background: var(--red);
+  pointer-events: none;
 }
 
 .origin-section > img,
@@ -612,11 +837,14 @@ function onProgress(progress) {
 .origin-section > img {
   z-index: -2;
   object-fit: cover;
+  filter: saturate(0.78) contrast(1.05) brightness(0.88);
 }
 
 .origin-shade {
   z-index: -1;
-  background: linear-gradient(90deg, rgba(8, 8, 11, 0.96) 0%, rgba(8, 8, 11, 0.76) 42%, rgba(8, 8, 11, 0.18) 100%);
+  background:
+    linear-gradient(90deg, rgba(9, 6, 18, 0.97) 0%, rgba(9, 6, 18, 0.8) 42%, rgba(9, 6, 18, 0.24) 100%),
+    linear-gradient(0deg, rgba(76, 29, 149, 0.3), transparent 55%);
 }
 
 .origin-copy {
@@ -625,7 +853,7 @@ function onProgress(progress) {
 }
 
 .section-kicker.light {
-  color: var(--signal);
+  color: var(--gold-bright);
 }
 
 .origin-copy h2 {
@@ -648,8 +876,8 @@ function onProgress(progress) {
   gap: 10px;
   margin-top: 32px;
   padding-bottom: 7px;
-  border-bottom: 2px solid var(--signal);
-  color: #fff;
+  border-bottom: 2px solid var(--gold);
+  color: var(--gold-bright);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -693,7 +921,8 @@ function onProgress(progress) {
 
 .resource-list a:hover {
   padding-inline: 18px 8px;
-  background: var(--signal-muted);
+  background: rgba(139, 92, 246, 0.12);
+  box-shadow: inset 3px 0 0 var(--red);
 }
 
 .resource-index,
@@ -723,8 +952,9 @@ function onProgress(progress) {
   padding: 72px clamp(28px, 6vw, 96px) 36px;
   border-top: 1px solid var(--border);
   background:
-    radial-gradient(120% 90% at 85% 0%, rgba(151, 113, 255, 0.07), transparent 55%),
-    #08080a;
+    radial-gradient(120% 90% at 85% 0%, rgba(76, 29, 149, 0.34), transparent 58%),
+    linear-gradient(0deg, rgba(224, 27, 46, 0.05), transparent 40%),
+    #08060f;
 }
 
 /* ---------- 顶层：品牌 + 导航列 ---------- */
@@ -747,8 +977,8 @@ function onProgress(progress) {
   color: var(--text-primary);
   font-family: var(--font-display);
   font-size: clamp(30px, 3.2vw, 40px);
-  font-weight: var(--weight-bold);
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   line-height: 1;
   transition: color 0.25s var(--ease-out);
 }
@@ -915,14 +1145,32 @@ function onProgress(progress) {
 
   .character-visual {
     width: 100%;
-    min-height: 62svh;
+    min-height: 58svh;
     border-bottom: 1px solid var(--border);
     border-left: 0;
   }
 
-  .character-visual img {
-    right: -11%;
-    width: 122%;
+  .pp-paper {
+    width: min(70%, 340px);
+  }
+
+  .pp-window,
+  .pp-shadow {
+    width: min(64%, 316px);
+  }
+
+  .pp-shadow {
+    transform: translate(calc(-50% + 12px), calc(-50% + 14px)) rotate(-1.4deg);
+  }
+
+  .pp-caption {
+    font-size: 7px;
+    letter-spacing: 0.16em;
+  }
+
+  .character-label {
+    bottom: 18px;
+    left: 18px;
   }
 
   .portal-section,
@@ -950,6 +1198,10 @@ function onProgress(progress) {
 
   .origin-section {
     min-height: 560px;
+  }
+
+  .origin-section::before {
+    inset: 12px;
   }
 
   .origin-section > img {

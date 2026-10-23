@@ -59,6 +59,12 @@ import ZonePainterWorkspace from '@/features/map-zone-painter/components/ZonePai
 }
 
 .header-copy { min-width: 0; }
+.map-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
 .back-link {
   display: inline-flex;
   margin-bottom: 20px;
@@ -81,7 +87,7 @@ import ZonePainterWorkspace from '@/features/map-zone-painter/components/ZonePai
   font-family: var(--font-mono);
   font-size: 8px;
 }
-.header-tags span:first-child { border-color: rgba(234, 255, 87, 0.28); color: var(--signal); }
+.header-tags span:first-child { border-color: rgba(216, 178, 90, 0.42); color: var(--gold); }
 
 .source-credit {
   display: grid;
@@ -92,18 +98,19 @@ import ZonePainterWorkspace from '@/features/map-zone-painter/components/ZonePai
   gap: 18px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: rgba(18, 18, 23, 0.82);
+  background: rgba(19, 15, 33, 0.82);
 }
 .credit-mark {
   display: grid;
   width: 52px;
   height: 52px;
   place-items: center;
-  border: 1px solid rgba(234, 255, 87, 0.4);
-  background: var(--signal-muted);
-  color: var(--signal);
+  border: 1px solid rgba(216, 178, 90, 0.44);
+  background: rgba(216, 178, 90, 0.11);
+  color: var(--gold);
   font-family: var(--font-display);
   font-size: 14px;
+  box-shadow: 4px 4px 0 rgba(224, 27, 46, 0.5);
 }
 .credit-copy { display: flex; min-width: 0; flex-direction: column; }
 .credit-label { color: var(--signal); font-family: var(--font-mono); font-size: 8px; }

@@ -126,9 +126,9 @@ const profiles = [
     uid: '523689286',
     note: '于雷鸣之间守望永恒，也在每一次启程中寻找新的答案。',
     image: '/shrine-data/images/image (1).webp',
-    accent: '#b69cff',
-    signal: '#eaff57',
-    surface: '#141119',
+    accent: '#a78bfa',
+    signal: '#e9c46a',
+    surface: '#141021',
   },
   {
     id: 'ruan-mei',
@@ -142,9 +142,9 @@ const profiles = [
     uid: '167855892',
     note: '循着星轨观察生命的回响，在寰宇里保留温柔而克制的好奇。',
     image: '/image/characters/ruan-mei.jpg',
-    accent: '#67d7dc',
-    signal: '#f3d59d',
-    surface: '#0b1719',
+    accent: '#d8b25a',
+    signal: '#c4b5fd',
+    surface: '#171226',
   },
   {
     id: 'ye-shunguang',
@@ -158,9 +158,9 @@ const profiles = [
     uid: '44724183',
     note: '穿过空洞与噪点，在新艾利都的失序日常里保持锋利。',
     image: '/image/characters/ye-shunguang.jpg',
-    accent: '#ff4052',
-    signal: '#f7f2e8',
-    surface: '#160d10',
+    accent: '#e01b2e',
+    signal: '#f0cf7a',
+    surface: '#170d12',
   },
 ]
 
@@ -241,7 +241,7 @@ onUnmounted(() => window.clearTimeout(copyTimer))
   padding: 88px clamp(28px, 6vw, 96px) 54px;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
-  background: #09090c;
+  background: #0a0714;
   isolation: isolate;
   transition: background 0.45s var(--ease-out);
 }

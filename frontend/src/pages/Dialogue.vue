@@ -253,15 +253,18 @@ onUnmounted(() => {
 
 <style scoped>
 .dialogue-page {
-  --red: #c8102e;
-  --red-deep: #9e0b23;
-  --ink: #12100e;
+  --purple: #8b5cf6;
+  --purple-bright: #a78bfa;
+  --purple-deep: #4c1d95;
+  --red: #e01b2e;
+  --red-deep: #9d0f20;
+  --ink: #140c24;
   --paper: #ece4d3;
   --paper-deep: #ddd1b8;
-  --gold: #a67c2e;
-  --cream: #f6f3e9;
-  --muted: #b8b1a3;
-  --rule: rgba(246, 243, 233, 0.18);
+  --gold: #d8b25a;
+  --cream: #f3eee6;
+  --muted: #b6adc9;
+  --rule: rgba(216, 199, 255, 0.18);
   --ease-signature: cubic-bezier(0.38, 0, 0, 1);
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   position: relative;
@@ -287,7 +290,9 @@ onUnmounted(() => {
   z-index: 0;
   width: 64%;
   height: clamp(70px, 10vh, 118px);
-  background: var(--red);
+  border-top: 3px solid var(--gold);
+  border-bottom: 10px solid var(--red);
+  background: var(--purple-deep);
   content: '';
   transform: rotate(-8deg);
 }
@@ -300,7 +305,7 @@ onUnmounted(() => {
   width: 34vw;
   max-width: 440px;
   aspect-ratio: 1;
-  border: 2px solid rgba(246, 243, 233, 0.12);
+  border: 2px solid rgba(167, 139, 250, 0.34);
   content: '';
   transform: rotate(14deg);
 }
@@ -347,11 +352,11 @@ onUnmounted(() => {
 .hero-title {
   margin: 28px 0 0;
   color: var(--cream);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(3.2rem, 7.4vw, 6rem);
-  font-weight: 700;
+  font-weight: 400;
   line-height: 0.95;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 
 .hero-title::after {
@@ -370,9 +375,9 @@ onUnmounted(() => {
   gap: 14px;
   margin: 20px 0 0;
   color: var(--gold);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.05rem, 1.8vw, 1.4rem);
-  letter-spacing: 0.42em;
+  letter-spacing: 0.36em;
 }
 
 .hero-sub::before {
@@ -385,8 +390,8 @@ onUnmounted(() => {
 .hero-quote {
   margin: 30px 0 0;
   padding-left: 16px;
-  border-left: 3px solid var(--red);
-  color: #cfc7b8;
+  border-left: 3px solid var(--purple);
+  color: var(--muted);
   font-family: var(--font-serif);
   font-size: 0.9rem;
   line-height: 2.05;
@@ -415,25 +420,27 @@ onUnmounted(() => {
   align-items: center;
   gap: 10px;
   padding: 12px 22px;
-  border: 2px solid var(--red);
-  background: var(--red);
+  border: 2px solid var(--purple);
+  background: var(--purple);
   color: var(--cream);
   font-family: var(--font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.18em;
   text-decoration: none;
-  box-shadow: 7px 7px 0 var(--cream);
+  box-shadow: 7px 7px 0 var(--gold);
   transition: transform 0.28s var(--ease-signature), box-shadow 0.28s var(--ease-signature);
 }
 
 .hero-cta:hover {
+  border-color: var(--red);
+  background: var(--red);
   transform: translate(-3px, -3px);
-  box-shadow: 11px 11px 0 var(--cream);
+  box-shadow: 11px 11px 0 var(--gold);
 }
 
 .hero-cta:active {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 var(--cream);
+  box-shadow: 2px 2px 0 var(--gold);
 }
 
 .hero-count {
@@ -464,7 +471,7 @@ onUnmounted(() => {
   aspect-ratio: 3 / 4;
   border: 2px solid var(--ink);
   background: var(--paper);
-  box-shadow: 18px 18px 0 var(--red);
+  box-shadow: 16px 16px 0 var(--purple-deep), 26px 26px 0 var(--red);
   transform: translate3d(var(--px), var(--py), 0) rotate(-1.5deg);
   transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
   will-change: transform;
@@ -499,7 +506,7 @@ onUnmounted(() => {
   width: 27%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--red);
+  background: var(--purple);
 }
 
 .poster-wedge {
@@ -593,7 +600,7 @@ onUnmounted(() => {
 .poster-note::before {
   width: 26px;
   height: 2px;
-  background: var(--red);
+  background: var(--purple-bright);
   content: '';
 }
 
@@ -611,7 +618,7 @@ onUnmounted(() => {
   display: block;
   width: 2px;
   height: 100%;
-  background: var(--red);
+  background: var(--purple);
   transform: scaleY(0.12);
   transform-origin: top center;
 }
@@ -634,20 +641,53 @@ onUnmounted(() => {
 .hero-scroll i {
   width: 46px;
   height: 2px;
-  background: var(--red);
+  background: var(--purple-bright);
 }
 
 /* ================= 对谈 ================= */
 .talk {
   position: relative;
+  isolation: isolate;
   padding: clamp(64px, 9vh, 108px) 0 clamp(36px, 6vh, 64px);
+}
+
+.talk::before {
+  position: absolute;
+  top: 6%;
+  right: -9%;
+  z-index: 0;
+  width: clamp(200px, 24vw, 360px);
+  aspect-ratio: 1;
+  background: var(--purple-deep);
+  content: '';
+  opacity: 0.72;
+  transform: rotate(38deg);
+  pointer-events: none;
+}
+
+.talk::after {
+  position: absolute;
+  bottom: 3%;
+  left: -12%;
+  z-index: 0;
+  width: min(38vw, 460px);
+  height: 18px;
+  background: var(--red);
+  content: '';
+  transform: rotate(-14deg);
+  pointer-events: none;
+}
+
+.talk > * {
+  position: relative;
+  z-index: 1;
 }
 
 .talk-head {
   max-width: 720px;
   margin-bottom: clamp(28px, 5vh, 48px);
   padding-left: 22px;
-  border-left: 6px solid var(--red);
+  border-left: 6px solid var(--purple);
 }
 
 .talk-kicker {
@@ -662,10 +702,10 @@ onUnmounted(() => {
 .talk-title {
   margin: 12px 0 0;
   color: var(--cream);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(2.2rem, 4.2vw, 3.4rem);
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 400;
+  letter-spacing: 0.07em;
 }
 
 .talk-lede {
@@ -681,7 +721,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 10px;
   margin: 16px 0 0;
-  color: #d8d1c3;
+  color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.08em;
@@ -716,7 +756,7 @@ onUnmounted(() => {
   border: 2px solid var(--ink);
   background: var(--paper);
   color: #1b1815;
-  box-shadow: 14px 14px 0 var(--red), 0 0 0 1px rgba(246, 243, 233, 0.16);
+  box-shadow: 12px 12px 0 var(--purple-deep), 20px 20px 0 var(--red), 0 0 0 1px rgba(216, 199, 255, 0.16);
 }
 
 .paper::before {
@@ -724,7 +764,7 @@ onUnmounted(() => {
   inset: 0 auto 0 0;
   z-index: 4;
   width: 7px;
-  background: var(--red);
+  background: var(--purple);
   content: '';
 }
 
@@ -794,9 +834,15 @@ onUnmounted(() => {
 
 @media (max-width: 900px) {
   .hero {
+    flex-direction: column;
+    align-items: stretch;
     min-height: 0;
     padding-top: 56px;
     padding-bottom: 90px;
+  }
+
+  .hero::before {
+    display: none;
   }
 
   .hero-grid {
@@ -812,7 +858,7 @@ onUnmounted(() => {
 
   .poster {
     width: min(62vw, 280px);
-    box-shadow: 12px 12px 0 var(--red);
+    box-shadow: 10px 10px 0 var(--purple-deep), 18px 18px 0 var(--red);
   }
 
   .poster-note {
@@ -825,7 +871,8 @@ onUnmounted(() => {
 
   .hero-scroll {
     position: static;
-    margin-top: 44px;
+    align-self: flex-start;
+    margin-top: 36px;
   }
 }
 
@@ -852,7 +899,7 @@ onUnmounted(() => {
   }
 
   .paper {
-    box-shadow: 8px 8px 0 var(--red);
+    box-shadow: 8px 8px 0 var(--purple-deep), 14px 14px 0 var(--red);
   }
 
   .talk :deep(.aside) {

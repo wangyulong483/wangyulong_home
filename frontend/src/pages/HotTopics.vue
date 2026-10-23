@@ -400,16 +400,16 @@ onMounted(() => fetchTopics(null))
 
 /* -------- 头部 -------- */
 .header { text-align: center; padding: 36px 0 24px; }
-.header h1 { color: var(--text-primary); font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; }
+.header h1 { color: var(--text-primary); font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 400; letter-spacing: 0.04em; }
 .subtitle { color: var(--text-tertiary); font-size: 0.9rem; margin-top: 6px; }
 .freshness-line {
   display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 7px;
   margin-top: 12px; color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.68rem;
 }
 .freshness-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-tertiary); }
-.freshness-line.is-fresh .freshness-dot { background: var(--signal); box-shadow: 0 0 9px rgba(234, 255, 87, 0.55); }
-.freshness-line.is-delayed .freshness-dot { background: #e8b55d; }
-.freshness-line.is-stale .freshness-dot { background: #e66a72; }
+.freshness-line.is-fresh .freshness-dot { background: var(--gold); box-shadow: 0 0 9px rgba(216, 178, 90, 0.5); }
+.freshness-line.is-delayed .freshness-dot { background: var(--gold-bright); }
+.freshness-line.is-stale .freshness-dot { background: var(--red); }
 .freshness-line.is-archive .freshness-dot { background: var(--accent); }
 .updated-at, .data-origin { color: var(--text-tertiary); }
 .data-origin { padding-left: 7px; border-left: 1px solid var(--border); }
@@ -420,25 +420,25 @@ onMounted(() => fetchTopics(null))
 /* 分类标签 */
 .category-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .cat-btn {
-  padding: 6px 16px; border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 16px; border: 1px solid var(--border); border-radius: 1px;
   background: var(--bg-card); color: var(--text-secondary); font-size: 0.84rem;
   cursor: pointer; transition: all 0.25s; font-family: inherit;
   display: inline-flex; align-items: center; gap: 4px;
 }
 .cat-btn:hover { border-color: var(--border-hover); color: var(--accent); background: var(--accent-muted); }
-.cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.cat-btn.active { background: var(--purple); color: var(--cream); border-color: var(--purple); box-shadow: 3px 3px 0 var(--red); }
 .scope-filter { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: -2px 0 14px; }
 .scope-label { margin-right: 3px; color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.68rem; }
 .scope-btn { min-height: 30px; padding: 4px 12px; border: 1px solid var(--border); border-radius: 3px; background: var(--bg-input); color: var(--text-secondary); font-family: inherit; font-size: 0.76rem; cursor: pointer; transition: 0.2s ease; }
 .scope-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
-.scope-btn.active { border-color: rgba(234, 255, 87, 0.5); background: var(--signal-muted); color: var(--signal); }
+.scope-btn.active { border-color: rgba(216, 178, 90, 0.6); background: var(--signal-muted); color: var(--gold-bright); }
 
 /* 搜索框 */
 .search-box { position: relative; margin-bottom: 14px; }
 .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); opacity: 0.35; pointer-events: none; }
 .search-input {
   width: 100%; padding: 10px 16px 10px 40px;
-  border: 1px solid var(--border); border-radius: 24px;
+  border: 1px solid var(--border); border-radius: 1px;
   font-size: 0.9rem; background: var(--bg-input); color: var(--text-primary);
   outline: none; transition: border-color 0.3s, box-shadow 0.3s; font-family: inherit;
 }
@@ -466,10 +466,10 @@ onMounted(() => fetchTopics(null))
 
 .topic-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .topic-source-line { display: flex; align-items: center; min-width: 0; gap: 6px; }
-.source-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; background: var(--accent-muted); color: var(--accent); border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.source-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; background: var(--accent-muted); color: var(--purple-bright); border-left: 2px solid var(--red); border-radius: 1px; font-size: 0.75rem; font-weight: 600; }
 .scope-badge { padding: 2px 7px; border: 1px solid var(--border); border-radius: 3px; color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.62rem; }
-.scope-hefei { border-color: rgba(234, 255, 87, 0.35); color: var(--signal); }
-.scope-china { border-color: rgba(102, 217, 255, 0.35); color: #87e3ff; }
+.scope-hefei { border-color: rgba(216, 178, 90, 0.45); color: var(--gold-bright); }
+.scope-china { border-color: rgba(167, 139, 250, 0.45); color: var(--purple-bright); }
 .topic-date { display: inline-flex; align-items: center; gap: 3px; font-size: 0.78rem; color: var(--text-tertiary); }
 
 .topic-title { margin: 0 0 8px 0; font-size: 1.02rem; line-height: 1.45; }
@@ -483,12 +483,12 @@ onMounted(() => fetchTopics(null))
 .topic-tags .tag { cursor: pointer; }
 
 /* 标签颜色变体 */
-.tag-ros2   { background: rgba(76, 175, 80, 0.15);  color: #66bb6a; }
-.tag-robot  { background: rgba(33, 150, 243, 0.15);  color: #64b5f6; }
-.tag-lidar  { background: rgba(255, 152, 0, 0.15);   color: #ffb74d; }
-.tag-camera { background: rgba(156, 39, 176, 0.15);  color: #ce93d8; }
-.tag-ai     { background: rgba(244, 67, 54, 0.15);   color: #ef9a9a; }
-.tag-sensor { background: rgba(0, 150, 136, 0.15);   color: #80cbc4; }
+.tag-ros2   { background: rgba(139, 92, 246, 0.16);  color: #c4b5fd; }
+.tag-robot  { background: rgba(216, 178, 90, 0.15);  color: #f0cf7a; }
+.tag-lidar  { background: rgba(224, 27, 46, 0.14);   color: #f08a94; }
+.tag-camera { background: rgba(76, 29, 149, 0.34);   color: #c4b5fd; }
+.tag-ai     { background: rgba(224, 27, 46, 0.2);    color: #ff9aa2; }
+.tag-sensor { background: rgba(216, 178, 90, 0.1);   color: #e3c79c; }
 
 /* -------- 状态页面 -------- */
 .state-wrap { text-align: center; padding: 60px 40px; color: var(--text-tertiary); }
