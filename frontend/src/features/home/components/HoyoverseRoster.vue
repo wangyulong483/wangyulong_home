@@ -241,7 +241,7 @@ onUnmounted(() => window.clearTimeout(copyTimer))
   padding: 88px clamp(28px, 6vw, 96px) 54px;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
-  background: #0a0714;
+  background: #0b0b0e;
   isolation: isolate;
   transition: background 0.45s var(--ease-out);
 }

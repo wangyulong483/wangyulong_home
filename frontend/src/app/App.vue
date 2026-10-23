@@ -387,8 +387,8 @@ a {
 <style>
 :root {
   /* —— 三色系统：紫色主导 / 正红 / 暗金 —— */
-  --purple: #8b5cf6;
-  --purple-bright: #a78bfa;
+  --purple: #b69cff;
+  --purple-bright: #c7b5ff;
   --purple-deep: #4c1d95;
   --purple-ink: #170f28;
   --red: #e01b2e;
@@ -396,24 +396,24 @@ a {
   --gold: #d8b25a;
   --gold-bright: #f0cf7a;
 
-  --accent: #a78bfa;
-  --accent-hover: #c4b5fd;
-  --accent-glow: rgba(139, 92, 246, 0.34);
-  --accent-muted: rgba(139, 92, 246, 0.14);
-  --accent-2: #d8b25a;
-  --accent-2-glow: rgba(216, 178, 90, 0.2);
-  --signal: #e3bc6a;
-  --signal-muted: rgba(227, 188, 106, 0.13);
+  --accent: #b69cff;
+  --accent-hover: #c7b5ff;
+  --accent-glow: rgba(151, 113, 255, 0.28);
+  --accent-muted: rgba(151, 113, 255, 0.12);
+  --accent-2: #66d9ff;
+  --accent-2-glow: rgba(102, 217, 255, 0.18);
+  --signal: #eaff57;
+  --signal-muted: rgba(234, 255, 87, 0.12);
   --warm: #e3c79c;
 
-  --bg-primary: #0a0714;
-  --bg-elevated: #130f21;
-  --bg-card: rgba(24, 17, 40, 0.84);
-  --bg-card-hover: #1d1631;
+  --bg-primary: #0b0b0e;
+  --bg-elevated: #131318;
+  --bg-card: rgba(22, 21, 28, 0.86);
+  --bg-card-hover: #1b1922;
   --bg-input: rgba(255, 255, 255, 0.06);
 
-  --border: rgba(216, 199, 255, 0.14);
-  --border-hover: rgba(167, 139, 250, 0.64);
+  --border: rgba(246, 243, 233, 0.13);
+  --border-hover: rgba(182, 156, 255, 0.58);
   --text-primary: #f3eee6;
   --text-secondary: #b6adc9;
   --text-tertiary: #7d748f;
@@ -422,13 +422,13 @@ a {
   --shadow-md: 0 18px 50px rgba(0, 0, 0, 0.36);
   --shadow-glow: 0 0 0 1px rgba(167, 139, 250, 0.16), 0 18px 54px rgba(76, 29, 149, 0.24);
   --shadow-hard: 7px 7px 0 rgba(6, 3, 14, 0.72);
-  --scrollbar-thumb: rgba(139, 92, 246, 0.4);
-  --scrollbar-thumb-hover: rgba(216, 178, 90, 0.66);
-  --scrollbar-thumb-active: #d8b25a;
+  --scrollbar-thumb: rgba(182, 156, 255, 0.34);
+  --scrollbar-thumb-hover: rgba(234, 255, 87, 0.62);
+  --scrollbar-thumb-active: #eaff57;
 
-  --radius-sm: 1px;
-  --radius: 2px;
-  --radius-lg: 3px;
+  --radius-sm: 3px;
+  --radius: 5px;
+  --radius-lg: 7px;
   --font-body: 'Geist Variable', 'HarmonyOS Sans SC', 'MiSans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
   --font-display: 'Smiley Sans Oblique', 'HarmonyOS Sans SC', 'MiSans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
   --font-mono: 'Geist Mono Variable', 'Cascadia Code', 'Cascadia Mono', 'SFMono-Regular', Consolas, monospace;

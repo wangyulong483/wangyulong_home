@@ -266,7 +266,7 @@
 
 - 全局令牌：`frontend/src/app/App.vue` 统一紫 `#8b5cf6 / #a78bfa / #4c1d95`、红 `#e01b2e`、金 `#d8b25a / #f0cf7a`、米白 `#ece4d3`、紫墨底 `#0a0714`；字体令牌 `--font-display / --font-hand / --font-body / --font-mono`。
 - 页面改造：Dialogue / DialogueTimeline / DialogueThread / DialogueAside、Home、AppList、About、MapZonePainter 与 ZonePainterWorkspace、Shrine、Game、HotTopics、Sidebar、HoyoverseRoster 全部对齐三色与硬边几何语言。
-- 首页首屏：保留 Ei 视频，改为「印版 / 档案纸」构图；增加可见的人物档案卡（头像 + PERSONNEL // 001 + 王雨龙 · 归去来兮），点击进入 /about；视频不再整体压成紫色，保留原有色彩与面部细节；柔焦与软阴影改为硬偏移、平涂色块和纸张颗粒。
+- 首页首屏：保留 Ei 视频，增加可见的人物档案卡（头像 + PERSONNEL // 001），点击进入 /about；视频保留原有色彩与面部细节，构成主义只作为 HUD 上的印刷注脚。
 - 首页中段：校园起点照片加内嵌细框、右上红色色条与轻微印刷调色，避免写实图与几何版面脱节。
 - README 与字体许可证：README 已按开源项目结构重写；新增 Smiley Sans 与 Zhi Mang Xing 的 OFL 文本到 `frontend/public/third-party-notices/`。
 
@@ -287,5 +287,35 @@
 ### 部署状态
 
 - 按用户 m01023「暂时不要部署」，本轮未执行 wrangler，生产仍是上一版。
+- 本地预览保持运行：`http://127.0.0.1:4173/`（preview job `bash-44fb924094a341ca`，绑定 127.0.0.1）。
+
+===============================================================
+
+## 执行记录（2026-10-23 · 第三轮：隐私修正与绝区零主权重平衡）
+
+### 用户反馈
+
+- 用户指出首页不应暴露真名与昵称；「影」不应被反复强调，但角色图片可以保留。
+- 构成主义必须辅助原有的绝区零（ZZZ）风格，而不是取代它；上一版构成主义占比过高，属于喧宾夺主。
+
+### 落地
+
+- 人物卡去隐私：`HeroTransition.vue` 头像 `alt=""`，文案只保留 `PERSONNEL // 001` 与 `ARCHIVE RECORD`，移除姓名与昵称；卡片仍可点击进入 /about。
+- 首页去「影」字：首屏所有「影」文案删除；侧栏头像水印由「影」改为「01」；导航页名「与影对谈」保留。
+- 恢复绝区零主视觉：`HeroTransition.vue` 以全屏 Ei 视频、四角框、顶栏、状态与 SCROLL 提示为底，再叠少量几何（网格、红色竖条、黑方块、金色竖线、紫色圆环与一条细红斜线）；视频恢复原生色彩，主标题回到 Geist 800 + 空心 WEBSITE。
+- 颜色令牌回到 ZZZ 近黑 `#0b0b0e`、薰衣草紫 `#b69cff`、酸性黄 `#eaff57`，保留正红 `#e01b2e` 与暗金 `#d8b25a` 作为构成主义注脚；全站旧紫墨底 `#0a0714` 替换为 `#0b0b0e`。
+- 与影对谈页：海报缩为 248px 纸面，装入深色 `ARCHIVE PLATE` HUD 画框（酸性黄角标、01 / 01、PLATE 01 · 2026），俄文标记与俄文 intro 全部移除；紫色斜带移到画面右下，首屏主视觉回到深色 HUD，构成主义只作档案注脚；移动端改为文案在前、画框在后。
+
+### 验证
+
+- `npm.cmd --prefix frontend run test`：47/47 通过。
+- `npm.cmd --prefix frontend run build`：成功，最终入口 `assets/index-wm72l93Q.js`。
+- 无头 Edge 1440×900：首页无横向溢出、视频播放中、标题为 Geist 100px、人物卡匿名且不压 SCROLL；/dialogue 无溢出，画框 302×410、纸面 248px，控制台无错误。
+- 无头 Edge 390×844：首页与 /dialogue 均无横向溢出；对谈页首屏先出现标题与文案，档案画框下移；人物卡 158×48。
+- 实时检索源码：`王雨龙` 在 `frontend/src` 中 0 命中；首屏与对谈页无俄文标签。
+
+### 部署状态
+
+- 继续遵守用户 m01023「暂时不要部署」，本轮未执行 wrangler，生产仍是上一版。
 - 本地预览保持运行：`http://127.0.0.1:4173/`（preview job `bash-44fb924094a341ca`，绑定 127.0.0.1）。
 - 待用户确认后执行：`npx.cmd wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main`。

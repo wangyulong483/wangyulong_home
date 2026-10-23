@@ -5,7 +5,7 @@
         <div class="hero-copy">
           <p class="hero-kicker js-dlg-reveal">
             <span class="hero-index">01</span>
-            <span>PLANE OF EUTHYMIA / ДИАЛОГ</span>
+            <span>PLANE OF EUTHYMIA / DIALOGUE</span>
           </p>
           <h1 class="hero-title js-dlg-reveal">一心净土</h1>
           <p class="hero-sub js-dlg-reveal">与影对谈</p>
@@ -25,16 +25,19 @@
         </div>
 
         <div class="hero-art js-dlg-reveal" aria-hidden="true">
-          <div ref="posterRef" class="poster">
-            <div class="poster-square"></div>
-            <div class="poster-circle"></div>
-            <div class="poster-wedge"></div>
-            <div class="poster-bar"></div>
-            <div class="poster-line line-a"></div>
-            <div class="poster-line line-b"></div>
-            <div class="poster-cross"></div>
-            <p class="poster-label">ЭЙ · 1923</p>
-            <p class="poster-caption">雷电影 / 一心净土</p>
+          <div class="hero-art-frame">
+            <p class="art-hud"><span>ARCHIVE PLATE</span><b>01 / 01</b></p>
+            <div ref="posterRef" class="poster">
+              <div class="poster-square"></div>
+              <div class="poster-circle"></div>
+              <div class="poster-wedge"></div>
+              <div class="poster-bar"></div>
+              <div class="poster-line line-a"></div>
+              <div class="poster-line line-b"></div>
+              <div class="poster-cross"></div>
+              <p class="poster-label">PLATE 01 · 2026</p>
+              <p class="poster-caption">雷电影 / 一心净土</p>
+            </div>
           </div>
           <p class="poster-note">SUPREMATISM · 构成</p>
         </div>
@@ -285,15 +288,16 @@ onUnmounted(() => {
 
 .hero::before {
   position: absolute;
-  top: 45%;
-  right: -18%;
+  right: -12%;
+  bottom: 9%;
   z-index: 0;
-  width: 64%;
-  height: clamp(70px, 10vh, 118px);
-  border-top: 3px solid var(--gold);
-  border-bottom: 10px solid var(--red);
+  width: 46%;
+  height: clamp(56px, 8vh, 92px);
+  border-top: 2px solid var(--gold);
+  border-bottom: 6px solid var(--red);
   background: var(--purple-deep);
   content: '';
+  opacity: 0.55;
   transform: rotate(-8deg);
 }
 
@@ -463,15 +467,65 @@ onUnmounted(() => {
   justify-self: center;
 }
 
+.hero-art-frame {
+  position: relative;
+  width: min(100%, 360px);
+  padding: 20px 26px 26px;
+  border: 1px solid rgba(234, 255, 87, 0.22);
+  background: var(--bg-primary);
+  box-shadow: inset 0 0 0 1px rgba(246, 243, 233, 0.04);
+}
+
+.hero-art-frame::before,
+.hero-art-frame::after {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--signal);
+  content: '';
+}
+
+.hero-art-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.hero-art-frame::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+}
+
+.art-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 18px;
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.24em;
+}
+
+.art-hud b {
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+}
+
 .poster {
   --px: 0px;
   --py: 0px;
   position: relative;
-  width: clamp(250px, 27vw, 356px);
+  width: clamp(190px, 18vw, 248px);
+  margin: 0 auto;
   aspect-ratio: 3 / 4;
   border: 2px solid var(--ink);
   background: var(--paper);
-  box-shadow: 16px 16px 0 var(--purple-deep), 26px 26px 0 var(--red);
+  box-shadow: 10px 10px 0 var(--purple-deep), 18px 18px 0 var(--red);
   transform: translate3d(var(--px), var(--py), 0) rotate(-1.5deg);
   transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
   will-change: transform;
@@ -819,7 +873,7 @@ onUnmounted(() => {
   }
 
   .poster {
-    width: clamp(210px, 24vw, 280px);
+    width: clamp(190px, 21vw, 232px);
   }
 
   .talk-grid {
@@ -851,14 +905,18 @@ onUnmounted(() => {
   }
 
   .hero-art {
-    order: -1;
     align-items: flex-start;
     width: 100%;
   }
 
+  .hero-art-frame {
+    width: min(100%, 300px);
+    padding: 15px 18px 20px;
+  }
+
   .poster {
-    width: min(62vw, 280px);
-    box-shadow: 10px 10px 0 var(--purple-deep), 18px 18px 0 var(--red);
+    width: min(52vw, 232px);
+    box-shadow: 8px 8px 0 var(--purple-deep), 14px 14px 0 var(--red);
   }
 
   .poster-note {

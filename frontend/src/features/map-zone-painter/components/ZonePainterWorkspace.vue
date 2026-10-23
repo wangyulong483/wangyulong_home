@@ -486,7 +486,7 @@ function drawCanvas() {
   const context = canvas.value.getContext('2d')
   context.setTransform(view.dpr, 0, 0, view.dpr, 0, 0)
   context.clearRect(0, 0, view.width, view.height)
-  context.fillStyle = '#0a0714'
+  context.fillStyle = '#0b0b0e'
   context.fillRect(0, 0, view.width, view.height)
 
   context.save()
@@ -556,7 +556,7 @@ function drawPolygon(context) {
     context.fillStyle = index === selectedPoint.value ? '#d8b25a' : color
     context.fill()
     context.lineWidth = 2
-    context.strokeStyle = '#0a0714'
+    context.strokeStyle = '#0b0b0e'
     context.stroke()
   })
   context.restore()
@@ -1005,11 +1005,11 @@ onUnmounted(() => {
 .primary-command {
   border-color: rgba(216, 178, 90, 0.56);
   background: var(--signal);
-  color: #0a0714;
+  color: #0b0b0e;
   font-weight: 800;
 }
 
-.primary-command:hover { background: #f0cf7a; color: #0a0714; }
+.primary-command:hover { background: #f0cf7a; color: #0b0b0e; }
 .primary-command input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .danger-command:hover { border-color: rgba(224, 27, 46, 0.62); color: #e01b2e; }
 .danger-command.armed { border-color: #e01b2e; background: rgba(224, 27, 46, 0.16); color: #ff7a86; animation: danger-pulse 0.8s ease-in-out infinite alternate; }

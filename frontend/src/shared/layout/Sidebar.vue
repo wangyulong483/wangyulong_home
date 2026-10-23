@@ -33,7 +33,7 @@
           <span class="avatar-ink" aria-hidden="true"></span>
           <span class="avatar-reg" aria-hidden="true"></span>
         </span>
-        <span class="avatar-word" aria-hidden="true">影</span>
+        <span class="avatar-word" aria-hidden="true">01</span>
       </router-link>
 
       <div class="sidebar-identity">

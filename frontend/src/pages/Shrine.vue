@@ -298,7 +298,7 @@ onMounted(() => {
 .shrine-page {
   position: relative;
   min-height: 100vh;
-  background: #0a0714;
+  background: #0b0b0e;
   color: var(--text-secondary);
   overflow-x: clip;
 }
@@ -532,7 +532,7 @@ onMounted(() => {
 
 .tab-btn.active {
   border-color: var(--signal);
-  color: #0a0714;
+  color: #0b0b0e;
   font-weight: 700;
   background: var(--gold);
 }

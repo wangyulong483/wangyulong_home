@@ -40,7 +40,7 @@
 
         <div class="tl-part is-intro">
           <div class="intro-inner">
-            <p class="intro-label"><span class="intro-label-sq"></span>ДИАЛОГ · 对话档案</p>
+            <p class="intro-label"><span class="intro-label-sq"></span>DIALOGUE · 对话档案</p>
             <h2 class="intro-title">
               <span class="letter" data-go="0">对话</span>
               <span class="letter is-red" data-go="1">纪年</span>
@@ -77,7 +77,7 @@
               <div class="art-bar"></div>
               <div class="art-cross"></div>
             </div>
-            <p class="art-caption">ФОРМА · 1923</p>
+            <p class="art-caption">FORM · 2026</p>
           </div>
         </div>
 

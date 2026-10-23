@@ -3,7 +3,7 @@
 [![Vue 3](https://img.shields.io/badge/Vue-3.5-42b883?logo=vuedotjs&logoColor=white)](https://vuejs.org/)
 [![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)](https://vite.dev/)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-f38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
-[![DeepSeek Harness](https://img.shields.io/badge/built%20with-DeepSeek%20Harness-8b5cf6)](https://github.com/deepseek-ai)
+[![DeepSeek Harness](https://img.shields.io/badge/built%20with-DeepSeek%20Harness-b69cff)](https://github.com/deepseek-ai)
 
 个人主页、机器人实践记录与交互应用集合。站点以 **Vue 3 + Vite** 构建为单页应用，由 **Cloudflare Pages** 托管；生产 API 运行在 Pages Worker 中，角色对话接入 DeepSeek，并支持 SSE 流式输出。
 
@@ -47,16 +47,16 @@
 | `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人 / AI 动态，支持搜索、分类与日期归档 | `frontend/src/pages/HotTopics.vue`、`frontend/public/topics-data/` |
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区 / 限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |
 | `/shrine` | ？！厨厨！？ | 雷电将军角色档案、影像、攻略 / Wiki、资讯 | `frontend/src/pages/Shrine.vue`、`frontend/src/features/shrine/` |
-| `/dialogue` | 与影对谈 | 独立 AI 对话模块：真实对话时间轴 + 构成主义纸面面板 + 流式输出 + 生成参数 | `frontend/src/pages/Dialogue.vue`、`frontend/src/features/dialogue/` |
+| `/dialogue` | 与影对谈 | 独立 AI 对话模块：真实对话时间轴 + ZZZ 式终端 HUD + 构成主义档案画框 + 流式输出 + 生成参数 | `frontend/src/pages/Dialogue.vue`、`frontend/src/features/dialogue/` |
 
 ---
 
 ## 设计语言
 
-站点最初的骨架来自 **《绝区零》式高对比工业终端**：深色底、细边框、网格、等宽状态标签、切角与硬偏移投影，强调“可扫描、可操作”的档案感。当前版本把这套骨架与 **苏联至上主义 / 构成主义** 结合，形成统一的视觉系统：
+站点骨架来自 **《绝区零》式高对比工业终端**：深色底、细边框、网格、等宽状态标签、切角与硬偏移投影，强调“可扫描、可操作”的档案感。当前版本以这套骨架为主视觉，只把 **苏联至上主义 / 构成主义** 当作档案注脚：几何块面、纸张与印刷色出现在画框、标签和局部色带中，而不是取代 ZZZ 的深色 HUD 与角色影像。
 
-- **三色系统**：紫色为主（`#8b5cf6` / `#a78bfa` / `#4c1d95`），正红（`#e01b2e`）负责冲突与动势，暗金（`#d8b25a` / `#f0cf7a`）负责索引、编号与高级感；米白（`#ece4d3`）只作为纸面与信息底板。
-- **几何解构**：方块、正圆、三角形、斜切色带与粗直线切割；对角线构图；避免写实透视。
+- **三色系统**：薰衣草紫（`#b69cff` / `#c7b5ff` / `#4c1d95`）承接 ZZZ 的角色色，正红（`#e01b2e`）负责冲突与动势，暗金（`#d8b25a` / `#f0cf7a`）负责索引与印刷感；酸性黄（`#eaff57`）只做 HUD 信号色，米白（`#ece4d3`）只作纸面与信息底板。
+- **几何解构**：方块、正圆、三角形、斜切色带与粗直线切割；对角线构图；避免写实透视。几何只做局部注脚，不铺满全屏。
 - **硬边质感**：大面积平涂、无柔和渐变、无软阴影；只用 1px 硬脊线、硬偏移投影和纸张噪点。
 - **页面差异化**：每个页面保留原有功能与信息结构。首页偏“角色档案 + 海报”，厨厨页偏沉浸式资料库，地图工具偏工业工作台，对话页偏纸面编辑台；统一的是配色、字体、边框和动势语言，而不是把所有页面做成同一张海报。
 - **交互**：滚动触发、卡片抬升、对角线强调、自定义光标；在 `prefers-reduced-motion` 下收敛动效。
@@ -335,7 +335,7 @@ npm.cmd run build
 
 `/dialogue` 把角色对话从厨厨页的 Tab 中独立出来，形成完整页面叙事：
 
-1. **开篇** —— 苏联构成主义 / 至上主义海报式首屏：马列维奇式方块、正圆、锐角楔形、粗直线切割与斜向红色色块，紫色主调 + 正红 + 暗金 + 米白平涂，无渐变、无软阴影，只用硬偏移投影与印刷颗粒。
+1. **开篇** —— 绝区零式深色 HUD 首屏，右侧嵌入一块「档案画框」：深色终端面板 + 酸性黄角标与 `ARCHIVE PLATE` 状态行，纸面内部才是马列维奇式方块、正圆、锐角楔形与细黑对角线。构成主义被收进画框，只作档案注脚；页面的主视觉仍是 ZZZ 的深色底、网格、等宽标签与硬边 HUD。
 2. **对话纪年** —— 横向滚动时间轴，刻度不是设定年表，而是**这一次对话本身**：每条用户提问与影的回答合成一张卡片（问 / 答 / 时间 / 引用数 / 状态），按真实轮次编号，点击可“跳至原文”。外层高度由 JS 按板块数撑开，原生 `position: sticky` 钉住视口，GSAP ScrollTrigger `scrub` 驱动横向位移；窄屏与 `prefers-reduced-motion` 下退化为竖向卡片列表。
 3. **对谈** —— 米白纸面面板上的对话线程（方形序号、红色问句、2px 硬脊线）。提问与回答正文使用 Zhi Mang Xing 手写行书字体；右侧展示心境 / 缘分 / 记忆 / 检索状态，以及读取自 SSE `meta.parameters` 的**生成参数**（温度、top_p、max_tokens、频率惩罚、存在惩罚），来源以学术脚注呈现。
 

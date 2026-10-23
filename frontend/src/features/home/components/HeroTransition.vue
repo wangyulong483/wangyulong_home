@@ -8,53 +8,27 @@
 
     <Teleport to="body">
       <section ref="stageRef" class="hero-stage" aria-label="MY WEBSITE 首页视觉">
-        <div class="hero-art-field" aria-hidden="true">
-          <span class="ha-grid"></span>
-
-          <!-- 纸：海报贴在纸上的那层底 -->
-          <span class="ha-paper"></span>
-
-          <!-- 印版：影的视频被裁切成一张印刷胶片 -->
-          <div class="ha-plate">
-            <div class="hp-zoom">
-              <div class="hp-window">
-                <video
-                  ref="videoRef"
-                  class="hero-video"
-                  :src="videoSrc"
-                  :poster="posterSrc"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata"
-                  disablepictureinpicture
-                  aria-hidden="true"
-                ></video>
-                <span class="hp-glow"></span>
-                <span class="hp-shade"></span>
-                <span class="hp-band"></span>
-                <span class="hp-square"></span>
-                <span class="hp-halftone"></span>
-                <span class="hp-scan"></span>
-                <span class="hp-grain"></span>
-                <span class="hp-spine">影　/　RAIDEN SHOGUN</span>
-                <span class="hp-reg reg-tl"></span>
-                <span class="hp-reg reg-br"></span>
-              </div>
-              <span class="hp-caption">PLATE 01　·　影　·　25FPS　·　2026</span>
-            </div>
-          </div>
-
-          <!-- 版面其他色块 -->
-          <span class="ha-tie"></span>
-          <span class="ha-wedge"></span>
-          <span class="ha-bar"></span>
-          <span class="ha-ring"></span>
-          <span class="ha-rule rule-a"></span>
-          <span class="ha-code">СУПРЕМАТИЗМ · 1923</span>
+        <video
+          ref="videoRef"
+          class="hero-video"
+          :src="videoSrc"
+          :poster="posterSrc"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+        ></video>
+        <div class="construct-layer" aria-hidden="true">
+          <span class="cz-grid"></span>
+          <span class="cz-red"></span>
+          <span class="cz-bone"></span>
+          <span class="cz-black"></span>
+          <span class="cz-gold"></span>
+          <span class="cz-ring"></span>
+          <span class="cz-band"></span>
         </div>
-
         <div class="hero-shade" aria-hidden="true"></div>
         <div ref="flashRef" class="transition-flash" aria-hidden="true"></div>
 
@@ -76,10 +50,7 @@
 
           <div class="hero-copy">
             <p class="hero-kicker"><span></span> WORLD FILE // 001</p>
-            <div class="hero-title-row">
-              <h1>MY<br /><strong>WEBSITE</strong></h1>
-              <span class="hero-seal" aria-hidden="true">影</span>
-            </div>
+            <h1>MY<br /><strong>WEBSITE</strong></h1>
             <div class="hero-statement">
               <p>记录学习、创造与仍在发生的旅程。</p>
               <p class="hero-quote">“谁终将点燃闪电，必长久如云漂泊。”</p>
@@ -87,11 +58,11 @@
 
             <router-link to="/about" class="hero-personnel" aria-label="查看关于我">
               <span class="personnel-photo">
-                <img src="/image/mylog.jpg" alt="王雨龙的头像" width="640" height="640" />
+                <img src="/image/mylog.jpg" alt="" width="640" height="640" />
               </span>
               <span class="personnel-meta">
                 <b>PERSONNEL // 001</b>
-                <span>王雨龙 · 归去来兮</span>
+                <span>ARCHIVE RECORD</span>
               </span>
             </router-link>
           </div>
@@ -160,13 +131,6 @@ function setVideoPaused(paused) {
   else if (shouldAutoplay()) video.play().catch(() => {})
 }
 
-function tuneVideo() {
-  const video = videoRef.value
-  if (!video) return
-  // 海报化的胶片节奏：略慢放，让画面读起来像一格一格的印刷品，而不是网页背景。
-  try { video.playbackRate = 0.85 } catch { /* ignore */ }
-}
-
 function setupAnimation() {
   const root = rootRef.value
   const stage = stageRef.value
@@ -177,8 +141,7 @@ function setupAnimation() {
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  // 光圈落在她脸上：桌面版印版在右侧偏中，移动版印版铺在上屏。
-  const focus = isMobile ? '50% 30%' : '66% 32%'
+  const focus = isMobile ? '58% 42%' : '72% 44%'
   const contentItems = root.querySelectorAll('.js-home-reveal')
   const navigation = document.querySelector(isMobile ? '.js-mobile-menu' : '.js-sidebar')
   animatedNavigation = navigation
@@ -192,10 +155,11 @@ function setupAnimation() {
     pointerEvents: 'auto',
     willChange: 'clip-path, opacity',
   })
-  gsap.set('.hero-art-field', { scale: 1, x: 0, y: 0, willChange: 'transform' })
-  gsap.set('.hp-zoom', { scale: 1, x: 0, y: 0, willChange: 'transform' })
-  gsap.set('.hp-band', { scaleY: 1, transformOrigin: 'top center' })
-  gsap.set('.hp-square', { scale: 1, transformOrigin: 'top left' })
+  gsap.set(video, {
+    scale: 1,
+    filter: 'saturate(0.9) contrast(1.05)',
+    willChange: 'transform, filter',
+  })
   gsap.set(content, { autoAlpha: reduceMotion ? 1 : 0.28 })
   gsap.set(contentItems, {
     autoAlpha: reduceMotion ? 1 : 0,
@@ -240,7 +204,6 @@ function setupAnimation() {
   })
 
   timeline
-    // 第一格：文案退场，印版开始承重
     .to('.hero-copy', {
       autoAlpha: 0,
       y: reduceMotion ? 0 : -42,
@@ -251,24 +214,12 @@ function setupAnimation() {
       autoAlpha: 0,
       duration: reduceMotion ? 0.06 : 0.14,
     }, 0.08)
-    // 第二格：色块自行生长，画面被“上墨”
-    .to('.hp-band', { scaleY: reduceMotion ? 1 : 2.4, duration: 0.34 }, 0.1)
-    .to('.hp-square', { scale: reduceMotion ? 1 : 1.9, duration: 0.34 }, 0.1)
-    .to('.hp-zoom', {
-      scale: reduceMotion ? 1 : 1.045,
-      x: reduceMotion ? 0 : -22,
-      y: reduceMotion ? 0 : -10,
+    .to(video, {
+      scale: reduceMotion ? 1 : 1.09,
+      filter: 'saturate(0.55) contrast(1.16)',
       duration: reduceMotion ? 0.12 : 0.5,
       ease: 'power2.inOut',
     }, 0.12)
-    .to('.hero-art-field', {
-      scale: reduceMotion ? 1 : 1.05,
-      x: reduceMotion ? 0 : -22,
-      y: reduceMotion ? 0 : -10,
-      duration: reduceMotion ? 0.12 : 0.5,
-      ease: 'power2.inOut',
-    }, 0.12)
-    // 第三格：取景光圈
     .to(apertureRef.value, {
       autoAlpha: reduceMotion ? 0 : 1,
       scale: 1,
@@ -284,16 +235,14 @@ function setupAnimation() {
       autoAlpha: 1,
       duration: 0.2,
     }, 0.32)
-    // 第四格：纸张曝光
     .to(flashRef.value, {
-      autoAlpha: reduceMotion ? 0 : 0.72,
+      autoAlpha: reduceMotion ? 0 : 0.78,
       duration: 0.05,
     }, 0.57)
     .to(flashRef.value, {
       autoAlpha: 0,
       duration: 0.13,
     }, 0.62)
-    // 第五格：收束成一点
     .to(stage, {
       clipPath: `circle(0% at ${focus})`,
       duration: reduceMotion ? 0.12 : 0.2,
@@ -351,7 +300,6 @@ function destroyAnimation() {
     ...(rootRef.value?.querySelectorAll('.js-home-reveal') || []),
   ].filter(Boolean)
   if (clearTargets.length) gsap.set(clearTargets, { clearProps: 'willChange' })
-  gsap.set('.hp-zoom, .hero-art-field', { clearProps: 'willChange' })
 }
 
 function onVisibilityChange() {
@@ -370,8 +318,6 @@ function onResize() {
 
 onMounted(async () => {
   await nextTick()
-  tuneVideo()
-  videoRef.value?.addEventListener('loadedmetadata', tuneVideo, { once: true })
   videoIsPaused = videoRef.value?.paused ?? false
   if (!shouldAutoplay()) setVideoPaused(true)
   setupAnimation()
@@ -393,6 +339,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', onResize)
 })
 </script>
+
 <style scoped>
 .hero-transition {
   position: relative;
@@ -410,345 +357,118 @@ onUnmounted(() => {
 }
 
 .hero-stage {
-  --bone: #ece4d3;
-  --ink: #0a0714;
-  --plate-cut: polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%);
-
   position: fixed;
   inset: 0;
   z-index: 100;
   overflow: hidden;
-  background: #0a0714;
+  background: #09090c;
   color: #f8f4e9;
   isolation: isolate;
 }
 
-.hero-art-field {
+.hero-video,
+.hero-shade,
+.transition-flash {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 62% 54% at 68% 36%, rgba(139, 92, 246, 0.14), transparent 64%),
-    radial-gradient(ellipse 44% 44% at 10% 82%, rgba(224, 27, 46, 0.07), transparent 72%),
-    linear-gradient(128deg, #0b0712 0%, #120c1e 50%, #07040c 100%);
-}
-
-.ha-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(216, 199, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(216, 199, 255, 0.05) 1px, transparent 1px);
-  background-size: 72px 72px;
-  -webkit-mask-image: linear-gradient(115deg, transparent 0 26%, #000 62%, #000 100%);
-  mask-image: linear-gradient(115deg, transparent 0 26%, #000 62%, #000 100%);
-}
-
-/* ---------- 纸：海报贴上去的那张纸 ---------- */
-.ha-paper {
-  position: absolute;
-  top: 8%;
-  left: 48.5%;
-  z-index: 0;
-  width: min(23.5vw, 360px);
-  height: min(76vh, 690px);
-  background: var(--bone);
-  transform: rotate(-4.2deg);
-  box-shadow: 12px 12px 0 rgba(4, 2, 10, 0.55);
-}
-
-/* ---------- 印版：视频 ---------- */
-.ha-plate {
-  position: absolute;
-  top: 12%;
-  left: 53%;
-  z-index: 2;
-  height: min(70vh, 640px);
-  width: auto;
-  aspect-ratio: 3 / 4;
-  transform: rotate(-1.6deg);
-  animation: plate-breathe 11s ease-in-out infinite alternate;
-}
-
-.hp-zoom {
-  position: absolute;
-  inset: 0;
-}
-
-/* 硬边投影：两层实心偏移、0 模糊，构成主义的硬边界 */
-.hp-zoom::before,
-.hp-zoom::after {
-  position: absolute;
-  inset: 0;
-  content: '';
-  clip-path: var(--plate-cut);
-}
-
-.hp-zoom::before {
-  z-index: 0;
-  background: var(--red);
-  transform: translate(10px, 11px);
-}
-
-.hp-zoom::after {
-  z-index: 0;
-  background: rgba(4, 2, 10, 0.62);
-  transform: translate(20px, 23px);
-}
-
-.hp-window {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-  clip-path: var(--plate-cut);
-  background: #100a1c;
-  isolation: isolate;
-  outline: 2px solid var(--ink);
-  outline-offset: -2px;
 }
 
 .hero-video {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: 58% 26%;
-  /* 保留影像本身的颜色，只做轻微印刷校正 */
-  filter: saturate(1.02) contrast(1.06) brightness(1.03);
-  transform: scale(1.02);
-}
-
-.hp-glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 40% 30% at 58% 26%, rgba(240, 207, 122, 0.3), transparent 72%);
-  mix-blend-mode: screen;
-  opacity: 0.5;
-}
-
-.hp-shade {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(0deg, rgba(8, 4, 18, 0.58) 0 6%, transparent 6.2%),
-    linear-gradient(90deg, rgba(8, 4, 18, 0.36) 0 4%, transparent 4.2%);
-}
-
-/* 色块遮罩：直接盖在画面上，像拼贴剪进去的纸 */
-.hp-band {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 9%;
-  background: var(--red);
-  box-shadow: 0 2px 0 rgba(236, 228, 211, 0.55);
-}
-
-.hp-square {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 20%;
-  height: 14%;
-  background: var(--ink);
-  clip-path: polygon(0 100%, 0 0, 55% 0, 100% 100%);
-}
-
-/* 网点：下半身化进印刷网屏 */
-.hp-halftone {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle at center, rgba(9, 5, 18, 0.92) 0.85px, transparent 1.15px);
-  background-size: 4px 4px;
-  mix-blend-mode: soft-light;
-  opacity: 0.16;
-  -webkit-mask-image: linear-gradient(0deg, #000 0 24%, transparent 46%);
-  mask-image: linear-gradient(0deg, #000 0 24%, transparent 46%);
-}
-
-/* 扫描线：让静止的海报保留视频的心跳 */
-.hp-scan {
-  position: absolute;
-  top: -26%;
-  left: 0;
-  width: 100%;
-  height: 26%;
-  background: linear-gradient(180deg, transparent, rgba(240, 207, 122, 0.42), transparent);
-  mix-blend-mode: screen;
-  opacity: 0.3;
-  animation: plate-scan 7.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.hp-grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.1;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.6'/%3E%3C/svg%3E");
-}
-
-.hp-spine {
-  position: absolute;
-  top: 15%;
-  left: 10px;
-  color: rgba(236, 228, 211, 0.78);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  writing-mode: vertical-rl;
-}
-
-/* 套准十字：印厂语言 */
-.hp-reg {
-  position: absolute;
-  z-index: 3;
-  width: 13px;
-  height: 13px;
-  border-top: 1px solid rgba(236, 228, 211, 0.7);
-  border-left: 1px solid rgba(236, 228, 211, 0.7);
-}
-
-.reg-tl { top: 16px; left: 16px; }
-.reg-br {
-  right: 16px;
-  bottom: 16px;
-  border: 0;
-  border-right: 1px solid rgba(236, 228, 211, 0.7);
-  border-bottom: 1px solid rgba(236, 228, 211, 0.7);
-}
-
-.hp-caption {
-  position: absolute;
-  top: calc(100% + 16px);
-  left: 0;
-  display: inline-block;
-  padding: 3px 6px;
-  background: rgba(9, 5, 18, 0.72);
-  color: rgba(236, 228, 211, 0.72);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  white-space: nowrap;
-  border-left: 2px solid var(--gold);
-}
-
-/* ---------- 版面其余元素 ---------- */
-.ha-tie {
-  position: absolute;
-  top: 47.5%;
-  left: 0;
-  z-index: 1;
-  width: 55%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(236, 228, 211, 0.28) 22%, rgba(236, 228, 211, 0.28));
-}
-
-.ha-wedge {
-  position: absolute;
-  bottom: -14%;
-  left: -8%;
-  z-index: 1;
-  width: 74vw;
-  height: 26vh;
-  background: #cf1b2d;
-  transform: rotate(-11deg);
-  transform-origin: left center;
-}
-
-.ha-bar {
-  position: absolute;
-  top: 21%;
-  right: 6.5%;
-  z-index: 1;
-  width: 13px;
-  height: 33vh;
-  background: var(--gold);
-  transform: rotate(-1.6deg);
-}
-
-.ha-ring {
-  position: absolute;
-  right: 12%;
-  bottom: 17%;
-  z-index: 1;
-  width: min(15vh, 150px);
-  aspect-ratio: 1;
-  border: 1px solid rgba(216, 178, 90, 0.66);
-  border-radius: 50%;
-}
-
-.ha-rule {
-  position: absolute;
-  z-index: 1;
-  height: 2px;
-  background: rgba(236, 228, 211, 0.5);
-  transform-origin: left center;
-}
-
-.rule-a {
-  top: 72%;
-  left: 4%;
-  width: 33vw;
-  transform: rotate(-19deg);
-}
-
-.ha-code {
-  position: absolute;
-  top: 11%;
-  right: 2.6%;
-  z-index: 2;
-  color: rgba(236, 228, 211, 0.45);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.32em;
-  writing-mode: vertical-rl;
-}
-
-@keyframes plate-scan {
-  0% { transform: translateY(0); opacity: 0; }
-  12% { opacity: 0.7; }
-  70% { opacity: 0.5; }
-  100% { transform: translateY(500%); opacity: 0; }
-}
-
-@keyframes plate-breathe {
-  from { transform: rotate(-1.6deg) translate3d(0, -5px, 0); }
-  to { transform: rotate(-1.6deg) translate3d(0, 7px, 0); }
-}
-
-.hero-stage::after {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  content: '';
-  pointer-events: none;
-  opacity: 0.18;
-  mix-blend-mode: soft-light;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  object-position: center;
 }
 
 .hero-shade {
-  position: absolute;
-  inset: 0;
   z-index: 1;
   background:
-    linear-gradient(97deg, rgba(8, 5, 16, 0.9) 0 39%, rgba(8, 5, 16, 0.5) 39.2% 52%, rgba(8, 5, 16, 0.08) 52.2% 100%),
-    linear-gradient(0deg, rgba(8, 5, 16, 0.78) 0 12%, transparent 12.2%);
+    linear-gradient(90deg, rgba(8, 8, 12, 0.82) 0%, rgba(8, 8, 12, 0.28) 48%, rgba(8, 8, 12, 0.12) 100%),
+    linear-gradient(0deg, rgba(8, 8, 12, 0.66) 0%, transparent 40%);
+}
+
+
+/* —— 构成主义只作为绝区零 HUD 上的一层印刷注脚 —— */
+.construct-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cz-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(246, 243, 233, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(246, 243, 233, 0.035) 1px, transparent 1px);
+  background-size: 96px 96px;
+  mask-image: linear-gradient(90deg, transparent 20%, #000 85%);
+}
+
+.cz-red {
+  position: absolute;
+  top: 31%;
+  left: 32px;
+  width: 7px;
+  height: 22%;
+  background: var(--red);
+}
+
+.cz-bone {
+  position: absolute;
+  top: calc(31% - 18px);
+  left: 32px;
+  width: 86px;
+  height: 1px;
+  background: rgba(246, 243, 233, 0.72);
+}
+
+.cz-black {
+  position: absolute;
+  top: 12%;
+  right: 16%;
+  width: min(7vw, 104px);
+  aspect-ratio: 1;
+  background: #09090c;
+  border: 1px solid rgba(246, 243, 233, 0.18);
+}
+
+.cz-gold {
+  position: absolute;
+  top: 12%;
+  right: calc(16% + min(7vw, 104px) + 13px);
+  width: 2px;
+  height: min(9vh, 92px);
+  background: var(--gold);
+}
+
+.cz-ring {
+  position: absolute;
+  right: 17%;
+  bottom: 14%;
+  width: min(12vw, 156px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(182, 156, 255, 0.72);
+  border-radius: 50%;
+}
+
+.cz-band {
+  position: absolute;
+  bottom: 9%;
+  left: -4%;
+  width: 54%;
+  height: 4px;
+  background: var(--red);
+  transform: rotate(-3.5deg);
+  transform-origin: left center;
 }
 
 .transition-flash {
-  position: absolute;
-  inset: 0;
   z-index: 5;
-  background: var(--bone);
+  background: #eaff57;
   pointer-events: none;
 }
 
@@ -760,6 +480,7 @@ onUnmounted(() => {
 }
 
 .hero-interface {
+  z-index: 4;
   display: flex;
   flex-direction: column;
   padding: 34px 42px 30px;
@@ -786,19 +507,19 @@ onUnmounted(() => {
   width: 42px;
   height: 26px;
   place-items: center;
-  background: var(--gold-bright);
-  color: #12100f;
+  background: var(--signal);
+  color: #0b0b0e;
   font-family: var(--font-display);
 }
 
 .hero-coordinate {
-  color: rgba(236, 228, 211, 0.5);
+  color: rgba(255, 255, 255, 0.56);
 }
 
 .hero-copy {
-  width: min(720px, 60vw);
+  width: min(680px, 66vw);
   margin-block: auto;
-  padding-left: 5.5vw;
+  padding-left: 6vw;
 }
 
 .hero-kicker {
@@ -806,11 +527,10 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   margin-bottom: 18px;
-  color: var(--gold-bright);
+  color: var(--signal);
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
 }
 
 .hero-kicker span {
@@ -819,91 +539,68 @@ onUnmounted(() => {
   background: currentColor;
 }
 
-.hero-title-row {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  gap: 18px;
-}
-
 .hero-copy h1 {
   margin: 0;
   color: #f8f4e9;
-  font-family: var(--font-display);
-  font-size: 96px;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 100px;
   line-height: 0.82;
   letter-spacing: 0;
   text-transform: uppercase;
+  text-shadow: 0 10px 38px rgba(0, 0, 0, 0.34);
 }
 
 .hero-copy h1 strong {
-  color: #f8f4e9;
-  -webkit-text-stroke: 0;
-  text-stroke: 0;
-}
-
-/* 印章：她的名字本身也是版面里的一个色块 */
-.hero-seal {
-  display: grid;
-  width: 62px;
-  height: 62px;
-  margin-bottom: 6px;
-  place-items: center;
-  border: 2px solid var(--red);
-  background: var(--bone);
-  color: #b3142a;
-  font-family: var(--font-serif);
-  font-size: 34px;
-  line-height: 1;
-  transform: rotate(-3deg);
-  box-shadow: 6px 6px 0 rgba(224, 27, 46, 0.9);
+  color: transparent;
+  -webkit-text-stroke: 1.5px #f8f4e9;
+  text-stroke: 1.5px #f8f4e9;
 }
 
 .hero-statement {
   display: grid;
-  grid-template-columns: minmax(160px, 250px) minmax(200px, 1fr);
+  grid-template-columns: minmax(160px, 250px) minmax(220px, 1fr);
   gap: 30px;
   margin-top: 34px;
   padding-top: 18px;
-  border-top: 1px solid rgba(236, 228, 211, 0.26);
-  color: rgba(255, 255, 255, 0.74);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 13px;
   line-height: 1.7;
 }
 
 .hero-quote {
-  color: rgba(236, 228, 211, 0.92);
+  color: rgba(255, 255, 255, 0.9);
   font-family: var(--font-serif);
 }
 
-/* 人物档案卡：头像不再躲在右侧栏里 */
 .hero-personnel {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  margin-top: 24px;
-  padding: 6px 14px 6px 6px;
-  border: 1px solid rgba(236, 228, 211, 0.24);
-  border-left: 3px solid var(--red);
-  background: rgba(236, 228, 211, 0.05);
+  gap: 12px;
+  margin-top: 22px;
+  padding: 5px 12px 5px 5px;
+  color: #f6f3e9;
   text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  background: rgba(11, 11, 14, 0.46);
+  border: 1px solid rgba(246, 243, 233, 0.28);
+  border-left: 3px solid var(--red);
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .hero-personnel:hover {
-  border-color: rgba(216, 178, 90, 0.6);
-  background: rgba(236, 228, 211, 0.09);
+  background: rgba(11, 11, 14, 0.68);
+  border-color: rgba(234, 255, 87, 0.62);
+  border-left-color: var(--red);
 }
 
 .personnel-photo {
-  position: relative;
   display: block;
-  flex: none;
-  width: 56px;
-  height: 56px;
-  padding: 3px;
-  background: var(--bone);
-  box-shadow: 4px 4px 0 var(--red);
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  background: #ece4d3;
+  box-shadow: 3px 3px 0 var(--red);
 }
 
 .personnel-photo img {
@@ -911,41 +608,30 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.95) contrast(1.04);
-}
-
-.personnel-photo::after {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 6px;
-  height: 6px;
-  content: '';
-  border-radius: 50%;
-  background: var(--gold-bright);
-  box-shadow: 0 0 0 2px var(--ink);
+  filter: saturate(0.92) contrast(1.04);
 }
 
 .personnel-meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 
 .personnel-meta b {
-  color: var(--gold-bright);
+  color: var(--signal);
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
 }
 
 .personnel-meta span {
-  color: var(--bone);
-  font-family: var(--font-serif);
-  font-size: 13px;
-  letter-spacing: 0.06em;
+  color: rgba(246, 243, 233, 0.66);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
 }
+
 
 .hero-status {
   position: absolute;
@@ -958,7 +644,7 @@ onUnmounted(() => {
 }
 
 .hero-status span:first-child {
-  color: var(--gold-bright);
+  color: var(--signal);
 }
 
 .scroll-cue {
@@ -978,14 +664,14 @@ onUnmounted(() => {
   width: 64px;
   height: 1px;
   overflow: hidden;
-  background: rgba(236, 228, 211, 0.3);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .scroll-line::after {
   position: absolute;
   inset: 0;
   content: '';
-  background: var(--gold-bright);
+  background: var(--signal);
   animation: scan 1.8s ease-in-out infinite;
 }
 
@@ -998,7 +684,7 @@ onUnmounted(() => {
   position: absolute;
   width: 34px;
   height: 34px;
-  border-color: rgba(236, 228, 211, 0.28);
+  border-color: rgba(255, 255, 255, 0.34);
 }
 
 .corner-a { top: 18px; left: 18px; border-top: 1px solid; border-left: 1px solid; }
@@ -1008,12 +694,12 @@ onUnmounted(() => {
 
 .aperture-guide {
   position: absolute;
-  top: 32%;
-  left: 66%;
+  top: 44%;
+  left: 72%;
   z-index: 4;
   width: min(34vw, 480px);
   aspect-ratio: 1;
-  border: 1px solid rgba(236, 228, 211, 0.6);
+  border: 1px solid rgba(234, 255, 87, 0.72);
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
@@ -1025,7 +711,7 @@ onUnmounted(() => {
 .aperture-guide span::after {
   position: absolute;
   content: '';
-  background: var(--gold-bright);
+  background: var(--signal);
 }
 
 .aperture-guide::before { top: 50%; left: -18px; width: 36px; height: 1px; }
@@ -1042,70 +728,9 @@ onUnmounted(() => {
   .hero-copy h1 { font-size: 112px; }
 }
 
-@media (max-width: 1100px) {
-  .hero-copy h1 { font-size: 78px; }
-  .ha-plate { left: 52%; height: min(58vh, 520px); }
-  .ha-paper { left: 46%; width: 26vw; }
-}
-
 @media (max-width: 768px) {
   .transition-spacer {
     height: 135svh;
-  }
-
-  .ha-paper {
-    top: 6%;
-    left: 12%;
-    width: 56vw;
-    height: 42vh;
-    transform: rotate(-5deg);
-  }
-
-  .ha-plate {
-    top: 9%;
-    left: 50%;
-    height: 47vh;
-    transform: translateX(-38%) rotate(-1.6deg);
-    animation: none;
-  }
-
-  .ha-tie,
-  .rule-a {
-    display: none;
-  }
-
-  .ha-wedge {
-    bottom: 21%;
-    left: -18%;
-    width: 112vw;
-    height: 13vh;
-    transform: rotate(-7deg);
-  }
-
-  .ha-bar {
-    top: 12%;
-    right: 5%;
-    width: 10px;
-    height: 16vh;
-  }
-
-  .ha-ring {
-    right: 6%;
-    bottom: 27%;
-    width: 15vh;
-  }
-
-  .ha-code {
-    display: none;
-  }
-
-  .hp-caption {
-    display: none;
-  }
-
-  .hero-shade {
-    background:
-      linear-gradient(0deg, rgba(8, 5, 16, 0.97) 0 44%, rgba(8, 5, 16, 0.62) 44.2% 62%, rgba(8, 5, 16, 0.2) 62.2% 100%);
   }
 
   .hero-interface {
@@ -1119,12 +744,12 @@ onUnmounted(() => {
   .hero-copy {
     width: 100%;
     margin-top: auto;
-    margin-bottom: 9vh;
+    margin-bottom: 12vh;
     padding-left: 0;
   }
 
   .hero-copy h1 {
-    font-size: 54px;
+    font-size: 56px;
     line-height: 0.86;
   }
 
@@ -1135,36 +760,55 @@ onUnmounted(() => {
   }
 
   .personnel-photo {
-    width: 46px;
-    height: 46px;
-    box-shadow: 3px 3px 0 var(--red);
+    width: 38px;
+    height: 38px;
   }
 
   .personnel-meta b {
-    font-size: 9px;
-    letter-spacing: 0.12em;
+    font-size: 8px;
   }
 
   .personnel-meta span {
-    font-size: 12px;
+    font-size: 9px;
+  }
+
+  .cz-grid {
+    background-size: 64px 64px;
+  }
+
+  .cz-red {
+    top: 34%;
+    left: 20px;
+    width: 5px;
+    height: 18%;
+  }
+
+  .cz-bone {
+    top: calc(34% - 14px);
+    left: 20px;
+    width: 52px;
+  }
+
+  .cz-black,
+  .cz-gold,
+  .cz-ring {
+    display: none;
+  }
+
+  .cz-band {
+    bottom: 12%;
+    width: 64%;
+    height: 3px;
   }
 
   .hero-copy h1 strong {
-    -webkit-text-stroke-width: 0;
-  }
-
-  .hero-seal {
-    width: 42px;
-    height: 42px;
-    margin-bottom: 2px;
-    font-size: 23px;
-    box-shadow: 4px 4px 0 rgba(224, 27, 46, 0.9);
+    -webkit-text-stroke-width: 1px;
   }
 
   .hero-statement {
     grid-template-columns: 1fr;
     gap: 8px;
-    margin-top: 22px;
+    margin-top: 24px;
     font-size: 11px;
   }
 
@@ -1187,16 +831,14 @@ onUnmounted(() => {
   }
 
   .aperture-guide {
-    top: 30%;
-    left: 50%;
-    width: 58vw;
+    top: 42%;
+    left: 58%;
+    width: 48vw;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scroll-line::after,
-  .hp-scan,
-  .ha-plate {
+  .scroll-line::after {
     animation: none;
   }
 }
