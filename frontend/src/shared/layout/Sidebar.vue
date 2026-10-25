@@ -54,8 +54,8 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/hot-topics" class="nav-link" @click="close">
-              <span class="nav-code">02</span><AppIcon icon="bullhorn" size="18" /><span>行业热点</span>
+            <router-link to="/blog" class="nav-link" @click="close">
+              <span class="nav-code">02</span><AppIcon icon="document" size="18" /><span>博客文章</span>
             </router-link>
           </li>
           <li>

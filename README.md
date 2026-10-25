@@ -43,6 +43,7 @@
 | `/` | 首页 | 视频开场、滚动叙事、旅途同行者角色档案、世界索引、项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
 | `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 | `frontend/src/pages/About.vue` |
 | `/applist` | 应用列表 | 统一管理游戏、热点、地图工具、厨厨与对话模块 | `frontend/src/pages/AppList.vue` |
+| `/blog` | 个人博客文章 | 简洁文章页骨架，暂无正文；右上 GitHub 图标入口（@wangyulong483） | `frontend/src/pages/Blog.vue` |
 | `/game` | 飞机大战 | Canvas 射击游戏，支持键盘与移动端触控 | `frontend/src/pages/Game.vue` |
 | `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人 / AI 动态，支持搜索、分类与日期归档 | `frontend/src/pages/HotTopics.vue`、`frontend/public/topics-data/` |
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区 / 限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |

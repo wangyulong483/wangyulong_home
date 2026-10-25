@@ -393,3 +393,31 @@
 - 「世界索引」第三张「与影对谈」入口不再使用 CSS 终端占位图，改为 /image/dialogue-vanguard.webp 封面；object-position: 50% 20% 保留人物上层构图，卡片底部渐变压暗保证标题可读。
 - 清理 portal-terminal / portal-art 及其 pt-/pa- 子元素样式与模板分支，卡片图片按 800×1200 宽高声明。
 - 验证：构建成功，47/47 测试通过；1440×900 与 390×844 下 cz-black 为 0、入口图 naturalWidth=800、无横向溢出、无破图。
+
+===============================================================
+
+## 执行记录（2026-10-25 · 第六轮：侧边栏新增「个人博客文章」模块）
+
+### 用户要求
+
+- 行业热点不适合放在侧边栏快捷方式，替换为新模块「个人博客文章」。
+- 页面跟随网站风格，简捷、典雅；正文内容暂时不写。
+- 可放 GitHub 账号，用 GitHub 图标代替展示。
+
+### 落地
+
+- 新增 frontend/src/pages/Blog.vue，路由 /blog（name: Blog）。
+- 侧边栏第二项由 /hot-topics / bullhorn / 行业热点 改为 /blog / document / 博客文章，编号 02 不变；行业热点页面与 AppList 入口保留，仅退出侧边栏。
+- 页面采用深色底、细边框、等宽小标签与衬线正文：JOURNAL / 个人博客文章 kicker、个人博客大标题、00 线框编号、ARCHIVE / EMPTY 空状态、WYL / JOURNAL 页脚。
+- GitHub 账号 wangyulong483 以 62×62 的 GitHub 图标块呈现，链接 https://github.com/wangyulong483，target=_blank，aria-label 与 title 标注账号；移动端改为横向图标按钮并下移，避开右上角浮动 AI 按钮。
+- 正文保持空白，仅说明内容之后补充。
+
+### 验证
+
+- npm.cmd --prefix frontend run test：47/47 通过；npm.cmd --prefix frontend run build：成功。
+- 无头 Edge 1440×900：侧边栏显示「02 博客文章」且 active，/blog 标题为「个人博客.」，GitHub 链接与 SVG 图标正确，无横向溢出、无破图。
+- 无头 Edge 390×844：GitHub 图标按钮 94×44 位于标题下方，避开浮动按钮，无横向溢出。
+
+### 部署状态
+
+- 仍按用户 m01023 暂不部署；本地预览 http://127.0.0.1:4173/blog。
