@@ -40,7 +40,7 @@
 
 | 路由 | 模块 | 能力 | 主要代码 |
 |------|------|------|----------|
-| `/` | 首页 | 视频开场、滚动叙事、旅途同行者角色档案、世界索引、项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
+| `/` | 首页 | 静态先锋主视觉、滚动叙事、旅途同行者角色档案、世界索引、项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
 | `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 | `frontend/src/pages/About.vue` |
 | `/applist` | 应用列表 | 统一管理游戏、热点、地图工具、厨厨与对话模块 | `frontend/src/pages/AppList.vue` |
 | `/game` | 飞机大战 | Canvas 射击游戏，支持键盘与移动端触控 | `frontend/src/pages/Game.vue` |
@@ -83,7 +83,7 @@
 | 动效与内容 | GSAP + ScrollTrigger、marked、Canvas、SVG |
 | 构建 | Vite 8、Node.js 22+ |
 | 生产 API | Cloudflare Pages Worker（`frontend/_worker.js`） |
-| AI | DeepSeek V4.1 Flash（API 模型标识 `deepseek-flash`，失败回退 `deepseek-v4-flash` / `deepseek-chat`） |
+| AI | DeepSeek V4.1 Flash 1017（API 模型标识 `deepseek-flash`，角色对话开启思考链；失败回退 `deepseek-v4-flash` / `deepseek-chat`） |
 | 搜索 | Brave Search API（角色聊天按需检索现实世界近况） |
 | 模型工具 | GitHub 只读结构化档案（genshin-db、Chat-Haruhi-Suzumiya 角色卡） |
 | 本地示例 API | FastAPI、Uvicorn |
@@ -127,7 +127,7 @@ vue_blog/
 |   |   |-- app/                         # 应用壳、全局设计令牌、路由
 |   |   |-- pages/                       # 路由级页面（薄壳）
 |   |   |-- features/
-|   |   |   |-- home/                    # 首页视频、滚动过渡、角色档案
+|   |   |   |-- home/                    # 首页主视觉、滚动过渡、角色档案
 |   |   |   |-- dialogue/                # 与影对谈：时间轴、纸面线程、流式客户端
 |   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
 |   |   |   `-- shrine/                  # 画廊、Wiki、资讯与检索
@@ -337,7 +337,7 @@ npm.cmd run build
 
 1. **开篇** —— 绝区零式深色 HUD 首屏，右侧嵌入一块「档案画框」：深色终端面板 + 酸性黄角标与 `ARCHIVE PLATE` 状态行，纸面内部才是马列维奇式方块、正圆、锐角楔形与细黑对角线。构成主义被收进画框，只作档案注脚；页面的主视觉仍是 ZZZ 的深色底、网格、等宽标签与硬边 HUD。
 2. **对话纪年** —— 横向滚动时间轴，刻度不是设定年表，而是**这一次对话本身**：每条用户提问与影的回答合成一张卡片（问 / 答 / 时间 / 引用数 / 状态），按真实轮次编号，点击可“跳至原文”。外层高度由 JS 按板块数撑开，原生 `position: sticky` 钉住视口，GSAP ScrollTrigger `scrub` 驱动横向位移；窄屏与 `prefers-reduced-motion` 下退化为竖向卡片列表。
-3. **对谈** —— 米白纸面面板上的对话线程（方形序号、红色问句、2px 硬脊线）。提问与回答正文使用 Zhi Mang Xing 手写行书字体；右侧展示心境 / 缘分 / 记忆 / 检索状态，以及读取自 SSE `meta.parameters` 的**生成参数**（温度、top_p、max_tokens、频率惩罚、存在惩罚），来源以学术脚注呈现。
+3. **对谈** —— 米白纸面面板上的对话线程（方形序号、红色问句、2px 硬脊线）。提问与回答正文使用 Zhi Mang Xing 手写行书字体；右侧展示心境 / 缘分 / 记忆 / 检索状态，以及读取自 SSE `meta.parameters` 的**生成参数**（温度、top_p、max_tokens、频率惩罚、存在惩罚、思考链），来源以学术脚注呈现。
 
 轮次配对的纯函数在 `frontend/src/features/dialogue/composables/useDialogueTimeline.js`（`buildConversationTimeline`）。旧的世界观年表 `frontend/src/features/dialogue/data/chronicle.js` 不再参与页面渲染，仅作为站内 canonical 年表的归档保留，并由 `dialogue-chronicle.test.mjs` 继续保护。
 
@@ -345,12 +345,12 @@ npm.cmd run build
 
 对话接口支持 SSE 流式输出：请求体带 `stream: true` 时返回 `text/event-stream`，事件序列为 `meta → delta* →（可选 replace）→ done`；不带 `stream` 时保持一次性 JSON 响应。前端在流式不可用时自动降级。
 
-Worker 通过 `thinking: { type: 'disabled' }` 关闭 thinking，并使用采样参数稳定角色声线。当前调优值：
+角色对话使用 1017 模型并开启 `thinking`，修订链路保持非思考以稳定复核结果。当前调优值：
 
 | 场景 | max_tokens | temperature | top_p | frequency_penalty | presence_penalty |
 |------|------------|-------------|-------|-------------------|------------------|
-| 角色对话 | 1200 | 0.85 | 0.94 | 0.3 | 0.15 |
-| 稳定性复核 / 修订 | 800 | 0.22 | 0.82 | — | — |
+| 角色对话（思考链开启） | 2400 | 0.9 | 0.95 | 0.25 | 0.2 |
+| 稳定性复核 / 修订 | 900 | 0.22 | 0.82 | — | — |
 
 SSE 的 `meta` 事件会把本轮参数随 `parameters` 字段下发，页面右侧「生成参数」据此渲染。
 

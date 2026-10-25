@@ -319,3 +319,37 @@
 - 继续遵守用户 m01023「暂时不要部署」，本轮未执行 wrangler，生产仍是上一版。
 - 本地预览保持运行：`http://127.0.0.1:4173/`（preview job `bash-44fb924094a341ca`，绑定 127.0.0.1）。
 - 待用户确认后执行：`npx.cmd wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main`。
+
+===============================================================
+
+## 执行记录（2026-10-23 · 第四轮：首页单图、对谈入口与 1017 思考模型）
+
+### 用户反馈
+
+- 首页同一张「影」的掩码图出现两次，且画面旁边还在介绍她的名字（RAIDEN SHOGUN / 影）。
+- 首页并列模块里「与影对谈」的缩略图是先锋主义笔记纸面，与模块语义不符。
+- 希望构造一张「影」的先锋主义形象，参考掩码图的构图。
+- 与影对谈改用最新 1017 模型，开启思考链，微调采样参数，并打磨角色扮演提示词。
+
+### 落地
+
+- 首页主视觉由视频改为单张静态先锋画：HeroTransition.vue 使用 picture 输出 /image/ei-vanguard.webp，移动端切换 /image/ei-vanguard-mobile.webp；画面为紫色双色调、米白纸面、红三角与硬边几何，只出现一次，保留 ZZZ HUD 顶栏、四角框、人物档案卡与 SCROLL 提示。
+- 删除首页重复的 character-stage 整段：人物立绘、PLATE 02 · 影 · 稻妻 · 1993、RAIDEN SHOGUN / 影 标签与 ELECTRO // ETERNITY 竖排全部移除，对应 scoped CSS 一并清理。
+- 首页「与影对谈」入口卡改为 portal-terminal 对话终端缩略图：深紫径向底、酸性黄网格、左右气泡、闪烁光标与红色斜线，替换原先的米白构成主义笔记纸。
+- 模型切到 DeepSeek-V4.1-Flash-1017：角色对话 thinking enabled、max_tokens 2400、temperature 0.9、top_p 0.95、frequency_penalty 0.25、presence_penalty 0.2；修订链路 thinking disabled、max_tokens 900。回退模型强制关闭 thinking，避免 400。
+- parameters 与 meta 增加 thinking 布尔值；对谈页「生成参数」新增「思考链 开启 / 关闭」，生成中阶段文案显示「正在推演…」。
+- 新增 ROLEPLAY_CRAFT 提示词段：先回应情绪节拍、给一个具体感官细节、先回答再议论、不复读用户与问候、不替用户叙述、默认 2–5 句或 1–3 个短段。
+
+### 验证
+
+- npm.cmd --prefix frontend run test：47/47 通过。
+- npm.cmd --prefix frontend run build：成功，入口 assets/index-D4P8qURm.js、assets/index-C3eXep0c.css。
+- 无头 Edge 1440×900：首页 .hero-art img 仅 1 张、无 video、无字符标签、无破图、无横向溢出；主标题 Geist 112px；「与影对谈」为 portal-terminal。
+- 无头 Edge 390×844：首页加载移动版画作，无视频、无破图、无溢出。
+- 对谈页注入 2 轮对话后：生成模型显示 DeepSeek-V4.1-Flash-1017，参数为 0.9 / 0.95 / 2400 tokens / 0.25 / 0.2，思考链 开启；正文仍为 Zhi Mang Xing 手写体。
+
+### 部署状态
+
+- 继续遵守用户 m01023「暂时不要部署」，本轮未执行 wrangler。
+- 本地预览保持运行：http://127.0.0.1:4173/（job bash-62a91293de2c4e4d，绑定 127.0.0.1）。
+- 待用户确认后执行：npx.cmd wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main。

@@ -1,70 +1,6 @@
 <template>
-  <HeroTransition
-    video-src="/video/试试_6.mp4"
-    poster-src="/video/hero-poster.webp"
-    @progress="onProgress"
-  >
+  <HeroTransition @progress="onProgress">
     <div class="home-world">
-      <section class="character-stage js-home-reveal" aria-labelledby="world-title">
-        <div class="stage-grid" aria-hidden="true"></div>
-        <div class="chapter-index" aria-hidden="true">01</div>
-
-        <div class="intro-copy">
-          <p class="section-kicker"><span></span> PERSONAL WORLD / 2026</p>
-          <h2 id="world-title">雷鸣之后<br /><em>是我的世界</em></h2>
-          <p class="intro-lead">
-            这里收录我的机器人实践、代码实验与长期兴趣。
-            技术是通往未知的列车，热爱让每一站拥有名字。
-          </p>
-
-          <div class="intro-actions">
-            <router-link to="/applist" class="command command-primary">
-              <AppIcon icon="controller" size="18" />
-              进入应用
-              <AppIcon icon="arrow-right" size="15" />
-            </router-link>
-            <router-link to="/about" class="command">
-              <AppIcon icon="document" size="17" />
-              查看记录
-            </router-link>
-          </div>
-
-          <dl class="world-stats">
-            <div><dt>FOCUS</dt><dd>ROS2 / AI / ROBOTICS</dd></div>
-            <div><dt>STATUS</dt><dd><span class="status-dot"></span> CONTINUING</dd></div>
-          </dl>
-        </div>
-
-        <div class="character-visual">
-          <div class="visual-backdrop" aria-hidden="true"></div>
-
-          <!-- 丝网印：立绘印在纸上，只有两种油墨 -->
-          <figure class="portrait-plate">
-            <span class="pp-paper" aria-hidden="true"></span>
-            <span class="pp-shadow" aria-hidden="true"></span>
-            <div class="pp-window">
-              <img
-                src="/shrine-data/images/image (1).webp"
-                alt="雷电将军（影）与稻妻城的角色立绘"
-                width="1200"
-                height="1200"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="pp-ink" aria-hidden="true"></span>
-              <span class="pp-halftone" aria-hidden="true"></span>
-              <span class="pp-grain" aria-hidden="true"></span>
-              <span class="pp-reg reg-tl" aria-hidden="true"></span>
-              <span class="pp-reg reg-br" aria-hidden="true"></span>
-            </div>
-            <figcaption class="pp-caption">PLATE 02 · 影 · 稻妻 · 1993</figcaption>
-          </figure>
-
-          <p class="character-label">RAIDEN SHOGUN <span>影</span></p>
-          <p class="vertical-type" aria-hidden="true">ELECTRO // ETERNITY</p>
-        </div>
-      </section>
-
       <HoyoverseRoster />
 
       <section class="portal-section js-home-reveal" aria-labelledby="portal-title">
@@ -93,12 +29,16 @@
               decoding="async"
               fetchpriority="low"
             />
-            <span v-else class="portal-art" aria-hidden="true">
-              <i class="pa-purple"></i>
-              <i class="pa-black"></i>
-              <i class="pa-red"></i>
-              <i class="pa-gold"></i>
-              <i class="pa-line"></i>
+            <span v-else-if="portal.art === 'dialogue'" class="portal-terminal" aria-hidden="true">
+              <i class="pt-bar"></i>
+              <i class="pt-dot pt-dot-a"></i>
+              <i class="pt-dot pt-dot-b"></i>
+              <i class="pt-dot pt-dot-c"></i>
+              <i class="pt-bubble pt-bubble-a"></i>
+              <i class="pt-bubble pt-bubble-b"></i>
+              <i class="pt-bubble pt-bubble-c"></i>
+              <i class="pt-caret"></i>
+              <i class="pt-rule"></i>
             </span>
             <span class="portal-shade" aria-hidden="true"></span>
             <span class="portal-number">0{{ index + 1 }}</span>
@@ -238,12 +178,11 @@ const portals = [
     alt: 'YOLOv5 视觉训练项目画面',
   },
   {
-    to: '/shrine',
-    title: '一心净土',
-    eyebrow: 'ARCHIVE / ETERNITY',
-    description: '雷电影角色应援与资料库',
-    image: '/shrine-data/images/image (2).webp',
-    alt: '雷电将军雷元素纹样',
+    to: '/dialogue',
+    title: '与影对谈',
+    eyebrow: 'DIALOGUE / ARCHIVE',
+    description: '把每一次问答，压成一条刻度',
+    art: 'dialogue',
   },
 ]
 
@@ -266,42 +205,6 @@ function onProgress(progress) {
   background: var(--bg-primary);
 }
 
-.character-stage {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(380px, 46%);
-  min-height: 86svh;
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-  isolation: isolate;
-}
-
-.stage-grid {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 72px 72px;
-}
-
-.chapter-index {
-  position: absolute;
-  top: 42px;
-  left: 46px;
-  color: rgba(255, 255, 255, 0.045);
-  font-family: var(--font-display);
-  font-size: 180px;
-  line-height: 0.8;
-}
-
-.intro-copy {
-  align-self: center;
-  width: min(100%, 720px);
-  padding: 100px clamp(40px, 7vw, 110px) 84px;
-}
-
 .section-kicker {
   display: flex;
   align-items: center;
@@ -318,290 +221,6 @@ function onProgress(progress) {
   width: 42px;
   height: 2px;
   background: currentColor;
-}
-
-.intro-copy h2 {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 64px;
-  line-height: 1.02;
-  letter-spacing: 0;
-}
-
-.intro-copy h2 em {
-  color: transparent;
-  font-style: normal;
-  -webkit-text-stroke: 1px var(--accent);
-  text-stroke: 1px var(--accent);
-}
-
-.intro-lead {
-  max-width: 560px;
-  margin-top: 30px;
-  color: var(--text-secondary);
-  font-size: 16px;
-  line-height: 1.9;
-}
-
-.intro-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 38px;
-}
-
-.command {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 46px;
-  padding: 0 20px;
-  border: 1px solid rgba(216, 199, 255, 0.24);
-  border-radius: var(--radius);
-  background: #171022;
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), background 0.25s var(--ease-out);
-}
-
-.command:hover {
-  border-color: var(--purple);
-  background: #221735;
-  color: var(--gold-bright);
-  box-shadow: 4px 4px 0 rgba(6, 3, 14, 0.7);
-  transform: translate(-2px, -2px);
-}
-
-.command-primary {
-  border-color: var(--purple);
-  background: var(--purple);
-  color: #0c0716;
-  box-shadow: 4px 4px 0 var(--red);
-}
-
-.command-primary:hover {
-  border-color: var(--purple-bright);
-  background: var(--purple-bright);
-  color: #0c0716;
-  box-shadow: 4px 4px 0 var(--gold);
-}
-
-.world-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 54px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-}
-
-.world-stats div {
-  min-width: 0;
-}
-
-.world-stats dt {
-  margin-bottom: 5px;
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 9px;
-}
-
-.world-stats dd {
-  overflow-wrap: anywhere;
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.status-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background: var(--signal);
-  box-shadow: 0 0 12px var(--signal);
-}
-
-.character-visual {
-  position: relative;
-  min-height: 720px;
-  overflow: hidden;
-  border-left: 1px solid rgba(167, 139, 250, 0.24);
-  background:
-    radial-gradient(circle at 68% 34%, rgba(76, 29, 149, 0.5), transparent 62%),
-    linear-gradient(155deg, #171024, #0c0818 68%);
-}
-
-.visual-backdrop {
-  position: absolute;
-  inset: 12% 7% 10%;
-  border: 1px solid rgba(216, 178, 90, 0.26);
-  border-radius: 0;
-  box-shadow: inset 0 0 90px rgba(139, 92, 246, 0.1), 0 0 90px rgba(139, 92, 246, 0.08);
-}
-
-.visual-backdrop::before,
-.visual-backdrop::after {
-  position: absolute;
-  content: '';
-  background: var(--gold);
-}
-
-.visual-backdrop::before { top: 50%; right: -38px; width: 76px; height: 1px; }
-.visual-backdrop::after { bottom: -28px; left: 50%; width: 1px; height: 56px; }
-
-/* 丝网印主视觉：立绘印在一张纸上，只有两种油墨 */
-.portrait-plate {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  margin: 0;
-}
-
-/* 纸：立绘不是贴上去的图片，是印在这张纸上的 */
-.pp-paper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(76%, 470px);
-  aspect-ratio: 1;
-  background: linear-gradient(162deg, #f4eddf, #d8ccb4);
-  transform: translate(-50%, -50%) rotate(-4.6deg);
-  box-shadow: 0 26px 64px rgba(4, 2, 10, 0.55);
-}
-
-/* 硬边投影：红色印版错位，构成主义的硬边界 */
-.pp-shadow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(72%, 440px);
-  aspect-ratio: 1;
-  background: var(--red);
-  transform: translate(calc(-50% + 17px), calc(-50% + 19px)) rotate(-1.4deg);
-  clip-path: polygon(0 0, 100% 0, 100% 84%, 84% 100%, 0 100%);
-}
-
-.pp-window {
-  position: relative;
-  z-index: 2;
-  width: min(72%, 440px);
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: #ece4d3;
-  transform: rotate(-1.4deg);
-  clip-path: polygon(0 0, 100% 0, 100% 84%, 84% 100%, 0 100%);
-  outline: 2px solid #12100f;
-  outline-offset: -2px;
-}
-
-.pp-window img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 40%;
-  filter: grayscale(1) contrast(1.16) brightness(1.05);
-  mix-blend-mode: multiply;
-  transform: scale(1.03);
-}
-
-/* 双色油墨：骨白纸 + 紫墨，一抹都不多 */
-.pp-ink {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(198deg, #f7f0e3 0%, #eadfca 36%, #c6adec 66%, #7f4bd4 100%);
-  mix-blend-mode: multiply;
-  opacity: 0.94;
-}
-
-.pp-halftone {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle at center, rgba(18, 12, 30, 0.9) 0.8px, transparent 1.1px);
-  background-size: 4px 4px;
-  mix-blend-mode: multiply;
-  opacity: 0.5;
-  -webkit-mask-image: linear-gradient(0deg, #000 0 32%, transparent 62%);
-  mask-image: linear-gradient(0deg, #000 0 32%, transparent 62%);
-}
-
-.pp-grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.32;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='pg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pg)' opacity='.6'/%3E%3C/svg%3E");
-}
-
-.pp-reg {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-top: 1px solid rgba(18, 16, 15, 0.72);
-  border-left: 1px solid rgba(18, 16, 15, 0.72);
-}
-
-.pp-window .reg-tl { top: 12px; left: 12px; }
-.pp-window .reg-br {
-  right: 12px;
-  bottom: 12px;
-  border: 0;
-  border-right: 1px solid rgba(18, 16, 15, 0.72);
-  border-bottom: 1px solid rgba(18, 16, 15, 0.72);
-}
-
-.pp-caption {
-  position: absolute;
-  bottom: 8%;
-  left: 50%;
-  z-index: 2;
-  transform: translateX(-50%);
-  color: rgba(236, 228, 211, 0.55);
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.22em;
-  white-space: nowrap;
-}
-
-.character-label {
-  position: absolute;
-  bottom: 28px;
-  left: 28px;
-  z-index: 2;
-  padding: 9px 12px;
-  border-left: 3px solid var(--red);
-  background: var(--gold-bright);
-  color: #12100f;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4);
-}
-
-.character-label span {
-  margin-left: 12px;
-  font-family: var(--font-serif);
-  font-size: 14px;
-}
-
-.vertical-type {
-  position: absolute;
-  top: 34px;
-  right: 18px;
-  color: rgba(255, 255, 255, 0.28);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  writing-mode: vertical-rl;
 }
 
 .portal-section,
@@ -652,7 +271,125 @@ function onProgress(progress) {
 }
 
 .portal-card img,
-.portal-art,
+.portal-terminal,
+.portal-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.portal-card img {
+  z-index: -2;
+  object-fit: cover;
+  filter: saturate(0.62) contrast(1.06) hue-rotate(-8deg);
+  transition: transform 0.65s var(--ease-out), filter 0.45s var(--ease-out);
+}
+
+.portal-terminal {
+  z-index: -2;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 92% at 76% 0%, rgba(76, 29, 149, 0.5), transparent 62%),
+    #0b0b0e;
+  transition: transform 0.65s var(--ease-out);
+}
+
+.portal-terminal::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background-image:
+    linear-gradient(rgba(234, 255, 87, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234, 255, 87, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 78%);
+  mask-image: linear-gradient(180deg, #000, transparent 78%);
+}
+
+.portal-terminal i {
+  position: absolute;
+  display: block;
+}
+
+.pt-bar {
+  top: 24px;
+  right: 24px;
+  left: 24px;
+  height: 1px;
+  background: rgba(234, 255, 87, 0.24);
+}
+
+.pt-dot {
+  top: 18px;
+  width: 5px;
+  height: 5px;
+  background: var(--signal);
+}
+
+.pt-dot-a { left: 24px; }
+.pt-dot-b { left: 34px; background: var(--red); }
+.pt-dot-c { left: 44px; background: var(--purple); }
+
+.pt-bubble {
+  height: 34px;
+  border-left: 3px solid var(--purple);
+  background: rgba(246, 243, 233, 0.08);
+}
+
+.pt-bubble::after {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 62%;
+  height: 2px;
+  content: '';
+  background: rgba(246, 243, 233, 0.35);
+  box-shadow: 0 8px 0 rgba(246, 243, 233, 0.18);
+}
+
+.pt-bubble-a {
+  top: 82px;
+  left: 30px;
+  width: 54%;
+}
+
+.pt-bubble-b {
+  top: 142px;
+  right: 30px;
+  width: 46%;
+  border-left-color: var(--red);
+  background: rgba(224, 27, 46, 0.12);
+}
+
+.pt-bubble-c {
+  top: 202px;
+  left: 30px;
+  width: 38%;
+}
+
+.pt-caret {
+  top: 258px;
+  left: 32px;
+  width: 8px;
+  height: 18px;
+  background: var(--signal);
+  animation: pt-blink 1.4s steps(2, end) infinite;
+}
+
+.pt-rule {
+  right: 0;
+  bottom: 92px;
+  left: 0;
+  height: 3px;
+  background: var(--red);
+  transform: rotate(-2deg);
+}
+
+@keyframes pt-blink {
+  50% { opacity: 0; }
+}
+
 .portal-shade {
   position: absolute;
   inset: 0;
@@ -781,8 +518,7 @@ function onProgress(progress) {
 }
 
 .portal-card:hover img,
-.portal-card:hover .portal-art {
-  filter: saturate(1) contrast(1.02);
+.portal-card:hover .portal-terminal {
   transform: scale(1.045);
 }
 
@@ -1095,84 +831,12 @@ function onProgress(progress) {
 }
 
 @media (max-width: 1080px) {
-  .character-stage {
-    grid-template-columns: minmax(0, 1fr) minmax(330px, 42%);
-  }
-
-  .intro-copy {
-    padding-inline: 42px;
-  }
-
-  .intro-copy h2 {
-    font-size: 52px;
-  }
-
   .portal-card {
     min-height: 340px;
   }
 }
 
 @media (max-width: 768px) {
-  .character-stage {
-    display: flex;
-    min-height: 0;
-    flex-direction: column-reverse;
-  }
-
-  .chapter-index {
-    top: auto;
-    bottom: 400px;
-    left: 16px;
-    font-size: 100px;
-  }
-
-  .intro-copy {
-    width: 100%;
-    padding: 58px 20px 64px;
-  }
-
-  .intro-copy h2 {
-    font-size: 42px;
-  }
-
-  .intro-lead {
-    font-size: 14px;
-  }
-
-  .world-stats {
-    gap: 12px;
-  }
-
-  .character-visual {
-    width: 100%;
-    min-height: 58svh;
-    border-bottom: 1px solid var(--border);
-    border-left: 0;
-  }
-
-  .pp-paper {
-    width: min(70%, 340px);
-  }
-
-  .pp-window,
-  .pp-shadow {
-    width: min(64%, 316px);
-  }
-
-  .pp-shadow {
-    transform: translate(calc(-50% + 12px), calc(-50% + 14px)) rotate(-1.4deg);
-  }
-
-  .pp-caption {
-    font-size: 7px;
-    letter-spacing: 0.16em;
-  }
-
-  .character-label {
-    bottom: 18px;
-    left: 18px;
-  }
-
   .portal-section,
   .resource-section {
     padding: 72px 16px;
@@ -1268,22 +932,4 @@ function onProgress(progress) {
   }
 }
 
-@media (max-width: 480px) {
-  .intro-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .command {
-    justify-content: center;
-  }
-
-  .world-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .character-visual {
-    min-height: 560px;
-  }
-}
 </style>

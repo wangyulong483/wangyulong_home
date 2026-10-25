@@ -200,7 +200,7 @@ export function useDialogue() {
       if (!event || typeof event !== 'object') return
       if (event.type === 'meta') {
         applyMeta(event, target)
-        phase.value = ''
+        phase.value = event.thinking ? '正在推演…' : ''
       } else if (event.type === 'delta') {
         if (typeof event.text === 'string') target.content += event.text
         phase.value = ''

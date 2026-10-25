@@ -8,18 +8,18 @@
 
     <Teleport to="body">
       <section ref="stageRef" class="hero-stage" aria-label="MY WEBSITE 首页视觉">
-        <video
-          ref="videoRef"
-          class="hero-video"
-          :src="videoSrc"
-          :poster="posterSrc"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          aria-hidden="true"
-        ></video>
+        <picture ref="artRef" class="hero-art">
+          <source media="(max-width: 768px)" :srcset="mobileArtSrc" />
+          <img
+            :src="artSrc"
+            alt=""
+            width="2400"
+            height="1350"
+            fetchpriority="high"
+            decoding="async"
+            aria-hidden="true"
+          />
+        </picture>
         <div class="construct-layer" aria-hidden="true">
           <span class="cz-grid"></span>
           <span class="cz-red"></span>
@@ -94,8 +94,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 defineProps({
-  videoSrc: { type: String, default: '/video/试试_6.mp4' },
-  posterSrc: { type: String, default: '/video/hero-poster.webp' },
+  artSrc: { type: String, default: '/image/ei-vanguard.webp' },
+  mobileArtSrc: { type: String, default: '/image/ei-vanguard-mobile.webp' },
 })
 
 const emit = defineEmits(['progress'])
@@ -104,7 +104,7 @@ const rootRef = ref(null)
 const spacerRef = ref(null)
 const contentRef = ref(null)
 const stageRef = ref(null)
-const videoRef = ref(null)
+const artRef = ref(null)
 const flashRef = ref(null)
 const apertureRef = ref(null)
 
@@ -112,32 +112,15 @@ let timeline
 let resizeTimer
 let animatedNavigation
 let lastEmittedProgress = -1
-let videoIsPaused = false
 let stageIsHidden = false
-
-function shouldAutoplay() {
-  const connection = navigator.connection || {}
-  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    && !connection.saveData
-    && !['slow-2g', '2g'].includes(connection.effectiveType)
-}
-
-function setVideoPaused(paused) {
-  const video = videoRef.value
-  if (!video || paused === videoIsPaused) return
-
-  videoIsPaused = paused
-  if (paused) video.pause()
-  else if (shouldAutoplay()) video.play().catch(() => {})
-}
 
 function setupAnimation() {
   const root = rootRef.value
   const stage = stageRef.value
   const spacer = spacerRef.value
   const content = contentRef.value
-  const video = videoRef.value
-  if (!root || !stage || !spacer || !content || !video) return
+  const art = artRef.value
+  if (!root || !stage || !spacer || !content || !art) return
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -155,9 +138,9 @@ function setupAnimation() {
     pointerEvents: 'auto',
     willChange: 'clip-path, opacity',
   })
-  gsap.set(video, {
+  gsap.set(art, {
     scale: 1,
-    filter: 'saturate(0.9) contrast(1.05)',
+    filter: 'saturate(0.96) contrast(1.05) brightness(1.02)',
     willChange: 'transform, filter',
   })
   gsap.set(content, { autoAlpha: reduceMotion ? 1 : 0.28 })
@@ -192,7 +175,6 @@ function setupAnimation() {
         if (shouldHideStage !== stageIsHidden) {
           stageIsHidden = shouldHideStage
           stage.style.visibility = shouldHideStage ? 'hidden' : 'visible'
-          setVideoPaused(document.hidden || shouldHideStage)
         }
 
         if (Math.abs(progress - lastEmittedProgress) >= 0.008 || progress === 0 || progress === 1) {
@@ -214,9 +196,9 @@ function setupAnimation() {
       autoAlpha: 0,
       duration: reduceMotion ? 0.06 : 0.14,
     }, 0.08)
-    .to(video, {
-      scale: reduceMotion ? 1 : 1.09,
-      filter: 'saturate(0.55) contrast(1.16)',
+    .to(art, {
+      scale: reduceMotion ? 1 : 1.07,
+      filter: 'saturate(0.62) contrast(1.14) brightness(0.92)',
       duration: reduceMotion ? 0.12 : 0.5,
       ease: 'power2.inOut',
     }, 0.12)
@@ -273,7 +255,7 @@ function setupAnimation() {
       .set(navigation, { pointerEvents: 'auto' }, 0.82)
   }
 
-  const animatedTargets = [stage, video, apertureRef.value, flashRef.value, ...contentItems].filter(Boolean)
+  const animatedTargets = [stage, art, apertureRef.value, flashRef.value, ...contentItems].filter(Boolean)
 
   timeline
     .to({}, { duration: 0.08 }, 0.92)
@@ -293,18 +275,13 @@ function destroyAnimation() {
 
   const clearTargets = [
     stageRef.value,
-    videoRef.value,
+    artRef.value,
     contentRef.value,
     apertureRef.value,
     flashRef.value,
     ...(rootRef.value?.querySelectorAll('.js-home-reveal') || []),
   ].filter(Boolean)
   if (clearTargets.length) gsap.set(clearTargets, { clearProps: 'willChange' })
-}
-
-function onVisibilityChange() {
-  const progress = timeline?.scrollTrigger?.progress || 0
-  setVideoPaused(document.hidden || progress >= 0.84)
 }
 
 function onResize() {
@@ -318,24 +295,14 @@ function onResize() {
 
 onMounted(async () => {
   await nextTick()
-  videoIsPaused = videoRef.value?.paused ?? false
-  if (!shouldAutoplay()) setVideoPaused(true)
   setupAnimation()
-  document.addEventListener('visibilitychange', onVisibilityChange)
   window.addEventListener('resize', onResize, { passive: true })
 })
 
 onUnmounted(() => {
   window.clearTimeout(resizeTimer)
-  const video = videoRef.value
-  if (video) {
-    video.pause()
-    video.removeAttribute('src')
-    video.load()
-  }
   destroyAnimation()
   emit('progress', 0)
-  document.removeEventListener('visibilitychange', onVisibilityChange)
   window.removeEventListener('resize', onResize)
 })
 </script>
@@ -366,19 +333,27 @@ onUnmounted(() => {
   isolation: isolate;
 }
 
-.hero-video,
+.hero-art,
 .hero-shade,
 .transition-flash {
   position: absolute;
   inset: 0;
 }
 
-.hero-video {
+.hero-art {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-art img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center;
+  object-position: 64% center;
+  user-select: none;
+  pointer-events: none;
+  animation: art-drift 22s ease-in-out infinite alternate;
 }
 
 .hero-shade {
@@ -835,10 +810,28 @@ onUnmounted(() => {
     left: 58%;
     width: 48vw;
   }
+
+  .hero-art img {
+    object-position: 50% center;
+  }
+
+  .hero-shade {
+    background:
+      linear-gradient(180deg, rgba(8, 8, 12, 0.2) 0%, rgba(8, 8, 12, 0.05) 42%, rgba(8, 8, 12, 0.72) 76%, rgba(8, 8, 12, 0.94) 100%);
+  }
+}
+
+@keyframes art-drift {
+  from { transform: scale(1.015) translate3d(0, 0, 0); }
+  to { transform: scale(1.055) translate3d(-1.2%, -0.8%, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-line::after {
+    animation: none;
+  }
+
+  .hero-art img {
     animation: none;
   }
 }

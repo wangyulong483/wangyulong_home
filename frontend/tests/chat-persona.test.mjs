@@ -317,11 +317,11 @@ test('聊天接口使用 V4.1 Flash 协议并返回可持久化状态', async ()
 
     assert.equal(response.status, 200)
     assert.equal(deepSeekPayload.model, 'deepseek-flash')
-    assert.deepEqual(deepSeekPayload.thinking, { type: 'disabled' })
-    assert.equal(deepSeekPayload.max_tokens, 1200)
+    assert.deepEqual(deepSeekPayload.thinking, { type: 'enabled' })
+    assert.equal(deepSeekPayload.max_tokens, 2400)
     assert.equal(deepSeekPayload.stream, false)
     assert.match(deepSeekPayload.messages[0].content, /人生观/)
-    assert.equal(data.model, 'DeepSeek-V4.1-Flash-0910')
+    assert.equal(data.model, 'DeepSeek-V4.1-Flash-1017')
     assert.equal(data.memoryUpdates[0].value, '归去来兮')
     assert.equal(data.persona, 'reflective')
     assert.equal(data.knowledgeVersion, knowledgeBase.knowledgeVersion)
@@ -505,7 +505,7 @@ test('未知新角色只按检索来源保守回答，不注入旧角色兜底�
       return Response.json({
         choices: [{
           message: {
-            content: payload.max_tokens === 800
+            content: payload.max_tokens === 900
               ? '奥黛塔这个名字，我尚不能确认。没有官方或知名 Wiki 的资料前，我不会猜测她的身份与来历。'
               : '想来应是至冬那边的新面孔吧。',
           },
@@ -720,7 +720,7 @@ test('流式对话按 meta → delta → done 契约输出，且 done.content �
     const done = events.at(-1)
     assert.equal(done.content, streamed)
     assert.equal(done.role, 'assistant')
-    assert.equal(done.model, 'DeepSeek-V4.1-Flash-0910')
+    assert.equal(done.model, 'DeepSeek-V4.1-Flash-1017')
     assert.equal(done.safety.route, 'fast')
     assert.equal(done.safety.revision, 'skipped')
     assert.deepEqual(done.memoryUpdates, [])
@@ -798,7 +798,7 @@ test('流式修订会发送 replace，且 done.content 用修订文本替换已�
     assert.equal(deepSeekPayloads.length, 2)
     assert.equal(deepSeekPayloads[0].stream, true)
     assert.equal(deepSeekPayloads[1].stream, false)
-    assert.equal(deepSeekPayloads[1].max_tokens, 800)
+    assert.equal(deepSeekPayloads[1].max_tokens, 900)
   } finally {
     globalThis.fetch = originalFetch
   }
@@ -942,7 +942,7 @@ test('角色卡只作为声线参考注入，拉取失败时静默降级且不�
     assert.equal(response.status, 200)
     assert.equal(data.personaCard.loaded, false)
     assert.equal(data.content, '愿望并非永恒的敌人。')
-    assert.equal(data.model, 'DeepSeek-V4.1-Flash-0910')
+    assert.equal(data.model, 'DeepSeek-V4.1-Flash-1017')
     assert.ok(!payloads[1].messages.some(message => message.content.includes('人格与声线参考')))
   } finally {
     globalThis.fetch = originalFetch

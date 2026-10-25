@@ -74,6 +74,10 @@
           <span>话题推动</span>
           <em>{{ params.presencePenalty }}</em>
         </li>
+        <li>
+          <span>思考链</span>
+          <em>{{ params.thinking ? '开启' : '关闭' }}</em>
+        </li>
       </ul>
       <p v-else class="block-empty">开始一轮对谈后显示。</p>
     </section>

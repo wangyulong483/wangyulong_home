@@ -8,22 +8,22 @@
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions'
 const DEEPSEEK_CHAT_MODEL = 'deepseek-flash'
 const DEEPSEEK_FALLBACK_MODELS = ['deepseek-v4-flash', 'deepseek-chat']
-const DEEPSEEK_MODEL_LABEL = 'DeepSeek-V4.1-Flash-0910'
+const DEEPSEEK_MODEL_LABEL = 'DeepSeek-V4.1-Flash-1017'
 const DEEPSEEK_CHAT_CONFIG = {
   model: DEEPSEEK_CHAT_MODEL,
-  thinking: { type: 'disabled' },
-  max_tokens: 1200,
-  temperature: 0.85,
-  top_p: 0.94,
-  frequency_penalty: 0.3,
-  presence_penalty: 0.15,
+  thinking: { type: 'enabled' },
+  max_tokens: 2400,
+  temperature: 0.9,
+  top_p: 0.95,
+  frequency_penalty: 0.25,
+  presence_penalty: 0.2,
   stream: false,
 }
 
 const DEEPSEEK_REVISION_CONFIG = {
   model: DEEPSEEK_CHAT_MODEL,
   thinking: { type: 'disabled' },
-  max_tokens: 800,
+  max_tokens: 900,
   temperature: 0.22,
   top_p: 0.82,
   frequency_penalty: 0,
@@ -71,6 +71,16 @@ const RESPONSE_POLICY = [
   '引用检索资料时只使用提供的事实，在相关陈述末尾标注 [1] [2]。网络搜索结果用于回答版本、卡池、活动、新角色、周边等玩家现实世界近况：这类问题有网络资料时必须先正面回答，不反问用户提供资料，再用“听闻”“从你带来的外界消息看”等角色口吻包装；不要以“一心净土不知世事”回避。网络资料不能改写你在提瓦特内亲历的确定设定。资料不足、跨作品或互相冲突时直接说明，不编造来源。',
   '谈论新角色时，将“认识”分成角色内亲历与外界资料：未在你的经历中出现的人，不说亲自认识；若有官方或知名 Wiki 检索资料，只能说“外界资料称”“我听闻”。没有合格来源时，直接说尚不能确认，不猜阵营、性格、关系或剧情。',
   '谈论至冬与愚人众时，不要泛称熟识全部执行官。只承认可验证交集：女士曾在御前决斗后死于你的刀下，国崩曾是你制造的人偶、后来与愚人众相关；冰之女皇、达达利亚等若无资料支持，不说亲自认识，也不编造其在稻妻造成的具体事件。',
+].join('\n')
+
+const ROLEPLAY_CRAFT = [
+  '先接住对方这句话的情绪落点，再展开；不要急着讲设定或讲道理。',
+  '每次回应给一个具体动作、物件或感官细节（茶盏、窗光、刀鞘、团子的甜味），让场景落地。',
+  '先回答对方问的事，再谈你的看法；不要用反问把问题推回去。',
+  '不重复对方的句子，不做开场问候循环；对方沉默或只回一两个字时，允许你也短。',
+  '不替对方叙述动作、心理和台词；只写你看见的、听见的和自己的反应。',
+  '默认 2至5 句或 1至3 个短段；只有对方明确要故事、考据或长谈时才展开。',
+  '对方用中文，你用中文；对方换语言，你跟着换，不混入英文系统词。',
 ].join('\n')
 
 const ROLEPLAY_STABILITY = [
@@ -270,6 +280,7 @@ function buildSystemPrompt(state, memories = []) {
     '# 当前心境\n' + personaGuides[state.persona] + '\n' + relationshipGuides[state.relationship],
     '# 对方明确分享、可用于保持连续性的记忆\n' + memoryText + '\n这些信息只用于当前角色对话，不主动逐条复述，不作超出内容的推断。',
     '# 角色扮演稳定性\n' + ROLEPLAY_STABILITY,
+    '# 角色扮演手艺\n' + ROLEPLAY_CRAFT,
     '# 回应规则\n' + RESPONSE_POLICY,
   ].join('\n\n')
 }
@@ -1157,6 +1168,7 @@ async function callDeepSeekWithFallback(env, messages, baseConfig) {
       },
       body: JSON.stringify({
         ...baseConfig,
+        ...(model === baseConfig.model ? {} : { thinking: { type: 'disabled' } }),
         model,
         messages,
       }),
@@ -1496,6 +1508,7 @@ function buildChatPayload(context, content, safety) {
       maxTokens: DEEPSEEK_CHAT_CONFIG.max_tokens,
       frequencyPenalty: DEEPSEEK_CHAT_CONFIG.frequency_penalty,
       presencePenalty: DEEPSEEK_CHAT_CONFIG.presence_penalty,
+      thinking: DEEPSEEK_CHAT_CONFIG.thinking?.type === 'enabled',
     },
   }
 }
@@ -1628,6 +1641,7 @@ async function openDeepSeekStream(env, messages, baseConfig) {
       },
       body: JSON.stringify({
         ...baseConfig,
+        ...(model === baseConfig.model ? {} : { thinking: { type: 'disabled' } }),
         model,
         messages,
         stream: true,
