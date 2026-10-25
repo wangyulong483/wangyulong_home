@@ -6,7 +6,6 @@
       <div class="blog-head-row">
         <div class="blog-intro">
           <h1 id="blog-title">个人博客<span aria-hidden="true">.</span></h1>
-          <p class="blog-lede">记录机器人、代码与日常里值得留下的部分。<br />文章会在这里慢慢长出来。</p>
         </div>
 
         <a
@@ -109,14 +108,6 @@
 
 .blog-intro h1 span {
   color: var(--red);
-}
-
-.blog-lede {
-  max-width: 470px;
-  margin: 20px 0 0;
-  color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.95;
 }
 
 .gh-link {
@@ -304,16 +295,6 @@
 
   .blog-intro h1 {
     font-size: clamp(46px, 15vw, 64px);
-  }
-
-  .blog-lede {
-    max-width: calc(100% - 52px);
-    margin-top: 16px;
-    font-size: 13px;
-  }
-
-  .blog-lede br {
-    display: none;
   }
 
   .gh-link {

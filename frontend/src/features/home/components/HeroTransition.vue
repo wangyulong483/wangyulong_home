@@ -50,7 +50,6 @@
             <p class="hero-kicker"><span></span> WORLD FILE // 001</p>
             <h1>MY<br /><strong>WEBSITE</strong></h1>
             <div class="hero-statement">
-              <p>记录学习、创造与仍在发生的旅程。</p>
               <p class="hero-quote">“谁终将点燃闪电，必长久如云漂泊。”</p>
             </div>
 
@@ -528,9 +527,7 @@ onUnmounted(() => {
 }
 
 .hero-statement {
-  display: grid;
-  grid-template-columns: minmax(160px, 250px) minmax(220px, 1fr);
-  gap: 30px;
+  max-width: 480px;
   margin-top: 34px;
   padding-top: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.28);
@@ -696,14 +693,9 @@ onUnmounted(() => {
   }
 
   .hero-statement {
-    grid-template-columns: 1fr;
-    gap: 8px;
     margin-top: 24px;
+    padding-top: 12px;
     font-size: 11px;
-  }
-
-  .hero-quote {
-    display: none;
   }
 
   .scroll-cue {

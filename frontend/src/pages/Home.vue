@@ -47,10 +47,10 @@
 
       <section class="origin-section js-home-reveal" aria-labelledby="origin-title">
         <img
-          src="/image/school.jpg"
-          alt="安徽建筑大学校门"
-          width="1280"
-          height="800"
+          src="/image/campus-gate.webp"
+          alt="安徽建筑大学校门 · 构成主义几何海报"
+          width="1536"
+          height="1024"
           loading="lazy"
           decoding="async"
           fetchpriority="low"
@@ -59,7 +59,6 @@
         <div class="origin-copy">
           <p class="section-kicker light"><span></span> ORIGIN POINT</p>
           <h2 id="origin-title">从校园出发<br />向更远处运行</h2>
-          <p>每一个项目都从一次笨拙的尝试开始。保留过程，持续迭代，然后把下一次做得更好。</p>
           <router-link to="/about" class="text-link">打开项目档案 <AppIcon icon="arrow-right" size="14" /></router-link>
         </div>
         <span class="origin-code">AHJZU // HEFEI</span>
@@ -159,16 +158,22 @@ const portals = [
     title: '应用终端',
     eyebrow: 'APPS / LAB',
     description: '游戏、热点与个人工具入口',
-    image: '/video-covers/nav2.jpg',
-    alt: 'Nav2 机器人导航项目画面',
+    image: '/image/portal-apps.webp',
+    imageWidth: 620,
+    imageHeight: 1024,
+    alt: '构成主义几何校园建筑 · 应用终端',
+    tone: 'campus',
   },
   {
     to: '/about',
     title: '项目档案',
     eyebrow: 'PROJECT / LOG',
     description: '机器人与视觉项目视频记录',
-    image: '/video-covers/yolov5.jpg',
-    alt: 'YOLOv5 视觉训练项目画面',
+    image: '/image/portal-projects.webp',
+    imageWidth: 620,
+    imageHeight: 1024,
+    alt: '构成主义几何校园建筑 · 项目档案',
+    tone: 'campus-top',
   },
   {
     to: '/dialogue',
@@ -280,6 +285,15 @@ function onProgress(progress) {
   object-fit: cover;
   filter: saturate(0.62) contrast(1.06) hue-rotate(-8deg);
   transition: transform 0.65s var(--ease-out), filter 0.45s var(--ease-out);
+}
+
+.portal-campus img,
+.portal-campus-top img {
+  filter: saturate(0.82) contrast(1.04);
+}
+
+.portal-campus-top img {
+  object-position: 50% 0;
 }
 
 .portal-dialogue img {
@@ -399,14 +413,15 @@ function onProgress(progress) {
 .origin-section > img {
   z-index: -2;
   object-fit: cover;
-  filter: saturate(0.78) contrast(1.05) brightness(0.88);
+  object-position: 50% 42%;
+  filter: saturate(0.86) contrast(1.04) brightness(0.94);
 }
 
 .origin-shade {
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(9, 6, 18, 0.97) 0%, rgba(9, 6, 18, 0.8) 42%, rgba(9, 6, 18, 0.24) 100%),
-    linear-gradient(0deg, rgba(76, 29, 149, 0.3), transparent 55%);
+    linear-gradient(90deg, rgba(6, 8, 20, 0.96) 0%, rgba(6, 8, 20, 0.76) 42%, rgba(6, 8, 20, 0.16) 100%),
+    linear-gradient(0deg, rgba(12, 22, 48, 0.34), transparent 58%);
 }
 
 .origin-copy {
@@ -422,14 +437,6 @@ function onProgress(progress) {
   color: #fff;
   font-size: 54px;
   line-height: 1.08;
-}
-
-.origin-copy > p:not(.section-kicker) {
-  max-width: 520px;
-  margin-top: 24px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 15px;
-  line-height: 1.9;
 }
 
 .text-link {
@@ -695,7 +702,7 @@ function onProgress(progress) {
   }
 
   .origin-section > img {
-    object-position: 62% center;
+    object-position: 55% 38%;
   }
 
   .origin-shade {

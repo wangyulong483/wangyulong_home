@@ -40,7 +40,7 @@
 
 | 路由 | 模块 | 能力 | 主要代码 |
 |------|------|------|----------|
-| `/` | 首页 | 视频开场、滚动叙事、旅途同行者角色档案、世界索引、项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
+| `/` | 首页 | 视频开场、滚动叙事、旅途同行者角色档案、构成主义校园海报、世界索引、项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
 | `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 | `frontend/src/pages/About.vue` |
 | `/applist` | 应用列表 | 统一管理游戏、热点、地图工具、厨厨与对话模块 | `frontend/src/pages/AppList.vue` |
 | `/blog` | 个人博客文章 | 简洁文章页骨架，暂无正文；右上 GitHub 图标入口（@wangyulong483） | `frontend/src/pages/Blog.vue` |
