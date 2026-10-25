@@ -24,8 +24,6 @@
           <span class="cz-grid"></span>
           <span class="cz-red"></span>
           <span class="cz-bone"></span>
-          <span class="cz-black"></span>
-          <span class="cz-gold"></span>
           <span class="cz-ring"></span>
           <span class="cz-band"></span>
         </div>
@@ -417,25 +415,6 @@ onUnmounted(() => {
   background: rgba(246, 243, 233, 0.72);
 }
 
-.cz-black {
-  position: absolute;
-  top: 12%;
-  right: 16%;
-  width: min(7vw, 104px);
-  aspect-ratio: 1;
-  background: #09090c;
-  border: 1px solid rgba(246, 243, 233, 0.18);
-}
-
-.cz-gold {
-  position: absolute;
-  top: 12%;
-  right: calc(16% + min(7vw, 104px) + 13px);
-  width: 2px;
-  height: min(9vh, 92px);
-  background: var(--gold);
-}
-
 .cz-ring {
   position: absolute;
   right: 17%;
@@ -702,8 +681,6 @@ onUnmounted(() => {
     width: 52px;
   }
 
-  .cz-black,
-  .cz-gold,
   .cz-ring {
     display: none;
   }

@@ -22,28 +22,17 @@
             :key="portal.to"
             :to="portal.to"
             class="portal-card"
+            :class="portal.tone ? 'portal-' + portal.tone : null"
           >
             <img
-              v-if="portal.image"
               :src="portal.image"
               :alt="portal.alt"
-              width="1280"
-              height="720"
+              :width="portal.imageWidth || 1280"
+              :height="portal.imageHeight || 720"
               loading="lazy"
               decoding="async"
               fetchpriority="low"
             />
-            <span v-else-if="portal.art === 'dialogue'" class="portal-terminal" aria-hidden="true">
-              <i class="pt-bar"></i>
-              <i class="pt-dot pt-dot-a"></i>
-              <i class="pt-dot pt-dot-b"></i>
-              <i class="pt-dot pt-dot-c"></i>
-              <i class="pt-bubble pt-bubble-a"></i>
-              <i class="pt-bubble pt-bubble-b"></i>
-              <i class="pt-bubble pt-bubble-c"></i>
-              <i class="pt-caret"></i>
-              <i class="pt-rule"></i>
-            </span>
             <span class="portal-shade" aria-hidden="true"></span>
             <span class="portal-number">0{{ index + 1 }}</span>
             <span class="portal-content">
@@ -186,7 +175,11 @@ const portals = [
     title: '与影对谈',
     eyebrow: 'DIALOGUE / ARCHIVE',
     description: '把每一次问答，压成一条刻度',
-    art: 'dialogue',
+    image: '/image/dialogue-vanguard.webp',
+    imageWidth: 800,
+    imageHeight: 1200,
+    alt: '影 · 先锋主义几何拼贴',
+    tone: 'dialogue',
   },
 ]
 
@@ -275,7 +268,6 @@ function onProgress(progress) {
 }
 
 .portal-card img,
-.portal-terminal,
 .portal-shade {
   position: absolute;
   inset: 0;
@@ -290,178 +282,9 @@ function onProgress(progress) {
   transition: transform 0.65s var(--ease-out), filter 0.45s var(--ease-out);
 }
 
-.portal-terminal {
-  z-index: -2;
-  overflow: hidden;
-  background:
-    radial-gradient(120% 92% at 76% 0%, rgba(76, 29, 149, 0.5), transparent 62%),
-    #0b0b0e;
-  transition: transform 0.65s var(--ease-out);
-}
-
-.portal-terminal::before {
-  position: absolute;
-  inset: 0;
-  content: '';
-  background-image:
-    linear-gradient(rgba(234, 255, 87, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(234, 255, 87, 0.05) 1px, transparent 1px);
-  background-size: 44px 44px;
-  -webkit-mask-image: linear-gradient(180deg, #000, transparent 78%);
-  mask-image: linear-gradient(180deg, #000, transparent 78%);
-}
-
-.portal-terminal i {
-  position: absolute;
-  display: block;
-}
-
-.pt-bar {
-  top: 24px;
-  right: 24px;
-  left: 24px;
-  height: 1px;
-  background: rgba(234, 255, 87, 0.24);
-}
-
-.pt-dot {
-  top: 18px;
-  width: 5px;
-  height: 5px;
-  background: var(--signal);
-}
-
-.pt-dot-a { left: 24px; }
-.pt-dot-b { left: 34px; background: var(--red); }
-.pt-dot-c { left: 44px; background: var(--purple); }
-
-.pt-bubble {
-  height: 34px;
-  border-left: 3px solid var(--purple);
-  background: rgba(246, 243, 233, 0.08);
-}
-
-.pt-bubble::after {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 62%;
-  height: 2px;
-  content: '';
-  background: rgba(246, 243, 233, 0.35);
-  box-shadow: 0 8px 0 rgba(246, 243, 233, 0.18);
-}
-
-.pt-bubble-a {
-  top: 82px;
-  left: 30px;
-  width: 54%;
-}
-
-.pt-bubble-b {
-  top: 142px;
-  right: 30px;
-  width: 46%;
-  border-left-color: var(--red);
-  background: rgba(224, 27, 46, 0.12);
-}
-
-.pt-bubble-c {
-  top: 202px;
-  left: 30px;
-  width: 38%;
-}
-
-.pt-caret {
-  top: 258px;
-  left: 32px;
-  width: 8px;
-  height: 18px;
-  background: var(--signal);
-  animation: pt-blink 1.4s steps(2, end) infinite;
-}
-
-.pt-rule {
-  right: 0;
-  bottom: 92px;
-  left: 0;
-  height: 3px;
-  background: var(--red);
-  transform: rotate(-2deg);
-}
-
-@keyframes pt-blink {
-  50% { opacity: 0; }
-}
-
-.portal-shade {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.portal-card img {
-  z-index: -2;
-  object-fit: cover;
-  filter: saturate(0.62) contrast(1.06) hue-rotate(-8deg);
-  transition: transform 0.65s var(--ease-out), filter 0.45s var(--ease-out);
-}
-
-.portal-art {
-  z-index: -2;
-  overflow: hidden;
-  background: #ece4d3;
-  transition: transform 0.65s var(--ease-out);
-}
-
-.portal-art i {
-  position: absolute;
-  display: block;
-}
-
-.pa-purple {
-  top: -10%;
-  right: -7%;
-  width: 55%;
-  height: 66%;
-  background: var(--purple);
-  transform: rotate(12deg);
-}
-
-.pa-black {
-  top: 14%;
-  left: 10%;
-  width: 33%;
-  height: 41%;
-  background: #12100f;
-}
-
-.pa-red {
-  right: 14%;
-  bottom: 15%;
-  width: 24%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--red);
-}
-
-.pa-gold {
-  left: 23%;
-  bottom: 0;
-  width: 8%;
-  height: 36%;
-  background: var(--gold);
-}
-
-.pa-line {
-  top: 59%;
-  left: 8%;
-  width: 66%;
-  height: 2px;
-  background: #12100f;
-  transform: rotate(-24deg);
-  transform-origin: left center;
+.portal-dialogue img {
+  object-position: 50% 20%;
+  filter: saturate(0.92) contrast(1.06);
 }
 
 .portal-shade {
@@ -521,8 +344,7 @@ function onProgress(progress) {
   transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
 }
 
-.portal-card:hover img,
-.portal-card:hover .portal-terminal {
+.portal-card:hover img {
   transform: scale(1.045);
 }
 
