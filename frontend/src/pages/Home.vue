@@ -1,5 +1,9 @@
 <template>
-  <HeroTransition @progress="onProgress">
+  <HeroTransition
+    video-src="/video/试试_6.mp4"
+    poster-src="/video/hero-poster.webp"
+    @progress="onProgress"
+  >
     <div class="home-world">
       <HoyoverseRoster />
 

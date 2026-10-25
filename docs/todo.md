@@ -353,3 +353,36 @@
 - 继续遵守用户 m01023「暂时不要部署」，本轮未执行 wrangler。
 - 本地预览保持运行：http://127.0.0.1:4173/（job bash-62a91293de2c4e4d，绑定 127.0.0.1）。
 - 待用户确认后执行：npx.cmd wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main。
+
+===============================================================
+
+## 执行记录（2026-10-25 · 第五轮：恢复首页视频、撤掉头像、接入作者生成的影拼贴）
+
+### 用户反馈
+
+- 首页原视频本来可以，不应被替换为静态画。
+- 不要在首屏反复加入个人头像。
+- 先锋主义形象由用户自己生成，助手负责整理进项目，并放到「与影对谈」模块。
+
+### 落地
+
+- 首页恢复原视频：HeroTransition.vue 回到 ba96e28 的全屏 Ei 视频版本（1280×720、自动播放、静音循环），Home.vue 重新传入 video-src=/video/试试_6.mp4 与 poster-src=/video/hero-poster.webp。
+- 删除首屏 hero-personnel 人物卡（头像、PERSONNEL // 001、ARCHIVE RECORD）及其桌面/移动端 CSS；首屏不再出现个人头像。
+- 保留此前已完成的去重：首页只保留视频里的一处影，不再有第二张立绘和 RAIDEN SHOGUN / 影 标签。
+- 删除上一轮生成的 ei-vanguard.webp / ei-vanguard-mobile.webp（不再被引用）。
+- 将用户提供的「紫金几何无面祭司」整理为 frontend/public/image/dialogue-vanguard.webp：等比缩放至 800×1200，WebP q86，215 KB。
+- Dialogue.vue 首屏档案画框内改为真实图片 poster-image，移除原有 CSS 方块/圆/楔形；画框、酸性黄角标、ARCHIVE PLATE 01 / 01、纸面硬投影、紫色斜带与 GSAP 倾斜视差保留，底部注脚改为 SUPREMATISM · COLLAGE。
+- 海报比例改为 2/3，桌面 clamp(206px,20vw,282px)，移动端 min(62vw,250px)。
+
+### 验证
+
+- npm.cmd --prefix frontend run test：47/47 通过。
+- npm.cmd --prefix frontend run build：成功，入口 assets/index-BJAMRcAK.js、assets/index-C3eXep0c.css。
+- 无头 Edge 1440×900：首页视频 readyState 4、paused false、无静态画、无人物卡、无破图、无横向溢出。
+- 无头 Edge 390×844：视频正常播放，无人物卡，无横向溢出。
+- 对谈页：poster-image 唯一，桌面 287×425、移动 245×364，画框 336×503 / 300×431，均无溢出。
+
+### 部署状态
+
+- 继续遵守用户 m01023「暂时不要部署」，本轮未执行 wrangler。
+- 本地预览保持运行：http://127.0.0.1:4173/。

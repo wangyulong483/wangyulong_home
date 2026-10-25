@@ -28,18 +28,17 @@
           <div class="hero-art-frame">
             <p class="art-hud"><span>ARCHIVE PLATE</span><b>01 / 01</b></p>
             <div ref="posterRef" class="poster">
-              <div class="poster-square"></div>
-              <div class="poster-circle"></div>
-              <div class="poster-wedge"></div>
-              <div class="poster-bar"></div>
-              <div class="poster-line line-a"></div>
-              <div class="poster-line line-b"></div>
-              <div class="poster-cross"></div>
-              <p class="poster-label">PLATE 01 · 2026</p>
-              <p class="poster-caption">雷电影 / 一心净土</p>
+              <img
+                class="poster-image"
+                src="/image/dialogue-vanguard.webp"
+                alt="影 · 先锋主义几何拼贴"
+                width="800"
+                height="1200"
+                decoding="async"
+              />
             </div>
           </div>
-          <p class="poster-note">SUPREMATISM · 构成</p>
+          <p class="poster-note">SUPREMATISM · COLLAGE</p>
         </div>
       </div>
 
@@ -520,15 +519,23 @@ onUnmounted(() => {
   --px: 0px;
   --py: 0px;
   position: relative;
-  width: clamp(190px, 18vw, 248px);
+  width: clamp(206px, 20vw, 282px);
   margin: 0 auto;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2 / 3;
   border: 2px solid var(--ink);
-  background: var(--paper);
+  background: var(--ink);
   box-shadow: 10px 10px 0 var(--purple-deep), 18px 18px 0 var(--red);
-  transform: translate3d(var(--px), var(--py), 0) rotate(-1.5deg);
+  transform: translate3d(var(--px), var(--py), 0) rotate(-1.2deg);
   transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
   will-change: transform;
+}
+
+.poster-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.96) contrast(1.04);
 }
 
 .poster::after {
@@ -537,107 +544,9 @@ onUnmounted(() => {
   z-index: 6;
   background-image: var(--grain);
   content: '';
-  opacity: 0.16;
+  opacity: 0.14;
   mix-blend-mode: multiply;
   pointer-events: none;
-}
-
-.poster-square {
-  position: absolute;
-  top: 17%;
-  left: 12%;
-  z-index: 3;
-  width: 38%;
-  aspect-ratio: 1;
-  background: var(--ink);
-}
-
-.poster-circle {
-  position: absolute;
-  top: 18%;
-  right: 10%;
-  z-index: 2;
-  width: 27%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--purple);
-}
-
-.poster-wedge {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  width: 100%;
-  height: 34%;
-  background: var(--red);
-  clip-path: polygon(0 100%, 0 24%, 58% 100%);
-}
-
-.poster-bar {
-  position: absolute;
-  right: 17%;
-  bottom: 0;
-  z-index: 3;
-  width: 9%;
-  height: 54%;
-  background: var(--gold);
-}
-
-.poster-line {
-  position: absolute;
-  z-index: 3;
-  height: 2px;
-  background: var(--ink);
-}
-
-.line-a {
-  top: 56%;
-  left: 7%;
-  width: 72%;
-  transform: rotate(-32deg);
-}
-
-.line-b {
-  top: 49%;
-  right: 5%;
-  width: 46%;
-  transform: rotate(58deg);
-}
-
-.poster-cross {
-  position: absolute;
-  top: 63%;
-  left: 15%;
-  z-index: 3;
-  width: 21%;
-  aspect-ratio: 1;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-}
-
-.poster-label {
-  position: absolute;
-  top: 4%;
-  left: 6%;
-  z-index: 4;
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 0.46rem;
-  letter-spacing: 0.22em;
-}
-
-.poster-caption {
-  position: absolute;
-  bottom: 3%;
-  left: 6%;
-  z-index: 4;
-  margin: 0;
-  color: var(--cream);
-  font-family: var(--font-mono);
-  font-size: 0.44rem;
-  letter-spacing: 0.14em;
 }
 
 .poster-note {
@@ -915,7 +824,7 @@ onUnmounted(() => {
   }
 
   .poster {
-    width: min(52vw, 232px);
+    width: min(62vw, 250px);
     box-shadow: 8px 8px 0 var(--purple-deep), 14px 14px 0 var(--red);
   }
 
@@ -976,7 +885,7 @@ onUnmounted(() => {
   }
 
   .poster {
-    transform: rotate(-1.5deg);
+    transform: rotate(-1.2deg);
     transition: none;
   }
 

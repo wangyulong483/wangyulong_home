@@ -8,18 +8,18 @@
 
     <Teleport to="body">
       <section ref="stageRef" class="hero-stage" aria-label="MY WEBSITE 首页视觉">
-        <picture ref="artRef" class="hero-art">
-          <source media="(max-width: 768px)" :srcset="mobileArtSrc" />
-          <img
-            :src="artSrc"
-            alt=""
-            width="2400"
-            height="1350"
-            fetchpriority="high"
-            decoding="async"
-            aria-hidden="true"
-          />
-        </picture>
+        <video
+          ref="videoRef"
+          class="hero-video"
+          :src="videoSrc"
+          :poster="posterSrc"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+        ></video>
         <div class="construct-layer" aria-hidden="true">
           <span class="cz-grid"></span>
           <span class="cz-red"></span>
@@ -56,15 +56,6 @@
               <p class="hero-quote">“谁终将点燃闪电，必长久如云漂泊。”</p>
             </div>
 
-            <router-link to="/about" class="hero-personnel" aria-label="查看关于我">
-              <span class="personnel-photo">
-                <img src="/image/mylog.jpg" alt="" width="640" height="640" />
-              </span>
-              <span class="personnel-meta">
-                <b>PERSONNEL // 001</b>
-                <span>ARCHIVE RECORD</span>
-              </span>
-            </router-link>
           </div>
 
           <div class="hero-status">
@@ -94,8 +85,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 defineProps({
-  artSrc: { type: String, default: '/image/ei-vanguard.webp' },
-  mobileArtSrc: { type: String, default: '/image/ei-vanguard-mobile.webp' },
+  videoSrc: { type: String, default: '/video/试试_6.mp4' },
+  posterSrc: { type: String, default: '/video/hero-poster.webp' },
 })
 
 const emit = defineEmits(['progress'])
@@ -104,7 +95,7 @@ const rootRef = ref(null)
 const spacerRef = ref(null)
 const contentRef = ref(null)
 const stageRef = ref(null)
-const artRef = ref(null)
+const videoRef = ref(null)
 const flashRef = ref(null)
 const apertureRef = ref(null)
 
@@ -112,15 +103,32 @@ let timeline
 let resizeTimer
 let animatedNavigation
 let lastEmittedProgress = -1
+let videoIsPaused = false
 let stageIsHidden = false
+
+function shouldAutoplay() {
+  const connection = navigator.connection || {}
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    && !connection.saveData
+    && !['slow-2g', '2g'].includes(connection.effectiveType)
+}
+
+function setVideoPaused(paused) {
+  const video = videoRef.value
+  if (!video || paused === videoIsPaused) return
+
+  videoIsPaused = paused
+  if (paused) video.pause()
+  else if (shouldAutoplay()) video.play().catch(() => {})
+}
 
 function setupAnimation() {
   const root = rootRef.value
   const stage = stageRef.value
   const spacer = spacerRef.value
   const content = contentRef.value
-  const art = artRef.value
-  if (!root || !stage || !spacer || !content || !art) return
+  const video = videoRef.value
+  if (!root || !stage || !spacer || !content || !video) return
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -138,9 +146,9 @@ function setupAnimation() {
     pointerEvents: 'auto',
     willChange: 'clip-path, opacity',
   })
-  gsap.set(art, {
+  gsap.set(video, {
     scale: 1,
-    filter: 'saturate(0.96) contrast(1.05) brightness(1.02)',
+    filter: 'saturate(0.9) contrast(1.05)',
     willChange: 'transform, filter',
   })
   gsap.set(content, { autoAlpha: reduceMotion ? 1 : 0.28 })
@@ -175,6 +183,7 @@ function setupAnimation() {
         if (shouldHideStage !== stageIsHidden) {
           stageIsHidden = shouldHideStage
           stage.style.visibility = shouldHideStage ? 'hidden' : 'visible'
+          setVideoPaused(document.hidden || shouldHideStage)
         }
 
         if (Math.abs(progress - lastEmittedProgress) >= 0.008 || progress === 0 || progress === 1) {
@@ -196,9 +205,9 @@ function setupAnimation() {
       autoAlpha: 0,
       duration: reduceMotion ? 0.06 : 0.14,
     }, 0.08)
-    .to(art, {
-      scale: reduceMotion ? 1 : 1.07,
-      filter: 'saturate(0.62) contrast(1.14) brightness(0.92)',
+    .to(video, {
+      scale: reduceMotion ? 1 : 1.09,
+      filter: 'saturate(0.55) contrast(1.16)',
       duration: reduceMotion ? 0.12 : 0.5,
       ease: 'power2.inOut',
     }, 0.12)
@@ -255,7 +264,7 @@ function setupAnimation() {
       .set(navigation, { pointerEvents: 'auto' }, 0.82)
   }
 
-  const animatedTargets = [stage, art, apertureRef.value, flashRef.value, ...contentItems].filter(Boolean)
+  const animatedTargets = [stage, video, apertureRef.value, flashRef.value, ...contentItems].filter(Boolean)
 
   timeline
     .to({}, { duration: 0.08 }, 0.92)
@@ -275,13 +284,18 @@ function destroyAnimation() {
 
   const clearTargets = [
     stageRef.value,
-    artRef.value,
+    videoRef.value,
     contentRef.value,
     apertureRef.value,
     flashRef.value,
     ...(rootRef.value?.querySelectorAll('.js-home-reveal') || []),
   ].filter(Boolean)
   if (clearTargets.length) gsap.set(clearTargets, { clearProps: 'willChange' })
+}
+
+function onVisibilityChange() {
+  const progress = timeline?.scrollTrigger?.progress || 0
+  setVideoPaused(document.hidden || progress >= 0.84)
 }
 
 function onResize() {
@@ -295,14 +309,24 @@ function onResize() {
 
 onMounted(async () => {
   await nextTick()
+  videoIsPaused = videoRef.value?.paused ?? false
+  if (!shouldAutoplay()) setVideoPaused(true)
   setupAnimation()
+  document.addEventListener('visibilitychange', onVisibilityChange)
   window.addEventListener('resize', onResize, { passive: true })
 })
 
 onUnmounted(() => {
   window.clearTimeout(resizeTimer)
+  const video = videoRef.value
+  if (video) {
+    video.pause()
+    video.removeAttribute('src')
+    video.load()
+  }
   destroyAnimation()
   emit('progress', 0)
+  document.removeEventListener('visibilitychange', onVisibilityChange)
   window.removeEventListener('resize', onResize)
 })
 </script>
@@ -333,27 +357,19 @@ onUnmounted(() => {
   isolation: isolate;
 }
 
-.hero-art,
+.hero-video,
 .hero-shade,
 .transition-flash {
   position: absolute;
   inset: 0;
 }
 
-.hero-art {
-  display: block;
-  overflow: hidden;
-}
-
-.hero-art img {
+.hero-video {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: 64% center;
-  user-select: none;
-  pointer-events: none;
-  animation: art-drift 22s ease-in-out infinite alternate;
+  object-position: center;
 }
 
 .hero-shade {
@@ -549,65 +565,6 @@ onUnmounted(() => {
   font-family: var(--font-serif);
 }
 
-.hero-personnel {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 22px;
-  padding: 5px 12px 5px 5px;
-  color: #f6f3e9;
-  text-decoration: none;
-  background: rgba(11, 11, 14, 0.46);
-  border: 1px solid rgba(246, 243, 233, 0.28);
-  border-left: 3px solid var(--red);
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.hero-personnel:hover {
-  background: rgba(11, 11, 14, 0.68);
-  border-color: rgba(234, 255, 87, 0.62);
-  border-left-color: var(--red);
-}
-
-.personnel-photo {
-  display: block;
-  width: 44px;
-  height: 44px;
-  padding: 2px;
-  background: #ece4d3;
-  box-shadow: 3px 3px 0 var(--red);
-}
-
-.personnel-photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.92) contrast(1.04);
-}
-
-.personnel-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.personnel-meta b {
-  color: var(--signal);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-
-.personnel-meta span {
-  color: rgba(246, 243, 233, 0.66);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-}
-
-
 .hero-status {
   position: absolute;
   right: 42px;
@@ -728,25 +685,6 @@ onUnmounted(() => {
     line-height: 0.86;
   }
 
-  .hero-personnel {
-    gap: 10px;
-    margin-top: 16px;
-    padding: 4px 10px 4px 4px;
-  }
-
-  .personnel-photo {
-    width: 38px;
-    height: 38px;
-  }
-
-  .personnel-meta b {
-    font-size: 8px;
-  }
-
-  .personnel-meta span {
-    font-size: 9px;
-  }
-
   .cz-grid {
     background-size: 64px 64px;
   }
@@ -810,28 +748,10 @@ onUnmounted(() => {
     left: 58%;
     width: 48vw;
   }
-
-  .hero-art img {
-    object-position: 50% center;
-  }
-
-  .hero-shade {
-    background:
-      linear-gradient(180deg, rgba(8, 8, 12, 0.2) 0%, rgba(8, 8, 12, 0.05) 42%, rgba(8, 8, 12, 0.72) 76%, rgba(8, 8, 12, 0.94) 100%);
-  }
-}
-
-@keyframes art-drift {
-  from { transform: scale(1.015) translate3d(0, 0, 0); }
-  to { transform: scale(1.055) translate3d(-1.2%, -0.8%, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-line::after {
-    animation: none;
-  }
-
-  .hero-art img {
     animation: none;
   }
 }
