@@ -7,6 +7,7 @@ const routes = [
   { path: '/applist',       name: 'AppList',      component: () => import('@/pages/AppList.vue') },
   { path: '/game',          name: 'Game',         component: () => import('@/pages/Game.vue') },
   { path: '/blog',          name: 'Blog',         component: () => import('@/pages/Blog.vue') },
+  { path: '/blog/:slug',    name: 'BlogArticle',  component: () => import('@/pages/BlogArticle.vue') },
   { path: '/hot-topics',    name: 'HotTopics',    component: () => import('@/pages/HotTopics.vue') },
   { path: '/shrine',        name: 'Shrine',       component: () => import('@/pages/Shrine.vue') },
   { path: '/dialogue',      name: 'Dialogue',     component: () => import('@/pages/Dialogue.vue') },

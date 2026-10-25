@@ -1,3 +1,4 @@
 /api/* /api/:splat 200
 /topics-data/* /topics-data/:splat 200
+/writer_works/* /writer_works/:splat 200
 /* /index.html 200

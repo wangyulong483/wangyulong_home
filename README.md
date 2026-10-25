@@ -13,7 +13,7 @@
 
 > 本项目的主要开发与迭代在 **DeepSeek Harness** 的 Agent 工作流中完成（不是 Claude Code）。本 README、`docs/rule.md` 与 `docs/todo.md` 共同描述当前仓库的真实结构和协作方式。
 >
-> **最近更新 · 2026-10-25**：侧边栏新增 `/blog`「个人博客文章」入口；首页校园段与「世界索引」01 / 02 卡改用构成主义校园海报；精简博客、首屏与校园段文案。
+> **最近更新 · 2026-10-25**：`/blog` 从空骨架升级为真正的文章模块（文章清单 + 正文阅读页 + 目录），第一篇《神经网络：从单个神经元到两层网络》上线；正文用 Markdown 写作、运行时渲染，配 9 张黑白示意图与真实运行输出；首页校园段与「世界索引」01 / 02 卡改用构成主义校园海报。
 
 ---
 
@@ -45,7 +45,7 @@
 | `/` | 首页 | 视频开场、滚动叙事、旅途同行者角色档案、构成主义校园海报、世界索引、项目入口 | `frontend/src/pages/Home.vue`、`frontend/src/features/home/` |
 | `/about` | 项目档案 | 机器人与视觉项目视频画廊、弹窗播放 | `frontend/src/pages/About.vue` |
 | `/applist` | 应用列表 | 统一管理游戏、热点、地图工具、厨厨与对话模块 | `frontend/src/pages/AppList.vue` |
-| `/blog` | 个人博客文章 | 简洁文章页骨架，暂无正文；右上 GitHub 图标入口（@wangyulong483） | `frontend/src/pages/Blog.vue` |
+| `/blog` | 个人博客文章 | 文章清单 + 正文阅读页：正文用 Markdown 写在 `public/writer_works/`，运行时渲染（marked + highlight.js）、自动生成目录；右上 GitHub 图标入口（@wangyulong483） | `frontend/src/pages/Blog.vue`、`frontend/src/pages/BlogArticle.vue`、`frontend/src/features/blog/` |
 | `/game` | 飞机大战 | Canvas 射击游戏，支持键盘与移动端触控 | `frontend/src/pages/Game.vue` |
 | `/hot-topics` | 行业热点 | 合肥、安徽及国内机器人 / AI 动态，支持搜索、分类与日期归档 | `frontend/src/pages/HotTopics.vue`、`frontend/public/topics-data/` |
 | `/map-zone-painter` | 地图区域绘制器 | 编辑 PGM 地图并导出 ROS2 Nav2 禁行区 / 限速区掩码 | `frontend/src/pages/MapZonePainter.vue`、`frontend/src/features/map-zone-painter/` |
@@ -132,16 +132,18 @@ vue_blog/
 |   |   |-- features/
 |   |   |   |-- home/                    # 首页主视觉、滚动过渡、角色档案
 |   |   |   |-- dialogue/                # 与影对谈：时间轴、纸面线程、流式客户端
+|   |   |   |-- blog/                    # 文章清单、Markdown 渲染器与正文阅读组件
 |   |   |   |-- map-zone-painter/        # PGM 解析、编辑器与导出逻辑
 |   |   |   `-- shrine/                  # 画廊、Wiki、资讯与检索
 |   |   `-- shared/                      # 图标、布局、通用组件、自定义光标
 |   |-- public/
 |   |   |-- shrine-data/                 # 角色内容、知识库、封面与图片
 |   |   |-- topics-data/                 # 热点当前数据与日期归档
+|   |   |-- writer_works/                # 博客正文 Markdown 与黑白示意图
 |   |   |-- third-party-notices/         # 第三方许可证与字体 OFL 文本
 |   |   |-- image/ video/ video-covers/  # 站点媒体资源
 |   |   `-- _redirects                   # 静态数据优先 + SPA 回退
-|   |-- tests/                           # Worker、时间轴、流式、年表与角色检索测试
+|   |-- tests/                           # Worker、时间轴、流式、年表、角色检索与文章模块测试
 |   |-- _worker.js                       # 生产 API、知识检索、SSE 与 AI 代理
 |   |-- vite.config.js
 |   `-- package.json

@@ -33,7 +33,43 @@
       </div>
     </header>
 
-    <section class="blog-empty" aria-labelledby="blog-empty-title">
+    <!-- 有文章：按清单列出，点进去看正文 -->
+    <section v-if="articles.length" class="blog-list" aria-labelledby="blog-list-title">
+      <div class="list-head">
+        <h2 id="blog-list-title" class="list-title">文章清单</h2>
+        <span class="list-count">{{ pad(articles.length) }} NOTES</span>
+      </div>
+
+      <ol class="notes">
+        <li v-for="(post, index) in articles" :key="post.slug" class="note">
+          <router-link class="note-link" :to="{ name: 'BlogArticle', params: { slug: post.slug } }">
+            <span class="note-no" aria-hidden="true">{{ pad(index + 1) }}</span>
+
+            <div class="note-body">
+              <div class="note-tags">
+                <span v-for="tag in post.tags" :key="tag" class="note-tag">{{ tag }}</span>
+              </div>
+
+              <h3 class="note-title">{{ post.title }}</h3>
+              <p class="note-summary">{{ post.summary }}</p>
+
+              <div class="note-meta">
+                <span>{{ post.date }}</span>
+                <i aria-hidden="true"></i>
+                <span>{{ post.readMinutes }} MIN READ</span>
+              </div>
+            </div>
+
+            <figure v-if="post.figure" class="note-figure">
+              <img :src="post.figure" alt="" loading="lazy" decoding="async" />
+            </figure>
+          </router-link>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 没有文章时的空态，保留原来的档案框 -->
+    <section v-else class="blog-empty" aria-labelledby="blog-empty-title">
       <p class="empty-index" aria-hidden="true">00</p>
 
       <div class="empty-copy">
@@ -55,7 +91,16 @@
 </template>
 
 <script setup>
-// 个人博客文章 — 内容暂缺，仅保留页面骨架与 GitHub 入口
+// 个人博客文章 — 文章清单页；正文与文章元信息都在 features/blog 里维护
+import { onMounted } from 'vue'
+import { articles } from '@/features/blog/data/articles.js'
+
+// 序号补零：1 → 01
+const pad = (value) => String(value).padStart(2, '0')
+
+onMounted(() => {
+  document.title = '个人博客'
+})
 </script>
 
 <style scoped>
@@ -275,6 +320,182 @@
   transform: translateX(-50%);
 }
 
+/* ---------- 文章清单 ---------- */
+.blog-list {
+  margin-top: clamp(30px, 5vw, 50px);
+}
+
+.list-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.list-title {
+  margin: 0;
+  color: var(--text-secondary);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+}
+
+.list-count {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.notes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note {
+  border-bottom: 1px solid var(--border);
+}
+
+.note-link {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 190px;
+  align-items: center;
+  gap: clamp(16px, 3vw, 32px);
+  padding: clamp(20px, 3vw, 30px) 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.25s var(--ease-out);
+}
+
+/* 左侧红色指示条：悬停时从上往下长出来 */
+.note-link::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  content: '';
+  background: var(--red);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.note-link:hover,
+.note-link:focus-visible {
+  background: rgba(182, 156, 255, 0.05);
+  outline: none;
+}
+
+.note-link:hover::before,
+.note-link:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.note-no {
+  color: transparent;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1;
+  -webkit-text-stroke: 1px rgba(182, 156, 255, 0.4);
+  transition: color 0.25s var(--ease-out), -webkit-text-stroke-color 0.25s var(--ease-out);
+}
+
+.note-link:hover .note-no,
+.note-link:focus-visible .note-no {
+  color: var(--red);
+  -webkit-text-stroke-color: transparent;
+}
+
+.note-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.note-tag {
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.note-title {
+  margin: 0;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(19px, 2.4vw, 26px);
+  font-weight: 700;
+  line-height: 1.32;
+  transition: color 0.2s var(--ease-out);
+}
+
+.note-link:hover .note-title,
+.note-link:focus-visible .note-title {
+  color: var(--gold-bright);
+}
+
+.note-summary {
+  max-width: 560px;
+  margin: 10px 0 0;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+
+.note-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+.note-meta i {
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* 缩略图：正文是黑白线稿，这里给一张白纸底 */
+.note-figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #fff;
+  transition: border-color 0.25s var(--ease-out);
+}
+
+.note-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.note-link:hover .note-figure,
+.note-link:focus-visible .note-figure {
+  border-color: var(--gold);
+}
+
+.note-link:hover .note-figure img,
+.note-link:focus-visible .note-figure img {
+  transform: scale(1.035);
+}
+
 .blog-foot {
   display: flex;
   justify-content: space-between;
@@ -333,13 +554,51 @@
     font-size: 12px;
   }
 
+  .note-link {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 14px;
+    padding: 22px 10px;
+  }
+
+  .note-no {
+    font-size: 30px;
+  }
+
+  .note-figure {
+    display: none;
+  }
+
+  .note-title {
+    font-size: 19px;
+  }
+
+  .note-summary {
+    font-size: 12px;
+  }
+
   .blog-foot span:last-child {
     display: none;
   }
 }
 
+@media (max-width: 900px) {
+  .note-link {
+    grid-template-columns: 46px minmax(0, 1fr);
+  }
+
+  .note-figure {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .gh-link {
+  .gh-link,
+  .note-link,
+  .note-link::before,
+  .note-no,
+  .note-title,
+  .note-figure,
+  .note-figure img {
     transition: none;
   }
 }

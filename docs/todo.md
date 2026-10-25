@@ -452,3 +452,34 @@
 ### 部署状态
 
 - 仍按用户 m01023 暂不部署；本地预览 http://127.0.0.1:4173/。
+
+===============================================================
+
+## 执行记录（2026-10-25 · 第八轮：个人博客文章模块上线第一篇）
+
+### 用户要求
+
+- 用户 m00306：把已经润色好的 `frontend/public/writer_works/NNstudy.md` 编入文章模块，并推送部署。
+
+### 落地
+
+- 新增 `frontend/src/features/blog/lib/articleMarkdown.js`：marked + highlight.js 渲染管线，导出 `renderArticle(markdown, options) → { html, toc }`、`resolveAsset(href, baseDir)` 与 `escapeHtml`；二级标题生成 `sec-N` 锚点并进入目录，图片统一走 resolveAsset 且带 loading="lazy" decoding="async"，外链统一 target="_blank" rel="noopener"。为避免整包 highlight.js（920.86 kB）进产物，改为 `highlight.js/lib/core` 只注册 bash / javascript / plaintext / python。
+- 新增 `frontend/src/features/blog/data/articles.js`：文章注册表（slug、标题、副标题、摘要、日期、阅读时长、标签、Markdown 路径、资源 baseDir、封面图），`findArticle` / `neighboursOf` 提供上一篇下一篇。
+- 新增 `frontend/src/features/blog/components/ArticleBody.vue`：左侧吸顶目录 + 右侧米白纸面正文；纸面 7px 硬投影与红色角标、h2 红色竖条、代码卡片（右上角语言标签，注释 / 关键字 / 字符串 / 数字分色），1080px 以下目录改成横向可换行，768px 以下缩排。代码行高必须写在 `pre` 上，只写在 `pre code` 会被正文 15.5px/1.95 撑成 30.4px 行距。
+- 新增 `frontend/src/pages/BlogArticle.vue`（`/blog/:slug`）：加载中 / 加载失败（含「重新载入」）/ 未找到三态；正文地址若被 SPA 兜底成 HTML 会明确报错而不是渲染空白；文档标题同步为「文章标题 · 个人博客」。
+- `Blog.vue`：保留页头、GitHub 入口与页脚，把原「暂无正文」空状态替换为文章清单卡片（线框编号 01、标签、标题、摘要、日期与阅读时长、右侧封面缩略图，悬浮时红色竖线扫开）；无文章时仍保留原空状态。
+- `router.js` 增加 `/blog/:slug` 懒加载路由；`public/_redirects` 增加 `/writer_works/* 200`，必须排在 `/* /index.html 200` 之前，否则正文会返回首页 HTML。
+- 新增 `frontend/tests/blog-articles.test.mjs`（5 条）：注册表完整性与文件存在性、正文不出现一级标题且所有图片引用能落到磁盘、findArticle / neighboursOf、resolveAsset / escapeHtml、renderArticle 的目录与代码卡片输出。
+
+### 验证
+
+- `npm.cmd --prefix frontend run test`：52/52 通过（47 条原有 + 5 条新增）。
+- `npm.cmd --prefix frontend run build`：成功；Blog 3.60 kB、BlogArticle 39.16 kB、Blog.css 8.44 kB、BlogArticle.css 10.22 kB。
+- dist 内包含 `writer_works/NNstudy.md`、9 张 SVG 与新的 `_redirects`。
+- 无头 Edge 探测 `/blog/nn-study` @390px：文档宽 378 无横向溢出，纸面 350px、正文 308px，9 张插图 naturalWidth 全部 > 0，代码卡片 2 个，目录 4 项（一、单个神经元 / 二、按层次分类 / 三、激活函数与加权求和 / 四、用 numpy 手写一遍），表格 7 行。
+- 无头 Edge 探测 `/blog` @390px：清单卡标题、摘要、日期正常，封面在窄屏隐藏，无横向溢出。
+- 1440 宽截图复核清单页与正文页：目录吸顶、纸面无破图、代码高亮正确（行高约 21.5px），文末 END OF NOTE / WYL / JOURNAL 与「← 全部文章」正常。
+
+### 部署状态
+
+- 本轮用户明确要求推送部署，取代此前 m01023「暂时不要部署」的限制：提交并推送 main 分支，随后 `wrangler pages deploy frontend/dist --project-name=wangyulong-home --branch=main`。
