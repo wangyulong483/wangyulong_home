@@ -2,69 +2,514 @@
   "date": "2026-11-02",
   "items": [
     {
-      "id": "e3de80217816",
-      "title": "拓展中国机器人商业服务市场。",
+      "id": "45f6cded9268",
+      "title": "蚌埠固镇：水火箭直冲蓝天 机器人闪亮登台",
       "summary": "",
-      "source": "Vietnam.vn",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxON2N2SHFjRVZnMHowMlJUeGhMUktmcjlKRVdrZExXS251NUd5ZDlOYlRYODRETXJUNXdBV3ZJZzF6T1E3MVhIbWRrQllsZUFnWWtQZ1ZUeHljVHVXN3pBNTdzZDhXNnRrVTU1Skg0dnF0MENMeEl1RE5XRGVxYlBSLVd6RDZyMVFfT3FEZzdtbUY?oc=5",
+      "source": "中安在线",
+      "sourceFeed": "合肥产业动态",
+      "sourceIcon": "location",
+      "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBSZzJIaWk1ek1SLXVRQy1ORGNuQXBUbmM5bTNtWEFRaUo0S3p5c0ctWGszRG9iUDBaSDg4ejBySmt0cF9SaWdzdjN4eDBrTzNOVFBpbldNTWI0YVI2aXBXOVd4MmRMNDhHY3VB?oc=5",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-11-01T16:43:45+00:00",
+      "publishedAt": "2026-11-02T03:44:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "hefei"
+    },
+    {
+      "id": "bae42bf5c87b",
+      "title": "马鞍山经开区校企面对面共探人工智能赋能产业升级",
+      "summary": "",
+      "source": "中国新闻网",
+      "sourceFeed": "合肥产业动态",
+      "sourceIcon": "location",
+      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5NLVdrTnhPNC15WVI4RUNzT1g1MGZHS1hkRUt5THUwTExTaXFsdi1hZlpTOTNlSkt1S0hLLXlpUW9VVVFMVDhpUzRBSVo2RW1JMDlhd0lPb0RJam9FUUJDc1Bydi1RYmp5V1E?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-11-02T02:42:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "hefei"
+    },
+    {
+      "id": "6382a6208322",
+      "title": "福州机场11月1日起时间有变；合肥新桥机场机器人“新同事”；进出杭州机场更快了！",
+      "summary": "",
+      "source": "ThePaper.cn",
+      "sourceFeed": "合肥产业动态",
+      "sourceIcon": "location",
+      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5PVVdPTDVQNjR3a1MyWUd5REc3c0dhSEJNZjJtSUYzYzRtWFpKbkFTcnFiaE4xMmdXRzhpS0lSbXprR3B4MFduM2JMRUdSS0l6eVhxbEx4eDZlaC1jYjA4Zg?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-01T14:43:28+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "hefei"
+    },
+    {
+      "id": "9c44e1edf036",
+      "title": "与Meta联合研发人形机器人？傅利叶暂不回应",
+      "summary": "",
+      "source": "新京报",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9tRGN2UmVQYWdXd0FFRUdNU2pFWWowaWszZVRkeVFIeGZFVkFfeUZlNW1JM3NNU0RURkxMX3Y0Y2xCRlBhYnNpNkNqOFlnNldXdGt1WTYxdDg2bEpjNFZxXzltMmU?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T05:21:00+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
     },
     {
-      "id": "884f4924f752",
-      "title": "Muse人形机器人来了！小扎带队，中国造|上海市|知情人士|家庭|原型|环境_手机新浪网",
+      "id": "ffce926e22d1",
+      "title": "大众ID.ERA 5X到店 15万配激光雷达",
+      "summary": "",
+      "source": "汽车之家",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE0xWFVqVDMxa3JYeldhVFFiMUltQ0liN0tfZHNrTC0zSFktaHZDMTRwWDVBQ0R6VXNBZ3lzRTNTSk92NGx0cGg0S1p4VDRoaGVETFpJTzVmdUtuMEQ3ZUZhbHFqQXVnWjhFVTFJ?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-11-02T04:42:12+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "277e5fc3f6c6",
+      "title": "傅利叶携手Meta，探索人形机器人研发新分工",
+      "summary": "",
+      "source": "华尔街见闻",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5jTzcxcTMxN1ZBNnVpM1pWc251X2hjaGRFNV9GRlBwWUl1Z0Y4UlZFbUk1NmxPZUhmOWJ1djlhZ0xZUEV4WUR2QU85endHU1lHR2M0?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T04:16:53+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "b806054c422b",
+      "title": "13万级买到德系激光雷达+660km真续航 大众ID.AURA T6、丰田bZ5、零跑C11谁更懂中国家庭？",
+      "summary": "",
+      "source": "新浪网",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9nUUd4LWdzOU1kR3JySkRiOHpueGVwN0ZWdG5zOVRoaDYydzBVWi1kLXNJX0ZMczhDN2owSDZPS0hCZmhyY2dQQXZhaEswVE50aTlxVF9YeXlUaVNSNlNz?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-11-02T04:15:38+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "91b474d3c996",
+      "title": "千问集成到苹果AI；Meta人形机器人中国造丨科技风向标-证券之星",
+      "summary": "",
+      "source": "证券之星",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9tVF80RmhnelBmQTZlYWtfTURYMUo3NXJlbjRkYVdKdFpfRW4tai05VEhmakxOZmNmZEx1VGtockhJWV9yc1JtQVB4YUxTbWFoQ05naWc5dWNiTU85WXc?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T04:11:32+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "da356f2c01e0",
+      "title": "突然拉升，600576瞬间涨停！Meta进军人形机器人，多只绩优概念股“超跌”",
+      "summary": "",
+      "source": "凤凰网财经",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFA1VTMzYlB3WjdPOEM4SlpkMU81a1lObmprZmhYWnJtYUh3aDhvRXEtcUFIUk50UDJkUmU1Q1h1YXRQZDI0SXNWQ0IwQzRsMnNG?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T04:01:25+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "1ed45feddce0",
+      "title": "Meta被曝与中国机器人企业联合开发人形机器人，傅利叶回应",
+      "summary": "",
+      "source": "ThePaper.cn",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1zVWtoTnJjbWhFUEs2X2F5UEJOajFqcEJCcy1FUVFDS0N3THRnVERfeldaaWtabV9kQ2tYZnU0d3EySEc4dXUyWFNKT0Vnc0ZKdnRuYVlxRWtyRFpOeUxOTg?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T03:56:20+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "a9e20904f196",
+      "title": "两只中国硬科技ETF接连登陆欧洲，汇丰资管押注机器人赛道，VanEck布局“欧洲首只中国半导体ETF” 中国基金报",
+      "summary": "",
+      "source": "中国基金报",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBKQXFRWnpLeUtJTlF5dGVoWGdiQl9lMkx6ZjhCd3VrTEs2cFpDY0FMeHktSVUtb0VSaXBjak4yOTRoeWdxdlAxY2gxOEVhUzg2eEVHaDN0bWQ0aG5tRU1id2pNZ3B5TnA2bFZFUnFwMVBjUmNkQ3NId1lR?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T03:44:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "a5a03f2eed57",
+      "title": "Meta被曝与傅利叶合作开发人形机器人 原型重48公斤 CEO回应暂不便回复",
+      "summary": "",
+      "source": "凤凰网",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFAyem9DS1pLN29PRG5GeFBzOWFzNGo5b2F5VFA3SEJVdDZwNnQ3dWVxcHltbENiUVpZSV83YVRubVA0Q3ZaMzRpUVZndmxkQ1NwR3c?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T03:30:33+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "9bc820ad1c57",
+      "title": "环比大增690％，MiniMax模型冲进全球AI大模型周Token调用榜第八！小米MiMo-V2.6-Flash跌出榜单",
+      "summary": "",
+      "source": "每日经济新闻",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5hVTZzTUFsWVItU2JvOG1LYWdvUURDdW1lMXI4QkpISmVqWWRRbFdZMGQxWE43ZWp2WFhkSTNRWlFaaWJ6ckROc1lJcm01RElsNk9ITFpRRDQ1WFFfRHhUOGdlalI5Zw?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-11-02T03:16:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "eb07ab9b0bb0",
+      "title": "登高望远 智汇泰山｜山东服装职业学院参加2026中国（泰山）具身智能产业发展合作洽谈会",
+      "summary": "",
+      "source": "鲁网",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9hcXVUQklkcTFzZFdCdVRHNVVNRmpTMlhKSXBCeWRDWnh6WGZqcE9TbmliTjZHRFJMYlVkMjdaTGFFYmhiNGFOMlMwYXhrd0xCa2c1RW9faVFlWU1ZRGxGMk1hODNnazFvUmc?oc=5",
+      "category": "robot",
+      "tags": [
+        "ai",
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T02:47:29+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "788d41618a79",
+      "title": "《焦点》中国机器人企业已攻克“跑跳翻”，转向竞逐AI“大脑”",
+      "summary": "",
+      "source": "TradingView",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8yc1pQODFjaGF2Y1o4Vy1aUl9lbUNjcEFfMVgyenpaZDJ0Yk02T3RIb3dyTmh5dDZTRnlXdllyS3VIZWhjZW9iZ2I2dEt4VWQ5TmYxRDdlREpsWW01amRpTmxaUmZwWXN4SVdVUGt6dk1pTzlJdG9n?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T02:45:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "e851b05b751d",
+      "title": "4米8配激光雷达，今年新出的中型纯电SUV谁更懂中国家庭？三车深度横评",
+      "summary": "",
+      "source": "手机新浪网",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5TMnhsTUFITG85ZUVyY2tram1qMlRhaGJtZWFZSVhjbjFPMHdNXzI3NlFKdHljNFJmanNFNTlhS1pJSjAtQVRiakRvWEJqeXk0MDZCVC1FQjFVcWU3cFpScGJHZzVYci1vN1dncUpxZ1oyUQ?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-11-02T02:38:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "87f094701516",
+      "title": "扎克伯格牌机器人，中国造",
+      "summary": "",
+      "source": "腾讯新闻",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBVN29fOGd0b2JmTV9mQ3l3QjA2SUF1TEFWazBVMGlSMlkzZmx3aVFXbl9LUllhVWtFZE9fcjczc0JaeHg5bHVuMnFHbVFYNnpRbDc3cHlGUWR3Qk1GTmRwV1hqOFBucy14WnNTcQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T02:16:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "89929c0fbca7",
+      "title": "东风日产NX7实车解析：插混中型SUV，激光雷达上车，四季度上市",
+      "summary": "",
+      "source": "汽车之家",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBCYjJqX2xDOUFmdjRQMVRoZ2JrSEhJekNFRmhUMHJaUDViTnZPajJwTjVpMjVGallOWDE0SVJ3S25tcFBjMUVpT1B1ODVWVWFRRm1RQXZfcU9zdmM?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-11-02T02:11:55+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "a530834ff4fe",
+      "title": "外媒关注中国算力基础设施发展：中国“算”就是行",
+      "summary": "",
+      "source": "中国新闻网",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5kWDVndFNoLU1ZM0ZHTW1raUZYYjJRV3pRcHRKUGNPQ3BNLTI4TkkxSUd6bXgzNUVQRE5UaXpGOVdZYWw3VnFNSERSQm1YWEl5Sm5Za3BrZkdZYkRoVDIyQlFUQWtfNi0z?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-11-02T01:49:48+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "ed5ff5a4fb86",
+      "title": "【报告】2026年中国自动驾驶行业发展研究（附55页PDF文件下载）",
+      "summary": "",
+      "source": "手机新浪网",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1WWkF2SFp4Qm5RYU8tRDdicXM5eDRYOWc1bndxN3ZwTTNaMzlKME1sdlRVVDRfSFRYdUVGVXo0X1ZTbFJFRXoxSWF6a3BoVVNPMUtDTEdpYU0xQ2tsSDUxcnpVcXRKOHNxRVdXRlg2LXIxTU9Sckx2VWhoa1FUd1k?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T00:55:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "b893e7a09906",
+      "title": "中国机器人产业竞逐AI“大脑” 具身智能半年融资额增五倍",
+      "summary": "",
+      "source": "早晨报",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBJZTdNV1FZZllQaFdPa2U5d1JGb1BTMnF3SDBfR1d4WHR1UHhpaDlxX2hoWlNyWmJZZ3ctNE1vVlJkdzRBQ0c2c2hmTkp0U19lT3I2dUtjMDVPWmd0dXBSM3kzUUJrNVg1?oc=5",
+      "category": "robot",
+      "tags": [
+        "ai",
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T00:52:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "b39abcaecf14",
+      "title": "2026年中国自动驾驶行业发展研究报告：行业现状、商业化路径、趋势展望",
+      "summary": "",
+      "source": "电子工程专辑",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBha3pRYVp5N2JaQ3pGaW5uaDJ1TDNVNFB3U0p0WGJuMzU1V1k4Z01VSHhPT29CZnhFeEh1bkJYSmtNVUp1TGF5UHVhMC1kVmpEMF9R?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T00:51:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "0128217e7c4e",
+      "title": "2026L3自动驾驶行业深度报告：责任切换重构智驾产业链价值",
+      "summary": "",
+      "source": "电子工程专辑",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1DWWJhb2JPSHY4dk5lMGFEbmo1SXBocWx0Q0l0aGNqOEsxWVRldWlqeVllYUFQWGRvNVRXem5lZVAxZUVLUXVYMEtYZ2VYVG9Ga1pV?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T00:51:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "07b294ae5ca1",
+      "title": "图观中国| 激增1400倍的Token背后，中国大模型正在悄悄改变什么？",
+      "summary": "",
+      "source": "观察者网",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE8xVVVwS3R3UzRVQmtHelF4eW0wcHNOd3B3WlE1SmtNdk9rak1vQWFmRHVodi1LZjg1YWgtY1JqTFRhMXFKN3VUbjRWVVlnS3k0MWlrYTNZNUFRU0oteWIxcDdrWkF4MDV3dThRMTZ3?oc=5",
+      "category": "ai",
+      "tags": [
+        "ai"
+      ],
+      "publishedAt": "2026-11-02T00:17:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "39c5ea5e0abd",
+      "title": "【视频】差价5万！星瑞L PLUS激光雷达智驾硬刚凯美瑞双擎",
+      "summary": "",
+      "source": "汽车之家",
+      "sourceFeed": "国内机器人技术",
+      "sourceIcon": "settings",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5fYmZZUjlXamJBRjhlUk9KT2JsTEhJd0J3OVlyT2d3RDR2Q0xaVWhZZktEcklaQ2M4UWFidzc3ZFlTNUpybmd3MDNxbUxrNkhqOHpvYUY4YkQ2MnM?oc=5",
+      "category": "lidar",
+      "tags": [
+        "lidar"
+      ],
+      "publishedAt": "2026-11-01T23:39:53+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "1f4ca84815bf",
+      "title": "曝Meta与中国机器人公司合作 打造人形机器人原型",
+      "summary": "",
+      "source": "中华网",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5Sclc2Y1ZycWZDSk5NZ3p1eXh2ZllSVGNDYmtadk84U3BpRmFIaXpWRllBMk9HTEtUYnVrQUo2T215ZXF4c3ZEeTNJcmJCZ2t3aGdONHcyWGZzUUdEX2ZydjlfYmNGTUx3QTJRbkZZbXM?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-01T23:33:52+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "a1526aff9c82",
+      "title": "欧洲上市中国半导体和机器人主题ETF",
       "summary": "",
       "source": "新浪财经",
       "sourceFeed": "国内机器人产业",
       "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFB1em1xNUowZDhIeXhtdGpPTVpHS1BKZDVKOVcxYkdvZnlmMGtOY2xwX1k5aDFYbURHUWdINV9CUkFidVA0TmlKNkw5QUhVMGdYVzRtN0dQNE1GQXdYZnBhb3ByOXdMcDItSVdKd1NRaEFSNzdzT0RXMQ?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE91ODlYV2JXTFo5NUE5MVFSSG9CY1d1NHZfQ08tYTJmZExSS2dXblFGUzJIWkcwdFdRQ0hpcWxDcnJNN3I3NkR5Y0gtZTdZN2hBeG1mRG42LTcxTDJiZ1NndGlfZGdPVkFORXRvQUgyM0NqUXNoUWc?oc=5",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-11-01T15:20:18+00:00",
+      "publishedAt": "2026-11-01T22:55:26+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
     },
     {
-      "id": "6d3c64c80596",
+      "id": "da82445a0e4f",
+      "title": "【科创之声】人形机器人从高热走向理性",
+      "summary": "",
+      "source": "中国经济网",
+      "sourceFeed": "国内机器人产业",
+      "sourceIcon": "controller",
+      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE45WnBSdmlDRUMzT0oyVlJ5LTl3RzVmcjNHWjR1dFhXRjJpcUI3NGFfSlNPaVZRT1FEUTh2U0VSSnhPZXNxVS1sdWItLUMzbnQwQktuNGlTbEk5eDM5RllCenotaUF4WFhNR3R2ZWhTTQ?oc=5",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-01T22:22:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "1bfcd33fef01",
+      "title": "中国机器人制造商将重心从杂技表演转向人工智能",
+      "summary": "",
+      "source": "Mezha.net",
+      "sourceFeed": "国内 AI 产业",
+      "sourceIcon": "microchip",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNdkE5ZTRpem1XM2lRZUJSYkI1bktMb0psR0tzMHhlejBGVlprRFFRdGF5bGdOYjEwVV9jUEVNWEdRUDhKaER6cnpveXBkWUFfbl9pTk00bGJCdDBuMDhDelh1WncwMWFXSklRNm9xU3p5eFpzMTk0WERsRXdDZnB1Q1RYWHpnTzd4TERROWxweTluYVNvX1YzSkF2Yw?oc=5",
+      "category": "robot",
+      "tags": [
+        "ai",
+        "robot"
+      ],
+      "publishedAt": "2026-11-01T18:36:00+00:00",
+      "timeType": "published",
+      "language": "zh",
+      "scope": "china"
+    },
+    {
+      "id": "210cefaf307c",
       "title": "推动技术走向产业现场，第一届中国工业视觉人工智能大会在沪举办",
       "summary": "",
       "source": "上观新闻",
       "sourceFeed": "国内 AI 产业",
       "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9iYTM5U3ZSVzZlNEk0WjJRVW16MUdWY2pDTVZycXVtdlBvWE9yX3F0VTFmMmNZZWEtcUVFTE41ckFNQWNVLWgzdGpTOEtNN3oyY1M5QXh1OUdlWlVLRkE?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9OMXg0WldkYWc5d2ROT29Wblotd2RjY2RSdkNjU0x1ZnFHc0VkcnBDWkZPb1VINW1jV3h4Z1dlUzA2VDBmelQyZEZWblNHVXVReEROb01oVnZNQQ?oc=5",
       "category": "ai",
       "tags": [
         "ai"
       ],
       "publishedAt": "2026-11-01T15:16:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "2085d2e28b47",
-      "title": "巴基斯坦前驻华大使：中国为缩小全球人工智能技术鸿沟作出重要贡献",
-      "summary": "",
-      "source": "国际在线",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5TNzJoYUVJaG91NHdwUjg1bmlTVWw2UFlDN0k1N3JsYXIyU0FPR283eUYtd3MwVm1kOGlhbkM4Rno4WmpaMW13bThXa1pNUDVqNWpFUWpMZHN4MHpCN2VvWlB2Sy04ZUNmRWdHRDlFTUhXd1FseTdTQ3dR?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-11-01T14:42:39+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -87,109 +532,6 @@
       "scope": "china"
     },
     {
-      "id": "043f5a128077",
-      "title": "具身智能人才培养驶入快车道",
-      "summary": "",
-      "source": "新浪财经",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMi4gNBVV95cUxPTXBzRU1iNXAxSUtCOXlsS1dPZUZLaU9wbEZzbEFuM0dsMTRyaGpCVXJ0LW9RcXdlYktITDVvbjY1WG40SEdPV3NfY0RlUTNuRHFyYzY4WHpzRE5wYk1LckV5NUJhM3IyTktmYV9kZVNoaG53aWhpTXdoVXQ3eG1DSjczeHhuUlo0OE4wbDNRMUwyM2Fxb2xLaWlvN0Q0cm1YV2hvczFKMkNJQ2dPNWxhNnhBNy1lMUlXa1VFMVpHN0FvQkpZMktsa2RKd29wcW9SOHd4NTdaRS02ZVhYUzFyaFpBSmJQZ0VVOEFseHVKZ1VIQkRzSHhaNDJZZWJkUHlTUnJBdGxSTndMZzRVeHFlazdYTUlFYndvM0phTy05V1hBU1hidzRpUE53aWVvRml6U3RnZTVjNXR6ZGYzdWl4WXJreS1WdDU4SHluTmpzMl9BdmxnT0dVUl9TTm5VX3BTU18wQzJIcHphVDMtTm1OeXIxWEZrR3RSTS02a2FDTVV0ZlNuX2czWGxGSC1GTWh0NHRvUFg0a1lIOV9hSk56TFd0WTJIWks3NUJsY3c5MTRMOUxIUG1SaHh4ZnVXbWdXWHBDbmt3NElaRHBtSWZWWHVVMWJtU3FuWVNfRVlQSDgxdw?oc=5",
-      "category": "robot",
-      "tags": [
-        "ai",
-        "robot"
-      ],
-      "publishedAt": "2026-11-01T13:59:47+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "d279f54c8287",
-      "title": "胶囊胃镜、手术机器人亮相广交会 中国医疗设备加速出海",
-      "summary": "",
-      "source": "中国新闻网",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBSVGY1OENQd1Z6YjJiSzdpLTFva1FiVzIxblZyeGtNenZ4NlJhUFdOaU5ZSmtJSHlCcGZpbnVvdEZmODRBb0NtNkpHNG51U01CNF9QLWppeGs3bkhqM05RNVg5SDZ1Uk9S?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-11-01T13:28:09+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "72d9ce2a1b65",
-      "title": "硬核科技上新！首届中国工业视觉人工智能大会在普陀举办，七项成果集中发布",
-      "summary": "",
-      "source": "新浪财经",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1tREw0WUx2LUJaLTVHWGwwNERLb1BSbXNPQTZjc2J2aWstamRaV2hqSUZQcVE3VFFzTTdsZTFqN0xpTkZFaEg4MVR3TTh5UzFjak9BTEdBUWhKV1YySkhnei1HSVRmd1RDby1RXzgzd3pIMXl1OVE?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-11-01T13:05:30+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "832bd47427b1",
-      "title": "2026“人工智能+”大会在北京开幕",
-      "summary": "",
-      "source": "新浪财经",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE96WVhaVHdGcnNDa3ZUcUkzX0IwNFVsOUp0UnJfbWs0Z2xVVmFnVE9NS1hKNC1vSHBReFp6TmxSZ3FKMnBfNktjb0tnNUxIQndhcUNQR1g5MUpobXRrMzlvX3hZYjJYUlB3YmktRW9NaG8zZnk5ZXoycg?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-11-01T12:36:35+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "284a638371fb",
-      "title": "日产NX7四季度上市，带激光雷达的插混SUV，多少钱？",
-      "summary": "",
-      "source": "汽车之家",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE96bkQwU29USUYxWjVIX241bHQyRVA3dWZiblNWemFEemktX2RqeTlmNk5CZ1ZQcUJiQ0pSSmQ5Zlk1bEVuRHgyNE94d2Y5N2RPeFhRVW9DV1JTZHc?oc=5",
-      "category": "lidar",
-      "tags": [
-        "lidar"
-      ],
-      "publishedAt": "2026-11-01T12:23:06+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "0e66fcddfd3a",
-      "title": "彭博行业研究：2030年中国将在17个关键行业中的8个领先，包括大模型",
-      "summary": "",
-      "source": "风闻",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE92Q3B0RFRMeTA1cjJYc3BDN1pLQlZjakswa0E2WkI4SzZxbkk1emI3aG80clBoQmY3MHFZcEpvdExXVkVuMmh5alpqTWdkTUJCVVVrMFZ1OVVqZFNvcTdGUmpOZDNTOWdqVWRhU1lyeUxsY3U1?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-11-01T11:42:04+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "1bf78fdb3c34",
       "title": "同级首搭激光雷达+3L级油耗！吉利星瑞L PLUS南京上市",
       "summary": "",
@@ -202,57 +544,6 @@
         "lidar"
       ],
       "publishedAt": "2026-11-01T10:08:13+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "f892dc0d0047",
-      "title": "算力网加速织就 助力数字中国建设",
-      "summary": "",
-      "source": "新浪新闻_手机新浪网",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBOSVFkRG1HLUkyLXJrYXd4dHdLa2ZQQUc4dXZYS3hwYl82Z2E4QnBjcTlZbWx2ekxPUEtRdmcteUdSQmFISW1IdjczOFJORFJORnAxTmV6SkxoS0pGRDc4VnExWFh2R1ZaZ3p2cWtzMWhMM2hMbGM1SFdB?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-11-01T08:48:45+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "ef4bdbfe4aba",
-      "title": "大众纯电SUV轴距超途观L Pro，激光雷达版或15万",
-      "summary": "",
-      "source": "汽车之家",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE16c3RZdUZWcjdGd185R1NzQkRsd2s1T1BjejRoQldfUV9sc1FTSHpFTUdWZ25TYXJjZHBlRFVQdWZrTERVTlFXMjZjREZjRGNpaDZTaHpJX1RvNUU?oc=5",
-      "category": "lidar",
-      "tags": [
-        "lidar"
-      ],
-      "publishedAt": "2026-11-01T08:26:06+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "fcc4ca7df05a",
-      "title": "2026世界互联网大会乌镇峰会：探索人工智能创新",
-      "summary": "",
-      "source": "中国日报网",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBMa0pEbTBwYlFsN3NHOGpOSl9RaWFpQW02T2txU2U0M0t2UklkNWxkbG5CN3NyQVRMTXR4eHFIMndFY3BkdTQ0bW9EY0NmUFZWRDBZcTYzaEwwVHNLMWdyOGFjWFVtcFdZdTVITWUzTl9CdHJtVVJkNC1aa20?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-11-01T07:51:59+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -275,23 +566,6 @@
       "scope": "china"
     },
     {
-      "id": "6b537e5d3ea5",
-      "title": "英国学者玛德琳·卡尔：中国给全球人工智能治理带来的理念非常重要",
-      "summary": "",
-      "source": "搜狐网",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE96eDgxc0FSd3VETUFSbWFsSkQyNTNYaVNHZm1GcDVCMWRYWUNHTmdXdGk0dE9hTlUxcHNudXRXUk9nelJyMEc3UDJzdTlBQ2JQMThqODhR?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-11-01T07:09:23+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
       "id": "078fc1ca45db",
       "title": "以开放合作引领亚太区域人工智能发展，推动区域数智转型——第92次中国改革国际论坛举行全体大会",
       "summary": "",
@@ -309,137 +583,18 @@
       "scope": "china"
     },
     {
-      "id": "3c8ccaf6970f",
-      "title": "国汽郭妍妍：L3级自动驾驶技术发展与安全并重，量产落地需时日",
+      "id": "cf2d89a298da",
+      "title": "算力网加速织就 助力数字中国建设",
       "summary": "",
-      "source": "新京报",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE92NWVSc2tXMUZzVzVqTjV6bTJneWVHLUtjNkV6elg2MmZZMGcxMTFIbkt3MkRtWDVhYWFXeVJPZHEzWjUzdDlsX25qWUxKejJKa2RUYkZISFE1c010RWp4VVgwaXQ?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-11-01T04:33:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "70c21f8e6a98",
-      "title": "大众ID.ERA 5X轴距2815mm，续航520km配激光雷达",
-      "summary": "",
-      "source": "汽车之家",
-      "sourceFeed": "国内机器人技术",
-      "sourceIcon": "settings",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1mTUVkOGstZms4eWpEYkNNQWtGSW80Yl9uWmNXRnRjOUc5SXZTMHBsQldOeldSU2RZVEh1elI1MFBpeG1fOFAydmhNQi1CaDZBZUFyVGZMNWxaanc?oc=5",
-      "category": "lidar",
-      "tags": [
-        "lidar"
-      ],
-      "publishedAt": "2026-11-01T03:34:38+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "ce46026ce8bf",
-      "title": "美国以安全为由禁止进口中国的人形机器人",
-      "summary": "",
-      "source": "朝鮮日報中文版",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQNjBONjhSOGVjWklEeDBXdU53MWMxZWhjeFhJbWNKQ21EQXhJT0hwQW1XUm1oYk5SYjNzRHhXdk94VFU4UjdMVDdZYWVxWGVXQ1RxTEllcmJkZEluRElpOUFJN2MyRUJWbWliR2s4THpoSlJZY1R6OVRDejhpaE1aeGNyM2taTUhJWTdsQmVJWDRNWWpFT3ZYUXNuQ1RsekhZ?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-11-01T03:25:41+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "87693b84a639",
-      "title": "已进入第二版！傅里叶帮Meta研发机器人原型，打造“Muse物理化身”",
-      "summary": "",
-      "source": "华尔街见闻",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5RTHBmUzRBNmNPTkdaYm5zbGpjaFo3cTV6amYtZDJjM3F4WjhhWnlGYldjYndSOGFLUWZpQ0RMZ1pWMkxsVHNWVWMyM0JMbjE5NHJr?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-11-01T02:38:23+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "9ce798441989",
-      "title": "中国加大全球南方能力建设，引领全球人工智能治理",
-      "summary": "",
-      "source": "ThePaper.cn",
+      "source": "光明网",
       "sourceFeed": "国内 AI 产业",
       "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9TQl82VFJ0N3ZMM3VOTUJoMGRLNHk5bUJlTXgxaWFqbjd1cjNnS3ozdHZBUG5NMFREQWhKNG5jbkR4M0ZTclltdHFXODRGb3Zqd1hKQXdHaWJCLXU5LV94dQ?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1xS3V2cWRQZ0hVZW9RZ1c0STk1M0NmeUlnTkR2U1NqQ2ZydkNBNlFkdEttTGhxU2xRdlY5QThEVjJCd0JLMFdrbzlsY3RuRmFvYndiOEZLc1BPZnpnUUIzeV9SdmI0Zw?oc=5",
       "category": "ai",
       "tags": [
         "ai"
       ],
-      "publishedAt": "2026-11-01T02:00:01+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "13c2ca7d841d",
-      "title": "数字孪生工程技术人员：为机器人搭建虚拟“训练场”",
-      "summary": "",
-      "source": "中国日报网",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1HYUxGeTlNY2tuTk5qOGFqYzRuZXVNWWFyeFE0SXprQ0oycjVqVzV2MEtaUHhWSTh3RXp0WWhoTHNwam9vdTVpcGNSbno2NDVmQVN4YzI1Yk8zdDdkY1JxNHliXzlkYTh4YkNoU1dvbmRvcDl6cmdLV0NTSUY?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-11-01T01:34:45+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "95f4967868c3",
-      "title": "消息称 Meta 与中国企业傅利叶打造人形机器人原型，号称 Muse 模型的物理化身",
-      "summary": "",
-      "source": "新浪财经",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE84M0kwVjlNN1JmTTlPekI4b2pVZmhnMEVGZzVkTXlhU1RpMFNRa1dpaUR6UWM0bjZLWWlaekdVR0NYRDh2M3NKc0dnY0pFVHlRZmVJQXl3YlBaVjhCLXJyUEM1MlRVU0JoWExkSVgycXFaNmhnQnlnZ1RzaGVza00?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-31T23:12:21+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "0590ce072dca",
-      "title": "Meta联合中国初创企业打造人形机器人原型 加码机器人业务布局",
-      "summary": "",
-      "source": "TradingView",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1UMlpqVGJQNzkwajE2V1RWQm1sX2hQaU5samRwLXRqaDNBTjhURy16aFRaa19hR2xqMHZjWXFzT3J1NURRR2pIUFV6V3JIT2lhd3JZY1BvVTRHQUQ0ZFhkVElUNVlRWU1Ia1E?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-31T22:50:51+00:00",
+      "publishedAt": "2026-11-01T05:26:22+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -457,57 +612,6 @@
         "robot"
       ],
       "publishedAt": "2026-10-31T22:44:38+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "fe5bab49cfcb",
-      "title": "印度学者看中国：脱完贫，已在思考机器人替代后干啥|讲堂视频",
-      "summary": "",
-      "source": "上观新闻",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFB3RGIxQnN2TE1sbVRNZjZaN2R1N2lhYzVOd2p0dlRudWZualphNERYN0ZzOHFJQThVWlY5QjVhREs0bjNEdF9LdG9SeTN5MVRibjA0X29NSlQ0ZnVM?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-31T21:06:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "faf15f56d520",
-      "title": "Meta Platforms与中国傅利叶机器人合作开发人形机器人，家用机器人计划持续推进提供者Investing.com",
-      "summary": "",
-      "source": "英为财情 Investing.com",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBfT1A1RXRFSFM3TnpFcjExYXFTMUVvcERqaHZGVDA2UVNQNmhNa1RTTGE3WmxkSXI1M1FZOU9qSHBWVTdXU2lIUXZIeTc5RndOZnhrNWdwOGxTMmhIRVN5eFhybElGamhhbTdkd0VEdk8?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-31T17:29:00+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "9c61a82b11fd",
-      "title": "Meta与中国企业傅利叶3个月开发出人形机器人原型",
-      "summary": "",
-      "source": "TradingView",
-      "sourceFeed": "国内机器人产业",
-      "sourceIcon": "controller",
-      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFAyZnBleXVqRC1USmtuN25LM01hYkdDRWptczdRcW9YWmltdWp5RFp6bWhqOVdSQ1hFNEhLdzB6bGdqa3c4WEdvQWx1VVhXYzBmU2EwdnlCT3lRNGZVTU5PVWxZN1FzQQ?oc=5",
-      "category": "robot",
-      "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-10-31T16:53:17+00:00",
       "timeType": "published",
       "language": "zh",
       "scope": "china"
@@ -547,211 +651,176 @@
       "scope": "china"
     },
     {
-      "id": "784682acbc6a",
-      "title": "世界模型首次指导设计芯片！超大核NPU700TOPS，99%算力可用",
-      "summary": "AI算力利用“九九成”",
-      "source": "量子位",
-      "sourceFeed": "量子位",
-      "sourceIcon": "qbitai",
-      "url": "https://www.qbitai.com/2026/10/506866.html",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-10-31T05:11:19+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "7bb67d04ce4f",
-      "title": "经济观察丨算力网建设为中国西部撑起数字未来",
-      "summary": "",
-      "source": "新华网",
-      "sourceFeed": "国内 AI 产业",
-      "sourceIcon": "microchip",
-      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9SMVZWbUdLSnpuallHMTA2RXhyQW1sRTdlbnZ5R1hjZ0UzQkhHMzdhd3IteTFaTWN1Rlhuc0k1YTJXdWc5VjRCbDYyQXVBbF83SWlScEZ0OWsxa3ZTOGZJdENHVkI1a051MTdRYlFyWjVJdVRWZVBR?oc=5",
-      "category": "ai",
-      "tags": [
-        "ai"
-      ],
-      "publishedAt": "2026-10-30T23:59:28+00:00",
-      "timeType": "published",
-      "language": "zh",
-      "scope": "china"
-    },
-    {
-      "id": "0f735bef19cb",
-      "title": "[Open Source] DDS AutoDiag v0.1.0 — ROS 2 DDS Diagnostics with AI-Assisted Troubleshooting",
-      "summary": "Hi ROS community! Ever had two ROS 2 systems that could ping each other, use the same ROS_DOMAIN_ID , but still couldn’t discover each other’s topics? I’ve encountered similar issues while working with distributed ROS 2 systems. Troubleshooting often means manually investigating DDS discovery, middl",
-      "source": "ROS Discourse",
-      "sourceFeed": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/open-source-dds-autodiag-v0-1-0-ros-2-dds-diagnostics-with-ai-assisted-troubleshooting/59419",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-11-01T17:40:23+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "3f848b92185b",
-      "title": "livox_gz_sim: Livox Mid-360 and HAP simulation for Gazebo Harmonic",
-      "summary": "Hi all, I’ve released livox_gz_sim, a Gazebo Harmonic plugin that simulates Livox Mid-360 and HAP lidars and publishes exactly what livox_ros_driver2 publishes. As far as I know it’s the first gpu agnostic Livox simulator for Gazebo Harmonic; the existing ones target Gazebo Classic or require CUDA. ",
-      "source": "ROS Discourse",
-      "sourceFeed": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/livox-gz-sim-livox-mid-360-and-hap-simulation-for-gazebo-harmonic/59418",
-      "category": "ros2",
-      "tags": [
-        "lidar",
-        "sensor",
-        "ros2"
-      ],
-      "publishedAt": "2026-11-01T17:40:05+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "2b158e08e6ae",
-      "title": "TechCrunch Mobility: A new, bigger AV boom is here",
-      "summary": "Welcome back to TechCrunch Mobility, your hub for the future of transportation and now, more than ever, the role AI is playing in it.",
-      "source": "TechCrunch Robotics",
-      "sourceFeed": "TechCrunch Robotics",
-      "sourceIcon": "techcrunch",
-      "url": "https://techcrunch.com/2026/11/01/techcrunch-mobility-a-new-bigger-av-boom-is-here/",
+      "id": "45ce3bd65e86",
+      "title": "WorldBridge: Bridging Video and Action for Task Generalization in World Action Models",
+      "summary": "arXiv:2610.40748v1 Announce Type: new \nAbstract: Achieving the broad task generalization of embodied models in physical environments remains a central challenge in robot learning. We study this challenge in World Action Models (WAMs) through two complementary capabilities: video generalization, whic",
+      "source": "arXiv CS.RO",
+      "sourceFeed": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2610.40748",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-11-01T17:04:00+00:00",
+      "publishedAt": "2026-11-02T05:00:00+00:00",
       "timeType": "published",
       "language": "en",
       "scope": "global"
     },
     {
-      "id": "1a1af5a7f262",
-      "title": "How did you like the Wordly service at RosCon Global?",
-      "summary": "In the opening remarks of this year’s RosCon Global, there is a reference to the “AI interpretation” service Wordly. Could I ask those who used it how did they like it? Did it do well with all the technical terms? Were there any other blockers or glitches? I think OSRA also asked for some feedback r",
-      "source": "ROS Discourse",
-      "sourceFeed": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/how-did-you-like-the-wordly-service-at-roscon-global/59408",
-      "category": "ros2",
-      "tags": [
-        "ros2"
-      ],
-      "publishedAt": "2026-11-01T16:37:05+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "e1ec47381936",
-      "title": "28 Zero-Day Findings in Less Than Two Days: What AI-Speed Discovery Means for Robotics",
-      "summary": "VicOne identified an initial set of 28 zero-day findings in less than two days using AI-assisted research across software and tools supporting the Physical AI ecosystem. The post 28 Zero-Day Findings in Less Than Two Days: What AI-Speed Discovery Means for Robotics appeared first on The Robot Report",
-      "source": "The Robot Report",
-      "sourceFeed": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/28-zero-day-findings-in-less-than-two-days-what-ai-speed-discovery-means-for-robotics/",
+      "id": "8d6072366273",
+      "title": "CaPtain: A Pipeline for Post-Training Code-as-Policy Robot Agents",
+      "summary": "arXiv:2610.40799v1 Announce Type: new \nAbstract: Across coding, web, and tool-use tasks, language-model agents are now routinely trained with the same recipe: supervised fine-tuning (SFT) to learn the interface, then multi-turn reinforcement learning (RL) to master it. Code-as-policy (CaP) casts rob",
+      "source": "arXiv CS.RO",
+      "sourceFeed": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2610.40799",
       "category": "robot",
       "tags": [
+        "ai",
         "robot"
       ],
-      "publishedAt": "2026-11-01T14:00:58+00:00",
+      "publishedAt": "2026-11-02T05:00:00+00:00",
       "timeType": "published",
       "language": "en",
       "scope": "global"
     },
     {
-      "id": "ab0262248dec",
-      "title": "Why physical AI is the next lucrative frontier",
-      "summary": "To prove its commercial value, physical AI must get past funding enthusiasm and move into production environments. The post Why physical AI is the next lucrative frontier appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceFeed": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/why-physical-ai-next-lucrative-frontier/",
+      "id": "4ac151f38ead",
+      "title": "From Teleoperation to Long-Horizon Dexterity: Evaluating Visuomotor Skills and Offline Proxies for Dexterous Manipulation",
+      "summary": "arXiv:2610.40828v1 Announce Type: new \nAbstract: Imitation learning policies are intended to make robotic manipulation robust to variations in object pose, appearance, and environment that challenge pre-programmed motion. However, real-world performance remains difficult to predict, as conventional ",
+      "source": "arXiv CS.RO",
+      "sourceFeed": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2610.40828",
       "category": "robot",
       "tags": [
+        "ai",
         "robot"
       ],
-      "publishedAt": "2026-11-01T13:30:41+00:00",
+      "publishedAt": "2026-11-02T05:00:00+00:00",
       "timeType": "published",
       "language": "en",
       "scope": "global"
     },
     {
-      "id": "0e43383cbd79",
-      "title": "Solving the Interconnect Challenge in Modern Robotics: How 3M Is Engineering for Motion, Density, and Uptime",
-      "summary": "As robotics systems grow more capable — faster, more precise, and increasingly reliant on AI-driven vision and control — the humble interconnect is being asked to do more than ever. The post Solving the Interconnect Challenge in Modern Robotics: How 3M Is Engineering for Motion, Density, and Uptime ",
-      "source": "The Robot Report",
-      "sourceFeed": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/solving-the-interconnect-challenge-in-modern-robotics-how-3m-is-engineering-for-motion-density-and-uptime/",
+      "id": "26d94e6a6c81",
+      "title": "FlapSim: A Composable MuJoCo Simulation Platform and Reduced-Order Aerodynamic Model Hierarchy for Flapping-Wing Robotics",
+      "summary": "arXiv:2610.40902v1 Announce Type: new \nAbstract: Flapping-wing simulation must reconcile high-frequency wingbeat aerodynamics with the slower dynamics relevant to flight control and reinforcement learning. We present FlapSim, a modular open-source MuJoCo simulation platform that combines robot descr",
+      "source": "arXiv CS.RO",
+      "sourceFeed": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2610.40902",
       "category": "robot",
       "tags": [
-        "robot"
-      ],
-      "publishedAt": "2026-11-01T13:00:31+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "eaa1a09d9b98",
-      "title": "A small deterministic gate between the planner and the wheels: ROS 2 Jazzy node, simulation and CI only",
-      "summary": "I’ve been building a small supervisor node for differential-drive mobile robots that sits between a high-level velocity source (such as Nav2, an LLM agent, or teleoperation) and the base controller. Following the classic Simplex architecture (Sha et al.), the node treats complex high-level planners ",
-      "source": "ROS Discourse",
-      "sourceFeed": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/a-small-deterministic-gate-between-the-planner-and-the-wheels-ros-2-jazzy-node-simulation-and-ci-only/59400",
-      "category": "ros2",
-      "tags": [
-        "ros2",
         "ai",
         "sensor",
         "robot"
       ],
-      "publishedAt": "2026-11-01T11:04:55+00:00",
+      "publishedAt": "2026-11-02T05:00:00+00:00",
       "timeType": "published",
       "language": "en",
       "scope": "global"
     },
     {
-      "id": "b382bdc59fbc",
-      "title": "Agentic Development platform for robotics",
-      "summary": "Hi everyone! I’m excited to share something we’ve been building. We are Upfreq Robotics — building an AI-native development environment for robotics software engineers to accelerate robot software development, simulation, and testing. We’re currently opening up our application to a small group of be",
-      "source": "ROS Discourse",
-      "sourceFeed": "ROS Discourse",
-      "sourceIcon": "ros",
-      "url": "https://discourse.openrobotics.org/t/agentic-development-platform-for-robotics/59385",
-      "category": "robot",
-      "tags": [
-        "robot",
-        "sensor"
-      ],
-      "publishedAt": "2026-10-31T19:55:50+00:00",
-      "timeType": "published",
-      "language": "en",
-      "scope": "global"
-    },
-    {
-      "id": "a0854b46216c",
-      "title": "Unusual robotic animals can prove their utility",
-      "summary": "Robotic animals are designed to be helpful rather than scary, showing promise in disaster recovery, utility inspection, and companionship. The post Unusual robotic animals can prove their utility appeared first on The Robot Report .",
-      "source": "The Robot Report",
-      "sourceFeed": "The Robot Report",
-      "sourceIcon": "robot-report",
-      "url": "https://www.therobotreport.com/unusual-robotic-animals-can-prove-their-utility/",
+      "id": "eb664e98ad7a",
+      "title": "Confidence-Modulated Safety Filtering for End-to-End Policies",
+      "summary": "arXiv:2610.40922v1 Announce Type: new \nAbstract: End-to-end policies, from task-specific controllers to robot foundation models, learn complex behavior from raw observations but are not guaranteed to remain safe, so they are often wrapped in a safety filter. The resulting system operates under two d",
+      "source": "arXiv CS.RO",
+      "sourceFeed": "arXiv CS.RO",
+      "sourceIcon": "arxiv",
+      "url": "https://arxiv.org/abs/2610.40922",
       "category": "robot",
       "tags": [
         "robot"
       ],
-      "publishedAt": "2026-10-31T12:30:46+00:00",
+      "publishedAt": "2026-11-02T05:00:00+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "ae74a4a81e04",
+      "title": "batchplan 0.5: tool paths, blended motions and a ROS 2 demo",
+      "summary": "batchplan 0.5 is out. Releases 0.3 through 0.5 added tool paths, pick-and-place, blended motions, and live replanning and servoing in the core library. For ROS users, batchplan-ros now supports Cartesian paths and blended motion sequences on Lyrical and Jazzy. The Panda example tries several grasps ",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/batchplan-0-5-tool-paths-blended-motions-and-a-ros-2-demo/59431",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-11-02T00:50:19+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "b92b46db62a3",
+      "title": "TALOS HUB: Autonomous Flight and Pilot Assistance",
+      "summary": "Hello everyone, I’m a model aviation and flying enthusiast, and for some time I’ve been studying, designing and developing a software system for autonomous flight and pilot assistance. It is intended to coordinate missions, support the pilot and manage different operating conditions. I’ve named it “",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/talos-hub-autonomous-flight-and-pilot-assistance/59429",
+      "category": "ros2",
+      "tags": [
+        "ros2"
+      ],
+      "publishedAt": "2026-11-02T00:50:04+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "79eeb4bcb70a",
+      "title": "Project TERRAIN = Seeking Independent Review of Robotics Navigation and Fault-Tolerance Simulation",
+      "summary": "Hello Open Robotics community, I’d like to introduce Project TERRAIN, an independent robotics research project exploring navigation through uncertain environments, fault tolerance, and simulated safety-stop behavior. The project includes a working offline Python simulation with: Deterministic naviga",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/project-terrain-seeking-independent-review-of-robotics-navigation-and-fault-tolerance-simulation/59428",
+      "category": "robot",
+      "tags": [
+        "sensor",
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T00:49:43+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "0c1d361b6279",
+      "title": "Open data: 120 humanoid robots with prices and specs, and what public labs actually paid for them",
+      "summary": "Hi all. We keep HumanoidStore, an independent catalog of humanoid robots, and we publish its data openly under CC BY 4.0. Posting it here because choosing a humanoid for a lab usually starts with a spreadsheet nobody wants to rebuild. There are two tables. The catalog (120 machines): sales status, w",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/open-data-120-humanoid-robots-with-prices-and-specs-and-what-public-labs-actually-paid-for-them/59427",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T00:49:20+00:00",
+      "timeType": "published",
+      "language": "en",
+      "scope": "global"
+    },
+    {
+      "id": "d092c8f9bae7",
+      "title": "complete noob (I can’t program): my introduction to robots with Microduck from “Pollen Robotics”. What do you think?",
+      "summary": "Hi I have absolutely no idea about the topic of robots. I want to take the plunge / just give it a try. Is Microduck a good starting point? I can’t develop, but I’m a macOS power user. I have two children, 10 and 8, and it would be a nice joint project. Pollen Robotics Microduck: a tiny biped robot ",
+      "source": "ROS Discourse",
+      "sourceFeed": "ROS Discourse",
+      "sourceIcon": "ros",
+      "url": "https://discourse.openrobotics.org/t/complete-noob-i-can-t-program-my-introduction-to-robots-with-microduck-from-pollen-robotics-what-do-you-think/59426",
+      "category": "robot",
+      "tags": [
+        "robot"
+      ],
+      "publishedAt": "2026-11-02T00:49:05+00:00",
       "timeType": "published",
       "language": "en",
       "scope": "global"
@@ -789,14 +858,14 @@
       "icon": "connection"
     }
   ],
-  "total": 44,
-  "generatedAt": "2026-11-01T17:55:37.488472+00:00",
+  "total": 48,
+  "generatedAt": "2026-11-02T05:59:24.603897+00:00",
   "freshness": {
     "windowHours": 48,
     "updateIntervalHours": 12,
-    "sourceCount": 25,
-    "newestPublishedAt": "2026-11-01T16:43:45+00:00",
-    "oldestPublishedAt": "2026-10-31T12:30:46+00:00"
+    "sourceCount": 31,
+    "newestPublishedAt": "2026-11-02T03:44:00+00:00",
+    "oldestPublishedAt": "2026-11-02T00:49:05+00:00"
   },
   "audience": {
     "city": "合肥",
@@ -806,8 +875,8 @@
   "sourceHealth": [
     {
       "name": "合肥产业动态",
-      "count": 0,
-      "status": "empty"
+      "count": 3,
+      "status": "ok"
     },
     {
       "name": "国内机器人产业",
@@ -816,17 +885,17 @@
     },
     {
       "name": "国内 AI 产业",
-      "count": 12,
+      "count": 9,
       "status": "ok"
     },
     {
       "name": "国内机器人技术",
-      "count": 11,
+      "count": 14,
       "status": "ok"
     },
     {
       "name": "ROS Discourse",
-      "count": 9,
+      "count": 12,
       "status": "ok"
     },
     {
@@ -836,13 +905,13 @@
     },
     {
       "name": "The Robot Report",
-      "count": 5,
+      "count": 4,
       "status": "ok"
     },
     {
       "name": "arXiv CS.RO",
-      "count": 0,
-      "status": "empty"
+      "count": 15,
+      "status": "ok"
     },
     {
       "name": "TechCrunch Robotics",
@@ -871,7 +940,7 @@
     },
     {
       "name": "量子位",
-      "count": 2,
+      "count": 1,
       "status": "ok"
     }
   ]
