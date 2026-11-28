@@ -372,30 +372,30 @@
     }
   ],
   "liveSearch": {
-    "generatedAt": "2026-11-24T22:42:55.672622+00:00",
+    "generatedAt": "2026-11-28T08:20:36.418014+00:00",
     "updateIntervalHours": 6,
     "gallery": [
       {
-        "id": "video-fa8d28e1d0ff",
-        "title": "≡MMD≡[Bon Bon Chocolat]=Raiden Ei(雷电影)=",
+        "id": "video-231a508ad455",
+        "title": "“ 不动鸣神，泡影断灭”—雷电将军PV演示COS向【原神】",
         "platform": "bilibili",
         "platformLabel": "B站",
-        "url": "BV1rPW5zJE8K",
-        "source": "哔哩哔哩 · 杯子君721",
-        "sourceUrl": "https://www.bilibili.com/video/BV1rPW5zJE8K",
-        "author": "杯子君721",
-        "authorUrl": "https://space.bilibili.com/3546954262907858",
-        "thumbnail": "https://i1.hdslb.com/bfs/archive/298f1b3f38e5e5da17ae1bd250a37428f72ca80f.jpg",
-        "duration": 229,
-        "view": 17392,
-        "like": 1124,
-        "summary": "https://www.youtube.com/watch?v=03atdwjvZsQ 作者：Acezen 简介：Credits Music: Bon Bon Chocolat - EVERGLOW Motion: NatsumiSan Camera: -",
-        "date": "2025-09-19",
+        "url": "BV1uf4y1T7fh",
+        "source": "哔哩哔哩 · 紫氯氯",
+        "sourceUrl": "https://www.bilibili.com/video/BV1uf4y1T7fh",
+        "author": "紫氯氯",
+        "authorUrl": "https://space.bilibili.com/2173008",
+        "thumbnail": "https://i1.hdslb.com/bfs/archive/645ee80eeb16cc888fe04ce696647cec35a29928.jpg",
+        "duration": 95,
+        "view": 74180,
+        "like": 5987,
+        "summary": "-雷电将军的COS演示向- 出镜：@紫氯氯 摄影后期：@网管菌 大家都有雷神了吗？",
+        "date": "2021-11-30",
         "tags": [
           "实时检索",
           "B站"
         ],
-        "retrievedAt": "2026-11-24T22:42:51.915295+00:00"
+        "retrievedAt": "2026-11-28T08:20:32.869028+00:00"
       }
     ],
     "wiki": [
@@ -409,7 +409,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-10-26",
-        "retrievedAt": "2026-11-24T22:42:54.472204+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.849358+00:00"
       },
       {
         "id": "wiki-8a1a7f498e7e",
@@ -421,7 +421,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-07-21",
-        "retrievedAt": "2026-11-24T22:42:54.472534+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.849611+00:00"
       },
       {
         "id": "wiki-b5213f9ab093",
@@ -433,7 +433,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-02-28",
-        "retrievedAt": "2026-11-24T22:42:54.472786+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.849813+00:00"
       },
       {
         "id": "wiki-91b8ade6fa60",
@@ -445,7 +445,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2025-09-12",
-        "retrievedAt": "2026-11-24T22:42:54.472997+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.849967+00:00"
       },
       {
         "id": "wiki-e0bec531b7c5",
@@ -457,7 +457,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-06-14",
-        "retrievedAt": "2026-11-24T22:42:54.473349+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.850244+00:00"
       },
       {
         "id": "wiki-d24459bdb4bd",
@@ -469,7 +469,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2021-09-01",
-        "retrievedAt": "2026-11-24T22:42:54.473501+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.850353+00:00"
       },
       {
         "id": "wiki-6b43387cf7b3",
@@ -481,7 +481,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2024-02-21",
-        "retrievedAt": "2026-11-24T22:42:54.473713+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.850517+00:00"
       },
       {
         "id": "wiki-a0af756874fa",
@@ -493,7 +493,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2024-04-20",
-        "retrievedAt": "2026-11-24T22:42:54.473880+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.850657+00:00"
       },
       {
         "id": "wiki-7780c633a60f",
@@ -505,7 +505,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2025-04-13",
-        "retrievedAt": "2026-11-24T22:42:54.474066+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.850804+00:00"
       },
       {
         "id": "wiki-89dd78234833",
@@ -517,7 +517,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2021-09-04",
-        "retrievedAt": "2026-11-24T22:42:54.474249+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.850931+00:00"
       },
       {
         "id": "wiki-d79013f9f280",
@@ -529,7 +529,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2025-01-11",
-        "retrievedAt": "2026-11-24T22:42:54.474424+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.851060+00:00"
       },
       {
         "id": "wiki-43be05b06a26",
@@ -541,7 +541,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2022-03-13",
-        "retrievedAt": "2026-11-24T22:42:54.474569+00:00"
+        "retrievedAt": "2026-11-28T08:20:34.851171+00:00"
       },
       {
         "id": "wiki-3eeb1a59934c",
@@ -553,7 +553,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2022-12-21",
-        "retrievedAt": "2026-11-24T22:42:55.414021+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.117879+00:00"
       },
       {
         "id": "wiki-2fe78f3a5504",
@@ -565,7 +565,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-09-18",
-        "retrievedAt": "2026-11-24T22:42:55.414335+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.118111+00:00"
       },
       {
         "id": "wiki-76d230f7068e",
@@ -577,7 +577,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-11-14",
-        "retrievedAt": "2026-11-24T22:42:55.414552+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.118266+00:00"
       },
       {
         "id": "wiki-e2955c25a15d",
@@ -589,7 +589,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-09-12",
-        "retrievedAt": "2026-11-24T22:42:55.414772+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.118432+00:00"
       },
       {
         "id": "wiki-74b09e21b3b1",
@@ -601,7 +601,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-11-12",
-        "retrievedAt": "2026-11-24T22:42:55.414942+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.118580+00:00"
       },
       {
         "id": "wiki-e658a8eac67d",
@@ -613,7 +613,7 @@
         "sourceNote": "实时检索结果来自玩家维护的 BWIKI，角色数值与版本机制请以游戏内公告为准。",
         "category": "实时索引",
         "date": "2026-04-19",
-        "retrievedAt": "2026-11-24T22:42:55.415107+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.118729+00:00"
       }
     ],
     "news": [
@@ -628,20 +628,20 @@
         "source": "肿瘤瞭望",
         "sourceUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE83bVhwemRZbTRTZHIxX0k2TWhxZDcyTWNQYXVweGxqVWVBVmdINFZvdmZub2JTSk9HTzhWNS1rZ1Z0TnI5TVUzel9qQVN3ZlV2MWxHZg?oc=5",
         "sourceNote": "由 Google 新闻 RSS 检索并保留原发布媒体名称，点击可核对原文。",
-        "retrievedAt": "2026-11-24T22:42:55.671864+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.416688+00:00"
       },
       {
         "id": "news-0a9d2f448126",
         "title": "雷电将军的粉内衣自拍",
-        "summary": "来自虎扑体育网的雷电将军相关资讯，点击来源链接核对全文。",
-        "date": "2026-11-05",
-        "publishedAt": "2026-11-05T04:01:26+00:00",
+        "summary": "来自虎扑的雷电将军相关资讯，点击来源链接核对全文。",
+        "date": "2026-11-06",
+        "publishedAt": "2026-11-06T01:19:46+00:00",
         "tag": "实时资讯",
         "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE51YXNKeWk5ZUpUd29ndmRqY255WWh5SW1MbDRTWGZ3TEZRbGU3a1NjRm5kekZhT1hKV0NXSTJVWmNORU5GUnlvS0VuaUVhUQ?oc=5",
-        "source": "虎扑体育网",
+        "source": "虎扑",
         "sourceUrl": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE51YXNKeWk5ZUpUd29ndmRqY255WWh5SW1MbDRTWGZ3TEZRbGU3a1NjRm5kekZhT1hKV0NXSTJVWmNORU5GUnlvS0VuaUVhUQ?oc=5",
         "sourceNote": "由 Google 新闻 RSS 检索并保留原发布媒体名称，点击可核对原文。",
-        "retrievedAt": "2026-11-24T22:42:55.672362+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.417028+00:00"
       },
       {
         "id": "news-c42a99acdaa1",
@@ -654,7 +654,7 @@
         "source": "肿瘤瞭望",
         "sourceUrl": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9YOUZ3NHBsdmFDQ3BTeE82RUpwRHZrUnZfd0JQLTdxa25uVkxPeGVyMmpMeVFGUlFGaVBLbzIwLXJ0ZXFQbVdsWF92ZVVZQlNEWTNpSkJYcTBaYms?oc=5",
         "sourceNote": "由 Google 新闻 RSS 检索并保留原发布媒体名称，点击可核对原文。",
-        "retrievedAt": "2026-11-24T22:42:55.672610+00:00"
+        "retrievedAt": "2026-11-28T08:20:36.417443+00:00"
       }
     ],
     "sources": [
